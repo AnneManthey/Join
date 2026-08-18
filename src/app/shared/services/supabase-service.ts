@@ -50,4 +50,20 @@ export class SupabaseService {
   ])
   .select()
   }
+
+  async editContact(id:number){
+    const { data, error } = await this.supabase
+  .from('ContactList')
+  .update({ contact_mail: 'new@email.com' })
+  .eq('id', id)
+  .select()
+  }
+
+  async deleteContact(id:number){
+    const { error } = await this.supabase
+  .from('ContactList')
+  .delete()
+  .eq('id', id)
+  }
+
 }

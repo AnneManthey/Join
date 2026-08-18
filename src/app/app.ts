@@ -12,9 +12,13 @@ export class App implements OnInit {
   readonly dataService = inject(SupabaseService);
 
   ngOnInit(): void {
-    
-    void this.dataService.getContacts();contact_name:"Testi Testerine"
 
-    this.dataService.addContact({contact_name: 'Testi Testerine', contact_mail: 'test@testerine.com', contact_phone: '+49 555 5 55'})
+    void this.dataService.getContacts();
+
+    this.dataService.addContact({contact_name: 'Testi Testerine', contact_mail: 'test@testerine.com', contact_phone: '+49 555 5 55'});
+
+    this.dataService.editContact(2);
+
+    this.dataService.deleteContact(2);
   }
 }
