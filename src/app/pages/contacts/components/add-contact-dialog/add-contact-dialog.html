@@ -1,4 +1,4 @@
-
+@if (isDialogOpen) {
 <main>
     <section class="info-section">
         <img src="/icons/add-contact-dialog/join-logo.svg" alt="Join Logo">
@@ -11,7 +11,7 @@
             <img src="/icons/add-contact-dialog/person-logo.svg" alt="Person Logo">
         </div>
         <form [formGroup]="contactForm" (ngSubmit)="onSubmit()" class="contact-form">
-            <button type="button" class="close-btn" (click)="onCancel()">x</button>
+            <button type="button" class="close-btn" (click)="closeDialog()">x</button>
             <div class="avatar-container">
                 <div class="avatar-placeholder">
                     <span class="icon-user"></span>
@@ -39,7 +39,7 @@
 
                 <!-- Btn -->
                 <div class="form-actions">
-                    <button type="button" class="btn-cancel" (click)="onCancel()">
+                    <button type="button" class="btn-cancel" (click)="closeDialog()">
                         Cancel <span>✕</span>
                     </button>
                     <button type="submit" class="btn-submit" [disabled]="contactForm.invalid || isSubmitting">
@@ -55,3 +55,4 @@
 
     </section>
 </main>
+}

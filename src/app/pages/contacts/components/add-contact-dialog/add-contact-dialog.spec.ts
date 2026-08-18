@@ -59,7 +59,7 @@ describe('AddContactDialog', () => {
     expect(navigate).toHaveBeenCalledWith(['/contacts', 7], {
       state: {
         contact: expect.objectContaining({ id: 7 }),
-        successMessage: 'Contact created successfully.',
+        successMessage: 'Contact succesfully created.',
       },
     });
   });
