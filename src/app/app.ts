@@ -1,13 +1,11 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { ContactList } from './pages/contacts/components/contact-list/contact-list';
-import { AddContactDialog } from './pages/contacts/components/add-contact-dialog/add-contact-dialog';
 import { SupabaseService } from './shared/services/supabase-service';
 
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, ContactList, AddContactDialog],
+  imports: [RouterOutlet],
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })

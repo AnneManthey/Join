@@ -1,4 +1,4 @@
-<p>add-contact-dialog works!</p>
+
 <main>
     <section class="info-section">
         <img src="/icons/add-contact-dialog/join-logo.svg" alt="Join Logo">
@@ -11,7 +11,7 @@
             <img src="/icons/add-contact-dialog/person-logo.svg" alt="Person Logo">
         </div>
         <form [formGroup]="contactForm" (ngSubmit)="onSubmit()" class="contact-form">
-            <button class="close-btn">x</button>
+            <button type="button" class="close-btn" (click)="onCancel()">x</button>
             <div class="avatar-container">
                 <div class="avatar-placeholder">
                     <span class="icon-user"></span>
@@ -19,33 +19,36 @@
             </div>
 
             <div class="form-fields">
-                <!-- Name Field -->
+                <!-- Name -->
                 <div class="input-group">
                     <input type="text" id="name" formControlName="name" placeholder="Name" />
                     <span class="input-icon icon-user-small"></span>
                 </div>
 
-                <!-- Email Field -->
+                <!-- Email -->
                 <div class="input-group">
                     <input type="email" id="email" formControlName="email" placeholder="Email" />
                     <span class="input-icon icon-mail"></span>
                 </div>
 
-                <!-- Phone Field -->
+                <!-- Phone -->
                 <div class="input-group">
                     <input type="tel" id="phone" formControlName="phone" placeholder="Phone" />
                     <span class="input-icon icon-phone"></span>
                 </div>
 
-                <!-- Actions -->
+                <!-- Btn -->
                 <div class="form-actions">
                     <button type="button" class="btn-cancel" (click)="onCancel()">
                         Cancel <span>✕</span>
                     </button>
-                    <button type="submit" class="btn-submit" [disabled]="contactForm.invalid">
+                    <button type="submit" class="btn-submit" [disabled]="contactForm.invalid || isSubmitting">
                         Create contact <span>✓</span>
                     </button>
                 </div>
+                @if (errorMessage; as errorMessage) {
+                    <p role="alert">{{ errorMessage }}</p>
+                }
             </div>
         </form>
 
