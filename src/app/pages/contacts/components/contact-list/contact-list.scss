@@ -51,6 +51,7 @@
         height: 2.6rem;
         border-radius: 50%;
         color: white;
+        border: 2px solid white;
     }
 
     &__single-contact {
@@ -61,7 +62,7 @@
         padding: 15px 24px;
         border-radius: 10px;
 
-        &:hover {
+        &:not(.contact-list__selected-contact):hover {
             background-image: linear-gradient(to bottom, #F9F9F9, #F0F0F0);
         }
     }
