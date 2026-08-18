@@ -1,2 +1,25 @@
 <app-contact-list></app-contact-list>
 <router-outlet />
+
+<router-outlet />
+<main>
+  <h1>Contacts</h1>
+
+  @if (dataService.isLoading()) {
+    <p>Loading contacts …</p>
+  } @else if (dataService.error(); as error) {
+    <p role="alert">Contacts could not be loaded: {{ error }}</p>
+  } @else if (dataService.contacts().length === 0) {
+    <p>No contacts.</p>
+  } @else {
+    <ul>
+      @for (contact of dataService.contacts(); track contact.id) {
+        <li>
+          <strong>{{ contact.contact_name }}</strong><br />
+          <a [href]="'mailto:' + contact.contact_mail">{{ contact.contact_mail }}</a><br />
+          <a [href]="'tel:' + contact.contact_phone">{{ contact.contact_phone }}</a>
+        </li>
+      }
+    </ul>
+  }
+</main>

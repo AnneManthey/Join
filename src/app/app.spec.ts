@@ -1,10 +1,23 @@
 import { TestBed } from '@angular/core/testing';
+import { signal } from '@angular/core';
 import { App } from './app';
+import { SupabaseService } from './shared/services/supabase-service';
 
 describe('App', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [App],
+      providers: [
+        {
+          provide: SupabaseService,
+          useValue: {
+            contacts: signal([]),
+            isLoading: signal(false),
+            error: signal(null),
+            getContacts: vi.fn(),
+          },
+        },
+      ],
     }).compileComponents();
   });
 
@@ -14,10 +27,10 @@ describe('App', () => {
     expect(app).toBeTruthy();
   });
 
-  it('should render title', async () => {
+  it('should render the contacts heading', async () => {
     const fixture = TestBed.createComponent(App);
     await fixture.whenStable();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, join');
+    expect(compiled.querySelector('h1')?.textContent).toContain('Kontakte');
   });
 });
