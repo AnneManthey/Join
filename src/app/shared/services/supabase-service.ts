@@ -35,9 +35,19 @@ export class SupabaseService {
 
       this.contacts.set(data ?? []);
     } catch {
-      this.error.set('Die Verbindung zu Supabase ist fehlgeschlagen.');
+      this.error.set('Connection to Supabase failed.');
     } finally {
       this.isLoading.set(false);
     }
+  }
+
+
+  async addContact(contact:{contact_name: string; contact_mail: string; contact_phone: string;}){
+    const { data, error } = await this.supabase
+  .from('ContactList')
+  .insert([
+    contact,
+  ])
+  .select()
   }
 }

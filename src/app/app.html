@@ -1,14 +1,14 @@
 
 <router-outlet />
 <main>
-  <h1>Kontakte</h1>
+  <h1>Contacts</h1>
 
   @if (dataService.isLoading()) {
-    <p>Kontakte werden geladen …</p>
+    <p>Loading contacts …</p>
   } @else if (dataService.error(); as error) {
-    <p role="alert">Kontakte konnten nicht geladen werden: {{ error }}</p>
+    <p role="alert">Contacts could not be loaded: {{ error }}</p>
   } @else if (dataService.contacts().length === 0) {
-    <p>Keine Kontakte vorhanden.</p>
+    <p>No contacts.</p>
   } @else {
     <ul>
       @for (contact of dataService.contacts(); track contact.id) {
