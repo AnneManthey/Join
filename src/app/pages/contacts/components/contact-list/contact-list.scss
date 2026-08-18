@@ -3,7 +3,8 @@
     --light-blue: rgb(0, 124, 238);
     --white: white;
     --contact-orange: rgb(255, 122, 0);
-    
+    --dark-blue: #2A3647;
+
 }
 
 * {
@@ -58,6 +59,16 @@
         align-items: center;
         gap: 35px;
         padding: 15px 24px;
+        border-radius: 10px;
+
+        &:hover {
+            background-image: linear-gradient(to bottom, #F9F9F9, #F0F0F0);
+        }
+    }
+
+    &__selected-contact {
+        background-color: #2A3647;
+        color: white;
     }
 
     &__name {

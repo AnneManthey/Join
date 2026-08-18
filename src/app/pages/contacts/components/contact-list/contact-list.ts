@@ -12,7 +12,8 @@ import { Contact } from '../../../../shared/interfaces/contact';
 export class ContactList {
   contactService = inject(SupabaseService);
   contacts: Contact[] = [];
-  colors = ["#FF7A00", "#FF5EB3", "#6E52FF", "#9327FF", "#00BEE8", "#1FD7C1", "#FF745E", "#FC71FF", "#FFC701", "#0038FF", "#C3FF2B", "#FFE62B", "#FF4646", "#FFBB2B"]
+  colors = ["#FF7A00", "#FF5EB3", "#6E52FF", "#9327FF", "#00BEE8", "#1FD7C1", "#FF745E", "#FC71FF", "#FFC701", "#0038FF", "#C3FF2B", "#FFE62B", "#FF4646", "#FFBB2B"];
+  selectedContactId: number | null = null;
 
   /** 
    * Loads the contact list from Supabase once the component is initialized. 
@@ -45,7 +46,7 @@ export class ContactList {
     const grouped = Object.groupBy(
       this.sortedContacts(),
       (contact) => contact.contact_name.charAt(0).toUpperCase()
-    ) as Record<string, { contact_name: string; contact_mail: string }[]>;
+    ) as Record<string, Contact[]>;
     return Object.entries(grouped);
   });
 
@@ -97,4 +98,8 @@ export class ContactList {
     let colorIndex = sum % this.colors.length;
     return this.colors[colorIndex];
   };
+
+  selectContact(id:number) {
+    this.selectedContactId = id;
+  }
 } 
