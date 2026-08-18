@@ -72,6 +72,25 @@ export class SupabaseService {
         { event: '*', schema: 'public', table: 'ContactList' },
         (payload) => {
           console.log('Change received!', payload)
+
+          switch (payload.eventType) {
+
+            case 'INSERT':
+              this.contacts.update(current => [...current, payload.new as Contact]);
+              break;
+            case 'UPDATE':
+              this.contacts.update(current =>
+                current.map(contact =>
+                  contact.id === (payload.new as Contact).id ? payload.new as Contact : contact
+                )
+              );
+              break;
+            case 'DELETE':
+              this.contacts.update(current =>
+                current.filter(contact => contact.id !== (payload.old as Contact).id)
+              );
+              break;
+          }
         }
       )
       .subscribe()
