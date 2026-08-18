@@ -1,6 +1,4 @@
-import { Component, inject, computed } from '@angular/core';
-import { SupabaseService } from '../../../../shared/services/supabase-service';
-import { Contact } from '../../../../shared/interfaces/contact';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-contact-list',
@@ -9,61 +7,53 @@ import { Contact } from '../../../../shared/interfaces/contact';
   styleUrl: './contact-list.scss',
 })
 export class ContactList {
-  contactService = inject(SupabaseService);
-  contacts: Contact[] = [];
+  contacts: { name: string; email: string }[] = [
+    {
+      name: 'Benedikt Ziegler',
+      email: 'benedikt@gmail.com'
+    },
+    {
+      name: 'Anton Mayer',
+      email: 'antonm@gmail.com'
+    },
+    {
+      name: 'Barbara Schöneberger',
+      email: 'schoenberger@hotmail.com'
+    },
+    {
+      name: 'Edith Peters',
+      email: 'peters@hotmail.com'
+    }
 
-  /**
-   * Loads the contact list from Supabase once the component is initialized.
-   */
-  async ngOnInit() {
-    await this.contactService.getContacts();
-  }
+  ];
+  // localeCompare für Umlaute (z.B. damit Özdemir bei = einsortiert wird)
+  ngOnInit() {
+    this.contacts.sort((a, b) => a.name.localeCompare(b.name));
+    console.log(this.contacts);
+  };
 
-  /**
-   * Alphabetically sorted copy of the contacts from {@link SupabaseService.contacts}.
-   * Recomputes automatically whenever the underlying signal changes
-   * (e.g. after a realtime update).
-   *
-   * Uses `localeCompare` so accented characters (e.g. Ö) sort correctly.
-   */  sortedContacts = computed(() => {
-    const copy = [...this.contactService.contacts()];
-    copy.sort((a, b) => a.contact_name.localeCompare(b.contact_name));
-    return copy;
-  });
+  // to do: fallback, falls nur ein name existiert
+  // to do: als pipe auslagern
+  getInitials(name: string) {
+    let names = name.split(" ");
+    console.log(names);
+    let initials = names[0].charAt(0) + names[1].charAt(0);
+    console.log(initials);
+    return initials
+  };
 
-  /**
-   * Groups {@link sortedContacts} by the uppercase first letter of `contact_name`.
-   * Recomputes automatically whenever {@link sortedContacts} changes.
-   *
-   * @returns An array of `[letter, contacts]` tuples, e.g. `['A', [contact1, contact2]]`,
-   * ready to iterate over with `@for` in the template.
-   */
+  get firstLetter() {
+    const firstLetter = Object.groupBy(this.contacts, (contact) => contact.name.charAt(0).toUpperCase()) as Record<string, { name: string; email: string }[]>;
+    console.log(firstLetter);
+    return Object.entries(firstLetter);
+  };
+
   // was hier rauskommt: [ 
   //   ['A', [{ name: 'Anton Mayer', ... }]], 
   //   ['B', [{ name: 'Barbara...', ... }, { name: 'Benedikt...', ... }]] 
   // ] 
-  firstLetter = computed(() => {
-    const grouped = Object.groupBy(
-      this.sortedContacts(),
-      (contact) => contact.contact_name.charAt(0).toUpperCase()
-    ) as Record<string, { contact_name: string; contact_mail: string }[]>;
-    return Object.entries(grouped);
-  });
 
-  // // to do: fallback, falls nur ein name existiert
-  // // to do: als pipe auslagern
-    /**
-   * Returns the initials (first letter of first and last name) for a given contact name.
-   *
-   * @param name - Full name, expected to contain at least a first and last name separated by a space.
-   * @returns A two-character string of uppercase initials, e.g. `'AM'` for `'Anton Mayer'`.
-   *
-   * @todo Handle names consisting of a single word (no last name).
-   * @todo Extract as a pipe for reuse outside this component.
-   */
-  getInitials(name: string) {
-    let names = name.split(' ');
-    let initials = names[0].charAt(0) + names[1].charAt(0);
-    return initials;
-  }
+  // returnFirstLetter(contact: { name: string }) { 
+  //   return contact.name.charAt(0); 
+  // } 
 }
