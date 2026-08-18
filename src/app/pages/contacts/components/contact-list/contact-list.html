@@ -1,5 +1,7 @@
 <p>contact-list works!</p>
-@for (contact of contacts; track contact.name) {
+@for (letter of firstLetter; track letter[0]) {
+<h2>{{letter[0]}}</h2>
+@for (contact of letter[1]; track contact.name) {
 <div>
     <div>
         <p>{{getInitials(contact.name)}}</p>
@@ -9,4 +11,5 @@
         <p>{{contact.email}}</p>
     </div>
 </div>
+}
 }

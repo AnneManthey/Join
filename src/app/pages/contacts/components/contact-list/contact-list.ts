@@ -20,13 +20,13 @@ export class ContactList {
       name: 'Barbara Schöneberger',
       email: 'schoenberger@hotmail.com'
     },
-        {
+    {
       name: 'Edith Peters',
       email: 'peters@hotmail.com'
     }
 
   ];
-// localeCompare für Umlaute (z.B. damit Özdemir bei = einsortiert wird)
+  // localeCompare für Umlaute (z.B. damit Özdemir bei = einsortiert wird)
   ngOnInit() {
     this.contacts.sort((a, b) => a.name.localeCompare(b.name));
     console.log(this.contacts);
@@ -42,5 +42,18 @@ export class ContactList {
     return initials
   };
 
+  get firstLetter() {
+    const firstLetter = Object.groupBy(this.contacts, (contact) => contact.name.charAt(0).toUpperCase()) as Record<string, { name: string; email: string }[]>;
+    console.log(firstLetter);
+    return Object.entries(firstLetter);
+  };
 
+  // was hier rauskommt: [ 
+  //   ['A', [{ name: 'Anton Mayer', ... }]], 
+  //   ['B', [{ name: 'Barbara...', ... }, { name: 'Benedikt...', ... }]] 
+  // ] 
+
+  // returnFirstLetter(contact: { name: string }) { 
+  //   return contact.name.charAt(0); 
+  // } 
 }
