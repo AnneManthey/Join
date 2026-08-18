@@ -1,0 +1,17 @@
+.app-layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+app-navbar {
+  display: block;
+  width: 232px;
+  min-width: 232px;
+  flex-shrink: 0;
+}
+
+.page-content {
+  flex: 1;
+  min-width: 0;
+  background-color: #f6f7f8;
+}
