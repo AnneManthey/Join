@@ -41,10 +41,10 @@
                 <!-- Btn -->
                 <div class="form-actions">
                     <button type="button" class="btn-cancel" (click)="closeDialog()">
-                        Cancel <span>✕</span>
+                        Cancel <img src="/icons/add-contact-dialog/close.png" alt="Close Icon">
                     </button>
                     <button type="submit" class="btn-submit" [disabled]="contactForm.invalid || isSubmitting">
-                        Create contact <span>✓</span>
+                        Create contact <img src="/icons/add-contact-dialog/check.png" alt="Check Icon">
                     </button>
                 </div>
                 @if (errorMessage; as errorMessage) {

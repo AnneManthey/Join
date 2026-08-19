@@ -54,7 +54,7 @@ main {
   border-top-right-radius: 30px;
   border-bottom-right-radius: 30px;
   gap: 40px;
-  padding: 20px;
+  padding: 20px 20px 20px 50px;
   img {
     width: 120px;
     height: 120px;
@@ -85,13 +85,38 @@ main {
   gap: 30px;
   .form-actions {
     display: flex;
+    height: 100%;
     gap: 24px;
     button{
         cursor: pointer;
         padding: 16px;
         border-radius: 10px;
         border: 1px solid rgba(107, 107, 107, 0.71);
+        background-color: transparent;
         font-size: 1.2rem;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        img{
+            width: 20px;
+            height: 20px;
+        }
+        &:hover{
+          border: 2px solid rgba(18, 70, 88, 1);
+          padding: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        } 
+    }
+    .btn-submit{
+        background-color: rgba(42, 54, 71, 1);
+        color: white;
+        img{
+            width: 15px;
+            height: 11px;
+        }
+        &:hover{
+            background-color: rgba(18, 70, 88, 1);
+        } 
     }
   }
   input {
