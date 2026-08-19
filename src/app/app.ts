@@ -1,5 +1,11 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { Navbar } from './layout/navbar/navbar';
+import { Header } from './layout/header/header';
+
+@Component({
+  selector: 'app-root',
+  imports: [RouterOutlet, Navbar, Header],
 import { SupabaseService } from './shared/services/supabase-service';
 import { AddContactDialog } from './pages/contacts/components/add-contact-dialog/add-contact-dialog';
 
