@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { Router } from '@angular/router';
 import { vi } from 'vitest';
 
 import { AddContactDialog } from './add-contact-dialog';
@@ -8,17 +7,14 @@ import { SupabaseService } from '../../../../shared/services/supabase-service';
 describe('AddContactDialog', () => {
   let component: AddContactDialog;
   let fixture: ComponentFixture<AddContactDialog>;
-  const navigate = vi.fn();
   const addContact = vi.fn();
 
   beforeEach(async () => {
-    navigate.mockReset();
     addContact.mockReset();
 
     await TestBed.configureTestingModule({
       imports: [AddContactDialog],
       providers: [
-        { provide: Router, useValue: { navigate } },
         { provide: SupabaseService, useValue: { addContact } },
       ],
     }).compileComponents();
@@ -32,7 +28,7 @@ describe('AddContactDialog', () => {
     expect(component).toBeTruthy();
   });
 
-  it('creates a normalized contact and opens its detail route', async () => {
+  it('creates a normalized contact and requests closing', async () => {
     addContact.mockResolvedValue({
       data: [{
         id: 7,
@@ -48,6 +44,8 @@ describe('AddContactDialog', () => {
       email: ' ADA@EXAMPLE.COM ',
       phone: ' ',
     });
+    const contactCreated = vi.spyOn(component.contactCreated, 'emit');
+    const closeRequested = vi.spyOn(component.closeRequested, 'emit');
 
     await component.onSubmit();
 
@@ -56,11 +54,7 @@ describe('AddContactDialog', () => {
       contact_mail: 'ada@example.com',
       contact_phone: null,
     });
-    expect(navigate).toHaveBeenCalledWith(['/contacts', 7], {
-      state: {
-        contact: expect.objectContaining({ id: 7 }),
-        successMessage: 'Contact succesfully created.',
-      },
-    });
+    expect(contactCreated).toHaveBeenCalled();
+    expect(closeRequested).toHaveBeenCalled();
   });
 });
