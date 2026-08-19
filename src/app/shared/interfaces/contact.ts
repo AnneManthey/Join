@@ -3,5 +3,5 @@ export interface Contact {
     created_at: string;
     contact_name: string;
     contact_mail: string;
-    contact_phone: string;
+    contact_phone: string | null;
 }

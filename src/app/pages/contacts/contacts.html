@@ -1,1 +1,22 @@
-<p>contacts works!</p>
+@if (isSuccessMessageVisible && successMessage) {
+	<p class="success-message" [class.is-fading]="isSuccessMessageFading" role="status">
+		{{ successMessage }}
+	</p>
+}
+
+<main class="contact-detail">
+	<p class="eyebrow">Contact details</p>
+	<h1>{{ contact?.contact_name ?? 'New contact' }}</h1>
+	<p>Contact ID: {{ contactId }}</p>
+
+	@if (contact; as contact) {
+		<a [href]="'mailto:' + contact.contact_mail">{{ contact.contact_mail }}</a>
+		@if (contact.contact_phone) {
+			<a [href]="'tel:' + contact.contact_phone">{{ contact.contact_phone }}</a>
+		}
+	} @else {
+		<p>The contact details will appear here.</p>
+	}
+</main>
+
+<app-add-contact-dialog></app-add-contact-dialog>
