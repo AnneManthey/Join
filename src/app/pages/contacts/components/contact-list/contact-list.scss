@@ -1,3 +1,8 @@
+// @use '../../../../styles/variables' as *;
+// @use '../../../../styles/fonts' as *;
+@use '../../../../../styles' as *;
+
+
 * {
     margin: 0;
 }
@@ -11,6 +16,7 @@
     height: calc(100dvh - 96px);
     width: 425px;
     overflow-y: scroll;
+    font-family: Inter;
 
     ul,
     li {
@@ -34,6 +40,7 @@
         justify-content: center;
         gap: 16px;
         border: none;
+        font-family: Inter;
     }
 
     &__success-message {
@@ -106,7 +113,7 @@
     }
 }
 
-.add-contact-dialog{
+.add-contact-dialog {
     --dialog-animation-duration: 400ms;
     position: fixed;
     min-width: 900px;

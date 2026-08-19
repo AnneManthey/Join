@@ -1,3 +1,8 @@
+@use './app/styles/variables';
+@use './app/styles/fonts';
+@use './app/styles/typography';
+@use './app/styles/layout';
+
 * {
     margin: 0;
     padding: 0;
