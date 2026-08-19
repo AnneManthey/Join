@@ -135,6 +135,12 @@ export class ContactList {
     }, this.dialogAnimationDuration);
   }
 
+  closeOnBackdropClick(event: MouseEvent): void {
+    if (event.target === this.addContactDialog.nativeElement) {
+      this.closeAddContactDialog();
+    }
+  }
+
   showContactCreatedMessage(): void {
     this.successMessage = 'Contact successfully created.';
     this.isSuccessMessageVisible = true;

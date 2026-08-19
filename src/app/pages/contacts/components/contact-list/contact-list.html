@@ -25,7 +25,7 @@
     </li>
     }
 </ul>
-<dialog class="add-contact-dialog" #addContactDialog>
+<dialog class="add-contact-dialog" #addContactDialog (click)="closeOnBackdropClick($event)">
     <app-add-contact-dialog
         (closeRequested)="closeAddContactDialog()"
         (contactCreated)="showContactCreatedMessage()">
