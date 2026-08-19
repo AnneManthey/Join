@@ -1,15 +1,24 @@
-<p>contact-list works!</p>
-@for (letter of firstLetter; track letter[0]) {
-<h2>{{letter[0]}}</h2>
-@for (contact of letter[1]; track contact.name) {
-<div>
-    <div>
-        <p>{{getInitials(contact.name)}}</p>
-    </div>
-    <div>
-        <p>{{contact.name}}</p>
-        <p>{{contact.email}}</p>
-    </div>
-</div>
-}
-}
+<ul class="contact-list">
+    @for (letter of firstLetter(); track letter[0]) {
+    <li class="contact-list__letter-group">
+        <h2 class="contact-list__letter">{{ letter[0] }}</h2>
+        <ul class="contact-list__contacts-group">
+            @for (contact of letter[1]; track contact.contact_name) {
+            <li (click)="selectContact(contact.id)" 
+            class="contact-list__single-contact" 
+            [class.contact-list__selected-contact] = "selectedContactId === contact.id"
+            role="button" 
+            tabindex="0">
+                <div [style.background-color]="getColor(contact.contact_name)" class="contact-list__initials">
+                    <p>{{ getInitials(contact.contact_name) }}</p>
+                </div>
+                <div class="contact-list__single-contact-details">
+                    <p class="contact-list__name">{{ contact.contact_name }}</p>
+                    <p class="contact-list__mail">{{ contact.contact_mail }}</p>
+                </div>
+            </li>
+            }
+        </ul>
+    </li>
+    }
+</ul>
