@@ -8,37 +8,28 @@
     </section>
     <section class="form-section">
         <div>
-            <img src="/icons/add-contact-dialog/person-logo.svg" alt="Person Logo">
+            <img class="avatar-logo" src="/icons/add-contact-dialog/person-logo.svg" alt="Avatar Logo">
         </div>
         <form [formGroup]="contactForm" (ngSubmit)="onSubmit()" class="contact-form">
-            
-            <div class="avatar-container">
-                <div class="avatar-placeholder">
-                    <span class="icon-user"></span>
-                </div>
-            </div>
 
             <div class="form-fields">
                 <button type="button" class="btn-close btn-img" (click)="closeDialog()"><img src="/icons/add-contact-dialog/close.png" alt="Close Icon"></button>
-                <!-- Name -->
+                
                 <div class="input-group">
                     <input type="text" id="name" formControlName="name" placeholder="Name" />
                     <img class="input-icon icon-user-small" src="/icons/add-contact-dialog/person-icon.png" alt="Person Icon">
                 </div>
 
-                <!-- Email -->
                 <div class="input-group">
                     <input type="email" id="email" formControlName="email" placeholder="Email" />
                     <img class="input-icon icon-user-small" src="/icons/add-contact-dialog/mail-icon.png" alt="Mail Icon">
                 </div>
 
-                <!-- Phone -->
                 <div class="input-group">
                     <input type="tel" id="phone" formControlName="phone" placeholder="Phone" />
                     <img class="input-icon icon-user-small" src="/icons/add-contact-dialog/call-icon.png" alt="Call Icon">
                 </div>
 
-                <!-- Btn -->
                 <div class="form-actions">
                     <button type="button" class="btn-cancel" (click)="closeDialog()">
                         Cancel <img src="/icons/add-contact-dialog/close.png" alt="Close Icon">
