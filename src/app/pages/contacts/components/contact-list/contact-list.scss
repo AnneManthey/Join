@@ -45,6 +45,23 @@
         border: none;
     }
 
+    &__success-message {
+        animation: contact-list-message-enter 250ms ease-out;
+        background: rgba(42, 54, 71, 1);
+        color: #fff;
+        margin: 0;
+        padding: 16px 24px;
+        border-radius: 10px;
+        position: fixed;
+        right: 24px;
+        bottom: 24px;
+        transition: opacity 250ms ease-out, transform 250ms ease-out;
+
+        &.is-fading {
+            animation: contact-list-message-exit 250ms ease-in forwards;
+        }
+    }
+
     &__letter-group {
         display: flex;
         flex-direction: column;
@@ -101,6 +118,7 @@
 .add-contact-dialog{
     --dialog-animation-duration: 400ms;
     position: fixed;
+    min-width: 900px;
     top: 50%;
     left: 50%;
     margin: 0;
@@ -138,5 +156,29 @@
 
     to {
         transform: translate(100vw, -50%);
+    }
+}
+
+@keyframes contact-list-message-enter {
+    from {
+        opacity: 0;
+        transform: translateX(100%);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes contact-list-message-exit {
+    from {
+        opacity: 1;
+        transform: translateX(0);
+    }
+
+    to {
+        opacity: 0;
+        transform: translateX(calc(100% + 24px));
     }
 }

@@ -1,4 +1,9 @@
 <ul class="contact-list">
+    @if (isSuccessMessageVisible && successMessage) {
+        <p class="contact-list__success-message" [class.is-fading]="isSuccessMessageFading" role="status">
+            {{ successMessage }}
+        </p>
+    }
     <button class="contact-list__button" (click)="openAddContactDialog()">button<img></button>
     @for (letter of firstLetter(); track letter[0]) {
     <li class="contact-list__letter-group">
@@ -21,5 +26,8 @@
     }
 </ul>
 <dialog class="add-contact-dialog" #addContactDialog>
-    <app-add-contact-dialog (closeRequested)="closeAddContactDialog()"></app-add-contact-dialog>
+    <app-add-contact-dialog
+        (closeRequested)="closeAddContactDialog()"
+        (contactCreated)="showContactCreatedMessage()">
+    </app-add-contact-dialog>
 </dialog>
