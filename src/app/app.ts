@@ -3,10 +3,12 @@ import { RouterOutlet } from '@angular/router';
 import { Navbar } from './layout/navbar/navbar';
 import { Header } from './layout/header/header';
 import { SupabaseService } from './shared/services/supabase-service';
+import { AddContactDialog } from "./pages/contacts/components/add-contact-dialog/add-contact-dialog";
+import { ContactList } from './pages/contacts/components/contact-list/contact-list';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, Navbar, Header],
+  imports: [RouterOutlet, Navbar, Header, AddContactDialog, ContactList],
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })
