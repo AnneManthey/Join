@@ -19,5 +19,4 @@ export class ContactDetails {
   //   this.contactId = Number(this.activatedRoute.snapshot.paramMap.get('id'));
   //   this.contactService.contacts = this.contacts.filter(contact => contact.id);
   // }
-  
 }
