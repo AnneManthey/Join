@@ -1,6 +1,7 @@
 import { Component, ElementRef, inject, computed, ViewChild } from '@angular/core';
 import { SupabaseService } from '../../../../shared/services/supabase-service';
 import { Contact } from '../../../../shared/interfaces/contact';
+import { Router } from '@angular/router';
 import { AddContactDialog } from '../add-contact-dialog/add-contact-dialog';
 
 @Component({
@@ -11,6 +12,7 @@ import { AddContactDialog } from '../add-contact-dialog/add-contact-dialog';
 })
 
 export class ContactList {
+  private router = inject(Router);
   @ViewChild('addContactDialog') addContactDialog!: ElementRef<HTMLDialogElement>;
   @ViewChild(AddContactDialog) addContactComponent!: AddContactDialog;
 
@@ -106,8 +108,9 @@ export class ContactList {
     return this.colors[colorIndex];
   };
 
-  selectContact(id:number) {
+  selectContact(id: number) {
     this.selectedContactId = id;
+    this.router.navigate(['/contactdetails', id]);
   }
 
   openAddContactDialog(){
