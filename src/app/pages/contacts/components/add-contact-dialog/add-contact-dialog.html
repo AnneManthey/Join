@@ -11,7 +11,7 @@
             <img src="/icons/add-contact-dialog/person-logo.svg" alt="Person Logo">
         </div>
         <form [formGroup]="contactForm" (ngSubmit)="onSubmit()" class="contact-form">
-            <button type="button" class="close-btn" (click)="closeDialog()">x</button>
+            
             <div class="avatar-container">
                 <div class="avatar-placeholder">
                     <span class="icon-user"></span>
@@ -19,22 +19,23 @@
             </div>
 
             <div class="form-fields">
+                <button type="button" class="btn-close btn-img" (click)="closeDialog()"><img src="/icons/add-contact-dialog/close.png" alt="Close Icon"></button>
                 <!-- Name -->
                 <div class="input-group">
                     <input type="text" id="name" formControlName="name" placeholder="Name" />
-                    <span class="input-icon icon-user-small"></span>
+                    <img class="input-icon icon-user-small" src="/icons/add-contact-dialog/person-icon.png" alt="Person Icon">
                 </div>
 
                 <!-- Email -->
                 <div class="input-group">
                     <input type="email" id="email" formControlName="email" placeholder="Email" />
-                    <span class="input-icon icon-mail"></span>
+                    <img class="input-icon icon-user-small" src="/icons/add-contact-dialog/mail-icon.png" alt="Mail Icon">
                 </div>
 
                 <!-- Phone -->
                 <div class="input-group">
                     <input type="tel" id="phone" formControlName="phone" placeholder="Phone" />
-                    <span class="input-icon icon-phone"></span>
+                    <img class="input-icon icon-user-small" src="/icons/add-contact-dialog/call-icon.png" alt="Call Icon">
                 </div>
 
                 <!-- Btn -->
