@@ -20,6 +20,6 @@
     </li>
     }
 </ul>
-<dialog #addContactDialog>
-    <app-add-contact-dialog></app-add-contact-dialog>
+<dialog class="add-contact-dialog" #addContactDialog>
+    <app-add-contact-dialog (closeRequested)="closeAddContactDialog()"></app-add-contact-dialog>
 </dialog>

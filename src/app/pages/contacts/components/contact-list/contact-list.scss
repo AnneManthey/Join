@@ -97,3 +97,46 @@
         color: rgb(0, 124, 238);
     }
 }
+
+.add-contact-dialog{
+    --dialog-animation-duration: 400ms;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    margin: 0;
+    border: none;
+    border-radius: 30px;
+    transform: translate(-50%, -50%);
+
+    &[open] {
+        animation: add-contact-dialog-enter var(--dialog-animation-duration) ease-out forwards;
+    }
+
+    &--closing {
+        animation: add-contact-dialog-exit var(--dialog-animation-duration) ease-in forwards !important;
+    }
+
+    &::backdrop {
+        background-color: rgba(0, 0, 0, 0.35);
+    }
+}
+
+@keyframes add-contact-dialog-enter {
+    from {
+        transform: translate(100vw, -50%);
+    }
+
+    to {
+        transform: translate(-50%, -50%);
+    }
+}
+
+@keyframes add-contact-dialog-exit {
+    from {
+        transform: translate(-50%, -50%);
+    }
+
+    to {
+        transform: translate(100vw, -50%);
+    }
+}

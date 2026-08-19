@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, EventEmitter, inject, Output } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Contact } from '../../../../shared/interfaces/contact';
@@ -11,6 +11,8 @@ import { SupabaseService } from '../../../../shared/services/supabase-service';
   styleUrl: './add-contact-dialog.scss',
 })
 export class AddContactDialog {
+  @Output() closeRequested = new EventEmitter<void>();
+
   private fb = inject(FormBuilder);
   private readonly router = inject(Router);
   private readonly dataService = inject(SupabaseService);
@@ -116,7 +118,7 @@ export class AddContactDialog {
   closeDialog(): void {
     this.contactForm.reset();
     this.errorMessage = null;
-    this.isDialogOpen = false;
+    this.closeRequested.emit();
   }
 
 }

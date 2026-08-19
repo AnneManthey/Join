@@ -12,6 +12,10 @@ import { AddContactDialog } from '../add-contact-dialog/add-contact-dialog';
 
 export class ContactList {
   @ViewChild('addContactDialog') addContactDialog!: ElementRef<HTMLDialogElement>;
+  @ViewChild(AddContactDialog) addContactComponent!: AddContactDialog;
+
+  private readonly dialogAnimationDuration = 400;
+  private closeDialogTimer: ReturnType<typeof setTimeout> | undefined;
 
   contactService = inject(SupabaseService);
   contacts: Contact[] = [];
@@ -107,6 +111,26 @@ export class ContactList {
   }
 
   openAddContactDialog(){
-    this.addContactDialog.nativeElement.showModal();
+    const dialog = this.addContactDialog.nativeElement;
+    if (this.closeDialogTimer) {
+      clearTimeout(this.closeDialogTimer);
+      this.closeDialogTimer = undefined;
+    }
+    this.addContactComponent.isDialogOpen = true;
+    dialog.classList.remove('add-contact-dialog--closing');
+    if (!dialog.open) {
+      dialog.showModal();
+    }
+  }
+
+  closeAddContactDialog(): void {
+    const dialog = this.addContactDialog.nativeElement;
+    dialog.classList.add('add-contact-dialog--closing');
+    this.closeDialogTimer = setTimeout(() => {
+      this.addContactComponent.isDialogOpen = false;
+      dialog.close();
+      dialog.classList.remove('add-contact-dialog--closing');
+      this.closeDialogTimer = undefined;
+    }, this.dialogAnimationDuration);
   }
 } 
