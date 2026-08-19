@@ -1,5 +1,5 @@
 <ul class="contact-list">
-    <button class="contact-list__button">button<img></button>
+    <button class="contact-list__button" (click)="openAddContactDialog()">button<img></button>
     @for (letter of firstLetter(); track letter[0]) {
     <li class="contact-list__letter-group">
         <h2 class="contact-list__letter">{{ letter[0] }}</h2>
@@ -20,3 +20,6 @@
     </li>
     }
 </ul>
+<dialog #addContactDialog>
+    <app-add-contact-dialog></app-add-contact-dialog>
+</dialog>

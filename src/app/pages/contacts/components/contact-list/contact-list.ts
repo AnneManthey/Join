@@ -1,15 +1,18 @@
-import { Component, inject, computed } from '@angular/core';
+import { Component, ElementRef, inject, computed, ViewChild } from '@angular/core';
 import { SupabaseService } from '../../../../shared/services/supabase-service';
 import { Contact } from '../../../../shared/interfaces/contact';
+import { AddContactDialog } from '../add-contact-dialog/add-contact-dialog';
 
 @Component({
   selector: 'app-contact-list',
-  imports: [],
+  imports: [AddContactDialog],
   templateUrl: './contact-list.html',
   styleUrl: './contact-list.scss',
 })
 
 export class ContactList {
+  @ViewChild('addContactDialog') addContactDialog!: ElementRef<HTMLDialogElement>;
+
   contactService = inject(SupabaseService);
   contacts: Contact[] = [];
   colors = ["#FF7A00", "#FF5EB3", "#6E52FF", "#9327FF", "#00BEE8", "#1FD7C1", "#FF745E", "#FC71FF", "#FFC701", "#0038FF", "#C3FF2B", "#FFE62B", "#FF4646", "#FFBB2B"];
@@ -101,5 +104,9 @@ export class ContactList {
 
   selectContact(id:number) {
     this.selectedContactId = id;
+  }
+
+  openAddContactDialog(){
+    this.addContactDialog.nativeElement.showModal();
   }
 } 
