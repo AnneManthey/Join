@@ -1,6 +1,5 @@
-import { Component, inject } from '@angular/core';
+import { Component, EventEmitter, inject, Output } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
 import { Contact } from '../../../../shared/interfaces/contact';
 import { SupabaseService } from '../../../../shared/services/supabase-service';
 
@@ -11,8 +10,10 @@ import { SupabaseService } from '../../../../shared/services/supabase-service';
   styleUrl: './add-contact-dialog.scss',
 })
 export class AddContactDialog {
+  @Output() closeRequested = new EventEmitter<void>();
+  @Output() contactCreated = new EventEmitter<void>();
+
   private fb = inject(FormBuilder);
-  private readonly router = inject(Router);
   private readonly dataService = inject(SupabaseService);
 
   /** Indicates whether a contact creation request is in progress. */
@@ -52,7 +53,8 @@ export class AddContactDialog {
         return;
       }
 
-      await this.openContactDetail(createdContact);
+      this.contactCreated.emit();
+      this.closeDialog();
     } catch {
       this.errorMessage = 'Contact could not be saved. Please try again.';
     } finally {
@@ -101,22 +103,11 @@ export class AddContactDialog {
     return createdContact;
   }
 
-  /** Resets the form and opens the newly created contact's detail view. */
-  private async openContactDetail(contact: Contact): Promise<void> {
-    this.contactForm.reset();
-    await this.router.navigate(['/contacts', contact.id], {
-      state: {
-        contact,
-        successMessage: 'Contact succesfully created.',
-      },
-    });
-  }
-
   /** Closes the dialog and clears its form state. */
   closeDialog(): void {
     this.contactForm.reset();
     this.errorMessage = null;
-    this.isDialogOpen = false;
+    this.closeRequested.emit();
   }
 
 }

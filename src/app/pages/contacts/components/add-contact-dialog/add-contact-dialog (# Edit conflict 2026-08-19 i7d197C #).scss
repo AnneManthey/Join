@@ -20,7 +20,7 @@ main {
 
 .info-section {
   height: 470px;
-  min-width: 35%;
+  min-width: 30%;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -49,17 +49,13 @@ main {
 }
 
 .form-section {
-  position: relative;
   height: 470px;
   display: flex;
   align-items: center;
   border-top-right-radius: 30px;
   border-bottom-right-radius: 30px;
-  gap: 20px;
-  padding: 20px 40px 20px 50px;
-  > div:first-child {
-    transform: translateY(-35px);
-  }
+  gap: 40px;
+  padding: 20px 20px 20px 50px;
   img {
     width: 120px;
     height: 120px;
@@ -69,9 +65,6 @@ main {
     flex-direction: column;
     align-items: flex-end;
     .btn-close { 
-      position: absolute;
-      top: 20px;
-      right: 20px;
         border: none;
        
       img {
@@ -90,17 +83,16 @@ main {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  gap: 10px;
+  gap: 30px;
   .form-actions {
     display: flex;
     height: 100%;
     gap: 24px;
     button{
         cursor: pointer;
-        padding: 10px;
+        padding: 16px;
         border-radius: 10px;
         border: 1px solid rgba(107, 107, 107, 0.71);
-        margin: 1px;
         background-color: transparent;
         font-size: 1.2rem;
         display: flex;
@@ -112,8 +104,8 @@ main {
         }
         &:hover{
           border: 2px solid rgba(18, 70, 88, 1);
-          margin: 0;
-          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+          padding: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
         } 
     }
     .btn-submit{
@@ -130,7 +122,7 @@ main {
   }
   input {
     height: 50px;
-    width: 350px;
+    width: 400px;
     border-radius: 10px;
     border: 1px solid rgba(107, 107, 107, 0.71);
     padding: 13px 21px;

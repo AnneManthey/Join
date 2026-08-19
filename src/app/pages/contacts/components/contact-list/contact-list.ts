@@ -1,15 +1,27 @@
-import { Component, inject, computed } from '@angular/core';
+import { Component, ElementRef, inject, computed, ViewChild } from '@angular/core';
 import { SupabaseService } from '../../../../shared/services/supabase-service';
 import { Contact } from '../../../../shared/interfaces/contact';
+import { AddContactDialog } from '../add-contact-dialog/add-contact-dialog';
 
 @Component({
   selector: 'app-contact-list',
-  imports: [],
+  imports: [AddContactDialog],
   templateUrl: './contact-list.html',
   styleUrl: './contact-list.scss',
 })
 
 export class ContactList {
+  @ViewChild('addContactDialog') addContactDialog!: ElementRef<HTMLDialogElement>;
+  @ViewChild(AddContactDialog) addContactComponent!: AddContactDialog;
+
+  private readonly dialogAnimationDuration = 400;
+  private closeDialogTimer: ReturnType<typeof setTimeout> | undefined;
+  private successMessageTimer: ReturnType<typeof setTimeout> | undefined;
+  private successMessageFadeTimer: ReturnType<typeof setTimeout> | undefined;
+  successMessage = '';
+  isSuccessMessageVisible = false;
+  isSuccessMessageFading = false;
+
   contactService = inject(SupabaseService);
   contacts: Contact[] = [];
   colors = ["#FF7A00", "#FF5EB3", "#6E52FF", "#9327FF", "#00BEE8", "#1FD7C1", "#FF745E", "#FC71FF", "#FFC701", "#0038FF", "#C3FF2B", "#FFE62B", "#FF4646", "#FFBB2B"];
@@ -18,10 +30,6 @@ export class ContactList {
   /** 
    * Loads the contact list from Supabase once the component is initialized. 
    */
-  async ngOnInit() {
-    await this.contactService.getContacts();
-  }
-
   /** 
    * Alphabetically sorted copy of the contacts from {@link SupabaseService.contacts}. 
    * Recomputes automatically whenever the underlying signal changes 
@@ -45,7 +53,7 @@ export class ContactList {
   firstLetter = computed(() => {
     const grouped = Object.groupBy(
       this.sortedContacts(),
-      (contact) => contact.contact_name.charAt(0).toUpperCase()
+      (contact) => (contact.contact_name?.charAt(0) || '#').toUpperCase()
     ) as Record<string, Contact[]>;
     return Object.entries(grouped);
   });
@@ -61,10 +69,9 @@ export class ContactList {
  * @todo Handle names consisting of a single word (no last name). 
  * @todo Extract as a pipe for reuse outside this component. 
  */
-  getInitials(name: string) {
-    let names = name.split(' ');
-    let initials = names[0].charAt(0) + names[1].charAt(0);
-    return initials;
+  getInitials(name: string | null | undefined): string {
+    const names = name?.split(' ') ?? [];
+    return (names[0]?.charAt(0) || '?') + (names[1]?.charAt(0) || '');
   }
 
   /**
@@ -101,5 +108,60 @@ export class ContactList {
 
   selectContact(id:number) {
     this.selectedContactId = id;
+  }
+
+  openAddContactDialog(){
+    const dialog = this.addContactDialog.nativeElement;
+    this.successMessage = '';
+    if (this.closeDialogTimer) {
+      clearTimeout(this.closeDialogTimer);
+      this.closeDialogTimer = undefined;
+    }
+    this.addContactComponent.isDialogOpen = true;
+    dialog.classList.remove('add-contact-dialog--closing');
+    if (!dialog.open) {
+      dialog.showModal();
+    }
+  }
+
+  closeAddContactDialog(): void {
+    const dialog = this.addContactDialog.nativeElement;
+    dialog.classList.add('add-contact-dialog--closing');
+    this.closeDialogTimer = setTimeout(() => {
+      this.addContactComponent.isDialogOpen = false;
+      dialog.close();
+      dialog.classList.remove('add-contact-dialog--closing');
+      this.closeDialogTimer = undefined;
+    }, this.dialogAnimationDuration);
+  }
+
+  showContactCreatedMessage(): void {
+    this.successMessage = 'Contact successfully created.';
+    this.isSuccessMessageVisible = true;
+    this.isSuccessMessageFading = false;
+
+    if (this.successMessageTimer) {
+      clearTimeout(this.successMessageTimer);
+    }
+    if (this.successMessageFadeTimer) {
+      clearTimeout(this.successMessageFadeTimer);
+    }
+
+    this.successMessageTimer = setTimeout(() => {
+      this.isSuccessMessageFading = true;
+      this.successMessageFadeTimer = setTimeout(() => {
+        this.isSuccessMessageVisible = false;
+        this.successMessage = '';
+      }, 250);
+    }, 3000);
+  }
+
+  ngOnDestroy(): void {
+    if (this.successMessageTimer) {
+      clearTimeout(this.successMessageTimer);
+    }
+    if (this.successMessageFadeTimer) {
+      clearTimeout(this.successMessageFadeTimer);
+    }
   }
 } 

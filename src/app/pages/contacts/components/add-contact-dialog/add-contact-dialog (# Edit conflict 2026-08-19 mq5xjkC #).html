@@ -13,27 +13,28 @@
         <form [formGroup]="contactForm" (ngSubmit)="onSubmit()" class="contact-form">
 
             <div class="form-fields">
-                <button type="button" class="btn-close btn-img" (click)="closeDialog()"><img
-                        src="/icons/add-contact-dialog/close.png" alt="Close Icon"></button>
-
+                <button type="button" class="btn-close btn-img" (click)="closeDialog()"><img src="/icons/add-contact-dialog/close.png" alt="Close Icon"></button>
+                
                 <div class="input-group">
                     <input type="text" id="name" formControlName="name" placeholder="Name" />
-                    <img class="input-icon icon-user-small" src="/icons/add-contact-dialog/person-icon.png"
-                        alt="Person Icon">
+                    <img class="input-icon icon-user-small" src="/icons/add-contact-dialog/person-icon.png" alt="Person Icon">
                 </div>
 
                 <div class="input-group">
                     <input type="email" id="email" formControlName="email" placeholder="Email" />
-                    <img class="input-icon icon-user-small" src="/icons/add-contact-dialog/mail-icon.png"
-                        alt="Mail Icon">
+                    <img class="input-icon icon-user-small" src="/icons/add-contact-dialog/mail-icon.png" alt="Mail Icon">
                 </div>
 
                 <div class="input-group">
                     <input type="tel" id="phone" formControlName="phone" placeholder="Phone" />
-                    <img class="input-icon icon-user-small" src="/icons/add-contact-dialog/call-icon.png"
-                        alt="Call Icon">
+                    <img class="input-icon icon-user-small" src="/icons/add-contact-dialog/call-icon.png" alt="Call Icon">
                 </div>
-                <div class="form-actions">
+
+                
+            </div>
+            
+        </form>
+        <div class="form-actions">
                     <button type="button" class="btn-cancel" (click)="closeDialog()">
                         Cancel <img src="/icons/add-contact-dialog/close.png" alt="Close Icon">
                     </button>
@@ -42,12 +43,8 @@
                     </button>
                 </div>
                 @if (errorMessage; as errorMessage) {
-                <p role="alert">{{ errorMessage }}</p>
+                    <p role="alert">{{ errorMessage }}</p>
                 }
-
-            </div>
-
-        </form>
     </section>
 </main>
 }
