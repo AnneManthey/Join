@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 
 @Component({
   selector: 'app-contact-detail-placeholder',
@@ -6,4 +6,6 @@ import { Component } from '@angular/core';
   templateUrl: './contact-detail-placeholder.html',
   styleUrl: './contact-detail-placeholder.scss',
 })
-export class ContactDetailPlaceholder {}
+export class ContactDetailPlaceholder {
+
+}
