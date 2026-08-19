@@ -1,6 +1,7 @@
 import { Component, inject, computed } from '@angular/core';
 import { SupabaseService } from '../../../../shared/services/supabase-service';
 import { Contact } from '../../../../shared/interfaces/contact';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-contact-list',
@@ -10,6 +11,7 @@ import { Contact } from '../../../../shared/interfaces/contact';
 })
 
 export class ContactList {
+  private router = inject(Router);
   contactService = inject(SupabaseService);
   contacts: Contact[] = [];
   colors = ["#FF7A00", "#FF5EB3", "#6E52FF", "#9327FF", "#00BEE8", "#1FD7C1", "#FF745E", "#FC71FF", "#FFC701", "#0038FF", "#C3FF2B", "#FFE62B", "#FF4646", "#FFBB2B"];
@@ -99,7 +101,8 @@ export class ContactList {
     return this.colors[colorIndex];
   };
 
-  selectContact(id:number) {
+  selectContact(id: number) {
     this.selectedContactId = id;
+    this.router.navigate(['/contactdetails', id]);
   }
 } 
