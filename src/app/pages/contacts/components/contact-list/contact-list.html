@@ -4,7 +4,7 @@
             {{ successMessage }}
         </p>
     }
-    <button class="contact-list__button" (click)="openAddContactDialog()">button<img></button>
+    <button class="contact-list__button" (click)="openAddContactDialog()">Add new contact<img src="/icons/contacts/contact_add.svg"></button>
     @for (letter of firstLetter(); track letter[0]) {
     <li class="contact-list__letter-group">
         <h2 class="contact-list__letter">{{ letter[0] }}</h2>
