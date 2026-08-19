@@ -1,0 +1,81 @@
+header {
+  position: relative;
+  z-index: 50;
+
+  display: flex;
+  align-items: center;
+
+  width: 100%;
+  height: 96px;
+  padding: 0 44px 0 96px;
+
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: white;
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.1);
+}
+
+.header-logo {
+  display: none;
+}
+
+.header-title {
+  margin: 0;
+  color: #000000;
+  font-size: 20px;
+  font-weight: 400;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-left: auto;
+}
+
+.help-button,
+.profile-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0;
+  background-color: white;
+  cursor: pointer;
+}
+
+.help-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 32px;
+  height: 32px;
+  padding: 0;
+
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.help-button img {
+  display: block;
+  width: 20px;
+  height: 20px;
+}
+
+.profile-button {
+  width: 56px;
+  height: 56px;
+
+  color:#124658;
+;
+  font-size: 16px;
+  font-weight: 700;
+
+  border: 3px solid #2a3647;
+  border-radius: 50%;
+}
+
+.profile-button:hover {
+  background-color: #eeeeee;
+}
