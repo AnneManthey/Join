@@ -67,6 +67,11 @@ export class ContactList {
     return Object.entries(grouped);
   });
 
+  /**
+   * Marks the given contact as selected and navigates to its detail view.
+   *
+   * @param id - The id of the contact to select and display.
+   */
   selectContact(id: number) {
     this.selectedContactId = id;
     this.router.navigate(['/contacts', id]);
