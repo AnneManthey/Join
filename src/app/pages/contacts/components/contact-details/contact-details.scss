@@ -56,3 +56,76 @@
 		max-height: 100dvh;
 	}
 }
+@use '../../../../../styles' as *;
+@use '../contact-list/contact-list.scss';
+
+.contact-details {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    font-family: Inter;
+    padding: 55px;
+
+    &__name-header {
+        display: flex;
+        align-items: center;
+        gap: 54px;
+    }
+
+    &__name-button-wrapper {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    &__button-wrapper {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+    }
+
+    &__button {
+        border: none;
+        background-color: transparent;
+        display: flex;
+        align-items: center;
+        gap: 2px;
+        font-size: 1rem;
+        font-family: Inter;
+        color: $dark-blue;
+        transition: all 255ms ease-in-out;
+        cursor: pointer;
+
+        &:hover {
+            font-weight: 700;
+            color: $blue-green;
+        }
+    }
+
+    &__initials {
+        width: 120px;
+        height: 120px;
+        font-size: 3rem;
+        border: 3px solid $white;
+        box-shadow: 0px 0px 4px 0px #00000066;
+        font-weight: 500;
+    }
+
+    &__name {
+        font-size: 3rem;
+    }
+
+    &__heading {
+        font-size: 1.25rem;
+        padding: 20px 0;
+    }
+
+    &__data-heading {
+        font-weight: 700;
+    }
+}
+
+
+.buttonimg:hover {
+    stroke-width: 10px;
+}

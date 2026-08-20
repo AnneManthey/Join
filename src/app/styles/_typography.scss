@@ -1,0 +1,17 @@
+@use './variables' as *;
+
+h1,
+h2,
+h3 {
+    font-family: Inter;
+}
+
+h1 {
+    font-weight: 700;
+    font-size: 3.8rem;
+    color: $black;
+}
+
+h2 {
+    color: $dark-blue;
+}
