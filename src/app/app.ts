@@ -4,10 +4,11 @@ import { Navbar } from './layout/navbar/navbar';
 import { Header } from './layout/header/header';
 import { SupabaseService } from './shared/services/supabase-service';
 import { ContactList } from './pages/contacts/components/contact-list/contact-list';
+import { ContactDetails } from "./pages/contacts/components/contact-details/contact-details";
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, Navbar, Header, ContactList],
+  imports: [RouterOutlet, Navbar, Header, ContactList, ContactDetails],
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })
