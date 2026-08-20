@@ -1,4 +1,3 @@
-<p>contact-details works!</p>
 <button class="contact-details__button">Edit</button>
 <button class="contact-details__button">Delete</button>
 @if (contact(); as c) {
@@ -6,6 +5,10 @@
     <p>{{c.contact_name | getInitials}}</p>
 </div>
 <div class="contact-list__single-contact-details">
-    <p class="contact-list__name">{{ c.contact_name }}</p>
-    <p class="contact-list__mail">{{ c.contact_mail }}</p>
+    <p class="contact-details__name">{{ c.contact_name }}</p>
+    <h3>Contact Information</h3>
+    <p><b>Email</b></p>
+    <p class="contact-details__mail">{{ c.contact_mail }}</p>
+    <p><b>Phone</b></p>
+    <p class="contact-details__phone">{{ c.contact_phone }}</p>
 </div>}
