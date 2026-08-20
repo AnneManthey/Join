@@ -5,10 +5,11 @@ import { Router } from '@angular/router';
 import { AddContactDialog } from '../add-contact-dialog/add-contact-dialog';
 import { getColor } from '../../../../shared/utils/contacts-helper';
 import { getChars } from '../../../../shared/utils/contacts-helper';
+import { GetInitialsPipe } from '../../../../shared/pipes/get-initials-pipe';
 
 @Component({
   selector: 'app-contact-list',
-  imports: [AddContactDialog],
+  imports: [AddContactDialog, GetInitialsPipe],
   templateUrl: './contact-list.html',
   styleUrl: './contact-list.scss',
 })
@@ -65,23 +66,6 @@ export class ContactList {
     ) as Record<string, Contact[]>;
     return Object.entries(grouped);
   });
-
-  // // to do: fallback, falls nur ein name existiert 
-  // // to do: als pipe auslagern 
-  /** 
- * Returns the initials (first letter of first and last name) for a given contact name. 
- * 
- * @param name - Full name, expected to contain at least a first and last name separated by a space. 
- * @returns A two-character string of uppercase initials, e.g. `'AM'` for `'Anton Mayer'`. 
- * 
- * @todo Handle names consisting of a single word (no last name). 
- * @todo Extract as a pipe for reuse outside this component. 
- */
-  getInitials(name: string | null | undefined): string {
-    const names = name?.split(' ') ?? [];
-    return (names[0]?.charAt(0) || '?') + (names[1]?.charAt(0) || '');
-  }
-
 
   selectContact(id: number) {
     this.selectedContactId = id;

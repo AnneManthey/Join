@@ -13,7 +13,7 @@
             <li (click)="selectContact(contact.id)" class="contact-list__single-contact"
                 [class.contact-list__selected-contact]="selectedContactId === contact.id" role="button" tabindex="0">
                 <div [style.background-color]="getColor(contact.contact_name)" class="contact-list__initials">
-                    <p>{{ getInitials(contact.contact_name) }}</p>
+                    <p>{{ contact.contact_name | getInitials }}</p>
                 </div>
                 <div class="contact-list__single-contact-details">
                     <p class="contact-list__name">{{ contact.contact_name }}</p>
