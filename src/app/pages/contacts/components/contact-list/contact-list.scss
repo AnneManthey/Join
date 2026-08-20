@@ -1,20 +1,61 @@
 @use '../../../../../styles' as *;
 
 * {
-    margin: 0;
+  margin: 0;
 }
 
 .contact-list {
-    display: flex;
-    flex-direction: column;
-    list-style: none;
-    padding: 12px;
-    margin: 0;
-    height: calc(100dvh - 96px);
-    width: 425px;
-    overflow-y: scroll;
-    font-family: Inter;
+  display: flex;
+  flex-direction: column;
+  list-style: none;
+  padding: 12px;
+  margin: 0;
+  height: calc(100dvh - 96px);
+  width: 425px;
+  overflow-y: scroll;
+  font-family: Inter;
 
+  ul,
+  li {
+    list-style: none;
+  }
+
+  ul {
+    padding: 0;
+    margin: 0;
+  }
+
+  &__button {
+    width: 100%;
+    background-color: #2a3647;
+    color: white;
+    font-weight: 700;
+    padding: 12px 16px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    border: none;
+    font-family: Inter;
+  }
+
+  &__success-message {
+    animation: contact-list-message-enter 250ms ease-out;
+    background: rgba(42, 54, 71, 1);
+    color: #fff;
+    margin: 0;
+    padding: 16px 24px;
+    border-radius: 10px;
+    position: fixed;
+    right: 24px;
+    bottom: 24px;
+    transition:
+      opacity 250ms ease-out,
+      transform 250ms ease-out;
+
+    &.is-fading {
+      animation: contact-list-message-exit 250ms ease-in forwards;
     ul,
     li {
         list-style: none;
@@ -68,12 +109,38 @@
             animation: contact-list-message-exit 250ms ease-in forwards;
         }
     }
+  }
 
-    &__letter-group {
-        display: flex;
-        flex-direction: column;
-    }
+  &__letter-group {
+    display: flex;
+    flex-direction: column;
+  }
 
+  &__letter {
+    font-size: 1.25rem;
+    padding: 17px 36px;
+    border-bottom: 1px solid;
+    border-bottom-color: rgb(209, 209, 209);
+  }
+
+  &__initials {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.6rem;
+    height: 2.6rem;
+    border-radius: 50%;
+    color: white;
+    border: 2px solid white;
+  }
+
+  &__single-contact {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 35px;
+    padding: 15px 24px;
+    border-radius: 10px;
     &__letter {
         font-size: 1.25rem;
         padding: 17px 36px;
@@ -92,29 +159,30 @@
         border: 2px solid $white;
     }
 
-    &__single-contact {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        gap: 35px;
-        padding: 15px 24px;
-        border-radius: 10px;
-
-        &:not(.contact-list__selected-contact):hover {
-            background-image: linear-gradient(to bottom, #F9F9F9, #F0F0F0);
-        }
+    &:not(.contact-list__selected-contact):hover {
+      background-image: linear-gradient(to bottom, #f9f9f9, #f0f0f0);
     }
+  }
 
+  &__selected-contact {
+    background-color: #2a3647;
+    color: white;
+  }
     &__selected-contact {
         background-color: $dark-blue;
         color: $white;
     }
 
-    &__name {
-        font-size: 1.25rem;
-        margin: 0 0 5px 0;
-    }
+  &__name {
+    font-size: 1.25rem;
+    margin: 0 0 5px 0;
+  }
 
+  &__mail {
+    font-size: 1rem;
+    margin: 0;
+    color: rgb(0, 124, 238);
+  }
     &__mail {
         font-size: 1rem;
         margin: 0;
@@ -123,69 +191,76 @@
 }
 
 .add-contact-dialog {
-    --dialog-animation-duration: 400ms;
-    position: fixed;
-    min-width: 900px;
-    top: 50%;
-    left: 50%;
-    margin: 0;
-    border: none;
-    border-radius: 30px;
-    transform: translate(-50%, -50%);
+  --dialog-animation-duration: 400ms;
+  position: fixed;
+  width: min(900px, calc(100vw - 32px));
+  max-width: calc(100vw - 32px);
+  max-height: calc(100dvh - 32px);
+  inset: 0;
+  margin: auto;
+  border: none;
+  border-radius: 30px;
 
-    &[open] {
-        animation: add-contact-dialog-enter var(--dialog-animation-duration) ease-out forwards;
-    }
+  &[open] {
+    animation: add-contact-dialog-enter var(--dialog-animation-duration) ease-out forwards;
+  }
 
-    &--closing {
-        animation: add-contact-dialog-exit var(--dialog-animation-duration) ease-in forwards !important;
-    }
+  &--closing {
+    animation: add-contact-dialog-exit var(--dialog-animation-duration) ease-in forwards !important;
+  }
 
-    &::backdrop {
-        background-color: rgba(0, 0, 0, 0.35);
-    }
+  &::backdrop {
+    background-color: rgba(0, 0, 0, 0.35);
+  }
 }
 
 @keyframes add-contact-dialog-enter {
-    from {
-        transform: translate(100vw, -50%);
-    }
+  from {
+    transform: translateX(100%);
+  }
 
-    to {
-        transform: translate(-50%, -50%);
-    }
+  to {
+    transform: translateX(0);
+  }
 }
 
 @keyframes add-contact-dialog-exit {
-    from {
-        transform: translate(-50%, -50%);
-    }
+  from {
+    transform: translateX(0);
+  }
 
-    to {
-        transform: translate(100vw, -50%);
-    }
+  to {
+    transform: translateX(100%);
+  }
 }
 
 @keyframes contact-list-message-enter {
-    from {
-        opacity: 0;
-        transform: translateX(100%);
-    }
+  from {
+    opacity: 0;
+    transform: translateX(100%);
+  }
 
-    to {
-        opacity: 1;
-        transform: translateX(0);
-    }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
 @keyframes contact-list-message-exit {
-    from {
-        opacity: 1;
-        transform: translateX(0);
-    }
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
 
-    to {
-        opacity: 0;
-        transform: translateX(calc(100% + 24px));
-    }
+  to {
+    opacity: 0;
+    transform: translateX(calc(100% + 24px));
+  }
+}
+
+@media (max-width: 400px) {
+  .add-contact-dialog {
+    width: 100%;
+    height: 100%;
+  }
 }

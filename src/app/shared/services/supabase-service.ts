@@ -71,7 +71,7 @@ export class SupabaseService {
         'postgres_changes',
         { event: '*', schema: 'public', table: 'ContactList' },
         (payload) => {
-          console.log('Change received!', payload)
+          // console.log('Change received!', payload)
 
           switch (payload.eventType) {
 
