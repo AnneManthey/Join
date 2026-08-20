@@ -53,3 +53,22 @@ main {
         padding: 120px 55px 32px;
     }
 }
+
+@media (max-width: 1315px) {
+    .heading {
+        &__line {
+            border-top: 4px solid $bright-light-blue;
+            width: 90px;
+            border-left: 4px solid transparent;
+            order: 1;
+        }
+
+        &__wrapper {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 20px;
+            padding: 120px 55px 32px;
+            padding-bottom: 0;
+        }
+    }
+}

@@ -1,10 +1,5 @@
 @use './variables' as *;
 
-// h1,
-// h2,
-// h3 {
-//     font-family: Inter;
-// }
 .main-h1,
 .main-h2 {
     font-family: Inter;
@@ -20,4 +15,14 @@
     color: $dark-blue;
     font-weight: 400;
     font-size: 1.7rem;
+}
+
+@media (max-width: 1120px) {
+    .main-h1 {
+        font-size: 3rem;
+    }
+
+    .main-h2 {
+        font-size: 1.5rem;
+    }
 }
