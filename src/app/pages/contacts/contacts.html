@@ -21,5 +21,14 @@
 
 <app-add-contact-dialog></app-add-contact-dialog> -->
 
-<!-- <app-contact-details></app-contact-details> -->
-<router-outlet></router-outlet>
+<div class="app-layout">
+	<app-navbar></app-navbar>
+	<div class="page-content">
+		<app-header></app-header>
+		<main>
+			<app-contact-list></app-contact-list>
+			<router-outlet />
+		</main>
+	</div>
+</div>
+<!-- <router-outlet></router-outlet> -->
