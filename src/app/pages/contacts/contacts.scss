@@ -1,18 +1,17 @@
 .success-message {
-	animation: slide-in 250ms ease-out;
+	animation: contact-success-message-enter 250ms ease-out;
 	background: #2a7a4a;
 	color: #fff;
 	margin: 0;
 	padding: 16px 24px;
 	position: fixed;
 	right: 24px;
-	top: 24px;
+	bottom: 24px;
 	transition: opacity 250ms ease-out, transform 250ms ease-out;
 }
 
 .success-message.is-fading {
-	opacity: 0;
-	transform: translateX(24px);
+	animation: contact-success-message-exit 250ms ease-in forwards;
 }
 
 .contact-detail {
@@ -30,7 +29,7 @@
 	font-weight: 700;
 }
 
-@keyframes slide-in {
+@keyframes contact-success-message-enter {
 	from {
 		opacity: 0;
 		transform: translateX(100%);
@@ -39,5 +38,17 @@
 	to {
 		opacity: 1;
 		transform: translateX(0);
+	}
+}
+
+@keyframes contact-success-message-exit {
+	from {
+		opacity: 1;
+		transform: translateX(0);
+	}
+
+	to {
+		opacity: 0;
+		transform: translateX(calc(100% + 24px));
 	}
 }
