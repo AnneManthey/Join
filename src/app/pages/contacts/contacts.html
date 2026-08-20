@@ -1,4 +1,4 @@
-@if (isSuccessMessageVisible && successMessage) {
+<!-- @if (isSuccessMessageVisible && successMessage) {
 	<p class="success-message" [class.is-fading]="isSuccessMessageFading" role="status">
 		{{ successMessage }}
 	</p>
@@ -19,4 +19,20 @@
 	}
 </main>
 
-<app-add-contact-dialog></app-add-contact-dialog>
+<app-add-contact-dialog></app-add-contact-dialog> -->
+
+<div class="app-layout">
+	<app-navbar></app-navbar>
+	<div class="page-content">
+		<app-header></app-header>
+		<main>
+			<app-contact-list></app-contact-list>
+			<div class="details-wrapper">
+				<h1>Contacts</h1>
+				<h2>Better with a team</h2>
+				<router-outlet />
+			</div>
+		</main>
+	</div>
+</div>
+<!-- <router-outlet></router-outlet> -->

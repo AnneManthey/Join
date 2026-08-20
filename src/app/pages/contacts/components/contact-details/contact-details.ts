@@ -1,22 +1,24 @@
-import { Component, inject } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { Contact } from '../../../../shared/interfaces/contact';
+import { Component, inject, computed, input } from '@angular/core';
 import { SupabaseService } from '../../../../shared/services/supabase-service';
+import { getColor } from '../../../../shared/utils/contacts-helper';
+import { getChars } from '../../../../shared/utils/contacts-helper';
+import { GetInitialsPipe } from '../../../../shared/pipes/get-initials-pipe';
 
 @Component({
   selector: 'app-contact-details',
-  imports: [],
+  imports: [GetInitialsPipe],
   templateUrl: './contact-details.html',
   styleUrl: './contact-details.scss',
 })
 export class ContactDetails {
-  private activatedRoute = inject(ActivatedRoute);
   contactService = inject(SupabaseService);
-  contacts: Contact[] = [];
-  contact: Contact[] | undefined;
-  // contactId: number | null;
-  // constructor() {
-  //   this.contactId = Number(this.activatedRoute.snapshot.paramMap.get('id'));
-  //   this.contactService.contacts = this.contacts.filter(contact => contact.id);
-  // }
+  id = input<string>();
+  contact = computed(() => {
+    const currentId = this.id();
+    if (!currentId) return undefined;
+    return this.contactService.contacts().find(contact => contact.id === Number(currentId));
+  });
+
+  getChars = getChars;
+  getColor = getColor;
 }
