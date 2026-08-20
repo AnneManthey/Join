@@ -1,7 +1,7 @@
-@use './app/styles/variables';
-@use './app/styles/fonts';
-@use './app/styles/typography';
-@use './app/styles/layout';
+@forward './app/styles/variables';
+@forward './app/styles/fonts';
+@forward './app/styles/typography';
+@forward './app/styles/layout';
 
 * {
     margin: 0;
