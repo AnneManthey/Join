@@ -13,10 +13,10 @@ export class ContactDetails {
   private activatedRoute = inject(ActivatedRoute);
   contactService = inject(SupabaseService);
   contacts: Contact[] = [];
-  contact: Contact[] | undefined;
-  // contactId: number | null;
-  // constructor() {
-  //   this.contactId = Number(this.activatedRoute.snapshot.paramMap.get('id'));
-  //   this.contactService.contacts = this.contacts.filter(contact => contact.id);
-  // }
+  contact: Contact | undefined;
+  contactId: number | null;
+  constructor() {
+    this.contactId = Number(this.activatedRoute.snapshot.paramMap.get('id'));
+    this.contact = this.contactService.contacts().find(contact => contact.id === this.contactId);
+  }
 }
