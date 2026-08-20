@@ -1,4 +1,8 @@
 <p>contact-details works!</p>
-<button class="contact-details__button">Edit</button>
+<button class="contact-details__button" (click)="openEditContactDialog()">Edit</button>
 <button class="contact-details__button">Delete</button>
+
+<dialog class="edit-contact-dialog" #editContactDialog (click)="closeEditContactDialogOnBackdrop($event)">
+    <app-edit-contact-dialog (closeRequested)="closeEditContactDialog()"></app-edit-contact-dialog>
+</dialog>
 

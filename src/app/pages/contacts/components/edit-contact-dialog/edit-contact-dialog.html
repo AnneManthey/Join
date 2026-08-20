@@ -1,5 +1,5 @@
 @if (isDialogOpen) {
-<main>
+<main (click)="$event.stopPropagation()">
     <section class="info-section">
         <button type="button" class="btn-close-top btn-img" (click)="closeDialog()"><img
                         src="/icons/add-contact-dialog/close-white.png" alt="Close Icon"></button>
