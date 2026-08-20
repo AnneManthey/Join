@@ -1,12 +1,14 @@
 import { ChangeDetectorRef, Component, ElementRef, inject, computed, ViewChild } from '@angular/core';
 import { SupabaseService } from '../../../../shared/services/supabase-service';
 import { Contact } from '../../../../shared/interfaces/contact';
-import { Router, RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
 import { AddContactDialog } from '../add-contact-dialog/add-contact-dialog';
+import { getColor } from '../../../../shared/utils/contacts-helper';
+import { getChars } from '../../../../shared/utils/contacts-helper';
 
 @Component({
   selector: 'app-contact-list',
-  imports: [AddContactDialog, RouterLink],
+  imports: [AddContactDialog],
   templateUrl: './contact-list.html',
   styleUrl: './contact-list.scss',
 })
@@ -29,6 +31,9 @@ export class ContactList {
   contacts: Contact[] = [];
   colors = ["#FF7A00", "#FF5EB3", "#6E52FF", "#9327FF", "#00BEE8", "#1FD7C1", "#FF745E", "#FC71FF", "#FFC701", "#0038FF", "#C3FF2B", "#FFE62B", "#FF4646", "#FFBB2B"];
   selectedContactId: number | null = null;
+  getChars = getChars;
+  getColor = getColor;
+
 
   /** 
    * Loads the contact list from Supabase once the component is initialized. 
@@ -77,44 +82,13 @@ export class ContactList {
     return (names[0]?.charAt(0) || '?') + (names[1]?.charAt(0) || '');
   }
 
-  /**
- * Calculates a numeric sum from the UTF-16 character codes of a name.
- *
- * Each character of the name is converted to its corresponding character
- * code using `charCodeAt()` and added to the total sum.
- *
- * @param name - The name whose character codes should be summed.
- * @returns The sum of all UTF-16 character codes of the name.
- */
-  getChars(name: string) {
-    let sum = 0;
-    for (let i = 0; i < name.length; i++) {
-      sum += name.charCodeAt(i)
-    }
-    return sum;
-  };
-
-  /**
-   * Determines a color from the available color list based on a name.
-   *
-   * The sum of the name's character codes is used with the modulo operator
-   * to calculate a valid index within the colors array.
-   *
-   * @param name - The name used to determine the color.
-   * @returns The color assigned to the given name.
-   */
-  getColor(name: string) {
-    let sum = this.getChars(name);
-    let colorIndex = sum % this.colors.length;
-    return this.colors[colorIndex];
-  };
 
   selectContact(id: number) {
     this.selectedContactId = id;
     this.router.navigate(['/contacts', id]);
   }
 
-  openAddContactDialog(){
+  openAddContactDialog() {
     const dialog = this.addContactDialog.nativeElement;
     this.successMessage = '';
     if (this.closeDialogTimer) {

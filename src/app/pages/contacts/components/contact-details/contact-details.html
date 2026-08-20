@@ -3,10 +3,9 @@
 <button class="contact-details__button">Delete</button>
 @if (contact(); as c) {
 <div [style.background-color]="getColor(c.contact_name)" class="contact-list__initials">
-    <p>{{ getInitials(c.contact_name) }}</p>
+    <p>{{getInitials(c.contact_name)}}</p>
 </div>
 <div class="contact-list__single-contact-details">
     <p class="contact-list__name">{{ c.contact_name }}</p>
     <p class="contact-list__mail">{{ c.contact_mail }}</p>
 </div>}
-<button (click)="consoleLog()">Looger</button>
