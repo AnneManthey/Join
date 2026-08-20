@@ -1,36 +1,55 @@
+@use './variables' as *;
+
 .app-layout {
-	display: flex;
-	min-height: 100vh;
+    display: flex;
+    min-height: 100vh;
 }
 
 app-navbar {
-	display: block;
-	width: 232px;
-	min-width: 232px;
-	flex-shrink: 0;
+    display: block;
+    width: 232px;
+    min-width: 232px;
+    flex-shrink: 0;
 }
 
 .page-content {
-	flex: 1;
-	min-width: 0;
-	background-color: #f6f7f8;
+    flex: 1;
+    min-width: 0;
+    background-color: #f6f7f8;
 }
 
 main {
-	display: flex;
+    display: flex;
 }
 
 @media (max-width: 768px) {
-	.app-layout {
-		flex-direction: column;
-	}
+    .app-layout {
+        flex-direction: column;
+    }
 
-	app-navbar {
-		width: auto;
-		min-width: 0;
-	}
+    app-navbar {
+        width: auto;
+        min-width: 0;
+    }
 
-	.page-content {
-		padding-bottom: 80px;
-	}
+    .page-content {
+        padding-bottom: 80px;
+    }
+}
+
+
+.heading {
+    &__line {
+        border-left: 4px solid $bright-light-blue;
+        height: 60px;
+        border-radius: 3px;
+    }
+
+    &__wrapper {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 30px;
+        padding: 120px 55px 32px;
+    }
 }
