@@ -1,4 +1,4 @@
-import { Component, ElementRef, inject, computed, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, inject, computed, ViewChild } from '@angular/core';
 import { SupabaseService } from '../../../../shared/services/supabase-service';
 import { Contact } from '../../../../shared/interfaces/contact';
 import { Router } from '@angular/router';
@@ -13,6 +13,7 @@ import { AddContactDialog } from '../add-contact-dialog/add-contact-dialog';
 
 export class ContactList {
   private router = inject(Router);
+  private readonly changeDetector = inject(ChangeDetectorRef);
   @ViewChild('addContactDialog') addContactDialog!: ElementRef<HTMLDialogElement>;
   @ViewChild(AddContactDialog) addContactComponent!: AddContactDialog;
 
@@ -152,9 +153,11 @@ export class ContactList {
 
     this.successMessageTimer = setTimeout(() => {
       this.isSuccessMessageFading = true;
+      this.changeDetector.markForCheck();
       this.successMessageFadeTimer = setTimeout(() => {
         this.isSuccessMessageVisible = false;
         this.successMessage = '';
+        this.changeDetector.markForCheck();
       }, 250);
     }, 3000);
   }
