@@ -1,17 +1,22 @@
-// @use './variables' as *;
+@use './variables' as *;
 
 // h1,
 // h2,
 // h3 {
 //     font-family: Inter;
 // }
+.main-h1,
+.main-h2 {
+    font-family: Inter;
+}
 
-// h1 {
-//     font-weight: 700;
-//     font-size: 3.8rem;
-//     color: $black;
-// }
+.main-h1 {
+    font-weight: 700;
+    font-size: 3.8rem;
+    color: $black;
+}
 
-// h2 {
-//     color: $dark-blue;
-// }
+.main-h2 {
+    color: $dark-blue;
+    font-weight: 400;
+}
