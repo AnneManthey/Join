@@ -180,3 +180,18 @@
         transform: translateX(calc(100% + 24px));
     }
 }
+
+
+@media (max-width: 900px){
+    .add-contact-dialog {
+    --dialog-animation-duration: 400ms;
+    position: fixed;
+    min-width: 900px;
+    top: 50%;
+    left: 50%;
+    margin: 0;
+    border: none;
+    border-radius: 30px;
+    transform: translate(-50%, -50%);
+    }
+}

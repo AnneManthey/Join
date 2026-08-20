@@ -7,6 +7,7 @@
 main {
   display: flex;
   align-items: center;
+  font-family: 'Inter';
 }
 
 .btn-img {
@@ -37,13 +38,14 @@ main {
     background-color: rgba(41, 171, 226, 1);
   }
   h1 {
-    font-size: 3.8rem;
+    font-size: 3rem;
     line-height: 120%;
     font-weight: bold;
     margin: 0px;
   }
   h2 {
-    font-size: 1.6rem;
+    font-size: 1.3rem;
+    font-weight: 400;
     margin: 0px;
   }
 }
@@ -75,8 +77,8 @@ main {
         border: none;
        
       img {
-        width: 32px;
-        height: 32px;
+        width: 30px;
+        height: 30px;
       }
       &:hover{
         border-radius: 50px;
@@ -102,7 +104,7 @@ main {
         border: 1px solid rgba(107, 107, 107, 0.71);
         margin: 1px;
         background-color: transparent;
-        font-size: 1.2rem;
+        font-size: 1.1rem;
         display: flex;
         align-items: center;
         gap: 10px;
@@ -129,8 +131,8 @@ main {
     }
   }
   input {
-    height: 50px;
-    width: 350px;
+    height: 40px;
+    width: 300px;
     border-radius: 10px;
     border: 1px solid rgba(107, 107, 107, 0.71);
     padding: 13px 21px;

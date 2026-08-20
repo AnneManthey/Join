@@ -7,6 +7,7 @@
 main {
   display: flex;
   align-items: center;
+  font-family: 'Inter';
 }
 
 .btn-img {
@@ -20,7 +21,7 @@ main {
 
 .info-section {
   height: 470px;
-  min-width: 35%;
+  min-width: 40%;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -37,13 +38,15 @@ main {
     background-color: rgba(41, 171, 226, 1);
   }
   h1 {
-    font-size: 3.8rem;
+    font-size: 3rem;
     line-height: 120%;
     font-weight: bold;
     margin: 0px;
+    letter-spacing: 0%;
   }
   h2 {
-    font-size: 1.6rem;
+    font-size: 1.3rem;
+    font-weight: 400;
     margin: 0px;
   }
 }
@@ -68,17 +71,17 @@ main {
     display: flex;
     flex-direction: column;
     align-items: flex-end;
-    .btn-close { 
+    .btn-close {
       position: absolute;
       top: 20px;
       right: 20px;
-        border: none;
-       
+      border: none;
+
       img {
-        width: 32px;
-        height: 32px;
+        width: 30px;
+        height: 30px;
       }
-      &:hover{
+      &:hover {
         border-radius: 50px;
         background-color: rgba(107, 107, 107, 0.2);
       }
@@ -95,42 +98,42 @@ main {
     display: flex;
     height: 100%;
     gap: 24px;
-    button{
-        cursor: pointer;
-        padding: 10px;
-        border-radius: 10px;
-        border: 1px solid rgba(107, 107, 107, 0.71);
-        margin: 1px;
-        background-color: transparent;
-        font-size: 1.2rem;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        img{
-            width: 20px;
-            height: 20px;
-        }
-        &:hover{
-          border: 2px solid rgba(18, 70, 88, 1);
-          margin: 0;
-          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-        } 
+    button {
+      cursor: pointer;
+      padding: 10px;
+      border-radius: 10px;
+      border: 1px solid rgba(107, 107, 107, 0.71);
+      margin: 1px;
+      background-color: transparent;
+      font-size: 1.1rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      img {
+        width: 20px;
+        height: 20px;
+      }
+      &:hover {
+        border: 2px solid rgba(18, 70, 88, 1);
+        margin: 0;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+      }
     }
-    .btn-submit{
-        background-color: rgba(42, 54, 71, 1);
-        color: white;
-        img{
-            width: 15px;
-            height: 11px;
-        }
-        &:hover{
-            background-color: rgba(18, 70, 88, 1);
-        } 
+    .btn-submit {
+      background-color: rgba(42, 54, 71, 1);
+      color: white;
+      img {
+        width: 15px;
+        height: 11px;
+      }
+      &:hover {
+        background-color: rgba(18, 70, 88, 1);
+      }
     }
   }
   input {
-    height: 50px;
-    width: 350px;
+    height: 40px;
+    width: 300px;
     border-radius: 10px;
     border: 1px solid rgba(107, 107, 107, 0.71);
     padding: 13px 21px;
@@ -154,4 +157,9 @@ main {
   pointer-events: none;
 }
 
-
+@media (max-width: 900px) {
+  main {
+    flex-direction: column;
+    align-items: center;
+  }
+}
