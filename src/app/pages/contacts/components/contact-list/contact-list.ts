@@ -1,12 +1,12 @@
 import { ChangeDetectorRef, Component, ElementRef, inject, computed, ViewChild } from '@angular/core';
 import { SupabaseService } from '../../../../shared/services/supabase-service';
 import { Contact } from '../../../../shared/interfaces/contact';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { AddContactDialog } from '../add-contact-dialog/add-contact-dialog';
 
 @Component({
   selector: 'app-contact-list',
-  imports: [AddContactDialog],
+  imports: [AddContactDialog, RouterLink],
   templateUrl: './contact-list.html',
   styleUrl: './contact-list.scss',
 })
@@ -111,7 +111,7 @@ export class ContactList {
 
   selectContact(id: number) {
     this.selectedContactId = id;
-    this.router.navigate(['/contactdetails', id]);
+    this.router.navigate(['/contacts', id]);
   }
 
   openAddContactDialog(){

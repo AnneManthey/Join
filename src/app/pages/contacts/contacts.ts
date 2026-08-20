@@ -1,11 +1,12 @@
 import { Component, inject } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterOutlet } from '@angular/router';
 import { AddContactDialog } from './components/add-contact-dialog/add-contact-dialog';
 import { Contact } from '../../shared/interfaces/contact';
+import { ContactDetails } from "./components/contact-details/contact-details";
 
 @Component({
   selector: 'app-contacts',
-  imports: [AddContactDialog],
+  imports: [AddContactDialog, ContactDetails, RouterOutlet],
   templateUrl: './contacts.html',
   styleUrl: './contacts.scss',
 })
