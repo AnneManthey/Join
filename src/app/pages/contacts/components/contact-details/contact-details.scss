@@ -49,14 +49,6 @@
     }
 }
 
-@media (max-width: 400px) {
-    .edit-contact-dialog {
-        width: 100%;
-        max-width: 100%;
-        height: 100dvh;
-        max-height: 100dvh;
-    }
-}
 
 .contact-details {
     display: flex;
@@ -127,4 +119,19 @@
 
 .buttonimg:hover {
     stroke-width: 10px;
+}
+
+@media (max-width: 900px){
+    .edit-contact-dialog{
+        max-width: 500px;
+    }
+}
+
+@media (max-width: 400px) {
+    .edit-contact-dialog {
+        width: 100%;
+        max-width: 100%;
+        height: 100dvh;
+        max-height: 100dvh;
+    }
 }

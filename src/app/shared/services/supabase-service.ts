@@ -123,18 +123,19 @@ export class SupabaseService {
     return { data, error };
   }
 
-  /**
-   * Updates the email address for a contact identified by its id.
-   *
-   * @param id The unique identifier of the contact.
-   * @returns A promise resolving with the updated contact data.
-   */
-  async editContact(id: number) {
+  /** Updates a contact identified by its id. */
+  async editContact(id: number, contact: Omit<Contact, 'id' | 'created_at'>) {
     const { data, error } = await this.supabase
       .from('ContactList')
-      .update({ contact_mail: 'new@email.com' })
+      .update(contact)
       .eq('id', id)
       .select();
+
+    if (!error && data?.[0]) {
+      this.contacts.update(current =>
+        current.map(existing => existing.id === id ? data[0] as Contact : existing)
+      );
+    }
 
     return { data, error };
   }
@@ -150,6 +151,10 @@ export class SupabaseService {
       .from('ContactList')
       .delete()
       .eq('id', id);
+
+    if (!error) {
+      this.contacts.update(current => current.filter(contact => contact.id !== id));
+    }
 
     return { error };
   }

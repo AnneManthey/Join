@@ -1,6 +1,5 @@
 @use '../../../../styles/variables' as *;
 
-
 *,
 *::before,
 *::after {
@@ -10,7 +9,7 @@
 main {
   display: flex;
   align-items: center;
-  font-family: 'Inter';
+  font-family: 'Inter', sans-serif;
   max-width: 100%;
   min-width: 0;
   overflow-x: hidden;
@@ -27,7 +26,7 @@ main {
 
 .info-section {
   min-height: 470px;
-  min-width: 35%;
+  min-width: 40%;
   flex: 0 1 35%;
   display: flex;
   flex-direction: column;
@@ -62,8 +61,6 @@ main {
   flex: 1 1 65%;
   display: flex;
   align-items: center;
-  border-top-right-radius: 30px;
-  border-bottom-right-radius: 30px;
   gap: 20px;
   padding: 20px 40px 20px 50px;
   > div:first-child {
@@ -79,17 +76,17 @@ main {
     display: flex;
     flex-direction: column;
     align-items: flex-end;
-    .btn-close { 
+    .btn-close {
       position: absolute;
       top: 20px;
-      right: -10px;
-        border: none;
-       
+      right: 20px;
+      border: none;
+
       img {
         width: 30px;
         height: 30px;
       }
-      &:hover{
+      &:hover {
         border-radius: 50px;
         background-color: $light-grey;
       }
@@ -97,12 +94,12 @@ main {
   }
 }
 
-.btn-close-top{
+.btn-close-top {
   position: absolute;
-      top: 20px;
-      right: 20px;
-      border: none;
-      display: none;
+  top: 20px;
+  right: 20px;
+  border: none;
+  display: none;
 }
 
 .form-fields {
@@ -115,46 +112,46 @@ main {
     flex-wrap: wrap;
     height: 100%;
     gap: 24px;
-    button{
-        cursor: pointer;
-        padding: 10px;
-        border-radius: 10px;
-        border: 1px solid $dark-blue;
-        margin: 1px;
-        background-color: transparent;
-        font-family: 'Inter';
-        color: $dark-blue;
-        font-size: 1.1rem;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        img{
-            width: 20px;
-            height: 20px;
-        }
-        &:hover{
-          border: 2px solid $blue-green;
-          margin: 0;
-          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-        } 
+    button {
+      cursor: pointer;
+      padding: 10px;
+      border-radius: 10px;
+      border: 1px solid $dark-blue;
+      margin: 1px;
+      background-color: transparent;
+      font-family: 'Inter', sans-serif;
+      color: $dark-blue;
+      font-size: 1.1rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      img {
+        width: 20px;
+        height: 20px;
+      }
+      &:hover {
+        border: 2px solid $blue-green;
+        margin: 0;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+      }
     }
-    .btn-submit{
-        background-color: $dark-blue;
-        color: $white;
-        img{
-            width: 15px;
-            height: 11px;
-        }
-        &:hover{
-            background-color: $blue-green;
-        } 
+    .btn-submit {
+      background-color: $dark-blue;
+      color: $white;
+      img {
+        width: 15px;
+        height: 11px;
+      }
+      &:hover {
+        background-color: $blue-green;
+      }
     }
   }
   input {
     height: 40px;
     width: 300px;
     border-radius: 10px;
-    border: 1px solid rgba(107, 107, 107, 0.71);
+    border: 1px solid $input-border-color;
     padding: 13px 21px;
   }
 }
@@ -169,10 +166,24 @@ main {
 
 .input-group .input-icon {
   position: absolute;
-  left: 90%;
+  right: 12px;
   top: 50%;
   transform: translateY(-50%);
   pointer-events: none;
+}
+
+.contact-list__initials {
+  width: 120px;
+  height: 120px;
+  font-size: 3rem;
+  border: 3px solid $white;
+  box-shadow: 0px 0px 4px 0px #00000066;
+  font-weight: 500;
+  border-radius: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: $white;
 }
 
 @media (max-width: 900px) {
@@ -189,7 +200,7 @@ main {
   .info-section {
     width: 100%;
     min-width: 0;
-    min-height: 220px;
+    min-height: 350px;
     flex: none;
     align-items: center;
   }
@@ -199,6 +210,7 @@ main {
     flex: none;
     flex-direction: column;
     padding-top: 100px;
+    padding-bottom: 50px;
 
     > div:first-child {
       position: absolute;
@@ -242,12 +254,8 @@ main {
       }
     }
     input {
-      height: 40px;
       width: 100%;
-      border-radius: 10px;
-      border: 1px solid rgba(107, 107, 107, 0.71);
       padding: 5px 10px;
     }
   }
 }
-
