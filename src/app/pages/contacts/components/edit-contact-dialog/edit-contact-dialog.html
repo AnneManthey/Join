@@ -1,3 +1,4 @@
+@if (contact(); as c) {
 <main (click)="$event.stopPropagation()">
     <section class="info-section">
         <button type="button" class="btn-close-top btn-img" (click)="closeDialog()"><img
@@ -7,8 +8,9 @@
         <div class="underline"></div>
     </section>
     <section class="form-section">
-        <div>
-            <img class="avatar-logo" src="/icons/add-contact-dialog/person-logo.svg" alt="Avatar Logo">
+        <div [style.background-color]="getColor(c.contact_name)"
+            class="contact-list__initials">
+            <p>{{c.contact_name | getInitials}}</p>
         </div>
         <form [formGroup]="contactForm" (ngSubmit)="onSubmit()" class="contact-form">
 
@@ -50,3 +52,4 @@
         </form>
     </section>
 </main>
+}

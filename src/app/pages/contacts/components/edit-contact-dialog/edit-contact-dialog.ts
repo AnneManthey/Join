@@ -2,10 +2,12 @@ import { Component, computed, effect, EventEmitter, inject, input, Output } from
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Contact } from '../../../../shared/interfaces/contact';
 import { SupabaseService } from '../../../../shared/services/supabase-service';
+import { getColor } from '../../../../shared/utils/contacts-helper';
+import { GetInitialsPipe } from '../../../../shared/pipes/get-initials-pipe';
 
 @Component({
   selector: 'app-edit-contact-dialog',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, GetInitialsPipe],
   templateUrl: './edit-contact-dialog.html',
   styleUrl: './edit-contact-dialog.scss',
 })
@@ -175,5 +177,7 @@ export class EditContactDialog {
     this.errorMessage = null;
     this.closeRequested.emit();
   }
+
+  getColor = getColor;
 
 }
