@@ -1,4 +1,4 @@
-import { Component, EventEmitter, inject, Output } from '@angular/core';
+import { Component, computed, effect, EventEmitter, inject, input, Output } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Contact } from '../../../../shared/interfaces/contact';
 import { SupabaseService } from '../../../../shared/services/supabase-service';
@@ -11,13 +11,33 @@ import { SupabaseService } from '../../../../shared/services/supabase-service';
 })
 export class EditContactDialog {
 
+  /** Emits when the dialog should be closed. */
   @Output() closeRequested = new EventEmitter<void>();
-  @Output() contactCreated = new EventEmitter<void>();
 
+  /** Emits after the selected contact was updated successfully. */
+  @Output() contactUpdated = new EventEmitter<void>();
+
+  /** Emits after the selected contact was deleted successfully. */
+  @Output() contactDeleted = new EventEmitter<void>();
+
+  /** Provides access to the shared contact data. */
+  contactService = inject(SupabaseService);
+
+  /** Contains the route id of the contact being edited. */
+  id = input<string>();
+
+  /** Finds the contact that belongs to the provided id. */
+  contact = computed(() => {
+    const currentId = this.id();
+    if (!currentId) return undefined;
+    return this.contactService.contacts().find(contact => contact.id === Number(currentId));
+  });
+
+  /** Creates the reactive contact form. */
   private fb = inject(FormBuilder);
   private readonly dataService = inject(SupabaseService);
 
-  /** Indicates whether a contact creation request is in progress. */
+  /** Indicates whether a save or delete request is in progress. */
   isSubmitting = false;
 
   /** Stores the latest contact creation error for display in the form. */
@@ -26,16 +46,33 @@ export class EditContactDialog {
   /** Controls whether the dialog is rendered. */
   isDialogOpen = true;
 
-  /** Holds the values and validation rules for the new contact form. */
+  /** Holds the values and validation rules for the contact form. */
   contactForm: FormGroup = this.fb.group({
     name: ['', Validators.required],
     email: ['', [Validators.required, Validators.email]],
     phone: ['']
   });
 
-  /**
-   * Normalizes and creates a contact, then navigates to its detail view.
-   */
+  /** Updates the form whenever the selected contact becomes available. */
+  constructor() {
+    effect(() => this.loadContactIntoForm());
+  }
+
+  /** Copies the selected contact into the form fields. */
+  loadContactIntoForm(): void {
+    const contact = this.contact();
+    if (!contact) {
+      return;
+    }
+
+    this.contactForm.patchValue({
+      name: contact.contact_name,
+      email: contact.contact_mail,
+      phone: contact.contact_phone ?? '',
+    });
+  }
+
+  /** Saves the changed values for the selected contact. */
   async onSubmit(): Promise<void> {
     if (this.isSubmitting) {
       return;
@@ -49,12 +86,12 @@ export class EditContactDialog {
     this.errorMessage = null;
 
     try {
-      const createdContact = await this.createContact();
-      if (!createdContact) {
+      const updated = await this.updateContact();
+      if (!updated) {
         return;
       }
 
-      this.contactCreated.emit();
+      this.contactUpdated.emit();
       this.closeDialog();
     } catch {
       this.errorMessage = 'Contact could not be saved. Please try again.';
@@ -80,10 +117,15 @@ export class EditContactDialog {
     return true;
   }
 
-  /** Creates a contact from the normalized form values. */
-  private async createContact(): Promise<Contact | undefined> {
+  /** Updates the selected contact with the normalized form values. */
+  private async updateContact(): Promise<Contact | undefined> {
+    const contact = this.contact();
+    if (!contact) {
+      return undefined;
+    }
+
     const { name, email, phone } = this.contactForm.getRawValue();
-    const { data, error } = await this.dataService.addContact({
+    const { data, error } = await this.dataService.editContact(contact.id, {
       contact_name: name,
       contact_mail: email,
       contact_phone: phone || null,
@@ -104,9 +146,35 @@ export class EditContactDialog {
     return createdContact;
   }
 
-  /** Closes the dialog and clears its form state. */
+  /** Deletes the selected contact from Supabase. */
+  async deleteContact(): Promise<void> {
+    const contact = this.contact();
+    if (!contact || this.isSubmitting) {
+      return;
+    }
+
+    this.isSubmitting = true;
+    this.errorMessage = null;
+
+    try {
+      const { error } = await this.dataService.deleteContact(contact.id);
+      if (error) {
+        this.errorMessage = 'Contact could not be deleted. Please try again.';
+        return;
+      }
+
+      this.contactDeleted.emit();
+      this.closeDialog();
+    } catch {
+      this.errorMessage = 'Contact could not be deleted. Please try again.';
+    } finally {
+      this.isSubmitting = false;
+    }
+  }
+
+  /** Closes the dialog and restores the saved contact values. */
   closeDialog(): void {
-    this.contactForm.reset();
+    this.loadContactIntoForm();
     this.errorMessage = null;
     this.closeRequested.emit();
   }

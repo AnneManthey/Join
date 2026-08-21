@@ -35,7 +35,7 @@
                         alt="Call Icon">
                 </div>
                 <div class="form-actions">
-                    <button type="button" class="btn-cancel" (click)="closeDialog()">
+                    <button type="button" class="btn-cancel" (click)="deleteContact()" [disabled]="isSubmitting">
                         Delete
                     </button>
                     <button type="submit" class="btn-submit" [disabled]="contactForm.invalid || isSubmitting">

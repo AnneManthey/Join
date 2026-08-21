@@ -2,7 +2,10 @@
 <button class="contact-details__button">Delete</button> -->
 
 <dialog class="edit-contact-dialog" #editContactDialog (click)="closeEditContactDialogOnBackdrop($event)">
-    <app-edit-contact-dialog (closeRequested)="closeEditContactDialog()"></app-edit-contact-dialog>
+    @if (contact()) {
+    <app-edit-contact-dialog [id]="id()" (closeRequested)="closeEditContactDialog()"
+        (contactDeleted)="handleContactDeleted()"></app-edit-contact-dialog>
+    }
 </dialog>
 
 <div class="contact-details">
@@ -28,7 +31,7 @@
                         </g>
                     </svg>
                     Edit</button>
-                <button class="contact-details__button">
+                <button class="contact-details__button" (click)="deleteContact()">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <mask id="mask0_71348_10269" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
                             width="24" height="24">

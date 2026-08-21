@@ -1,5 +1,5 @@
 import { Component, ElementRef, inject, ViewChild, computed, input } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Contact } from '../../../../shared/interfaces/contact';
 import { SupabaseService } from '../../../../shared/services/supabase-service';
 import { EditContactDialog } from '../edit-contact-dialog/edit-contact-dialog';
@@ -20,6 +20,7 @@ export class ContactDetails {
   private readonly dialogAnimationDuration = 400;
   private closeDialogTimer: ReturnType<typeof setTimeout> | undefined;
   private activatedRoute = inject(ActivatedRoute);
+  private router = inject(Router);
   contactService = inject(SupabaseService);
   id = input<string>();
   contact = computed(() => {
@@ -28,7 +29,7 @@ export class ContactDetails {
     return this.contactService.contacts().find(contact => contact.id === Number(currentId));
   });
 
-
+  /** Opens the edit dialog and loads the current contact into its form. */
   openEditContactDialog(): void {
     const dialog = this.editContactDialog.nativeElement;
     if (this.closeDialogTimer) {
@@ -37,6 +38,7 @@ export class ContactDetails {
     }
 
     this.editContactComponent.isDialogOpen = true;
+    this.editContactComponent.loadContactIntoForm();
     dialog.classList.remove('edit-contact-dialog--closing');
 
     if (!dialog.open) {
@@ -44,6 +46,7 @@ export class ContactDetails {
     }
   }
 
+  /** Closes the edit dialog with its closing animation. */
   closeEditContactDialog(): void {
     const dialog = this.editContactDialog.nativeElement;
     dialog.classList.add('edit-contact-dialog--closing');
@@ -55,12 +58,32 @@ export class ContactDetails {
     }, this.dialogAnimationDuration);
   }
 
+  /** Closes the dialog when the user clicks on its backdrop. */
   closeEditContactDialogOnBackdrop(event: MouseEvent): void {
     if (event.target === event.currentTarget) {
       this.closeEditContactDialog();
     }
   }
 
+  /** Navigates back to the contact list after a contact was deleted in the dialog. */
+  handleContactDeleted(): void {
+    void this.router.navigate(['/contacts']);
+  }
+
+  /** Deletes the currently displayed contact and returns to the contact list. */
+  async deleteContact(): Promise<void> {
+    const contact = this.contact();
+    if (!contact) {
+      return;
+    }
+
+    const { error } = await this.contactService.deleteContact(contact.id);
+    if (!error) {
+      await this.router.navigate(['/contacts']);
+    }
+  }
+
+  /** Clears the pending dialog close timer when the component is destroyed. */
   ngOnDestroy(): void {
     if (this.closeDialogTimer) {
       clearTimeout(this.closeDialogTimer);
