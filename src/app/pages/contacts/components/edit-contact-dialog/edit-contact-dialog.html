@@ -2,8 +2,8 @@
 <main (click)="$event.stopPropagation()">
     <section class="info-section">
         <button type="button" class="btn-close-top btn-img" (click)="closeDialog()"><img
-                        src="/icons/add-contact-dialog/close-white.png" alt="Close Icon"></button>
-        <img src="/icons/add-contact-dialog/join-logo.svg" alt="Join Logo">
+                        src="/icons/contact-dialog/close-white.png" alt="Close Icon"></button>
+        <img src="/icons/contact-dialog/join-logo.svg" alt="Join Logo">
         <h1>Edit contact</h1>
         <div class="underline"></div>
     </section>
@@ -16,23 +16,23 @@
 
             <div class="form-fields">
                 <button type="button" class="btn-close btn-img" (click)="closeDialog()"><img
-                        src="/icons/add-contact-dialog/close.png" alt="Close Icon"></button>
+                        src="/icons/contact-dialog/close.png" alt="Close Icon"></button>
 
                 <div class="input-group">
                     <input type="text" id="name" formControlName="name" placeholder="Name" />
-                    <img class="input-icon icon-user-small" src="/icons/add-contact-dialog/person-icon.png"
+                    <img class="input-icon icon-user-small" src="/icons/contact-dialog/person-icon.png"
                         alt="Person Icon">
                 </div>
 
                 <div class="input-group">
                     <input type="email" id="email" formControlName="email" placeholder="Email" />
-                    <img class="input-icon icon-user-small" src="/icons/add-contact-dialog/mail-icon.png"
+                    <img class="input-icon icon-user-small" src="/icons/contact-dialog/mail-icon.png"
                         alt="Mail Icon">
                 </div>
 
                 <div class="input-group">
                     <input type="tel" id="phone" formControlName="phone" placeholder="Phone" />
-                    <img class="input-icon icon-user-small" src="/icons/add-contact-dialog/call-icon.png"
+                    <img class="input-icon icon-user-small" src="/icons/contact-dialog/call-icon.png"
                         alt="Call Icon">
                 </div>
                 <div class="form-actions">
@@ -40,7 +40,7 @@
                         Delete
                     </button>
                     <button type="submit" class="btn-submit" [disabled]="contactForm.invalid || isSubmitting">
-                        Save <img src="/icons/add-contact-dialog/check.png" alt="Check Icon">
+                        Save <img src="/icons/contact-dialog/check.png" alt="Check Icon">
                     </button>
                 </div>
                 @if (errorMessage; as errorMessage) {
