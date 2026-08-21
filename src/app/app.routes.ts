@@ -3,6 +3,8 @@ import { ContactDetails } from './pages/contacts/components/contact-details/cont
 import { Contacts } from './pages/contacts/contacts';
 
 export const routes: Routes = [
+    // Startseite auf Contacts weitergeleitet, damit der Router nicht leer bleibt.
+    { path: '', pathMatch: 'full', redirectTo: 'contacts' },
     {
         path: 'contacts',
         component: Contacts,
