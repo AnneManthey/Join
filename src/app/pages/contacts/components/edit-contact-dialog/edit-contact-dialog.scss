@@ -9,7 +9,7 @@
 main {
   display: flex;
   align-items: center;
-  font-family: 'Inter';
+  font-family: 'Inter', sans-serif;
   max-width: 100%;
   min-width: 0;
   overflow-x: hidden;
@@ -61,8 +61,6 @@ main {
   flex: 1 1 65%;
   display: flex;
   align-items: center;
-  border-top-right-radius: 30px;
-  border-bottom-right-radius: 30px;
   gap: 20px;
   padding: 20px 40px 20px 50px;
   > div:first-child {
@@ -121,7 +119,7 @@ main {
       border: 1px solid $dark-blue;
       margin: 1px;
       background-color: transparent;
-      font-family: 'Inter';
+      font-family: 'Inter', sans-serif;
       color: $dark-blue;
       font-size: 1.1rem;
       display: flex;
@@ -153,7 +151,7 @@ main {
     height: 40px;
     width: 300px;
     border-radius: 10px;
-    border: 1px solid rgba(107, 107, 107, 0.71);
+    border: 1px solid $input-border-color;
     padding: 13px 21px;
   }
 }
@@ -168,7 +166,7 @@ main {
 
 .input-group .input-icon {
   position: absolute;
-  left: 90%;
+  right: 12px;
   top: 50%;
   transform: translateY(-50%);
   pointer-events: none;
@@ -202,7 +200,7 @@ main {
   .info-section {
     width: 100%;
     min-width: 0;
-    min-height: 220px;
+    min-height: 350px;
     flex: none;
     align-items: center;
   }
@@ -212,6 +210,7 @@ main {
     flex: none;
     flex-direction: column;
     padding-top: 100px;
+    padding-bottom: 50px;
 
     > div:first-child {
       position: absolute;
@@ -255,10 +254,7 @@ main {
       }
     }
     input {
-      height: 40px;
       width: 100%;
-      border-radius: 10px;
-      border: 1px solid rgba(107, 107, 107, 0.71);
       padding: 5px 10px;
     }
   }

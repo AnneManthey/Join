@@ -196,6 +196,12 @@
   }
 }
 
+@media (max-width: 900px) {
+  .add-contact-dialog {
+    max-width: 500px;
+  }
+}
+
 @media (max-width: 400px) {
   .add-contact-dialog {
     width: 100%;
