@@ -207,7 +207,9 @@
 @media (max-width: 400px) {
   .add-contact-dialog {
     width: 100%;
-    height: 100%;
+    max-width: 100%;
+    height: 100dvh;
+    max-height: 100dvh;
   }
 }
 

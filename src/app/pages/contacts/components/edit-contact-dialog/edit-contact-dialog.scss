@@ -219,6 +219,10 @@ main {
       transform: translateX(-50%);
     }
   }
+
+  .form-fields{
+    align-items: center;
+  }
   .btn-close-top {
     display: block;
   }
@@ -240,10 +244,14 @@ main {
     }
   }
 
+  .form-section{
+    padding: 100px 20px 50px 20px;
+  }
+
   .form-fields {
     width: 100%;
     align-items: center;
-    gap: 8px;
+    gap: 16px;
     .form-actions {
       gap: 20px;
       button {
@@ -254,7 +262,7 @@ main {
       }
     }
     input {
-      width: 100%;
+      width: 280px;
       padding: 5px 10px;
     }
   }
