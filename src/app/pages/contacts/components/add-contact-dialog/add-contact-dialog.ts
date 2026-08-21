@@ -25,11 +25,17 @@ export class AddContactDialog {
   /** Controls whether the dialog is rendered. */
   isDialogOpen = true;
 
+  /** Allows letters (incl. umlauts) and spaces only. */
+  private readonly namePattern = /^[A-Za-zÀ-ÖØ-öø-ÿ\s]+$/;
+
+  /** Allows digits with an optional leading '+' only. */
+  private readonly phonePattern = /^\+?[0-9]+$/;
+
   /** Holds the values and validation rules for the new contact form. */
   contactForm: FormGroup = this.fb.group({
-    name: ['', Validators.required],
+    name: ['', [Validators.required, Validators.pattern(this.namePattern)]],
     email: ['', [Validators.required, Validators.email]],
-    phone: ['']
+    phone: ['', Validators.pattern(this.phonePattern)]
   });
 
   /**

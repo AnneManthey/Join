@@ -45,11 +45,17 @@ export class EditContactDialog {
   /** Stores the latest contact creation error for display in the form. */
   errorMessage: string | null = null;
 
+  /** Allows letters (incl. umlauts) and spaces only. */
+  private readonly namePattern = /^[A-Za-zÀ-ÖØ-öø-ÿ\s]+$/;
+
+  /** Allows digits with an optional leading '+' only. */
+  private readonly phonePattern = /^\+?[0-9]+$/;
+
   /** Holds the values and validation rules for the contact form. */
   contactForm: FormGroup = this.fb.group({
-    name: ['', Validators.required],
+    name: ['', [Validators.required, Validators.pattern(this.namePattern)]],
     email: ['', [Validators.required, Validators.email]],
-    phone: ['']
+    phone: ['', Validators.pattern(this.phonePattern)]
   });
 
   /** Updates the form whenever the selected contact becomes available. */
