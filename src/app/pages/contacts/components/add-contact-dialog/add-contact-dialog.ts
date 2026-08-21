@@ -11,7 +11,7 @@ import { SupabaseService } from '../../../../shared/services/supabase-service';
 })
 export class AddContactDialog {
   @Output() closeRequested = new EventEmitter<void>();
-  @Output() contactCreated = new EventEmitter<void>();
+  @Output() contactCreated = new EventEmitter<Contact>();
 
   private fb = inject(FormBuilder);
   private readonly dataService = inject(SupabaseService);
@@ -25,22 +25,24 @@ export class AddContactDialog {
   /** Controls whether the dialog is rendered. */
   isDialogOpen = true;
 
+  /** Allows letters (incl. umlauts) and spaces only. */
+  private readonly namePattern = /^[A-Za-zÀ-ÖØ-öø-ÿ\s]+$/;
+
+  /** Allows digits with an optional leading '+' only. */
+  private readonly phonePattern = /^\+?[0-9]+$/;
+
   /** Holds the values and validation rules for the new contact form. */
   contactForm: FormGroup = this.fb.group({
-    name: ['', Validators.required],
+    name: ['', [Validators.required, Validators.pattern(this.namePattern)]],
     email: ['', [Validators.required, Validators.email]],
-    phone: ['']
+    phone: ['', Validators.pattern(this.phonePattern)]
   });
 
   /**
-   * Normalizes and creates a contact, then navigates to its detail view.
-   */
+ * Normalizes and creates a contact, then navigates to its detail view.
+ */
   async onSubmit(): Promise<void> {
-    if (this.isSubmitting) {
-      return;
-    }
-
-    if (!this.normalizeAndValidateForm()) {
+    if (this.isSubmitting || !this.normalizeAndValidateForm()) {
       return;
     }
 
@@ -48,18 +50,25 @@ export class AddContactDialog {
     this.errorMessage = null;
 
     try {
-      const createdContact = await this.createContact();
-      if (!createdContact) {
-        return;
-      }
-
-      this.contactCreated.emit();
-      this.closeDialog();
+      await this.createAndEmitContact();
     } catch {
       this.errorMessage = 'Contact could not be saved. Please try again.';
     } finally {
       this.isSubmitting = false;
     }
+  }
+
+  /**
+   * Creates the contact and, on success, emits the creation event and closes the dialog.
+   */
+  private async createAndEmitContact(): Promise<void> {
+    const createdContact = await this.createContact();
+    if (!createdContact) {
+      return;
+    }
+
+    this.contactCreated.emit(createdContact);
+    this.closeDialog();
   }
 
   /** Trims form values and reports whether all validation rules pass. */
@@ -81,17 +90,10 @@ export class AddContactDialog {
 
   /** Creates a contact from the normalized form values. */
   private async createContact(): Promise<Contact | undefined> {
-    const { name, email, phone } = this.contactForm.getRawValue();
-    const { data, error } = await this.dataService.addContact({
-      contact_name: name,
-      contact_mail: email,
-      contact_phone: phone || null,
-    });
+    const { data, error } = await this.submitContact();
 
     if (error) {
-      this.errorMessage = error.code === '23505'
-        ? 'A contact with this email address already exists.'
-        : 'Contact could not be saved. Please try again.';
+      this.errorMessage = this.mapContactErrorMessage(error);
       return undefined;
     }
 
@@ -101,6 +103,23 @@ export class AddContactDialog {
     }
 
     return createdContact;
+  }
+
+  /** Sends the normalized form values to the data service to create a contact. */
+  private async submitContact() {
+    const { name, email, phone } = this.contactForm.getRawValue();
+    return this.dataService.addContact({
+      contact_name: name,
+      contact_mail: email,
+      contact_phone: phone || null,
+    });
+  }
+
+  /** Maps a contact-creation error to a user-facing error message. */
+  private mapContactErrorMessage(error: { code: string }): string {
+    return error.code === '23505'
+      ? 'A contact with this email address already exists.'
+      : 'Contact could not be saved. Please try again.';
   }
 
   /** Closes the dialog and clears its form state. */

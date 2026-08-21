@@ -77,13 +77,13 @@ export class ContactList {
     this.router.navigate(['/contacts', id]);
   }
 
-  openAddContactDialog() {
+  /**
+ * Opens the add-contact dialog and resets any pending close animation state.
+ */
+  openAddContactDialog(): void {
     const dialog = this.addContactDialog.nativeElement;
     this.successMessage = '';
-    if (this.closeDialogTimer) {
-      clearTimeout(this.closeDialogTimer);
-      this.closeDialogTimer = undefined;
-    }
+    this.clearCloseDialogTimer();
     this.addContactComponent.isDialogOpen = true;
     dialog.classList.remove('add-contact-dialog--closing');
     if (!dialog.open) {
@@ -91,6 +91,9 @@ export class ContactList {
     }
   }
 
+  /**
+   * Closes the add-contact dialog after playing the closing animation.
+   */
   closeAddContactDialog(): void {
     const dialog = this.addContactDialog.nativeElement;
     dialog.classList.add('add-contact-dialog--closing');
@@ -102,41 +105,75 @@ export class ContactList {
     }, this.dialogAnimationDuration);
   }
 
+  /**
+   * Closes the add-contact dialog when the backdrop, rather than its content, was clicked.
+   */
   closeAddContactDialogOnBackdrop(event: MouseEvent): void {
     if (event.target === event.currentTarget) {
       this.closeAddContactDialog();
     }
   }
 
-  showContactCreatedMessage(): void {
+  /**
+   * Selects the newly created contact and displays a temporary success message.
+   */
+  showContactCreatedMessage(contact: Contact): void {
+    this.selectContact(contact.id);
     this.successMessage = 'Contact successfully created.';
     this.isSuccessMessageVisible = true;
     this.isSuccessMessageFading = false;
 
+    this.clearSuccessMessageTimers();
+    this.scheduleSuccessMessageFade();
+  }
+
+  /**
+   * Clears any pending timer for closing the add-contact dialog.
+   */
+  private clearCloseDialogTimer(): void {
+    if (this.closeDialogTimer) {
+      clearTimeout(this.closeDialogTimer);
+      this.closeDialogTimer = undefined;
+    }
+  }
+
+  /**
+   * Clears any pending timers related to the success message.
+   */
+  private clearSuccessMessageTimers(): void {
     if (this.successMessageTimer) {
       clearTimeout(this.successMessageTimer);
     }
     if (this.successMessageFadeTimer) {
       clearTimeout(this.successMessageFadeTimer);
     }
+  }
 
+  /**
+   * Schedules the fade-out and subsequent hiding of the success message.
+   */
+  private scheduleSuccessMessageFade(): void {
     this.successMessageTimer = setTimeout(() => {
       this.isSuccessMessageFading = true;
       this.changeDetector.markForCheck();
-      this.successMessageFadeTimer = setTimeout(() => {
-        this.isSuccessMessageVisible = false;
-        this.successMessage = '';
-        this.changeDetector.markForCheck();
-      }, 250);
+      this.successMessageFadeTimer = setTimeout(() => this.hideSuccessMessage(), 250);
     }, 3000);
   }
 
-  ngOnDestroy(): void {
-    if (this.successMessageTimer) {
-      clearTimeout(this.successMessageTimer);
-    }
-    if (this.successMessageFadeTimer) {
-      clearTimeout(this.successMessageFadeTimer);
-    }
+  /**
+   * Hides the success message once the fade-out animation has completed.
+   */
+  private hideSuccessMessage(): void {
+    this.isSuccessMessageVisible = false;
+    this.successMessage = '';
+    this.changeDetector.markForCheck();
   }
-} 
+
+  /**
+   * Clears all pending timers when the component is destroyed.
+   */
+  ngOnDestroy(): void {
+    this.clearCloseDialogTimer();
+    this.clearSuccessMessageTimers();
+  }
+}
