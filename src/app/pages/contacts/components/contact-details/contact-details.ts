@@ -37,7 +37,6 @@ export class ContactDetails {
       this.closeDialogTimer = undefined;
     }
 
-    this.editContactComponent.isDialogOpen = true;
     this.editContactComponent.loadContactIntoForm();
     dialog.classList.remove('edit-contact-dialog--closing');
 
@@ -51,7 +50,6 @@ export class ContactDetails {
     const dialog = this.editContactDialog.nativeElement;
     dialog.classList.add('edit-contact-dialog--closing');
     this.closeDialogTimer = setTimeout(() => {
-      this.editContactComponent.isDialogOpen = false;
       dialog.close();
       dialog.classList.remove('edit-contact-dialog--closing');
       this.closeDialogTimer = undefined;

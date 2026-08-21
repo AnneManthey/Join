@@ -43,9 +43,6 @@ export class EditContactDialog {
   /** Stores the latest contact creation error for display in the form. */
   errorMessage: string | null = null;
 
-  /** Controls whether the dialog is rendered. */
-  isDialogOpen = true;
-
   /** Holds the values and validation rules for the contact form. */
   contactForm: FormGroup = this.fb.group({
     name: ['', Validators.required],
