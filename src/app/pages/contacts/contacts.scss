@@ -93,3 +93,43 @@
 // 		padding-bottom: 80px;
 // 	}
 // }
+
+.contacts {
+    &__return-button {
+        border: none;
+        background-color: transparent;
+        align-self: flex-end;
+        display: none;
+    }
+}
+
+@media (max-width: 992px) {
+    main {
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+    }
+
+    app-contact-list {
+        width: 100%;
+    }
+
+    .contacts {
+        &__return-button {
+            display: block;
+        }
+    }
+
+    .hide-on-mobile {
+        display: none;
+    }
+
+    .details-wrapper {
+        display: none;
+    }
+
+    .show-on-mobile {
+        display: block;
+        width: 100%;
+    }
+}

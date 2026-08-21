@@ -1,9 +1,10 @@
-import { Component, inject } from '@angular/core';
-import { ActivatedRoute, RouterOutlet } from '@angular/router';
+import { Component, inject, computed } from '@angular/core';
+import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
 import { Contact } from '../../shared/interfaces/contact';
 import { Navbar } from '../../layout/navbar/navbar';
 import { Header } from '../../layout/header/header';
 import { ContactList } from './components/contact-list/contact-list';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-contacts',
@@ -13,6 +14,9 @@ import { ContactList } from './components/contact-list/contact-list';
 })
 export class Contacts {
   private readonly route = inject(ActivatedRoute);
+  private router = inject(Router);
+  private navigationEnd = toSignal(this.router.events, { initialValue: null });
+
   private successMessageTimer: ReturnType<typeof setTimeout> | undefined;
   private fadeOutTimer: ReturnType<typeof setTimeout> | undefined;
 
@@ -21,6 +25,11 @@ export class Contacts {
   readonly successMessage = history.state['successMessage'] as string | undefined;
   isSuccessMessageVisible = Boolean(this.successMessage);
   isSuccessMessageFading = false;
+
+  hasSelectedContact = computed(() => {
+    this.navigationEnd();
+    return !!this.route.firstChild;
+  });
 
   constructor() {
     if (this.successMessage) {
@@ -31,6 +40,10 @@ export class Contacts {
         }, 250);
       }, 3000);
     }
+  }
+
+  routeToContacts() {
+    this.router.navigate(['/contacts']);
   }
 
   ngOnDestroy(): void {
