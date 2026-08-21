@@ -125,9 +125,6 @@
     }
 }
 
-.buttonimg:hover {
-    stroke-width: 10px;
-}
 
 @media (max-width: 900px) {
     .edit-contact-dialog {
@@ -141,23 +138,23 @@
         max-width: 100%;
         height: 100dvh;
         max-height: 100dvh;
+    }
+}
 
-        @media (max-width: 1120px) {
-            .contact-details {
-                &__name {
-                    font-size: 2.2rem;
-                }
+@media (max-width: 1120px) {
+    .contact-details {
+        &__name {
+            font-size: 2.2rem;
+        }
 
-                &__initials {
-                    width: 100px;
-                    height: 100px;
-                }
+        &__initials {
+            width: 100px;
+            height: 100px;
+        }
 
-                &__name-header {
-                    gap: 24px;
-                    flex-wrap: wrap;
-                }
-            }
+        &__name-header {
+            gap: 24px;
+            flex-wrap: wrap;
         }
     }
 }
