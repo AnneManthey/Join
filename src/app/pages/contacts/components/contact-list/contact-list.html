@@ -28,6 +28,6 @@
 <dialog class="add-contact-dialog" #addContactDialog (click)="closeAddContactDialogOnBackdrop($event)">
     <app-add-contact-dialog
         (closeRequested)="closeAddContactDialog()"
-        (contactCreated)="showContactCreatedMessage()">
+        (contactCreated)="showContactCreatedMessage($event)">
     </app-add-contact-dialog>
 </dialog>

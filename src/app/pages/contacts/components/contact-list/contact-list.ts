@@ -108,7 +108,8 @@ export class ContactList {
     }
   }
 
-  showContactCreatedMessage(): void {
+  showContactCreatedMessage(contact: Contact): void {
+    this.selectContact(contact.id);
     this.successMessage = 'Contact successfully created.';
     this.isSuccessMessageVisible = true;
     this.isSuccessMessageFading = false;
