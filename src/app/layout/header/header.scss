@@ -47,6 +47,8 @@ header {
     background-color: $transparent;
     border: 2px solid $gray-medium;
     border-radius: 50%;
+    color: $gray-medium;
+    text-decoration: none;
 
     &:hover {
       transform: scale(1.15);
