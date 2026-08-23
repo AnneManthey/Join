@@ -104,15 +104,15 @@ header {
     border-radius: 20px 0 20px 20px;
     box-shadow: 0 0 4px rgba($black, 0.4);
     transform: translateX(0);
-    // 1ms = auf Desktop praktisch instant, aber (transitionend) feuert trotzdem zuverlässig
+    // 1ms = practically instant on desktop, but (transitionend) still fires reliably
     transition: transform 1ms linear;
 
-    // Startzustand beim ersten Rendern -> Übergang zu translateX(0) = Einfliegen
+    // Initial state on first render -> transition to translateX(0) = slide in
     @starting-style {
       transform: translateX(120%);
     }
 
-    // Zielzustand beim Schließen = Ausfliegen nach rechts
+    // Target state when closing = slide out to the right
     &--closing {
       transform: translateX(120%);
     }
