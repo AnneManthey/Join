@@ -55,6 +55,10 @@ header {
     }
   }
 
+  .profile-menu {
+    position: relative;
+  }
+
   .profile-button {
     width: 56px;
     height: 56px;
@@ -76,6 +80,64 @@ header {
 
   .profile-button span {
     transform: translateX(-1px);
+  }
+
+  .profile-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 9;
+    background-color: $transparent;
+    cursor: default;
+  }
+
+  .profile-dropdown {
+    position: absolute;
+    top: calc(100% + 20px);
+    right: -15px;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: fit-content;
+    padding: 10px;
+    background-color: $dark-blue;
+    border-radius: 20px 0 20px 20px;
+    box-shadow: 0 0 4px rgba($black, 0.4);
+    transform: translateX(0);
+    // 1ms = auf Desktop praktisch instant, aber (transitionend) feuert trotzdem zuverlässig
+    transition: transform 1ms linear;
+
+    // Startzustand beim ersten Rendern -> Übergang zu translateX(0) = Einfliegen
+    @starting-style {
+      transform: translateX(120%);
+    }
+
+    // Zielzustand beim Schließen = Ausfliegen nach rechts
+    &--closing {
+      transform: translateX(120%);
+    }
+
+    a,
+    button {
+      display: flex;
+      align-items: center;
+      width: 130px;
+      height: 46px;
+      padding: 8px 16px;
+      color: $off-white;
+      font-family: inherit;
+      font-size: 1rem;
+      text-decoration: none;
+      white-space: nowrap;
+      background-color: $transparent;
+      border: none;
+      cursor: pointer;
+
+      &:hover {
+        color: $white;
+        background-color: $denim-dark;
+      }
+    }
   }
 
   @media (max-width: 768px) {
@@ -102,6 +164,12 @@ header {
       height: 40px;
       font-size: 0.875rem;
       border-width: 2px;
+    }
+
+    .profile-dropdown {
+      top: calc(100% + 0px);
+      right: -20px;
+      transition: transform 200ms ease-in-out;
     }
   }
 }

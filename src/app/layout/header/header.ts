@@ -34,4 +34,32 @@ export class Header {
     }
     return '';
   });
+
+  // true = Dropdown ist eingeflogen, false = Dropdown fliegt (wieder) raus
+  isMenuOpen = signal(false);
+
+  // true = Dropdown steht noch im DOM (bleibt beim Schließen so lange true, bis die Flug-raus-Animation fertig ist)
+  isMenuVisible = signal(false);
+
+  // Wird beim Klick auf den Profil-Button aufgerufen: macht das Dropdown auf/zu
+  openOrCloseMenu(): void {
+    if (this.isMenuOpen()) {
+      this.closeMenu();
+    } else {
+      this.isMenuOpen.set(true);
+      this.isMenuVisible.set(true);
+    }
+  }
+
+  // Wird beim Klick daneben (Backdrop) oder auf "Log out" aufgerufen: startet die Flug-raus-Animation
+  closeMenu(): void {
+    this.isMenuOpen.set(false);
+  }
+
+  // Wird aufgerufen, sobald die transform-Animation im Dropdown fertig ist
+  onDropdownTransitionEnd(event: TransitionEvent): void {
+    if (event.propertyName === 'transform' && !this.isMenuOpen()) {
+      this.isMenuVisible.set(false);
+    }
+  }
 }
