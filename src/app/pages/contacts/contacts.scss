@@ -1,6 +1,16 @@
 @use '../../../styles' as *;
 
 .contacts {
+    app-contact-list {
+        display: block;
+        height: 100%;
+    }
+
+    .details-wrapper {
+        min-width: 0;
+        overflow-y: auto;
+    }
+
     &__return-button {
         border: none;
         background-color: transparent;
