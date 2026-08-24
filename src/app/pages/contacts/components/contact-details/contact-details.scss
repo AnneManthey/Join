@@ -137,7 +137,8 @@
         transition: all 255ms ease-in-out;
         cursor: pointer;
 
-        &:hover, &:active {
+        &:hover,
+        &:active {
             background-color: $blue-green;
         }
     }

@@ -16,15 +16,12 @@
         background-color: transparent;
         align-self: flex-end;
         display: none;
-        // width: 0;
-        // height: 0;
     }
 }
 
 @media (max-width: 992px) {
     main {
         justify-content: center;
-        align-items: center;
         width: 100%;
     }
 
