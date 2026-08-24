@@ -23,6 +23,8 @@ export class ContactDetails {
   private activatedRoute = inject(ActivatedRoute);
   private router = inject(Router);
   contactService = inject(SupabaseService);
+  getChars = getChars;
+  getColor = getColor;
   id = input<string>();
   contact = computed(() => {
     const currentId = this.id();
@@ -98,7 +100,15 @@ export class ContactDetails {
     }
   }
 
+  optionsOpen = false;
 
-  getChars = getChars;
-  getColor = getColor;
+  toggleOptions() {
+    this.optionsOpen = !this.optionsOpen;
+  }
+
+  closeOptions() {
+    if (this.optionsOpen) {
+      this.optionsOpen = !this.optionsOpen;
+    }
+  }
 }

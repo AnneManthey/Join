@@ -55,7 +55,8 @@
     flex-direction: column;
     gap: 20px;
     font-family: Inter;
-    padding: 0 55px 55px;
+    padding: 0 55px 12px;
+    overflow-x: hidden;
 
     &__name-header {
         display: flex;
@@ -115,6 +116,46 @@
     &__data-heading {
         font-weight: 700;
     }
+
+    &__option-button {
+        border: none;
+        border-radius: 50%;
+        background-color: $dark-blue;
+        width: 56px;
+        height: 56px;
+        align-self: flex-end;
+        display: none;
+        transition: all 255ms ease-in-out;
+
+        &:hover {
+            background-color: $blue-green;
+        }
+    }
+
+    &__options-wrapper {
+        // transition nur möglich, wenn nicht display none gesetzt ost
+        right: 100px;
+        transform: translateX(100%);
+        opacity: 0;
+        visibility: hidden;
+        transition: transform 300ms ease, opacity 300ms ease;
+        pointer-events: none;
+        overflow-x: hidden;
+
+        &.d-flex {
+            transform: translateX(0);
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+            display: flex;
+        }
+    }
+}
+
+@media (max-width: 1315px) {
+    .contact-details {
+        padding: 0 36px 12px;
+    }
 }
 
 @media (max-width: 1200px) {
@@ -132,13 +173,50 @@
         }
 
         &__initials {
-            width: 100px;
-            height: 100px;
+            width: 90px;
+            height: 90px;
+            font-size: 2.6rem;
         }
 
         &__name-header {
             gap: 24px;
             flex-wrap: wrap;
+        }
+    }
+}
+
+@media (max-width: 992px) {
+    .contact-details {
+        &__option-button {
+            display: block;
+            cursor: pointer;
+        }
+
+        &__button-wrapper {
+            display: none;
+        }
+
+        &__options-wrapper {
+            background-color: $white;
+            padding: 10px;
+            flex-direction: column;
+            gap: 16px;
+            border-radius: 20px 20px 0 20px;
+            height: fit-content;
+            width: 96px;
+            box-shadow: 0px 4px 4px 0px #00000040;
+            align-self: flex-end;
+            position: absolute;
+            bottom: 72px;
+            right: 0;
+        }
+
+        &__responsive-options {
+            position: fixed;
+            bottom: 102px;
+            display: flex;
+            flex-direction: column;
+            align-self: flex-end;
         }
     }
 }
@@ -150,6 +228,17 @@
 }
 
 @media (max-width: 992px) {
+    .contact-details {
+        &__option-button {
+            display: block;
+            cursor: pointer;
+        }
+    }
+}
+
+@media (max-width: 480px) {
+    .contact-details {
+        padding: 0 16px 12px;
     .edit-contact-dialog {
         &[open]:not(.edit-contact-dialog--closing) {
             animation: edit-contact-dialog-enter-mobile var(--dialog-animation-duration) ease-out forwards;
@@ -188,4 +277,8 @@
         height: 100dvh;
         max-height: 100dvh;
     }
+}
+
+.d-none {
+    display: none;
 }

@@ -124,6 +124,10 @@
     margin: 0;
     color: $light-blue;
   }
+
+  &__button--responsive {
+    display: none;
+  }
 }
 
 .add-contact-dialog {
@@ -230,6 +234,28 @@
   .contact-list {
     width: 100%;
     display: block;
+
+    &__button {
+      display: none;
+    }
+
+    &__button--responsive {
+      display: block;
+      border: none;
+      border-radius: 50%;
+      background-color: $dark-blue;
+      width: 56px;
+      height: 56px;
+      align-self: flex-end;
+      transition: all 255ms ease-in-out;
+      position: fixed;
+      bottom: 102px;
+      right: 36px;
+
+      &:hover {
+        background-color: $blue-green;
+      }
+    }
   }
   .add-contact-dialog {
     &[open]:not(.add-contact-dialog--closing) {
@@ -259,5 +285,13 @@
 
   to {
     transform: translateY(100%);
+  }
+}
+
+@media (max-width: 480px) {
+  .contact-list {
+    &__button--responsive {
+      right: 16px;
+    }
   }
 }
