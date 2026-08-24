@@ -135,8 +135,9 @@
         align-self: flex-end;
         display: none;
         transition: all 255ms ease-in-out;
+        cursor: pointer;
 
-        &:hover {
+        &:hover, &:active {
             background-color: $blue-green;
         }
     }
