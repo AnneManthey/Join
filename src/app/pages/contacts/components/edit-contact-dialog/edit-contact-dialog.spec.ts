@@ -19,4 +19,14 @@ describe('EditContactDialog', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('requires an email address with a top-level domain', () => {
+    const emailControl = component.contactForm.controls['email'];
+
+    emailControl.setValue('ada@example');
+    expect(emailControl.invalid).toBe(true);
+
+    emailControl.setValue('ada@example.de');
+    expect(emailControl.valid).toBe(true);
+  });
 });
