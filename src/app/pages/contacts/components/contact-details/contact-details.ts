@@ -100,15 +100,24 @@ export class ContactDetails {
     }
   }
 
+  /**
+   * Indicates whether the options panel is currently open.
+   * Defaults to `false` on initialization.
+   */
   optionsOpen = false;
 
+  /**
+   * Toggles the visibility state of the options panel.
+   *
+   * Flips the `optionsOpen` boolean value:
+   * - `true` → options panel becomes visible
+   * - `false` → options panel becomes hidden
+   *
+   * Useful for UI elements such as dropdown menus, sidebars,
+   * or settings panels.
+   */
   toggleOptions() {
     this.optionsOpen = !this.optionsOpen;
   }
 
-  closeOptions() {
-    if (this.optionsOpen) {
-      this.optionsOpen = !this.optionsOpen;
-    }
-  }
 }

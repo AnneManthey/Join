@@ -239,6 +239,8 @@
 @media (max-width: 480px) {
     .contact-details {
         padding: 0 16px 12px;
+    }
+
     .edit-contact-dialog {
         &[open]:not(.edit-contact-dialog--closing) {
             animation: edit-contact-dialog-enter-mobile var(--dialog-animation-duration) ease-out forwards;
