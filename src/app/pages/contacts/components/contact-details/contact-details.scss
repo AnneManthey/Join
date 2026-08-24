@@ -126,8 +126,6 @@
         align-self: flex-end;
         display: none;
         transition: all 255ms ease-in-out;
-        // position: fixed;
-        // bottom: 102px;
 
         &:hover {
             background-color: $blue-green;
@@ -135,18 +133,6 @@
     }
 
     &__options-wrapper {
-        // background-color: $white;
-        // padding: 10px;
-        // flex-direction: column;
-        // gap: 16px;
-        // border-radius: 20px 20px 0 20px;
-        // height: fit-content;
-        // width: 96px;
-        // box-shadow: 0px 4px 4px 0px #00000040;
-        // align-self: flex-end;
-
-
-        // display: none;
         // transition nur möglich, wenn nicht display none gesetzt ost
         right: 100px;
         transform: translateX(100%);
