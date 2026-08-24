@@ -55,7 +55,7 @@ export class EditContactDialog {
   contactForm: FormGroup = this.fb.group({
     name: ['', [Validators.required, Validators.pattern(this.namePattern)]],
     email: ['', [Validators.required, Validators.email]],
-    phone: ['', Validators.pattern(this.phonePattern)]
+    phone: ['', [Validators.required, Validators.pattern(this.phonePattern)]]
   });
 
   /** Updates the form whenever the selected contact becomes available. */
@@ -140,7 +140,7 @@ private async submitContactUpdate(contactId: number) {
   return this.dataService.editContact(contactId, {
     contact_name: name,
     contact_mail: email,
-    contact_phone: phone || null,
+    contact_phone: phone,
   });
 }
 
