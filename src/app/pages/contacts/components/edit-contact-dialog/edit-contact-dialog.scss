@@ -158,10 +158,18 @@ main {
 
 .input-group {
   position: relative;
-  img {
-    height: 24px;
-    width: 24px;
+  .input-icon {
+    height: 20px;
+    width: 20px;
   }
+}
+
+.input-group input {
+  padding-right: 40px; 
+  box-sizing: border-box;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis; 
 }
 
 .input-group .input-icon {
