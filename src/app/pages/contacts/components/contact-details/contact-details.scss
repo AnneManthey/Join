@@ -126,6 +126,8 @@
         align-self: flex-end;
         display: none;
         transition: all 255ms ease-in-out;
+        // position: fixed;
+        // bottom: 102px;
 
         &:hover {
             background-color: $blue-green;
@@ -145,6 +147,8 @@
 
 
         // display: none;
+        // transition nur möglich, wenn nicht display none gesetzt ost
+        right: 100px;
         transform: translateX(100%);
         opacity: 0;
         visibility: hidden;
@@ -216,6 +220,17 @@
             width: 96px;
             box-shadow: 0px 4px 4px 0px #00000040;
             align-self: flex-end;
+            position: absolute;
+            bottom: 72px;
+            right: 0;
+        }
+
+        &__responsive-options {
+            position: fixed;
+            bottom: 102px;
+            display: flex;
+            flex-direction: column;
+            align-self: flex-end;
         }
     }
 }
@@ -238,7 +253,3 @@
 .d-none {
     display: none;
 }
-
-// .d-flex {
-//     display: flex;
-// }

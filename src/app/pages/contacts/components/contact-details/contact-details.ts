@@ -95,4 +95,10 @@ export class ContactDetails {
   toggleOptions() {
     this.optionsOpen = !this.optionsOpen;
   }
+
+  closeOptions() {
+    if (this.optionsOpen) {
+      this.optionsOpen = !this.optionsOpen;
+    }
+  }
 }
