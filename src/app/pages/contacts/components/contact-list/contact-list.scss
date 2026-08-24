@@ -265,7 +265,7 @@
       animation: add-contact-dialog-enter-mobile var(--dialog-animation-duration) ease-out forwards;
     }
 
-    &--closing {
+    &.add-contact-dialog--closing {
       animation: add-contact-dialog-exit-mobile var(--dialog-animation-duration) ease-in forwards !important;
     }
   }
