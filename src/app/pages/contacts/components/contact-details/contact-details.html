@@ -5,7 +5,7 @@
     }
 </dialog>
 
-<div class="contact-details">
+<div class="contact-details" [class.contact-details--animate]="animate()">
     @if (contact(); as c) {
     <div class="contact-details__name-header">
         <div [style.background-color]="getColor(c.contact_name)"

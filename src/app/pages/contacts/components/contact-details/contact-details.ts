@@ -1,4 +1,4 @@
-import { Component, ElementRef, inject, ViewChild, computed, input } from '@angular/core';
+import { Component, ElementRef, inject, ViewChild, computed, input, signal, effect } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Contact } from '../../../../shared/interfaces/contact';
 import { SupabaseService } from '../../../../shared/services/supabase-service';
@@ -26,11 +26,25 @@ export class ContactDetails {
   getChars = getChars;
   getColor = getColor;
   id = input<string>();
+  protected animate = signal(true);
   contact = computed(() => {
     const currentId = this.id();
     if (!currentId) return undefined;
     return this.contactService.contacts().find(contact => contact.id === Number(currentId));
   });
+
+  /**
+ * Re-triggers the slide-in animation whenever the selected contact changes.
+ * Since the route is reused across contacts, the animation class is briefly
+ * removed and re-added to force the browser to replay it.
+ */
+  constructor() {
+    effect(() => {
+      this.id();
+      this.animate.set(false);
+      setTimeout(() => this.animate.set(true), 0);
+    });
+  }
 
   /** Opens the edit dialog and loads the current contact into its form. */
   openEditContactDialog(): void {
@@ -112,12 +126,8 @@ export class ContactDetails {
    * Flips the `optionsOpen` boolean value:
    * - `true` → options panel becomes visible
    * - `false` → options panel becomes hidden
-   *
-   * Useful for UI elements such as dropdown menus, sidebars,
-   * or settings panels.
    */
   toggleOptions() {
     this.optionsOpen = !this.optionsOpen;
   }
-
 }
