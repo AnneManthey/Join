@@ -6,6 +6,8 @@
         background-color: transparent;
         align-self: flex-end;
         display: none;
+        // width: 0;
+        // height: 0;
     }
 }
 
@@ -23,6 +25,7 @@
     .contacts {
         &__return-button {
             display: block;
+            align-self: flex-start;
             cursor: pointer;
         }
     }
