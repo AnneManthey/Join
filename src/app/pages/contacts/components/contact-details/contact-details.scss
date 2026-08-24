@@ -239,6 +239,15 @@
 @media (max-width: 480px) {
     .contact-details {
         padding: 0 16px 12px;
+
+        &__name {
+            font-weight: 700;
+        }
+
+        &__initials {
+            width: 80px;
+            height: 80px;
+        }
     }
 
     .edit-contact-dialog {
