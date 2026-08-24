@@ -5,7 +5,7 @@
     </p>
     }
     <button class="contact-list__button" (click)="openAddContactDialog()">Add new contact<img
-            src="/icons/contacts/contact_add.svg"></button>
+            src="icons/contacts/contact_add.svg"></button>
     @for (letter of firstLetter(); track letter[0]) {
     <li class="contact-list__letter-group">
         <h2 class="contact-list__letter">{{ letter[0] }}</h2>
@@ -26,7 +26,7 @@
     </li>
     }
     <button class="contact-list__button--responsive" (click)="openAddContactDialog()"><img
-            src="/icons/contacts/contact_add.svg"></button>
+            src="icons/contacts/contact_add.svg"></button>
 </ul>
 <dialog class="add-contact-dialog" #addContactDialog (click)="closeAddContactDialogOnBackdrop($event)">
     <app-add-contact-dialog (closeRequested)="closeAddContactDialog()"
