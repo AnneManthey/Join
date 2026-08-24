@@ -257,3 +257,11 @@
     }
   }
 }
+
+@media (max-width: 480px) {
+  .contact-list {
+    &__button--responsive {
+      right: 16px;
+    }
+  }
+}

@@ -227,6 +227,21 @@
     }
 }
 
+@media (max-width: 992px) {
+    .contact-details {
+        &__option-button {
+            display: block;
+            cursor: pointer;
+        }
+    }
+}
+
+@media (max-width: 480px) {
+    .contact-details {
+        padding: 0 16px 12px;
+    }
+}
+
 @media (max-width: 400px) {
     .edit-contact-dialog {
         width: 100%;
