@@ -252,20 +252,21 @@
             align-self: flex-end;
         }
     }
+
+    .edit-contact-dialog {
+        &[open]:not(.edit-contact-dialog--closing) {
+            animation: edit-contact-dialog-enter-mobile var(--dialog-animation-duration) ease-out forwards;
+        }
+
+        &.edit-contact-dialog--closing {
+            animation: edit-contact-dialog-exit-mobile var(--dialog-animation-duration) ease-in forwards !important;
+        }
+    }
 }
 
 @media (max-width: 900px) {
     .edit-contact-dialog {
         max-width: 500px;
-    }
-}
-
-@media (max-width: 992px) {
-    .contact-details {
-        &__option-button {
-            display: block;
-            cursor: pointer;
-        }
     }
 }
 
