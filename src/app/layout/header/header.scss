@@ -1,122 +1,175 @@
+@use '../../styles/variables' as *;
+
 header {
   position: relative;
   z-index: 50;
-
   display: flex;
   align-items: center;
-
   width: 100%;
   height: 96px;
   padding: 0 44px 0 96px;
-
-  font-family: Arial, Helvetica, sans-serif;
-  background-color: white;
-  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.1);
-}
-
-.header-logo {
-  display: none;
-}
-
-.header-title {
-  margin: 0;
-  color: #000000;
-  font-size: 20px;
+  font-family: 'Inter';
   font-weight: 400;
-}
-
-.header-actions {
-  display: flex;
-  align-items: center;
-  gap: 18px;
-  margin-left: auto;
-}
-
-.help-button,
-.profile-button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  padding: 0;
-  background-color: white;
-  cursor: pointer;
-}
-
-.help-button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  width: 20px;
-  height: 20px;
-  padding: 0;
-
-  background-color: transparent;
-  border: 2px solid #686868;
-  border-radius: 50%;
-  cursor: pointer;
-}
-
-.help-button {
-  font-size: 14px;
-}
-
-.help-button:hover {
-  transform: scale(1.15);
-}
-
-.profile-button {
-  width: 56px;
-  height: 56px;
-
-  color:#0c2e62;
-
-  font-size: 16px;
-  font-weight: 600;
-
-  border: 3px solid #2a3647;
-  border-radius: 50%;
-  background-color: #ffffff;
-
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-
-  cursor:pointer;
-  transition: background-color 150ms ease;
-}
-
-.profile-button:hover {
-  background-color: rgba(12, 46, 98, 0.12);
-}
-
-@media (max-width: 768px) {
-  header {
-    height: 80px;
-    padding: 0 16px;
-  }
+  background-color: $white;
+  box-shadow: 0 4px 4px $header-shadow;
 
   .header-logo {
-    display: block;
-    width: 32px;
-    height: 39px;
-  }
-
-  .header-title,
-  .help-button {
     display: none;
   }
 
+  .header-title {
+    margin: 0;
+    color: $black;
+    font-size: 1.25rem;
+  }
+
   .header-actions {
+    display: flex;
+    align-items: center;
+    gap: 18px;
     margin-left: auto;
   }
 
+  .help-button,
   .profile-button {
-    width: 40px;
-    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    background-color: $white;
+    cursor: pointer;
+  }
 
-    font-size: 14px;
-    border-width: 2px;
+  .help-button {
+    width: 20px;
+    height: 20px;
+    font-size:  0.875rem;
+    background-color: $transparent;
+    border: 2px solid $gray-medium;
+    border-radius: 50%;
+    color: $gray-medium;
+    text-decoration: none;
+
+    &:hover {
+      transform: scale(1.15);
+    }
+  }
+
+  .profile-menu {
+    position: relative;
+  }
+
+  .profile-button {
+    width: 56px;
+    height: 56px;
+    color: $midnight-blue;
+    font-size: 1rem;
+    font-weight: 600;
+    border: 3px solid $dark-blue;
+    border-radius: 50%;
+    background-color: $white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 150ms ease;
+
+    &:hover {
+      background-color: $navy-blue;
+    }
+  }
+
+  .profile-button span {
+    transform: translateX(-1px);
+  }
+
+  .profile-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 9;
+    background-color: $transparent;
+    cursor: default;
+  }
+
+  .profile-dropdown {
+    position: absolute;
+    top: calc(100% + 20px);
+    right: -15px;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: fit-content;
+    padding: 10px;
+    background-color: $dark-blue;
+    border-radius: 20px 0 20px 20px;
+    box-shadow: 0 0 4px rgba($black, 0.4);
+    transform: translateX(0);
+    // 1ms = practically instant on desktop, but (transitionend) still fires reliably
+    transition: transform 1ms linear;
+
+    // Initial state on first render -> transition to translateX(0) = slide in
+    @starting-style {
+      transform: translateX(120%);
+    }
+
+    // Target state when closing = slide out to the right
+    &--closing {
+      transform: translateX(120%);
+    }
+
+    a,
+    button {
+      display: flex;
+      align-items: center;
+      width: 130px;
+      height: 46px;
+      padding: 8px 16px;
+      color: $off-white;
+      font-family: inherit;
+      font-size: 1rem;
+      text-decoration: none;
+      white-space: nowrap;
+      background-color: $transparent;
+      border: none;
+      cursor: pointer;
+
+      &:hover {
+        color: $white;
+        background-color: $denim-dark;
+      }
+    }
+  }
+
+  @media (max-width: 768px) {
+    height: 80px;
+    padding: 0 16px;
+
+    .header-logo {
+      display: block;
+      width: 32px;
+      height: 39px;
+    }
+
+    .header-title,
+    .help-button {
+      display: none;
+    }
+
+    .header-actions {
+      margin-left: auto;
+    }
+
+    .profile-button {
+      width: 40px;
+      height: 40px;
+      font-size: 0.875rem;
+      border-width: 2px;
+    }
+
+    .profile-dropdown {
+      top: calc(100% + 0px);
+      right: -20px;
+      transition: transform 200ms ease-in-out;
+    }
   }
 }

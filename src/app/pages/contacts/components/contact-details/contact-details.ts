@@ -19,6 +19,7 @@ export class ContactDetails {
 
   private readonly dialogAnimationDuration = 400;
   private closeDialogTimer: ReturnType<typeof setTimeout> | undefined;
+  private shouldNavigateAfterDialogClose = false;
   private activatedRoute = inject(ActivatedRoute);
   private router = inject(Router);
   contactService = inject(SupabaseService);
@@ -50,10 +51,19 @@ export class ContactDetails {
   /** Closes the edit dialog with its closing animation. */
   closeEditContactDialog(): void {
     const dialog = this.editContactDialog.nativeElement;
+    if (this.closeDialogTimer) {
+      clearTimeout(this.closeDialogTimer);
+    }
     dialog.classList.add('edit-contact-dialog--closing');
     this.closeDialogTimer = setTimeout(() => {
       dialog.close();
       dialog.classList.remove('edit-contact-dialog--closing');
+
+      if (this.shouldNavigateAfterDialogClose) {
+        this.shouldNavigateAfterDialogClose = false;
+        void this.router.navigate(['/contacts']);
+      }
+
       this.closeDialogTimer = undefined;
     }, this.dialogAnimationDuration);
   }
@@ -67,7 +77,7 @@ export class ContactDetails {
 
   /** Navigates back to the contact list after a contact was deleted in the dialog. */
   handleContactDeleted(): void {
-    void this.router.navigate(['/contacts']);
+    this.shouldNavigateAfterDialogClose = true;
   }
 
   /** Deletes the currently displayed contact and returns to the contact list. */

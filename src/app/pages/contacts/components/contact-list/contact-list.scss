@@ -208,6 +208,7 @@
   }
 }
 
+
 @media (max-width: 400px) {
   .add-contact-dialog {
     width: 100%;
@@ -255,6 +256,35 @@
         background-color: $blue-green;
       }
     }
+  }
+  .add-contact-dialog {
+    &[open]:not(.add-contact-dialog--closing) {
+      animation: add-contact-dialog-enter-mobile var(--dialog-animation-duration) ease-out forwards;
+    }
+
+    &--closing {
+      animation: add-contact-dialog-exit-mobile var(--dialog-animation-duration) ease-in forwards !important;
+    }
+  }
+}
+
+@keyframes add-contact-dialog-enter-mobile {
+  from {
+    transform: translateY(100%);
+  }
+
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes add-contact-dialog-exit-mobile {
+  from {
+    transform: translateY(0);
+  }
+
+  to {
+    transform: translateY(100%);
   }
 }
 

@@ -3,6 +3,22 @@
   <p class="header-title">Kanban Project Management Tool</p>
   <div class="header-actions">
     <a class="help-button" routerLink="/help"><span>?</span></a>
-    <button class="profile-button" type="button">SM</button>
+    <div class="profile-menu">
+      <button class="profile-button" type="button" (click)="openOrCloseMenu()">
+        <span>{{ contactName() | getInitials }}</span>
+      </button>
+      @if (isMenuVisible()) {
+        <div class="profile-backdrop" (click)="closeMenu()"></div>
+        <div
+          class="profile-dropdown"
+          [class.profile-dropdown--closing]="!isMenuOpen()"
+          (transitionend)="onDropdownTransitionEnd($event)"
+        >
+          <a routerLink="/legal-notice">Legal Notice</a>
+          <a routerLink="/privacy-policy">Privacy Policy</a>
+          <a routerLink="/">Log out</a>
+        </div>
+      }
+    </div>
   </div>
 </header>
