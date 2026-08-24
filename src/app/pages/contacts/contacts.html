@@ -1,26 +1,3 @@
-<!-- @if (isSuccessMessageVisible && successMessage) {
-	<p class="success-message" [class.is-fading]="isSuccessMessageFading" role="status">
-		{{ successMessage }}
-	</p>
-}
-
-<main class="contact-detail">
-	<p class="eyebrow">Contact details</p>
-	<h1>{{ contact?.contact_name ?? 'New contact' }}</h1>
-	<p>Contact ID: {{ contactId }}</p>
-
-	@if (contact; as contact) {
-		<a [href]="'mailto:' + contact.contact_mail">{{ contact.contact_mail }}</a>
-		@if (contact.contact_phone) {
-			<a [href]="'tel:' + contact.contact_phone">{{ contact.contact_phone }}</a>
-		}
-	} @else {
-		<p>The contact details will appear here.</p>
-	}
-</main>
-
-<app-add-contact-dialog></app-add-contact-dialog> -->
-
 <div class="app-layout">
 	<app-navbar></app-navbar>
 	<div class="page-content">
@@ -29,14 +6,14 @@
 			<app-contact-list [class.hide-on-mobile]="hasSelectedContact()"></app-contact-list>
 			<div class="details-wrapper" [class.show-on-mobile]="hasSelectedContact()">
 				<div class="heading__wrapper">
-					<button (click)="routeToContacts()" class="contacts__return-button" type="button"><img src="/icons/contacts/arrow-left.svg"></button>
-					<h1 class="main-h1">Contacts</h1>
-					<div class="heading__line"></div>
-					<h2 class="main-h2">Better with a team</h2>
+					<button (click)="routeToContacts()" class="contacts__return-button" type="button"><img
+							src="/icons/contacts/arrow-left.svg"></button>
+						<h1 class="main-h1">Contacts</h1>
+						<div class="heading__line"></div>
+						<h2 class="main-h2">Better with a team</h2>
 				</div>
 				<router-outlet />
 			</div>
 		</main>
 	</div>
 </div>
-<!-- <router-outlet></router-outlet> -->
