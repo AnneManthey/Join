@@ -254,47 +254,50 @@
       right: 36px;
       cursor: pointer;
 
-      &:hover, &:active {
+      &:hover,
+      &:active {
         background-color: $blue-green;
       }
     }
   }
 
   .add-contact-dialog {
-    &[open]:not(.add-contact-dialog--closing) {
+    --dialog-animation-duration: 400ms;
+
+    &[open] {
       animation: add-contact-dialog-enter-mobile var(--dialog-animation-duration) ease-out forwards;
     }
 
-    &.add-contact-dialog--closing {
+    &--closing {
       animation: add-contact-dialog-exit-mobile var(--dialog-animation-duration) ease-in forwards !important;
     }
   }
-}
 
-@media (max-width: 480px) {
-  .contact-list {
-    &__button--responsive {
-      right: 16px;
+  @media (max-width: 480px) {
+    .contact-list {
+      &__button--responsive {
+        right: 16px;
+      }
     }
   }
-}
 
-@keyframes add-contact-dialog-enter-mobile {
-  from {
-    transform: translateY(100%);
+  @keyframes add-contact-dialog-enter-mobile {
+    from {
+      transform: translateY(100%);
+    }
+
+    to {
+      transform: translateY(0);
+    }
   }
 
-  to {
-    transform: translateY(0);
-  }
-}
+  @keyframes add-contact-dialog-exit-mobile {
+    from {
+      transform: translateY(0);
+    }
 
-@keyframes add-contact-dialog-exit-mobile {
-  from {
-    transform: translateY(0);
-  }
-
-  to {
-    transform: translateY(100%);
+    to {
+      transform: translateY(100%);
+    }
   }
 }
