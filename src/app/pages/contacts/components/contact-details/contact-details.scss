@@ -57,6 +57,7 @@
     font-family: Inter;
     padding: 0 55px 12px;
     overflow-x: hidden;
+    word-break: break-all;
 
     &__name-header {
         display: flex;
