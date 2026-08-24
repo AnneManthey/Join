@@ -151,13 +151,15 @@ main {
     height: 40px;
     width: 300px;
     border-radius: 10px;
-    border: 1px solid $input-border-color;
+    border: unset;
     padding: 13px 21px;
   }
 }
 
 .input-group {
   position: relative;
+  border: 1px solid $input-border-color;
+   border-radius: 10px;
   .input-icon {
     height: 20px;
     width: 20px;
