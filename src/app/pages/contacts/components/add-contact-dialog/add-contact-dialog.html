@@ -1,9 +1,9 @@
 @if (isDialogOpen) {
 <main (click)="$event.stopPropagation()">
-    
+
     <section class="info-section">
-         <button type="button" class="btn-close-top btn-img" (click)="closeDialog()"><img
-                        src="/icons/contact-dialog/close-white.png" alt="Close Icon"></button>
+        <button type="button" class="btn-close-top btn-img" (click)="closeDialog()"><img
+                src="/icons/contact-dialog/close-white.png" alt="Close Icon"></button>
         <img src="/icons/contact-dialog/join-logo.svg" alt="Join Logo">
         <h1>Add contact</h1>
         <h2>Tasks are better with a team!</h2>
@@ -19,23 +19,41 @@
                 <button type="button" class="btn-close btn-img" (click)="closeDialog()"><img
                         src="/icons/contact-dialog/close.png" alt="Close Icon"></button>
 
-                <div class="input-group">
-                    <input type="text" id="name" formControlName="name" placeholder="Name" />
-                    <img class="input-icon icon-user-small" src="/icons/contact-dialog/person-icon.png"
-                        alt="Person Icon">
+
+                <div class="input-container">
+                    <div class="input-group"
+                        [class.is-invalid]="contactForm.get('name')?.invalid && contactForm.get('name')?.touched">
+                        <input type="text" id="name" formControlName="name" placeholder="Name" />
+                        <img class="input-icon" src="/icons/contact-dialog/person-icon.png" alt="Person Icon">
+                    </div>
+                    @if (contactForm.get('name')?.invalid && contactForm.get('name')?.touched) {
+                    <span class="error-text">Please enter your name.</span>
+                    }
                 </div>
 
-                <div class="input-group">
-                    <input type="email" id="email" formControlName="email" placeholder="Email" />
-                    <img class="input-icon icon-user-small" src="/icons/contact-dialog/mail-icon.png"
-                        alt="Mail Icon">
+                <div class="input-container">
+                    <div class="input-group"
+                        [class.is-invalid]="contactForm.get('email')?.invalid && contactForm.get('email')?.touched">
+                        <input type="email" id="email" formControlName="email" placeholder="Email" />
+                        <img class="input-icon" src="/icons/contact-dialog/mail-icon.png" alt="Mail Icon">
+                    </div>
+                    @if (contactForm.get('email')?.invalid && contactForm.get('email')?.touched) {
+                    <span class="error-text">Please enter a valid email address.</span>
+                    }
                 </div>
 
-                <div class="input-group">
-                    <input type="tel" id="phone" formControlName="phone" placeholder="Phone" />
-                    <img class="input-icon icon-user-small" src="/icons/contact-dialog/call-icon.png"
-                        alt="Call Icon">
+                <div class="input-container">
+                    <div class="input-group"
+                        [class.is-invalid]="contactForm.get('phone')?.invalid && contactForm.get('phone')?.touched">
+                        <input type="tel" id="phone" formControlName="phone" placeholder="Phone" />
+                        <img class="input-icon" src="/icons/contact-dialog/call-icon.png" alt="Call Icon">
+                    </div>
+                    @if (contactForm.get('phone')?.invalid && contactForm.get('phone')?.touched) {
+                    <span class="error-text">Please enter a valid phone number.</span>
+                    }
                 </div>
+
+
                 <div class="form-actions">
                     <button type="button" class="btn-cancel" (click)="closeDialog()">
                         Cancel <img src="/icons/contact-dialog/close.png" alt="Close Icon">
