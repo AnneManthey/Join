@@ -141,14 +141,6 @@
         transition: transform 300ms ease, opacity 300ms ease;
         pointer-events: none;
         overflow-x: hidden;
-
-        &.d-flex {
-            transform: translateX(0);
-            opacity: 1;
-            visibility: visible;
-            pointer-events: auto;
-            display: flex;
-        }
     }
 }
 
@@ -209,6 +201,14 @@
             position: absolute;
             bottom: 72px;
             right: 0;
+
+            &.d-flex {
+                transform: translateX(0);
+                opacity: 1;
+                visibility: visible;
+                pointer-events: auto;
+                display: flex;
+            }
         }
 
         &__responsive-options {
