@@ -164,6 +164,13 @@ main {
     height: 20px;
     width: 20px;
   }
+   &:focus-within {
+    border-color: $dark-blue;
+  }
+  &.is-invalid {
+    border-color: $red;
+  }
+
 }
 
 .input-group input {
