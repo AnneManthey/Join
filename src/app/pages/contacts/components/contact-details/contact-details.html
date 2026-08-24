@@ -46,7 +46,7 @@
     </div>
     <p class="contact-details__heading">Contact Information</p>
     <p class="contact-details__data-heading">Email</p>
-    <p class="contact-list__mail">{{ c.contact_mail }}</p>
+    <a [href]="'mailto:' + c.contact_mail" class="contact-list__mail">{{ c.contact_mail }}</a>
     <p class="contact-details__data-heading">Phone</p>
     <p class="contact-details__phone">{{ c.contact_phone }}</p>
     }
