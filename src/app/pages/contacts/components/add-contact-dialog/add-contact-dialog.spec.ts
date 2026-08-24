@@ -38,6 +38,16 @@ describe('AddContactDialog', () => {
     expect(emailControl.valid).toBe(true);
   });
 
+  it('allows spaces within a phone number', () => {
+    const phoneControl = component.contactForm.controls['phone'];
+
+    phoneControl.setValue('+49 123 456');
+    expect(phoneControl.valid).toBe(true);
+
+    phoneControl.setValue('+49 123A456');
+    expect(phoneControl.invalid).toBe(true);
+  });
+
   it('creates a normalized contact and requests closing', async () => {
     addContact.mockResolvedValue({
       data: [{
