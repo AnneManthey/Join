@@ -66,9 +66,6 @@ main {
 
     &__text-wrapper {
         display: flex;
-        // justify-content: flex-start;
-        // align-items: space-between;
-        // width: 100%;
     }
 }
 
@@ -100,6 +97,14 @@ main {
         &__text-wrapper {
             width: 100%;
             justify-content: space-between;
+        }
+    }
+}
+
+@media (max-width: 480px) {
+    .heading {
+        &__wrapper {
+            padding: 48px 16px 16px;
         }
     }
 }
