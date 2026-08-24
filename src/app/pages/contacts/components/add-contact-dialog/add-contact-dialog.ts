@@ -35,7 +35,7 @@ export class AddContactDialog {
   contactForm: FormGroup = this.fb.group({
     name: ['', [Validators.required, Validators.pattern(this.namePattern)]],
     email: ['', [Validators.required, Validators.email]],
-    phone: ['', Validators.pattern(this.phonePattern)]
+    phone: ['', [Validators.required, Validators.pattern(this.phonePattern)]]
   });
 
   /**
@@ -111,7 +111,7 @@ export class AddContactDialog {
     return this.dataService.addContact({
       contact_name: name,
       contact_mail: email,
-      contact_phone: phone || null,
+      contact_phone: phone,
     });
   }
 
