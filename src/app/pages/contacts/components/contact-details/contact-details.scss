@@ -1,6 +1,11 @@
 @use '../../../../../styles' as *;
 @use '../contact-list/contact-list.scss';
 
+// :host {
+//     display: block;
+//     /* wichtig, siehe unten */
+// }
+
 .edit-contact-dialog {
     --dialog-animation-duration: 400ms;
     box-sizing: border-box;
@@ -49,6 +54,15 @@
     }
 }
 
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+    }
+
+    to {
+        transform: translateX(0);
+    }
+}
 
 .contact-details {
     display: flex;
@@ -58,6 +72,10 @@
     padding: 0 55px 12px;
     overflow-x: hidden;
     word-break: break-all;
+
+    &--animate {
+        animation: slideIn 0.3s ease-out;
+    }
 
     &__name-header {
         display: flex;
@@ -70,7 +88,6 @@
         flex-direction: column;
         gap: 10px;
     }
-
 
     &__button-wrapper {
         display: flex;
