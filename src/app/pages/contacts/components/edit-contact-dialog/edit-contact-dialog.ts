@@ -48,8 +48,8 @@ export class EditContactDialog {
   /** Allows letters (incl. umlauts) and spaces only. */
   private readonly namePattern = /^[A-Za-zÀ-ÖØ-öø-ÿ\s]+$/;
 
-  /** Allows digits with an optional leading '+' only. */
-  private readonly phonePattern = /^\+?[0-9]+$/;
+  /** Allows digits and spaces with an optional leading '+'. */
+  private readonly phonePattern = /^\+?[0-9 ]+$/;
 
   /** Requires a dotted domain with a top-level domain of at least two characters. */
   private readonly emailDomainPattern = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
