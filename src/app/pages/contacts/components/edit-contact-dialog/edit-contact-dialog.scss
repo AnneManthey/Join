@@ -81,7 +81,6 @@ main {
       top: 20px;
       right: 20px;
       border: none;
-
       img {
         width: 30px;
         height: 30px;
@@ -170,7 +169,19 @@ main {
   &.is-invalid {
     border-color: $red;
   }
+}
 
+.error-text {
+  color: $red;
+  font-size: 0.8rem;
+  margin-left: 4px;
+}
+
+.input-container {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 100%;
 }
 
 .input-group input {
@@ -236,7 +247,6 @@ main {
       transform: translateX(-50%);
     }
   }
-
   .form-fields{
     align-items: center;
   }

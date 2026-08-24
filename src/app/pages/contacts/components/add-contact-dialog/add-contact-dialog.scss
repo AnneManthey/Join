@@ -82,7 +82,6 @@ main {
       top: 20px;
       right: 20px;
       border: none;
-
       img {
         width: 30px;
         height: 30px;
@@ -154,7 +153,6 @@ main {
     border-radius: 10px;
     outline: none;
     border: unset;
-
     padding: 13px 21px;
   }
 }
@@ -169,13 +167,9 @@ main {
   }
   &:focus-within {
     border-color: $dark-blue;
-    // box-shadow: 0 0 0 2px rgba(42, 54, 71, 1);
   }
   &.is-invalid {
     border-color: $red;
-    // &:focus-within {
-    //   box-shadow: 0 0 0 2px rgba(156, 19, 19, 0.5);
-    // }
   }
 }
 
@@ -234,7 +228,6 @@ main {
     align-items: center;
     padding-top: 100px;
     padding-bottom: 50px;
-
     > div:first-child {
       position: absolute;
       top: -60px;

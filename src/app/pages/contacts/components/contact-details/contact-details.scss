@@ -149,6 +149,38 @@
     }
 }
 
+@media (max-width: 992px) {
+    .edit-contact-dialog {
+        &[open]:not(.edit-contact-dialog--closing) {
+            animation: edit-contact-dialog-enter-mobile var(--dialog-animation-duration) ease-out forwards;
+        }
+
+        &--closing {
+            animation: edit-contact-dialog-exit-mobile var(--dialog-animation-duration) ease-in forwards !important;
+        }
+    }
+}
+
+@keyframes edit-contact-dialog-enter-mobile {
+    from {
+        transform: translateY(100%);
+    }
+
+    to {
+        transform: translateY(0);
+    }
+}
+
+@keyframes edit-contact-dialog-exit-mobile {
+    from {
+        transform: translateY(0);
+    }
+
+    to {
+        transform: translateY(100%);
+    }
+}
+
 @media (max-width: 400px) {
     .edit-contact-dialog {
         width: 100%;
