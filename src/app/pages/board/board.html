@@ -1,1 +1,30 @@
-<p>board works!</p>
+<div class="app-layout">
+  <app-navbar></app-navbar>
+  <div class="page-content">
+    <app-header></app-header>
+    <main>
+      <div class="board">
+        <div class="board__header">
+          <h1>Board</h1>
+          <div class="board__actions">
+            <input
+              type="search"
+              placeholder="Find Task"
+              [(ngModel)]="searchTerm" />
+            <button (click)="openAddTask()">Add task +</button>
+          </div>
+        </div>
+
+        <div class="board__columns" cdkDropListGroup>
+          @for (column of columns(); track column.id) {
+            <app-board-column
+              [column]="column"
+              (taskDropped)="onTaskDropped($event)"
+              (addTaskClicked)="openAddTask(column.id)">
+            </app-board-column>
+          }
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
