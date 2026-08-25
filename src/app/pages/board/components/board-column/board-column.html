@@ -1,1 +1,22 @@
-<p>board-column works!</p>
+<div class="column">
+  <div class="column__header">
+    <h2>{{ column().title }}</h2>
+    <button (click)="addTaskClicked.emit()">+</button>
+  </div>
+
+  <div
+    class="column__task-list"
+    cdkDropList
+    [id]="column().id"
+    [cdkDropListData]="column().tasks"
+    (cdkDropListDropped)="drop($event)">
+
+    @if (column().tasks.length === 0) {
+      <div class="column__empty">No tasks {{ column().title }}</div>
+    }
+
+    @for (task of column().tasks; track task.id) {
+      <app-board-task-card [task]="task" cdkDrag></app-board-task-card>
+    }
+  </div>
+</div>

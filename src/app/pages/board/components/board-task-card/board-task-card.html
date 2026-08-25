@@ -1,1 +1,24 @@
-<p>board-task-card works!</p>
+<div class="task-card" (click)="onCardClick()">
+  <span class="task-card__badge" [ngClass]="task().type">
+    {{ task().type === 'user-story' ? 'User Story' : 'Technical Task' }}
+  </span>
+
+  <h3 class="task-card__title">{{ task().title }}</h3>
+  <p class="task-card__description">{{ task().description }}</p>
+
+  @if (task().subtasksTotal > 0) {
+    <div class="task-card__progress">
+      <div
+        class="task-card__progress-bar"
+        [style.width.%]="(task().subtasksDone / task().subtasksTotal) * 100">
+      </div>
+      <span>{{ task().subtasksDone }}/{{ task().subtasksTotal }} Subtasks</span>
+    </div>
+  }
+
+  <div class="task-card__avatars">
+    @for (initials of task().assignees; track initials) {
+      <span class="task-card__avatar">{{ initials }}</span>
+    }
+  </div>
+</div>
