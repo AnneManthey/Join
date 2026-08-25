@@ -1,30 +1,30 @@
 <div class="app-layout">
-  <app-navbar></app-navbar>
-  <div class="page-content">
-    <app-header></app-header>
-    <main>
-      <div class="board">
-        <div class="board__header">
-          <h1>Board</h1>
-          <div class="board__actions">
-            <input
-              type="search"
-              placeholder="Find Task"
-              [(ngModel)]="searchTerm" />
-            <button (click)="openAddTask()">Add task +</button>
-          </div>
-        </div>
+    <app-navbar></app-navbar>
+    <div class="page-content">
+        <app-header></app-header>
+        <main class="board-main">
+            <section class="board">
+                <header class="board-header">
+                    <h1>Board</h1>
+                    <div class="board-actions">
+                        <div class="input-group">
+                            <input type="search" placeholder="Find Task" [(ngModel)]="searchTerm" />
+                            <img class="input-icon" src="app-icons/board/search.svg" alt="Search Icon">
 
-        <div class="board__columns" cdkDropListGroup>
-          @for (column of columns(); track column.id) {
-            <app-board-column
-              [column]="column"
-              (taskDropped)="onTaskDropped($event)"
-              (addTaskClicked)="openAddTask(column.id)">
-            </app-board-column>
-          }
-        </div>
-      </div>
-    </main>
-  </div>
+
+                        </div>
+                        <button (click)="openAddTask()">Add task +</button>
+                    </div>
+                </header>
+
+                <section class="board-columns" cdkDropListGroup>
+                    @for (column of columns(); track column.id) {
+                    <app-board-column [column]="column" (taskDropped)="onTaskDropped($event)"
+                        (addTaskClicked)="openAddTask(column.id)">
+                    </app-board-column>
+                    }
+                </section>
+            </section>
+        </main>
+    </div>
 </div>

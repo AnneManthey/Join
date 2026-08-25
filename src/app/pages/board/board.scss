@@ -1,0 +1,56 @@
+@use '../../styles/variables' as *;
+
+.board-main {
+  width: 100%;
+  font-family: 'Inter', sans-serif;
+  padding: 70px 60px;
+}
+.board {
+  width: 100%;
+}
+
+.board-header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  h1 {
+    font-size: 3.8rem;
+  }
+  .board-actions {
+    display: flex;
+    gap: 32px;
+    input {
+      border: unset;
+      border-right: 1px solid $input-border-color;
+      outline: none;
+      padding: 8px 16px;
+      background-color: transparent;
+    }
+    .input-group {
+      display: flex;
+      align-items: center;
+      position: relative;
+      border: 1px solid $input-border-color;
+      border-radius: 10px;
+      .input-icon {
+        height: 32px;
+        width: 32px;
+      }
+      //   &:focus-within {
+      //     border-color: $dark-blue;
+      //   }
+      //   &.is-invalid {
+      //     border-color: $red;
+      //   }
+    }
+    button {
+      background-color: $dark-blue;
+      color: $white;
+      font-size: 1.3rem;
+      border: none;
+      border-radius: 10px;
+      padding: 8px 16px;
+    }
+  }
+}
