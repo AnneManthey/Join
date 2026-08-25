@@ -16,6 +16,7 @@ export class BoardColumnComponent {
 
   taskDropped = output<{ task: Task; newColumnId: string }>();
   addTaskClicked = output<void>();
+  taskClicked = output<Task>();
 
   drop(event: CdkDragDrop<Task[]>): void {
     if (event.previousContainer === event.container) {
