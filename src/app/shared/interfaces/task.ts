@@ -1,16 +1,42 @@
-export interface Task {
-  id: string;
-  title: string;
-  description: string;
-  type: 'user-story' | 'technical-task';
-  columnId: string;
-  subtasksTotal: number;
-  subtasksDone: number;
-  assignees: string[];
+// export interface Task {
+//   id: string;
+//   title: string;
+//   description: string;
+//   type: 'user-story' | 'technical-task';
+//   columnId: string;
+//   subtasksTotal: number;
+//   subtasksDone: number;
+//   assignees: string[];
+// }
+
+// export interface BoardColumn {
+//   id: string;
+//   title: string;
+//   tasks: Task[];
+// }
+
+import { Contact } from "./contact";
+
+export interface Subtask {
+    id: string;
+    task_id: string;
+    title: string;
+    done: boolean;
 }
 
-export interface BoardColumn {
-  id: string;
-  title: string;
-  tasks: Task[];
+export interface TaskContact {
+    contact_id: string;
+    contacts: Contact;
+}
+
+export interface Task {
+    id: string;
+    title: string;
+    description: string | null;
+    due_date: string;
+    priority: 'low' | 'medium' | 'urgent';
+    category: 'technical_task' | 'user_story';
+    status: 'todo' | 'in_progress' | 'await_feedback' | 'done';
+    subtasks: Subtask[];
+    task_contacts: TaskContact[];
 }

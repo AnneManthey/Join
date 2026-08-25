@@ -1,11 +1,12 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { SupabaseService } from './shared/services/supabase-service';
+import { AddTask } from "./pages/add-task/add-task";
 
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  imports: [RouterOutlet, AddTask],
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })

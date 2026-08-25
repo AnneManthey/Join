@@ -40,6 +40,10 @@ export class SupabaseService {
    */
   readonly error = signal<string | null>(null);
 
+
+  get client() {
+    return this.supabase;
+  }
   /**
    * Fetches all contacts from the ContactList table and updates the signal state.
    *
