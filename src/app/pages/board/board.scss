@@ -14,6 +14,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding-bottom: 50px;
   h1 {
     font-size: 3.8rem;
   }
@@ -37,12 +38,6 @@
         height: 32px;
         width: 32px;
       }
-      //   &:focus-within {
-      //     border-color: $dark-blue;
-      //   }
-      //   &.is-invalid {
-      //     border-color: $red;
-      //   }
     }
     button {
       background-color: $dark-blue;
@@ -53,4 +48,10 @@
       padding: 8px 16px;
     }
   }
+}
+
+.board-columns{
+    display: flex;
+    justify-content: center;
+    gap: 26px;
 }

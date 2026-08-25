@@ -16,7 +16,7 @@ import { Header } from '../../layout/header/header';
 export class Board {
   searchTerm = signal('');
 
-  // Platzhalter bis Supabase-Service steht
+  // Platzhalter bis Supabase-Service
   columns = signal<BoardColumn[]>([
     { id: 'todo', title: 'To do', tasks: [] },
     { id: 'in-progress', title: 'In progress', tasks: [] },
@@ -25,7 +25,7 @@ export class Board {
   ]);
 
   onTaskDropped(event: { task: Task; newColumnId: string }): void {
-    // später: Persistenz über Service anstoßen
+    // später: über Service anstoßen
     console.log('Task moved', event);
   }
 

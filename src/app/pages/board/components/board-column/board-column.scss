@@ -1,0 +1,38 @@
+@use '../../../../styles/variables' as *;
+
+
+.column {
+  width: 100%;
+  font-family: 'Inter', sans-serif;
+}
+
+.column-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 8px;
+  h2 {
+    color: $menu-color ;
+    font-size: 1.2rem;
+  }
+}
+
+.column-empty{
+    width: 200px;
+    background-color:$off-white;
+    color: $gray-medium;
+    outline: 1px dashed $gray-medium;
+    border-radius: 10px;
+    font-size: 1rem;
+    text-align: center;
+    padding: 8px;
+}
+
+.btn-img {
+    padding: 0;
+    border: none;
+    background: none;
+    line-height: 0;
+    cursor: pointer;
+    overflow: hidden;
+}
