@@ -1,24 +1,24 @@
 <div class="task-card" (click)="onCardClick()">
-  <span class="task-card__badge" [ngClass]="task().type">
-    {{ task().type === 'user-story' ? 'User Story' : 'Technical Task' }}
+  <span class="task-card__badge" [ngClass]="task().category">
+    {{ task().category === 'user_story' ? 'User Story' : 'Technical Task' }}
   </span>
 
   <h3 class="task-card__title">{{ task().title }}</h3>
   <p class="task-card__description">{{ task().description }}</p>
 
-  @if (task().subtasksTotal > 0) {
+  @if (task().subtasks.length > 0) {
     <div class="task-card__progress">
       <div
         class="task-card__progress-bar"
-        [style.width.%]="(task().subtasksDone / task().subtasksTotal) * 100">
+        [style.width.%]="0">
       </div>
-      <span>{{ task().subtasksDone }}/{{ task().subtasksTotal }} Subtasks</span>
+      <span>0/{{ task().subtasks.length }} Subtasks</span>
     </div>
   }
 
   <div class="task-card__avatars">
-    @for (initials of task().assignees; track initials) {
-      <span class="task-card__avatar">{{ initials }}</span>
+    @for (taskContact of task().task_contacts; track taskContact.contact_id) {
+      <span class="task-card__avatar">{{ taskContact.contacts.contact_name[0] }}</span>
     }
   </div>
 </div>
