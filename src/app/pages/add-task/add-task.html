@@ -1,0 +1,9 @@
+@for (task of taskService.tasks(); track task.id) {
+<h3>{{task.title}}</h3>
+<p><b>Description:</b> {{task.description}}</p>
+<p><b>Due Date:</b> {{task.due_date}}</p>
+<p><b>Priority:</b> {{task.priority}}</p>
+<p style="color:blue"><b>Category:</b> {{task.category}}</p>
+<p><b>Status:</b> {{task.status}}</p>
+<br>
+}
