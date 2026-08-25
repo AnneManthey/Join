@@ -6,7 +6,7 @@ import { AddTask } from "./pages/add-task/add-task";
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, AddTask],
+  imports: [RouterOutlet],
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })

@@ -16,9 +16,10 @@ export class SupabaseTaskService {
         *,
         subtasks (*),
         task_contacts (
-            ContactList (*)
+            contacts:ContactList (*)
         )
         `);
+        console.log('data:', data)
         if (error) {
             console.error(error);
             return;
