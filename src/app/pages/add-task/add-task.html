@@ -1,23 +1,30 @@
-@for (task of taskService.tasks(); track task.id) {
-<h3>{{task.title}}</h3>
-<p><b>Description:</b> {{task.description}}</p>
-<p><b>Due Date:</b> {{task.due_date}}</p>
-<p><b>Priority:</b> {{task.priority}}</p>
-<p style="color:blue"><b>Category:</b> {{task.category}}</p>
-<p><b>Status:</b> {{task.status}}</p>
-<p><b>Assigned to:</b></p>
-@for (contact of task.task_contacts; track contact.contact_id) {
-<p>{{contact.contacts.contact_name}}</p>
-}
-<p><b>Subtasks:</b></p>
-@for (subtask of task.subtasks; track subtask.id) {
-<p>{{subtask.title}}</p>
-}
-<br>
-}
+<div class="app-layout">
+    <app-navbar></app-navbar>
+    <div class="page-content">
+        <app-header></app-header>
+        <main>
+            @for (task of taskService.tasks(); track task.id) {
+            <h3>{{task.title}}</h3>
+            <p><b>Description:</b> {{task.description}}</p>
+            <p><b>Due Date:</b> {{task.due_date}}</p>
+            <p><b>Priority:</b> {{task.priority}}</p>
+            <p style="color:blue"><b>Category:</b> {{task.category}}</p>
+            <p><b>Status:</b> {{task.status}}</p>
+            <p><b>Assigned to:</b></p>
+            @for (contact of task.task_contacts; track contact.contact_id) {
+            <p>{{contact.contacts.contact_name}}</p>
+            }
+            <p><b>Subtasks:</b></p>
+            @for (subtask of task.subtasks; track subtask.id) {
+            <p>{{subtask.title}}</p>
+            }
+            <br>
+            }
+            <router-outlet />
+
 
 <form>
-<!-- [formGroup]="taskForm" (ngSubmit)="formSubmit()" -->
+    <!-- [formGroup]="taskForm" (ngSubmit)="formSubmit()" -->
 
     <label for="title">Titel</label>
     <input id="title" type="text" name="title" formControlName="title">
@@ -60,16 +67,14 @@
         <input id="subtaskInput" type="text" name="subtaskInput" placeholder="Text eingeben..."
             formControlName="subtaskInput">
 
-        <button type="button" name="cancelSubtask" 
-        /* (click)="cancelSubtask()" */
-        >✖</button>
-        <button type="button" name="confirmSubtask" 
-        /* (click)="addSubtask()" */
-        >✔</button>
+        <button type="button" name="cancelSubtask" /* (click)="cancelSubtask()" */>✖</button>
+        <button type="button" name="confirmSubtask" /* (click)="addSubtask()" */>✔</button>
     </div>
 
     <button type="submit">submit</button>
-    <button type="button" 
-    /* (click)="formReset()" */
-    >reset</button>
+    <button type="button" /* (click)="formReset()" */>reset</button>
 </form>
+
+        </main>
+    </div>
+</div>

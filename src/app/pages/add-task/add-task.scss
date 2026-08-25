@@ -105,3 +105,8 @@ form {
     gap: 20px;
     width: 350px;
 }
+
+main {
+    flex-direction: column;
+    overflow-y: scroll;
+}
