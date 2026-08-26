@@ -4,6 +4,7 @@ import { Header } from '../../layout/header/header';
 import { Navbar } from '../../layout/navbar/navbar';
 import { RouterOutlet } from '@angular/router';
 import { AbstractControl, ValidationErrors, FormControl, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { SupabaseService } from '../../shared/services/supabase-service';
 
 @Component({
   selector: 'app-add-task',
@@ -22,6 +23,9 @@ export class AddTask {
   }
 
   // TEST ENDE
+
+  private supabaseService = inject(SupabaseService);
+  private supabase = this.supabaseService.client;
 
   taskForm = new FormGroup({
     title: new FormControl('', {
@@ -45,6 +49,10 @@ export class AddTask {
     return this.taskForm.get('title');
   }
 
+  get description() {
+    return this.taskForm.get('description');
+  }
+
   get duedate() {
     return this.taskForm.get('due_date');
   }
@@ -53,14 +61,47 @@ export class AddTask {
     return this.taskForm.get('priority');
   }
 
+  get assignedTo() {
+    return this.taskForm.get('assignedTo');
+  }
+
   get category() {
     return this.taskForm.get('category');
   }
 
-  formSubmit() {
+  get subtaskInput() {
+    return this.taskForm.get('subtaskInput');
+  }
+
+  async formSubmit() {
     if (this.taskForm.valid) {
       console.log('form submitted');
-      this.taskForm.reset();
+
+
+
+      const { data, error, status, statusText } = await this.supabase
+        .from('tasks')
+        .insert([
+          {
+            title: this.title?.value,
+            description: this.description?.value ?? '',
+            due_date: this.duedate?.value,
+            priority: this.priority?.value,
+            category: this.category?.value,
+            status: 'todo'
+          },
+        ])
+        .select()
+      console.log(data);
+      console.log('status:', status, statusText);
+      console.log('data:', data);
+      console.log('error:', error);
+      if (error) {
+        console.error('Fehler beim Speichern:', error.message);
+        return;
+      }
+
+
     } else {
       console.log('form not valid');
     }
