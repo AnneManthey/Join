@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { SupabaseTaskService } from '../../shared/services/supabase-task-service';
 import { Header } from '../../layout/header/header';
 import { Navbar } from '../../layout/navbar/navbar';
@@ -26,6 +26,11 @@ export class AddTask {
 
   private supabaseService = inject(SupabaseService);
   private supabase = this.supabaseService.client;
+  contacts = this.supabaseService.contacts;
+  contactDropdownOpen = signal(false);
+  selectedContacts = signal<number[]>([]);
+
+
 
   taskForm = new FormGroup({
     title: new FormControl('', {
@@ -76,9 +81,6 @@ export class AddTask {
   async formSubmit() {
     if (this.taskForm.valid) {
       console.log('form submitted');
-
-
-
       const { data, error, status, statusText } = await this.supabase
         .from('tasks')
         .insert([
@@ -92,18 +94,24 @@ export class AddTask {
           },
         ])
         .select()
-      console.log(data);
-      console.log('status:', status, statusText);
-      console.log('data:', data);
-      console.log('error:', error);
-      if (error) {
-        console.error('Fehler beim Speichern:', error.message);
-        return;
-      }
+
 
 
     } else {
       console.log('form not valid');
+    }
+  }
+
+  toggleContactDropdown() {
+    this.contactDropdownOpen.update(open => !open);
+  }
+
+  toggleSelectedContact(contactId: number, event: Event) {
+    const checked = (event.target as HTMLInputElement).checked;
+    if (checked) {
+      this.selectedContacts.update(ids => [...ids, contactId])
+    } else {
+      this.selectedContacts.update(ids => ids.filter(contact => contact !== contactId));
     }
   }
 }

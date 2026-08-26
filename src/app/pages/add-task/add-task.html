@@ -23,55 +23,73 @@
             <router-outlet />
 
 
-<form [formGroup]="taskForm" (ngSubmit)="formSubmit()">
+            <form [formGroup]="taskForm" (ngSubmit)="formSubmit()">
 
-    <label for="title">Titel</label>
-    <input id="title" type="text" name="title" formControlName="title">
+                <label for="title">Titel</label>
+                <input id="title" type="text" name="title" formControlName="title">
 
-    <label for="description">Description</label>
-    <textarea id="description" name="description" formControlName="description"></textarea>
+                <label for="description">Description</label>
+                <textarea id="description" name="description" formControlName="description"></textarea>
 
-    <label for="dueDate">Datum</label>
-    <input id="dueDate" type="date" name="dueDate" formControlName="due_date">
+                <label for="dueDate">Datum</label>
+                <input id="dueDate" type="date" name="dueDate" formControlName="due_date">
 
-    <fieldset>
-        <legend>Priority</legend>
+                <fieldset>
+                    <legend>Priority</legend>
 
-        <input id="priorityLow" type="radio" name="priority" value="low" formControlName="priority">
-        <label for="priorityLow">Low</label>
+                    <input id="priorityLow" type="radio" name="priority" value="low" formControlName="priority">
+                    <label for="priorityLow">Low</label>
 
-        <input id="priorityMedium" type="radio" name="priority" value="medium" formControlName="priority">
-        <label for="priorityMedium">Medium</label>
+                    <input id="priorityMedium" type="radio" name="priority" value="medium" formControlName="priority">
+                    <label for="priorityMedium">Medium</label>
 
-        <input id="priorityUrgent" type="radio" name="priority" value="urgent" formControlName="priority">
-        <label for="priorityUrgent">Urgent</label>
-    </fieldset>
+                    <input id="priorityUrgent" type="radio" name="priority" value="urgent" formControlName="priority">
+                    <label for="priorityUrgent">Urgent</label>
+                </fieldset>
 
-    <label for="assignedTo">Assigned to</label>
-    <select id="assignedTo" name="assignedTo" formControlName="assignedTo">
-        <option value="">--Please choose an option--</option>
-        <option value="1">Kontakt 1</option>
-        <option value="2">Kontakt 2</option>
-    </select>
+                <!-- <label for="assignedTo">Assigned to</label>
+                <select multiple id="assignedTo" name="assignedTo" formControlName="assignedTo">
+                    <option value="">--Please choose an option--</option>
+                    @for (contact of contacts(); track contact.id) {
+                    <option [value]="contact.id">{{contact.contact_name}}</option>
+                    }
+                </select> -->
 
-    <label for="category">Category</label>
-    <select id="category" name="category" formControlName="category">
-        <option value="">--Please choose an option--</option>
-        <option value="user_story">User Story</option>
-        <option value="technical_task">Technical Task</option>
-    </select>
+                <div class="dropdown">
+                    <button type="button" (click)="toggleContactDropdown()">Assigned to</button>
+                    @if (contactDropdownOpen()) {
+                    <div class="dropdown-panel">
+                        @for (contact of contacts(); track contact.id) {
+                        <label>
+                            <input type="checkbox" [value]="contact.id" 
+                            (change)="toggleSelectedContact(contact.id, $event)"
+                            [checked]="selectedContacts().includes(contact.id)"
+                            >
+                            {{ contact.contact_name }}
+                        </label>
+                        }
+                    </div>
+                    }
+                </div>
 
-    <div>
-        <label for="subtaskInput">Subtasks</label>
-        <input id="subtaskInput" type="text" name="subtaskInput" placeholder="Text eingeben..."
-            formControlName="subtaskInput">
+                <label for="category">Category</label>
+                <select id="category" name="category" formControlName="category">
+                    <option value="">--Please choose an option--</option>
+                    <option value="user_story">User Story</option>
+                    <option value="technical_task">Technical Task</option>
+                </select>
 
-        <button type="button" name="cancelSubtask" /* (click)="cancelSubtask()" */>✖</button>
-        <button type="button" name="confirmSubtask" /* (click)="addSubtask()" */>✔</button>
-    </div>
+                <div>
+                    <label for="subtaskInput">Subtasks</label>
+                    <input id="subtaskInput" type="text" name="subtaskInput" placeholder="Text eingeben..."
+                        formControlName="subtaskInput">
 
-    <button type="submit">submit</button>
-</form>
+                    <button type="button" name="cancelSubtask" /* (click)="cancelSubtask()" */>✖</button>
+                    <button type="button" name="confirmSubtask" /* (click)="addSubtask()" */>✔</button>
+                </div>
+
+                <button type="submit">submit</button>
+            </form>
 
         </main>
     </div>
