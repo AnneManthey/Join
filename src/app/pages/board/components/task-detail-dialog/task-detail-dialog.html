@@ -13,7 +13,6 @@
         <button
           class="dialog-close"
           type="button"
-          aria-label="Dialog schließen"
           (click)="closeDialog()">
           &times;
         </button>
@@ -25,19 +24,19 @@
         {{ task().description }}
       </p>
 
-      @if (task().subtasks.length > 0) {
-        <div class="dialog-progress">
-          {{ task().subtasks.filter(subtask => subtask.done).length }}
-          /
-          {{ task().subtasks.length }}
-          Subtasks
-        </div>
-      }
+      <p class="due-date">
+        Due date: {{task().due_date}}
+      </p>
+
+      <p class="assigned-to">
+        Assigned To:
+      </p>
 
       <div class="dialog-assignees">
-        @for (taskContact of task().task_contacts; track taskContact.contact_id) {
-          <span class="dialog-avatar">
-            {{ taskContact.contacts.contact_name }}
+        @for (tc of task().task_contacts; track tc.contact_id) {
+          <span class="task-card-avatar" [style.background-color]="getColor(tc.contacts.contact_name)"
+            [title]="tc.contacts.contact_name">
+            {{ tc.contacts.contact_name | getInitials }}
           </span>
         }
       </div>
