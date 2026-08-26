@@ -10,6 +10,17 @@
   &:active {
     cursor: grabbing;
   }
+  .task-card-badge {
+    color: $white;
+    padding: 4px 16px;
+    border-radius: 8px;
+    &.user_story {
+      background-color: #0038ff;
+    }
+    &.technical_task {
+      background-color: rgba(31, 215, 193, 1);
+    }
+  }
   span {
     font-size: 1rem;
     font-weight: 400;
@@ -17,6 +28,7 @@
   h3 {
     font-size: 1rem;
     font-weight: 700;
+    padding: 16px 0px;
   }
   p {
     font-size: 1rem;
