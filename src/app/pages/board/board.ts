@@ -50,6 +50,9 @@ export class Board implements OnInit {
     // später: Persistenz über Service anstoßen
     // Lokal zum testen
     // TODO: Ersetzen, sobald updateTaskStatus() o.ä. läuft
+
+    // glaube hier könnt klappen: this.taskService.setStatus(newColumnId oder das, was den status geschreibt, also "todo" usw, siehe interface; die task-Id)
+    // oder im HTML Template aufrufen einfach, ohne "onTaskDropped"
     this.taskService.tasks.update(current =>
       current.map(task =>
         task.id === event.task.id

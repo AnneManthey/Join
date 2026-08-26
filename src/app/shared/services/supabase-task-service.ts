@@ -27,6 +27,18 @@ export class SupabaseTaskService {
         }
         this.tasks.set(data ?? []);
     }
+
+    async setStatus(status: Task['status'], taskId: number) {
+        const { data, error } = await this.supabase
+            .from('tasks')
+            .update({ status: status })
+            .eq('id', taskId)
+            .select()
+        if (error) {
+            console.error('Status konnte nicht geändert werden:', error.message);
+            return;
+        }
+    }
 }
 
 
