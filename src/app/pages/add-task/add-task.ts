@@ -24,7 +24,7 @@ export class AddTask {
   // TEST ENDE
 
   taskForm = new FormGroup({
-    title : new FormControl('', {
+    title: new FormControl('', {
       validators: [Validators.required, Validators.minLength(4)]
     }),
     description: new FormControl(''),
@@ -41,8 +41,28 @@ export class AddTask {
     subtaskInput: new FormControl('')
   })
 
-  formSubmit() {
-    console.log('form submitted');
+  get title() {
+    return this.taskForm.get('title');
   }
 
+  get duedate() {
+    return this.taskForm.get('due_date');
+  }
+
+  get priority() {
+    return this.taskForm.get('priority');
+  }
+
+  get category() {
+    return this.taskForm.get('category');
+  }
+
+  formSubmit() {
+    if (this.taskForm.valid) {
+      console.log('form submitted');
+      this.taskForm.reset();
+    } else {
+      console.log('form not valid');
+    }
+  }
 }
