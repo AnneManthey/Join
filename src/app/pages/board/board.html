@@ -20,10 +20,18 @@
             <app-board-column
               [column]="column"
               (taskDropped)="onTaskDropped($event)"
-              (addTaskClicked)="openAddTask(column.id)">
+              (addTaskClicked)="openAddTask(column.id)"
+              (taskClicked)="openTaskDetail($event)">
             </app-board-column>
           }
         </section>
+        @if (selectedTask(); as task) {
+          <app-task-detail-dialog
+            [isTaskDetailDialogOpen]="isTaskDetailDialogOpen()"
+            [task]="task"
+            (close)="closeTaskDetail()">
+          </app-task-detail-dialog>
+        }
       </section>
     </main>
   </div>

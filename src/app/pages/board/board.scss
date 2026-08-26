@@ -1,10 +1,14 @@
 @use '../../styles/variables' as *;
 
 .board-main {
+  flex: 1;
+  min-height: 0;
   width: 100%;
   font-family: 'Inter', sans-serif;
   padding: 70px 60px;
   background-color: rgba(246, 247, 248, 1);
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .board {
@@ -76,5 +80,6 @@
   display: flex;
   justify-content: center;
   gap: 26px;
+  padding-bottom: 50px;
 }
 

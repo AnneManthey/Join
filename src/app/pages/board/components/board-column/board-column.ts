@@ -22,6 +22,7 @@ export class BoardColumn {
 
   /** Emits when the add-task action is selected. */
   addTaskClicked = output<void>();
+  taskClicked = output<Task>();
 
   /** Moves a task within a column or transfers it to another column. */
   drop(event: CdkDragDrop<Task[]>): void {

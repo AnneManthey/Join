@@ -1,0 +1,27 @@
+@if (isTaskDetailDialogOpen()) {
+  <div class="dialog-overlay" (click)="closeDialog()">
+    <main class="dialog-content" (click)="$event.stopPropagation()">
+      <button class="dialog-close" (click)="closeDialog()">×</button>
+
+      <span class="dialog-badge">
+        {{ task().category === 'user_story' ? 'User Story' : 'Technical Task' }}
+      </span>
+
+      <h2>{{ task().title }}</h2>
+      <p>{{ task().description }}</p>
+
+      @if (task().subtasks.length > 0) {
+        <div class="dialog-progress">
+          {{ task().subtasks.filter(subtask => subtask.done).length }}/{{ task().subtasks.length }} Subtasks
+        </div>
+      }
+
+      <div class="dialog-assignees">
+        @for (taskContact of task().task_contacts; track taskContact.contact_id) {
+          <span class="dialog-avatar">{{ taskContact.contacts.contact_name }}</span>
+        }
+      </div>
+    </main>
+  </div>
+}
+
