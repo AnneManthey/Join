@@ -1,22 +1,25 @@
-<div class="column">
-  <div class="column__header">
-    <h2>{{ column().title }}</h2>
-    <button (click)="addTaskClicked.emit()">+</button>
-  </div>
+<article class="column">
+    <header class="column-header">
+        <h2>{{ column().title }}</h2>
+        @if (column().id !== 'done') {
+        <button class="btn-img" (click)="addTaskClicked.emit()"><img src="app-icons/board/plus-btn.svg" alt="Plus Icon"></button>
+        }
+    </header>
 
-  <div
-    class="column__task-list"
-    cdkDropList
-    [id]="column().id"
-    [cdkDropListData]="column().tasks"
-    (cdkDropListDropped)="drop($event)">
+    <section class="column-task-list" cdkDropList [id]="column().id" [cdkDropListData]="column().tasks"
+        (cdkDropListDropped)="drop($event)">
 
-    @if (column().tasks.length === 0) {
-      <div class="column__empty">No tasks {{ column().title }}</div>
-    }
+        @if (column().tasks.length === 0) {
+        <div class="column-empty">No tasks {{ column().title }}</div>
+        }
 
     @for (task of column().tasks; track task.id) {
       <app-board-task-card [task]="task" cdkDrag (clicked)="taskClicked.emit(task)"></app-board-task-card>
     }
   </div>
 </div>
+        @for (task of column().tasks; track task.id) {
+        <app-board-task-card [task]="task" cdkDrag></app-board-task-card>
+        }
+    </section>
+</article>

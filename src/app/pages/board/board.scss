@@ -1,0 +1,85 @@
+@use '../../styles/variables' as *;
+
+.board-main {
+  flex: 1;
+  min-height: 0;
+  width: 100%;
+  font-family: 'Inter', sans-serif;
+  padding: 70px 60px;
+  background-color: rgba(246, 247, 248, 1);
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.board {
+  width: 100%;
+}
+
+.board-header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 50px;
+  h1 {
+    font-size: 3.8rem;
+  }
+  .board-actions {
+    display: flex;
+    gap: 32px;
+    input {
+      border: unset;
+      border-right: 1px solid $input-border-color;
+      outline: none;
+      padding: 8px 16px;
+      background-color: transparent;
+      
+    }
+    .input-group {
+      display: flex;
+      align-items: center;
+      position: relative;
+      border: 1px solid $input-border-color;
+      border-radius: 10px;
+      transition: all 255ms ease-in-out;
+      &:hover{
+        box-shadow: 0px 4px 4px 0px #00000040;
+      }
+      .input-icon {
+        height: 32px;
+        width: 32px;
+      }
+    }
+    button {
+      width: 100%;
+      cursor: pointer;
+      background-color: $dark-blue;
+      color: $white;
+      font-size: 1.3rem;
+      border: none;
+      border-radius: 10px;
+      padding: 8px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      border: none;
+      transition: all 255ms ease-in-out;
+      &:hover {
+        background-color: $light-blue;
+        box-shadow: 0px 4px 4px 0px #00000040;
+      }
+      &:active {
+        background-color: $bright-dark-blue;
+      }
+    }
+  }
+}
+
+.board-columns {
+  display: flex;
+  justify-content: center;
+  gap: 26px;
+  padding-bottom: 50px;
+}
+
