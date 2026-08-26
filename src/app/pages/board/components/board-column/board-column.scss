@@ -47,7 +47,7 @@
     background-color 0.2s ease,
     border-color 0.2s ease;
   &.cdk-drop-list-receiving {
-    background-color: $off-white;
+    // background-color: $off-white;
     border-color: $gray-medium;
   }
   &.cdk-drop-list-receiving app-board-task-card:not(.cdk-drag-placeholder) {
@@ -58,5 +58,6 @@
 .cdk-drag-placeholder {
   opacity: 0.3;
   border: 2px dashed #cbd5e0;
+  border-radius: 10px;
   background: transparent;
 }
