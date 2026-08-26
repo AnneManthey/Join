@@ -81,7 +81,7 @@ export class AddTask {
   async formSubmit() {
     if (this.taskForm.valid) {
       console.log('form submitted');
-      const { data, error, status, statusText } = await this.supabase
+      const { data, error } = await this.supabase
         .from('tasks')
         .insert([
           {
@@ -95,6 +95,32 @@ export class AddTask {
         ])
         .select()
 
+      if (error) {
+        console.error('Keine Daten angekommen');
+        return;
+      }
+      const taskId = data?.[0]?.id;
+
+      if (!taskId) {
+        console.error('Keine Task-ID vorhanden');
+        return;
+      }
+
+      const insertRows = this.selectedContacts().map(contactId => ({
+        task_id: taskId,
+        contact_id: contactId
+      }));
+
+      const { data: contactsData, error: contactsError } = await this.supabase
+        .from('task_contacts')
+        .insert(insertRows)
+        .select();
+
+      if (contactsError) {
+        console.error('Keine contact ids angekommen');
+        return;
+      }
+      this.selectedContacts.set([])
 
 
     } else {
