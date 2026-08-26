@@ -48,3 +48,19 @@
     }
   }
 }
+
+.task-card-avatars {
+  display: flex;
+}
+
+.task-card-avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.6rem;
+  height: 2.6rem;
+  border: 2px solid $white;
+  border-radius: 50%;
+  color: $white;
+  flex-shrink: 0;
+}

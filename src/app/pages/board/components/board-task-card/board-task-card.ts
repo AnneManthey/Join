@@ -2,6 +2,7 @@ import { Component, input, output, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Task } from '../../../../shared/interfaces/task';
 import { GetInitialsPipe } from '../../../../shared/pipes/get-initials-pipe';
+import { getColor } from '../../../../shared/utils/contacts-helper';
 
 @Component({
   selector: 'app-board-task-card',
@@ -15,6 +16,9 @@ import { GetInitialsPipe } from '../../../../shared/pipes/get-initials-pipe';
 export class BoardTaskCard {
   /** Task displayed by the card. */
   task = input.required<Task>();
+
+  /** Assigns each contact the same deterministic avatar color as the contact list. */
+  getColor = getColor;
 
   /** Emits when the task card is selected. */
   clicked = output<Task>();

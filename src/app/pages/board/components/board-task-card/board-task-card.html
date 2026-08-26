@@ -20,7 +20,10 @@
 
   <div class="task-card-avatars">
     @for (tc of task().task_contacts; track tc.contact_id) {
-      <span class="task-card-avatar" [title]="tc.contacts.contact_name">
+      <span
+        class="task-card-avatar"
+        [style.background-color]="getColor(tc.contacts.contact_name)"
+        [title]="tc.contacts.contact_name">
         {{ tc.contacts.contact_name | getInitials }}
       </span>
     }
