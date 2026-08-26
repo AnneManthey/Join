@@ -27,12 +27,18 @@
 
                 <label for="title">Titel</label>
                 <input id="title" type="text" name="title" formControlName="title">
+                @if (!title?.valid && title?.touched) {
+                <p style="color:red">Please enter at least 4 characters</p>
+                }
 
                 <label for="description">Description</label>
                 <textarea id="description" name="description" formControlName="description"></textarea>
 
                 <label for="dueDate">Datum</label>
                 <input id="dueDate" type="date" name="dueDate" formControlName="due_date">
+                @if (!duedate?.valid && duedate?.touched) {
+                <p style="color:red">Please enter a due date</p>
+                }
 
                 <fieldset>
                     <legend>Priority</legend>
@@ -47,24 +53,15 @@
                     <label for="priorityUrgent">Urgent</label>
                 </fieldset>
 
-                <!-- <label for="assignedTo">Assigned to</label>
-                <select multiple id="assignedTo" name="assignedTo" formControlName="assignedTo">
-                    <option value="">--Please choose an option--</option>
-                    @for (contact of contacts(); track contact.id) {
-                    <option [value]="contact.id">{{contact.contact_name}}</option>
-                    }
-                </select> -->
-
                 <div class="dropdown">
-                    <button type="button" (click)="toggleContactDropdown()">Assigned to</button>
+                    <button type="button" (click)="toggleContactDropdown()">Assign to (klick mich)</button>
                     @if (contactDropdownOpen()) {
                     <div class="dropdown-panel">
                         @for (contact of contacts(); track contact.id) {
                         <label>
-                            <input type="checkbox" [value]="contact.id" 
-                            (change)="toggleSelectedContact(contact.id, $event)"
-                            [checked]="selectedContacts().includes(contact.id)"
-                            >
+                            <input type="checkbox" [value]="contact.id"
+                                (change)="toggleSelectedContact(contact.id, $event)"
+                                [checked]="selectedContacts().includes(contact.id)">
                             {{ contact.contact_name }}
                         </label>
                         }
@@ -78,6 +75,9 @@
                     <option value="user_story">User Story</option>
                     <option value="technical_task">Technical Task</option>
                 </select>
+                @if (!category?.valid && category?.touched) {
+                <p style="color:red">Please choose a category</p>
+                }
 
                 <div>
                     <label for="subtaskInput">Subtasks</label>
@@ -86,7 +86,7 @@
                     <button type="button" name="cancelSubtask" (click)="resetSubtask()">reset subtask✖</button>
                     <button type="button" name="confirmSubtask" (click)="addSubtask()">add subtask✔</button>
                     @for (subtask of assignedSubtasks(); track $index) {
-                        <p>{{subtask}}</p>
+                    <p>{{subtask}}</p>
                     }
                 </div>
 

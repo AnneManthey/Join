@@ -41,7 +41,7 @@ export class AddTask {
     due_date: new FormControl('', {
       validators: [Validators.required]
     }),
-    priority: new FormControl('', {
+    priority: new FormControl('medium', {
       validators: [Validators.required]
     }),
     assignedTo: new FormControl(''),
