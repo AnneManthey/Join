@@ -1,10 +1,13 @@
 @use '../../../../styles/variables' as *;
 
 .task-card{
-    cursor: pointer;
+    cursor: grab;
     background-color: $white;
     box-shadow: 0px 0px 10px 3px rgba(0, 0, 0, 0.08);
     border-radius: 10px;
     padding: 16px;
+    &:active {
+    cursor: grabbing;
+  }
 }
 
