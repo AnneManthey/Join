@@ -36,3 +36,9 @@
     cursor: pointer;
     overflow: hidden;
 }
+
+.column-task-list{
+  display: flex;
+  flex-direction: column;
+  gap:16px ;
+}
