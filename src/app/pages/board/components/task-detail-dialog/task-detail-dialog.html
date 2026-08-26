@@ -4,21 +4,21 @@
       <button class="dialog-close" (click)="closeDialog()">×</button>
 
       <span class="dialog-badge">
-        {{ task().type === 'user-story' ? 'User Story' : 'Technical Task' }}
+        {{ task().category === 'user_story' ? 'User Story' : 'Technical Task' }}
       </span>
 
       <h2>{{ task().title }}</h2>
       <p>{{ task().description }}</p>
 
-      @if (task().subtasksTotal > 0) {
+      @if (task().subtasks.length > 0) {
         <div class="dialog-progress">
-          {{ task().subtasksDone }}/{{ task().subtasksTotal }} Subtasks
+          {{ task().subtasks.filter(subtask => subtask.done).length }}/{{ task().subtasks.length }} Subtasks
         </div>
       }
 
       <div class="dialog-assignees">
-        @for (initials of task().assignees; track initials) {
-          <span class="dialog-avatar">{{ initials }}</span>
+        @for (taskContact of task().task_contacts; track taskContact.contact_id) {
+          <span class="dialog-avatar">{{ taskContact.contacts.contact_name }}</span>
         }
       </div>
     </main>

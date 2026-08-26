@@ -16,10 +16,10 @@
     @for (task of column().tasks; track task.id) {
       <app-board-task-card [task]="task" cdkDrag (clicked)="taskClicked.emit(task)"></app-board-task-card>
     }
-  </div>
-</div>
-        @for (task of column().tasks; track task.id) {
+  
+
+        <!-- @for (task of column().tasks; track task.id) {
         <app-board-task-card [task]="task" cdkDrag></app-board-task-card>
-        }
+        } -->
     </section>
 </article>

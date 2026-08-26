@@ -24,17 +24,14 @@
               (taskClicked)="openTaskDetail($event)">
             </app-board-column>
           }
-        </div>
-      </div>
-
-      @if (selectedTask(); as task) {
-        <app-task-detail-dialog
-          [isTaskDetailDialogOpen]="isTaskDetailDialogOpen()"
-          [task]="task"
-          (close)="closeTaskDetail()">
-        </app-task-detail-dialog>
-      }
         </section>
+        @if (selectedTask(); as task) {
+          <app-task-detail-dialog
+            [isTaskDetailDialogOpen]="isTaskDetailDialogOpen()"
+            [task]="task"
+            (close)="closeTaskDetail()">
+          </app-task-detail-dialog>
+        }
       </section>
     </main>
   </div>
