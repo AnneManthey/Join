@@ -1,112 +1,38 @@
-.input-group {
-    display: flex;
-    align-items: center;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    padding: 4px 8px;
-    width: 300px;
-}
-
-.input-group input {
-    flex: 1;
-    border: none;
-    outline: none;
-    padding: 6px;
-}
-
-.btn-cancel,
-.btn-confirm {
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-size: 16px;
-    padding: 4px 8px;
-    border-radius: 4px;
-}
-
-.btn-cancel {
-    color: #e53e3e;
-}
-
-/* Rot */
-.btn-cancel:hover {
-    background-color: #fff5f5;
-}
-
-.btn-confirm {
-    color: #38a169;
-}
-
-/* Grün */
-.btn-confirm:hover {
-    background-color: #f0fff4;
-}
-
-.priority-selection {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
-
-.priority-options {
-    display: flex;
-    gap: 6px;
-    background-color: #f3f4f6;
-    padding: 4px;
-    border-radius: 8px;
-}
-
-.btn-priority {
-    border: none;
-    background: transparent;
-    padding: 8px 16px;
-    border-radius: 6px;
-    cursor: pointer;
-    font-weight: 500;
-    transition: all 0.2s ease;
-}
-
-/* Aktiver Zustand (beispielhaft auf .medium gesetzt) */
-.btn-priority.low.active {
-    background-color: #def7ec;
-    color: #03543f;
-}
-
-.btn-priority.medium.active {
-    background-color: #fef3c7;
-    color: #92400e;
-}
-
-.btn-priority.urgent.active {
-    background-color: #fde8e8;
-    color: #9b1c1c;
-}
-
-.btn-cancel,
-.btn-confirm {
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-size: 18px;
-    padding: 4px 8px;
-}
-
-.btn-cancel {
-    color: #e53e3e;
-}
-
-.btn-confirm {
-    color: #38a169;
-}
-
-form {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    width: 500px;
-}
-
 main {
-    flex-direction: column;
-    overflow-y: scroll;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: Inter;
+}
+
+.task-form {
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+    max-width: 100%;
+    padding: 0 96px;
+    flex-shrink: 1;
+
+    &__half-wrapper {
+        display: flex;
+        flex-direction: column;
+        gap: 32px;
+        // width: calc(50% - 32px);
+        width: 440px;
+    }
+
+    &__label {
+        display: block;
+    }
+
+    &__input,
+    &__select {
+        width: 440px;
+        height: 48px;
+        padding: 12px 21px;
+    }
+
+    &__line {
+        border-left: 2px solid red;
+    }
 }
