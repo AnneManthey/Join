@@ -3,7 +3,7 @@
     <div class="page-content">
         <app-header></app-header>
         <main>
-            @for (task of taskService.tasks(); track task.id) {
+            <!-- @for (task of taskService.tasks(); track task.id) {
             <h3>{{task.title}}</h3>
             <p><b>Description:</b> {{task.description}}</p>
             <p><b>Due Date:</b> {{task.due_date}}</p>
@@ -19,7 +19,7 @@
             <p>{{subtask.title}}</p>
             }
             <br>
-            }
+            } -->
             <router-outlet />
 
 
