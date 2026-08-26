@@ -29,6 +29,7 @@ export class AddTask {
   contacts = this.supabaseService.contacts;
   contactDropdownOpen = signal(false);
   selectedContacts = signal<number[]>([]);
+  assignedSubtasks = signal<string[]>([]);
 
 
 
@@ -47,7 +48,9 @@ export class AddTask {
     category: new FormControl('', {
       validators: [Validators.required]
     }),
-    subtaskInput: new FormControl('')
+    subtaskInput: new FormControl('', {
+      validators: [Validators.minLength(4)]
+    })
   })
 
   get title() {
@@ -106,22 +109,38 @@ export class AddTask {
         return;
       }
 
-      const insertRows = this.selectedContacts().map(contactId => ({
+      const insertContacts = this.selectedContacts().map(contactId => ({
         task_id: taskId,
         contact_id: contactId
       }));
 
       const { data: contactsData, error: contactsError } = await this.supabase
         .from('task_contacts')
-        .insert(insertRows)
+        .insert(insertContacts)
         .select();
 
       if (contactsError) {
         console.error('Keine contact ids angekommen');
         return;
       }
-      this.selectedContacts.set([])
+      this.selectedContacts.set([]);
 
+      const insertSubtasks = this.assignedSubtasks().map(subtask => ({
+        task_id: taskId,
+        title: subtask,
+        // done: false
+      }));
+
+      const { data: subtaskData, error: subtaskError } = await this.supabase
+        .from('subtasks')
+        .insert(insertSubtasks)
+        .select();
+
+      if (subtaskError) {
+        console.error('Keine subtasks angekommen');
+        return;
+      }
+      this.assignedSubtasks.set([]);
 
     } else {
       console.log('form not valid');
@@ -139,5 +158,19 @@ export class AddTask {
     } else {
       this.selectedContacts.update(ids => ids.filter(contact => contact !== contactId));
     }
+  }
+
+  addSubtask() {
+    const newTask = (this.subtaskInput?.value ?? '').trim();
+    if (!newTask) return;
+    if (this.assignedSubtasks().includes(newTask)) {
+      return;
+    }
+    this.assignedSubtasks.update(subtasks => [...subtasks, newTask]);
+    this.resetSubtask();
+  }
+
+  resetSubtask() {
+    this.subtaskInput?.reset();
   }
 }
