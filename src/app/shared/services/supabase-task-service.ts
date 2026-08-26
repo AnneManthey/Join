@@ -16,10 +16,11 @@ export class SupabaseTaskService {
         *,
         subtasks (*),
         task_contacts (
-            contact_id,                 
-            contacts:ContactList (*)  
+            contact_id,
+            contacts:ContactList (*)
         )
         `);
+        console.log('data:', data)
         if (error) {
             console.error(error);
             return;
@@ -38,6 +39,6 @@ export class SupabaseTaskService {
 
 //neu:
 // task_contacts (
-//             contact_id,                 
-//             contacts:ContactList (*)  
+//             contact_id,
+//             contacts:ContactList (*)
 //         )
