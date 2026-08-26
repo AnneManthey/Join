@@ -1,5 +1,5 @@
 
-export interface BoardColumn {
+export interface Column {
   id: string;
   title: string;
   tasks: Task[];

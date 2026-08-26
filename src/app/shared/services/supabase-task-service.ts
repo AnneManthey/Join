@@ -16,6 +16,7 @@ export class SupabaseTaskService {
         *,
         subtasks (*),
         task_contacts (
+            contact_id,
             contacts:ContactList (*)
         )
         `);
@@ -24,6 +25,20 @@ export class SupabaseTaskService {
             console.error(error);
             return;
         }
-        this.tasks.set(data);
+        this.tasks.set(data ?? []);
     }
 }
+
+
+// Musste ich anpassen, damit alle columns gerendered werden:
+
+//alt:
+// task_contacts (
+//             ContactList (*)
+//         )
+
+//neu:
+// task_contacts (
+//             contact_id,
+//             contacts:ContactList (*)
+//         )
