@@ -23,8 +23,7 @@
             <router-outlet />
 
 
-<form>
-    <!-- [formGroup]="taskForm" (ngSubmit)="formSubmit()" -->
+<form [formGroup]="taskForm" (ngSubmit)="formSubmit()">
 
     <label for="title">Titel</label>
     <input id="title" type="text" name="title" formControlName="title">
