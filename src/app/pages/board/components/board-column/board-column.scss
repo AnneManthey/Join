@@ -1,7 +1,7 @@
 @use '../../../../styles/variables' as *;
 
 .column {
-  width: 100%;
+  max-width: 300px;
   font-family: 'Inter', sans-serif;
 }
 

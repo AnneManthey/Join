@@ -7,22 +7,27 @@
   <p class="task-card-description">{{ task().description }}</p>
 
   @if (subtasksTotal() > 0) {
-    <div class="task-card-progress">
-      <div class="task-card-progress-track">
-        <div
-          class="task-card-progress-bar"
-          [style.width.%]="(subtasksDone() / subtasksTotal()) * 100">
-        </div>
+  <div class="task-card-progress">
+    <div class="task-card-progress-track">
+      <div class="task-card-progress-bar" [style.width.%]="(subtasksDone() / subtasksTotal()) * 100">
       </div>
-      <span>{{ subtasksDone() }}/{{ subtasksTotal() }} Subtasks</span>
     </div>
+    <span>{{ subtasksDone() }}/{{ subtasksTotal() }} Subtasks</span>
+  </div>
   }
-
-  <div class="task-card-avatars">
-    @for (tc of task().task_contacts; track tc.contact_id) {
-      <span class="task-card-avatar" [title]="tc.contacts.contact_name">
+  <footer class="task-footer">
+    <div class="task-card-avatars">
+      @for (tc of task().task_contacts; track tc.contact_id) {
+      <span class="task-card-avatar" [style.background-color]="getColor(tc.contacts.contact_name)"
+        [title]="tc.contacts.contact_name">
         {{ tc.contacts.contact_name | getInitials }}
       </span>
-    }
-  </div>
+      }
+    </div>
+    <img
+      class="priority-icon"
+      [src]="priorityIcon()"
+      [alt]="'Priority ' + task().priority">
+  </footer>
+
 </article>
