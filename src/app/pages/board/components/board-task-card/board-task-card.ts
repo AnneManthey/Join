@@ -29,6 +29,9 @@ export class BoardTaskCard {
   /** Total number of subtasks. */
   subtasksTotal = computed(() => this.task().subtasks.length);
 
+  /** Path to the icon matching the task priority. */
+  priorityIcon = computed(() => `app-icons/board/prio-${this.task().priority}.svg`);
+
   /** Emits the current task when the card is clicked. */
   onCardClick(): void {
     this.clicked.emit(this.task());

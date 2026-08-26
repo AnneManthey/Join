@@ -28,7 +28,8 @@
   display: flex;
   align-items: center;
   gap: 12px;
-  margin-block: 16px;
+  padding-block: 16px;
+
   span {
     font-size: 14px;
     color: $black;
@@ -53,14 +54,27 @@
   display: flex;
 }
 
-.task-card-avatar {
+.task-footer {
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  justify-content: center;
-  width: 2.6rem;
-  height: 2.6rem;
-  border: 2px solid $white;
-  border-radius: 50%;
-  color: $white;
-  flex-shrink: 0;
+  .priority-icon {
+    width: 20px;
+    height: 20px;
+  }
+  .task-card-avatar {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.6rem;
+    height: 2.6rem;
+    border: 2px solid $white;
+    border-radius: 50%;
+    color: $white;
+    flex-shrink: 0;
+    &:not(:first-child) {
+      margin-left: -0.5rem;
+    }
+  }
 }
