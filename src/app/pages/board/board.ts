@@ -44,15 +44,24 @@ export class Board implements OnInit {
   );
 
   /** Handles a task moved to another column. */
-  onTaskDropped(event: { task: Task; newColumnId: string }): void {
-    // später: this.taskService.updateStatus(event.task.id, event.newColumnId)
-    console.log('Task moved', event);
-  }
+    onTaskDropped(event: { task: Task; newColumnId: string }): void {
+  // Lokal zum testen
+  // TODO: Ersetzen, sobald updateTaskStatus() o.ä. läuft
+  this.taskService.tasks.update(current =>
+    current.map(t =>
+      t.id === event.task.id
+        ? { ...t, status: event.newColumnId as Task['status'] }
+        : t
+    )
+  );
+}
 
   /** Opens the add-task flow for the selected column. */
   openAddTask(columnId?: string): void {
     // später: Dialog öffnen
     console.log('open add task for column', columnId);
   }
+
+
 
 }
