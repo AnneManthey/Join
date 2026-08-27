@@ -28,8 +28,8 @@ export class SupabaseTaskService {
         this.tasks.set(data ?? []);
     }
 
-    // TaskID als string gesetzt (vorher number), da die an anderer Stelle auch als string deklariert waren und sonst Fehler werfen
-    async setStatus(status: Task['status'], taskId: string): Promise<boolean> {
+    
+    async setStatus(status: Task['status'], taskId: number): Promise<boolean> {
         const { data, error } = await this.supabase
             .from('tasks')
             .update({ status: status })
