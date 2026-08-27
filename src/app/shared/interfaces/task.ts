@@ -20,7 +20,7 @@ export interface TaskContact {
 }
 
 export interface Task {
-    id: string;
+    id: number;
     title: string;
     description: string | null;
     due_date: string;
