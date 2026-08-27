@@ -6,16 +6,18 @@
         }
     </header>
 
-    <section class="column-task-list" cdkDropList [id]="column().id" [cdkDropListData]="column().tasks"
-        (cdkDropListDropped)="drop($event)">
+    <div class="task-scroll-wrapper">
+        <section class="column-task-list" cdkDropList [id]="column().id" [cdkDropListData]="column().tasks"
+            (cdkDropListDropped)="drop($event)">
 
-        @if (column().tasks.length === 0) {
-        <div class="column-empty">No tasks {{ column().title }}</div>
-        }
+            @if (column().tasks.length === 0) {
+            <div class="column-empty">No tasks {{ column().title }}</div>
+            }
 
-    @for (task of column().tasks; track task.id) {
-    <app-board-task-card [task]="task" cdkDrag [cdkDragData]="task" (clicked)="taskClicked.emit(task)" (taskMoved)="taskDropped.emit({ task, newColumnId: $event })"></app-board-task-card>
-    }
-  
-    </section>
+            @for (task of column().tasks; track task.id) {
+            <app-board-task-card [task]="task" cdkDrag [cdkDragData]="task" (clicked)="taskClicked.emit(task)" (taskMoved)="taskDropped.emit({ task, newColumnId: $event })"></app-board-task-card>
+            }
+
+        </section>
+    </div>
 </article>
