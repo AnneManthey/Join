@@ -16,7 +16,7 @@
 }
 
 .board-header {
-  width: 100%;
+  max-width: 1200px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -26,6 +26,7 @@
   }
   .board-actions {
     display: flex;
+    align-items: center;
     gap: 32px;
     input {
       border: unset;
@@ -33,7 +34,9 @@
       outline: none;
       padding: 8px 16px;
       background-color: transparent;
-      
+    }
+    .search-container {
+      position: relative;
     }
     .input-group {
       display: flex;
@@ -42,8 +45,9 @@
       border: 1px solid $input-border-color;
       border-radius: 10px;
       transition: all 255ms ease-in-out;
-      &:hover{
+      &:hover {
         box-shadow: 0px 4px 4px 0px #00000040;
+        border-color: $dark-blue;
       }
       .input-icon {
         height: 32px;
@@ -78,8 +82,44 @@
 
 .board-columns {
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   gap: 26px;
   padding-bottom: 50px;
 }
 
+.no-tasks-found {
+  padding-top: 5px;
+  position: absolute;
+  right: 15%;
+  color: $dark-blue;
+  font-size: 0.9rem;
+  font-weight: bold;
+}
+
+@media (max-width: 1250px) {
+  .board-columns {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 992px) {
+  .board-header {
+    flex-direction: column;
+    gap: 1.5rem;
+    justify-content: center;
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 770px) {
+  .board-columns {
+    flex-direction: column;
+    align-items: center;
+  }
+  .board-header {
+    align-items: center;
+  }
+  .board-actions {
+    flex-direction: column;
+  }
+}

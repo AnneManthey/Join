@@ -16,11 +16,16 @@ import { SupabaseTaskService } from '../../shared/services/supabase-task-service
   styleUrl: './board.scss',
 })
 export class Board implements OnInit {
+  /** Provides task data and persistence operations. */
   private taskService = inject(SupabaseTaskService);
 
   /** Current task search query. */
-  searchTerm = '';
+  searchTerm = signal('');
+
+  /** Indicates whether the task detail dialog is open. */
   isTaskDetailDialogOpen = signal(false);
+
+  /** Task currently displayed in the detail dialog. */
   selectedTask = signal<Task | null>(null);
 
   /** Loads the tasks required to render the board. */
@@ -36,27 +41,44 @@ export class Board implements OnInit {
     { id: 'done', title: 'Done' },
   ];
 
-  /** Groups the loaded tasks by their status. */
+  /** Filters loaded tasks by the current search query. */
+  filteredTasks = computed(() => {
+    const searchTerm = this.searchTerm().trim().toLowerCase();
+
+    if (!searchTerm) {
+      return this.taskService.tasks();
+    }
+
+    return this.taskService.tasks().filter(task =>
+      task.title.toLowerCase().includes(searchTerm) ||
+      task.description?.toLowerCase().includes(searchTerm)
+    );
+  });
+
+  /** Indicates whether a non-empty search has no matching tasks. */
+  noTasksFound = computed(() =>
+    this.searchTerm().trim().length > 0 && this.filteredTasks().length === 0
+  );
+
+  /** Groups filtered tasks by their status. */
   columns = computed<Column[]>(() =>
     this.statusMap.map(s => ({
       id: s.id,
       title: s.title,
-      tasks: this.taskService.tasks().filter(t => t.status === s.id),
+      tasks: this.filteredTasks().filter(t => t.status === s.id),
     }))
   );
 
   /** Handles a task moved to another column. */
-  onTaskDropped(event: { task: Task; newColumnId: string }): void {
-    // später: Persistenz über Service anstoßen
-    // Lokal zum testen
-    // TODO: Ersetzen, sobald updateTaskStatus() o.ä. läuft
-    this.taskService.tasks.update(current =>
-      current.map(task =>
-        task.id === event.task.id
-          ? { ...task, status: event.newColumnId as Task['status'] }
-          : task
-      )
+  async onTaskDropped(event: { task: Task; newColumnId: string }): Promise<void> {
+    const updated = await this.taskService.setStatus(
+      event.newColumnId as Task['status'],
+      event.task.id
     );
+
+    if (updated) {
+      await this.taskService.getTasks();
+    }
   }
 
   /** Opens the add-task flow for the selected column. */
@@ -65,11 +87,13 @@ export class Board implements OnInit {
     console.log('open add task for column', columnId);
   }
 
+  /** Opens the detail dialog for the selected task. */
   openTaskDetail(task: Task): void {
     this.selectedTask.set(task);
     this.isTaskDetailDialogOpen.set(true);
   }
 
+  /** Closes the task detail dialog. */
   closeTaskDetail(): void {
     this.isTaskDetailDialogOpen.set(false);
   }

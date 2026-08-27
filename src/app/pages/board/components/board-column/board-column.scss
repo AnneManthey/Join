@@ -47,17 +47,28 @@
     background-color 0.2s ease,
     border-color 0.2s ease;
   &.cdk-drop-list-receiving {
-    // background-color: $off-white;
     border-color: $gray-medium;
   }
   &.cdk-drop-list-receiving app-board-task-card:not(.cdk-drag-placeholder) {
     transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
   }
 }
-//Placeholder Task beim Drag&Drop
+
 .cdk-drag-placeholder {
   opacity: 0.3;
   border: 2px dashed #cbd5e0;
   border-radius: 10px;
   background: transparent;
+}
+
+@media (max-width: 1250px) {
+  .column-task-list {
+    min-height: 0;
+  }
+  .column-header {
+    padding: 20px 0px;
+    h2 {
+      font-size: 1.6rem;
+    }
+  }
 }
