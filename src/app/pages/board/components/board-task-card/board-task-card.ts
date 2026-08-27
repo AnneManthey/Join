@@ -1,4 +1,4 @@
-import { Component, input, output, computed } from '@angular/core';
+import { Component, HostListener, input, output, computed, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Task } from '../../../../shared/interfaces/task';
 import { GetInitialsPipe } from '../../../../shared/pipes/get-initials-pipe';
@@ -23,6 +23,16 @@ export class BoardTaskCard {
 
   /** Emits when the task card is selected. */
   clicked = output<Task>();
+  taskMoved = output<Task['status']>();
+
+  isMoveMenuOpen = signal(false);
+
+  moveOptions = computed(() => [
+    { id: 'todo' as const, title: 'To do' },
+    { id: 'in_progress' as const, title: 'In progress' },
+    { id: 'await_feedback' as const, title: 'Await feedback' },
+    { id: 'done' as const, title: 'Done' },
+  ].filter(option => option.id !== this.task().status));
 
   /** Number of completed subtasks. */
   subtasksDone = computed(() => this.task().subtasks.filter(s => s.done).length);
@@ -36,5 +46,21 @@ export class BoardTaskCard {
   /** Emits the current task when the card is clicked. */
   onCardClick(): void {
     this.clicked.emit(this.task());
+  }
+
+  toggleMoveMenu(event: Event): void {
+    event.stopPropagation();
+    this.isMoveMenuOpen.update(isOpen => !isOpen);
+  }
+
+  moveTask(status: Task['status'], event: Event): void {
+    event.stopPropagation();
+    this.isMoveMenuOpen.set(false);
+    this.taskMoved.emit(status);
+  }
+
+  @HostListener('document:click')
+  closeMoveMenu(): void {
+    this.isMoveMenuOpen.set(false);
   }
 }

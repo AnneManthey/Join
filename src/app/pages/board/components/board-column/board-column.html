@@ -14,7 +14,7 @@
         }
 
     @for (task of column().tasks; track task.id) {
-      <app-board-task-card [task]="task" cdkDrag (clicked)="taskClicked.emit(task)"></app-board-task-card>
+    <app-board-task-card [task]="task" cdkDrag (clicked)="taskClicked.emit(task)" (taskMoved)="taskDropped.emit({ task, newColumnId: $event })"></app-board-task-card>
     }
   
     </section>
