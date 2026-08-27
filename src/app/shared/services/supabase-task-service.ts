@@ -11,15 +11,15 @@ export class SupabaseTaskService {
     private supabase = this.supabaseService.client;
     tasks = signal<Task[]>([]);
 
-    private tasksInsertChannel: RealtimeChannel | undefined;
-    private tasksUpdateChannel: RealtimeChannel | undefined;
-    private tasksDeleteChannel: RealtimeChannel | undefined;
-    private subtasksInsertChannel: RealtimeChannel | undefined;
-    private subtasksUpdateChannel: RealtimeChannel | undefined;
-    private subtasksDeleteChannel: RealtimeChannel | undefined;
-    private taskContactsInsertChannel: RealtimeChannel | undefined;
-    private taskContactsUpdateChannel: RealtimeChannel | undefined;
-    private taskContactsDeleteChannel: RealtimeChannel | undefined;
+    private tasksInsertChannel!: RealtimeChannel;
+    private tasksUpdateChannel!: RealtimeChannel;
+    private tasksDeleteChannel!: RealtimeChannel;
+    private subtasksInsertChannel!: RealtimeChannel;
+    private subtasksUpdateChannel!: RealtimeChannel;
+    private subtasksDeleteChannel!: RealtimeChannel;
+    private taskContactsInsertChannel!: RealtimeChannel;
+    private taskContactsUpdateChannel!: RealtimeChannel;
+    private taskContactsDeleteChannel!: RealtimeChannel;
 
     /** Initializes the service and starts loading tasks and realtime subscriptions. */
     constructor() {
@@ -267,7 +267,18 @@ export class SupabaseTaskService {
             .subscribe();
     }
 
-
+    /** Removes all realtime channels when the service is destroyed. */
+    ngOnDestroy(): void {
+        this.supabase.removeChannel(this.tasksInsertChannel);
+        this.supabase.removeChannel(this.tasksUpdateChannel);
+        this.supabase.removeChannel(this.tasksDeleteChannel);
+        this.supabase.removeChannel(this.subtasksInsertChannel);
+        this.supabase.removeChannel(this.subtasksUpdateChannel);
+        this.supabase.removeChannel(this.subtasksDeleteChannel);
+        this.supabase.removeChannel(this.taskContactsInsertChannel);
+        this.supabase.removeChannel(this.taskContactsUpdateChannel);
+        this.supabase.removeChannel(this.taskContactsDeleteChannel);
+    }
 
     // TaskID als string gesetzt (vorher number), da die an anderer Stelle auch als string deklariert waren und sonst Fehler werfen
     /** Updates the status of a task in the database.
