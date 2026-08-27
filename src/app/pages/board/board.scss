@@ -35,6 +35,9 @@
       background-color: transparent;
       
     }
+    .search-container {
+      position: relative;
+    }
     .input-group {
       display: flex;
       align-items: center;
@@ -84,7 +87,11 @@
 }
 
 .no-tasks-found {
-  margin: 0;
-  text-align: center;
+  padding-top: 5px;
+  position: absolute;
+  right: 15%;
+  color:$dark-blue;
+  font-size: 0.9rem;
+  font-weight: bold;
 }
 
