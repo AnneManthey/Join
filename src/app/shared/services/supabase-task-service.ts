@@ -28,7 +28,8 @@ export class SupabaseTaskService {
         this.tasks.set(data ?? []);
     }
 
-    async setStatus(status: Task['status'], taskId: number) {
+    // TaskID als string gesetzt (vorher number), da die an anderer Stelle auch als string deklariert waren und sonst Fehler werfen
+    async setStatus(status: Task['status'], taskId: string): Promise<boolean> {
         const { data, error } = await this.supabase
             .from('tasks')
             .update({ status: status })
@@ -36,8 +37,10 @@ export class SupabaseTaskService {
             .select()
         if (error) {
             console.error('Status konnte nicht geändert werden:', error.message);
-            return;
+            return false;
         }
+
+        return true;
     }
 }
 

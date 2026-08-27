@@ -46,20 +46,15 @@ export class Board implements OnInit {
   );
 
   /** Handles a task moved to another column. */
-  onTaskDropped(event: { task: Task; newColumnId: string }): void {
-    // später: Persistenz über Service anstoßen
-    // Lokal zum testen
-    // TODO: Ersetzen, sobald updateTaskStatus() o.ä. läuft
-
-    // glaube hier könnt klappen: this.taskService.setStatus(newColumnId oder das, was den status geschreibt, also "todo" usw, siehe interface; die task-Id)
-    // oder im HTML Template aufrufen einfach, ohne "onTaskDropped"
-    this.taskService.tasks.update(current =>
-      current.map(task =>
-        task.id === event.task.id
-          ? { ...task, status: event.newColumnId as Task['status'] }
-          : task
-      )
+  async onTaskDropped(event: { task: Task; newColumnId: string }): Promise<void> {
+    const updated = await this.taskService.setStatus(
+      event.newColumnId as Task['status'],
+      event.task.id
     );
+
+    if (updated) {
+      await this.taskService.getTasks();
+    }
   }
 
   /** Opens the add-task flow for the selected column. */
