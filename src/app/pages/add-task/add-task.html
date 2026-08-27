@@ -55,6 +55,7 @@
 
                 <div class="dropdown">
                     <button type="button" (click)="toggleContactDropdown()">Assign to (klick mich)</button>
+                    <input type="text">
                     @if (contactDropdownOpen()) {
                     <div class="dropdown-panel">
                         @for (contact of contacts(); track contact.id) {
