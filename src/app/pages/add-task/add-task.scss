@@ -107,6 +107,18 @@ main {
         font-weight: 700;
     }
 
+    &__radio:checked+.task-form__radio-label--low svg path {
+        fill: $white;
+    }
+
+    &__radio:checked+.task-form__radio-label--medium svg path {
+        fill: $white;
+    }
+
+    &__radio:checked+.task-form__radio-label--urgent svg path {
+        fill: $white;
+    }
+
     &__radio:focus-visible+.task-form__radio-label {
         outline: 2px solid $black;
         outline-offset: 2px;
@@ -155,5 +167,8 @@ main {
         font-family: Inter;
         font-size: 1.3rem;
         cursor: pointer;
+        display: flex;
+        justify-content: center;
+        gap: 8px;
     }
 }
