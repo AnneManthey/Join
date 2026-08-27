@@ -15,10 +15,10 @@
     padding: 4px 16px;
     border-radius: 8px;
     &.user_story {
-      background-color: #0038ff;
+      background-color: $task-cat-user;
     }
     &.technical_task {
-      background-color: rgba(31, 215, 193, 1);
+      background-color: $task-cat-tec;
     }
   }
   span {
@@ -43,7 +43,6 @@
   gap: 12px;
   padding-block: 16px;
   padding-bottom: 0px;
-
   span {
     font-size: 14px;
     color: $black;

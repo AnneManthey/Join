@@ -15,15 +15,20 @@ body {
     overflow-x: hidden;
 }
 
-//Style für Tasks, die gerade bewegt werden
+//Style dragging-task
 .cdk-drag-preview {
   box-sizing: border-box;
-  border-radius: 10px;
-  transform: rotate(3deg); 
-  cursor: grabbing;
+  border-radius: 24px;
+  rotate: 3deg;
 }
 
-// Task Animation Drag&Drop
+// Cursor Drag&Drop
+body:has(.cdk-drag-preview),
+body:has(.cdk-drag-preview) * {
+  cursor: grabbing !important;
+}
+
+// Animation Drag&Drop
 .cdk-drag-animating {
   transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
 }
