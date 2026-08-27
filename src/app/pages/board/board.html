@@ -5,35 +5,40 @@
     <main class="board-main">
       <section class="board">
         <header class="board-header">
-          <h1>Board</h1>
+          <div class="board-h1-wrapper">
+            <h1>Board</h1>
+            <button class="btn-add-mobile" (click)="openAddTask()"><img src="app-icons/board/add-mobile.svg"
+                alt="Add Icon"></button>
+          </div>
           <div class="board-actions">
-            <div class="input-group">
-              <input type="search" placeholder="Find Task" [(ngModel)]="searchTerm" />
-              <img class="input-icon" src="app-icons/board/search.svg" alt="Search Icon" />
+            <div class="search-container">
+              <div class="input-group">
+                <input type="search" placeholder="Find Task" [ngModel]="searchTerm()"
+                  (ngModelChange)="searchTerm.set($event)" />
+                <img class="input-icon" src="app-icons/board/search.svg" alt="Search Icon" />
+              </div>
+              @if (noTasksFound()) {
+              <p class="no-tasks-found">No tasks found</p>
+              }
             </div>
-            <button (click)="openAddTask()">Add task +</button>
+            <button class="btn-add-desktop" (click)="openAddTask()">Add task +</button>
+            <!-- <button class="btn-add-mobile"(click)="openAddTask()"><img src="app-icons/board/add-mobile.svg" alt="Add Icon"></button> -->
           </div>
         </header>
 
         <section class="board-columns" cdkDropListGroup>
           @for (column of columns(); track column.id) {
-            <app-board-column
-              [column]="column"
-              (taskDropped)="onTaskDropped($event)"
-              (addTaskClicked)="openAddTask(column.id)"
-              (taskClicked)="openTaskDetail($event)">
-            </app-board-column>
+          <app-board-column [column]="column" (taskDropped)="onTaskDropped($event)"
+            (addTaskClicked)="openAddTask(column.id)" (taskClicked)="openTaskDetail($event)">
+          </app-board-column>
           }
         </section>
         @if (selectedTask(); as task) {
-          <app-task-detail-dialog
-            [isTaskDetailDialogOpen]="isTaskDetailDialogOpen()"
-            [task]="task"
-            (close)="closeTaskDetail()">
-          </app-task-detail-dialog>
+        <app-task-detail-dialog [isTaskDetailDialogOpen]="isTaskDetailDialogOpen()" [task]="task"
+          (close)="closeTaskDetail()">
+        </app-task-detail-dialog>
         }
       </section>
     </main>
   </div>
 </div>
-
