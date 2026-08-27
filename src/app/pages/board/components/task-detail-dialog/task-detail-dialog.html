@@ -20,24 +20,48 @@
 
       <h2>{{ task().title }}</h2>
 
-      <p class="dialog-description">
-        {{ task().description }}
-      </p>
+      <p class="dialog-description">{{ task().description }}</p>
 
       <p class="due-date">
-        Due date: {{task().due_date}}
+        <span class="due-date-label">Due date:</span>
+        <span class="due-date-value">{{ task().due_date | date:'MM/dd/yyyy' }}</span>
       </p>
 
-      <p class="assigned-to">
-        Assigned To:
+      <p class="priority">
+        <span class="priority-label">Priority:</span>
+        <span class="priority-value">
+          {{ task().priority | titlecase }}
+          <img
+            class="priority-icon"
+            [src]="priorityIcon()"
+            [alt]="'Priority ' + task().priority">
+        </span>
       </p>
+
+      <p class="assigned-to">Assigned To:</p>
 
       <div class="dialog-assignees">
-        @for (tc of task().task_contacts; track tc.contact_id) {
-          <span class="task-card-avatar" [style.background-color]="getColor(tc.contacts.contact_name)"
-            [title]="tc.contacts.contact_name">
-            {{ tc.contacts.contact_name | getInitials }}
-          </span>
+         @for (tc of task().task_contacts; track tc.contact_id) {
+          <div class="assignee-row">
+            <span class="task-card-assignee" [style.background-color]="getColor(tc.contacts.contact_name)"
+              [title]="tc.contacts.contact_name">
+              {{ tc.contacts.contact_name | getInitials }}
+            </span>
+            <span class="assignee-name">{{ tc.contacts.contact_name }}</span>
+          </div>
+        }
+      </div>
+      <p class="subtasks-label">Subtasks</p>
+
+      <div class="dialog-subtasks">
+        @for (subtask of task().subtasks; track subtask.id) {
+          <div class="subtask-row" (click)="toggleSubtask(subtask)">
+            <img
+              class="subtask-checkbox"
+              [src]="subtask.done ? 'app-icons/task-detail-dialog/check_button_checked.svg' : 'app-icons/task-detail-dialog/check_button.png'"
+              [alt]="subtask.done ? 'Checked' : 'Unchecked'">
+            <span class="subtask-title">{{ subtask.title }}</span>
+          </div>
         }
       </div>
 
