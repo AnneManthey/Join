@@ -23,10 +23,14 @@ export class BoardTaskCard {
 
   /** Emits when the task card is selected. */
   clicked = output<Task>();
+
+  /** Emits the selected target status when the task is moved from the mobile menu. */
   taskMoved = output<Task['status']>();
 
+  /** Indicates whether the mobile task movement menu is visible. */
   isMoveMenuOpen = signal(false);
 
+  /** Available target columns, excluding the task's current column. */
   moveOptions = computed(() => [
     { id: 'todo' as const, title: 'To do' },
     { id: 'in_progress' as const, title: 'In progress' },
@@ -48,17 +52,20 @@ export class BoardTaskCard {
     this.clicked.emit(this.task());
   }
 
+  /** Toggles the mobile task movement menu without selecting the card. */
   toggleMoveMenu(event: Event): void {
     event.stopPropagation();
     this.isMoveMenuOpen.update(isOpen => !isOpen);
   }
 
+  /** Closes the menu and emits the selected target status. */
   moveTask(status: Task['status'], event: Event): void {
     event.stopPropagation();
     this.isMoveMenuOpen.set(false);
     this.taskMoved.emit(status);
   }
 
+  /** Closes the mobile task movement menu after a click outside the card. */
   @HostListener('document:click')
   closeMoveMenu(): void {
     this.isMoveMenuOpen.set(false);

@@ -16,11 +16,16 @@ import { SupabaseTaskService } from '../../shared/services/supabase-task-service
   styleUrl: './board.scss',
 })
 export class Board implements OnInit {
+  /** Provides task data and persistence operations. */
   private taskService = inject(SupabaseTaskService);
 
   /** Current task search query. */
   searchTerm = signal('');
+
+  /** Indicates whether the task detail dialog is open. */
   isTaskDetailDialogOpen = signal(false);
+
+  /** Task currently displayed in the detail dialog. */
   selectedTask = signal<Task | null>(null);
 
   /** Loads the tasks required to render the board. */
@@ -82,11 +87,13 @@ export class Board implements OnInit {
     console.log('open add task for column', columnId);
   }
 
+  /** Opens the detail dialog for the selected task. */
   openTaskDetail(task: Task): void {
     this.selectedTask.set(task);
     this.isTaskDetailDialogOpen.set(true);
   }
 
+  /** Closes the task detail dialog. */
   closeTaskDetail(): void {
     this.isTaskDetailDialogOpen.set(false);
   }
