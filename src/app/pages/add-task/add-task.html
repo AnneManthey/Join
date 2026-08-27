@@ -27,8 +27,8 @@
 
                 <div class="task-form__half-wrapper">
                     <div>
-                        <label class="task-form__label" for="title">Titel</label>
-                        <input class="task-form__input" id="title" type="text" name="title" formControlName="title">
+                        <label class="task-form__label" for="title">Title</label>
+                        <input class="task-form__input" id="title" type="text" name="title" formControlName="title" placeholder="Enter a title">
                         @if (!title?.valid && title?.touched) {
                         <p class="task-form__error" style="color:red">Please enter at least 4 characters</p>
                         }
@@ -37,11 +37,11 @@
                     <div>
                         <label class="task-form__label" for="description">Description</label>
                         <textarea class="task-form__textarea" id="description" name="description"
-                            formControlName="description"></textarea>
+                            formControlName="description" placeholder="Enter a description"></textarea>
                     </div>
 
                     <div>
-                        <label class="task-form__label" for="dueDate">Datum</label>
+                        <label class="task-form__label" for="dueDate">Due Date</label>
                         <input class="task-form__input" id="dueDate" type="date" name="dueDate"
                             formControlName="due_date">
                         @if (!duedate?.valid && duedate?.touched) {
@@ -57,31 +57,38 @@
 
                             <input class="task-form__radio" id="priorityLow" type="radio" name="priority" value="low"
                                 formControlName="priority">
-                            <label class="task-form__radio-label" for="priorityLow">Low</label>
+                            <label class="task-form__radio-label task-form__radio-label--low"
+                                for="priorityLow">Low</label>
 
                             <input class="task-form__radio" id="priorityMedium" type="radio" name="priority"
                                 value="medium" formControlName="priority">
-                            <label class="task-form__radio-label" for="priorityMedium">Medium</label>
+                            <label class="task-form__radio-label task-form__radio-label--medium"
+                                for="priorityMedium">Medium</label>
 
                             <input class="task-form__radio" id="priorityUrgent" type="radio" name="priority"
                                 value="urgent" formControlName="priority">
-                            <label class="task-form__radio-label" for="priorityUrgent">Urgent</label>
+                            <label class="task-form__radio-label task-form__radio-label--urgent"
+                                for="priorityUrgent">Urgent</label>
                         </fieldset>
                     </div>
                     <div>
                         <div class="task-form__dropdown">
-                            <button class="task-form__dropdown-toggle" type="button"
-                                (click)="toggleContactDropdown()">Assign to
-                                (klick mich)</button>
-                                <input type="text">
+                            <label class="task-form__label" for="assignedToInput">Assigned to</label>
+
+                            <div class="task-form__dropdown-trigger-wrapper">
+                                <input class="task-form__input task-form__dropdown-trigger" id="assignedToInput"
+                                    type="text" placeholder="Select contacts to assign" (click)="toggleContactDropdown()">
+                            </div>
+
                             @if (contactDropdownOpen()) {
                             <div class="task-form__dropdown-panel">
                                 @for (contact of contacts(); track contact.id) {
                                 <label class="task-form__dropdown-option">
+                                    <span class="task-form__dropdown-avatar">{{ contact.contact_name }}</span>
+                                    <span class="task-form__dropdown-name">{{ contact.contact_name }}</span>
                                     <input class="task-form__checkbox" type="checkbox" [value]="contact.id"
                                         (change)="toggleSelectedContact(contact.id, $event)"
                                         [checked]="selectedContacts().includes(contact.id)">
-                                    {{ contact.contact_name }}
                                 </label>
                                 }
                             </div>
@@ -92,7 +99,7 @@
                     <div>
                         <label class="task-form__label" for="category">Category</label>
                         <select class="task-form__select" id="category" name="category" formControlName="category">
-                            <option value="">--Please choose an option--</option>
+                            <option value="">Select task category</option>
                             <option value="user_story">User Story</option>
                             <option value="technical_task">Technical Task</option>
                         </select>
@@ -104,19 +111,22 @@
                     <div>
                         <div class="task-form__subtasks">
                             <label class="task-form__label" for="subtaskInput">Subtasks</label>
-                            <input class="task-form__input" id="subtaskInput" type="text" name="subtaskInput"
-                                placeholder="Text eingeben..." formControlName="subtaskInput">
-                            <button class="task-form__subtask-cancel" type="button" name="cancelSubtask"
-                                (click)="resetSubtask()">reset subtask✖</button>
-                            <button class="task-form__subtask-confirm" type="button" name="confirmSubtask"
-                                (click)="addSubtask()">add subtask✔</button>
+                            <div class="task-form__subtask-input-wrapper">
+                                <input class="task-form__input" id="subtaskInput" type="text" name="subtaskInput"
+                                    placeholder="Add new subtask" formControlName="subtaskInput">
+
+                                <button class="task-form__subtask-cancel" type="button" name="cancelSubtask"
+                                    (click)="resetSubtask()">✖</button>
+                                <button class="task-form__subtask-confirm" type="button" name="confirmSubtask"
+                                    (click)="addSubtask()">✔</button>
+                            </div>
                             @for (subtask of assignedSubtasks(); track $index) {
                             <p class="task-form__subtask-item">{{subtask}}</p>
                             }
                         </div>
                     </div>
 
-                    <button class="task-form__submit" type="submit">submit</button>
+                    <button class="task-form__submit" type="submit">Create Task</button>
                 </div>
             </form>
 
