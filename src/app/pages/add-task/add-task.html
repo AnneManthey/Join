@@ -73,6 +73,7 @@
                             <button class="task-form__dropdown-toggle" type="button"
                                 (click)="toggleContactDropdown()">Assign to
                                 (klick mich)</button>
+                                <input type="text">
                             @if (contactDropdownOpen()) {
                             <div class="task-form__dropdown-panel">
                                 @for (contact of contacts(); track contact.id) {
