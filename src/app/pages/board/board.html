@@ -7,9 +7,14 @@
         <header class="board-header">
           <h1>Board</h1>
           <div class="board-actions">
-            <div class="input-group">
-              <input type="search" placeholder="Find Task" [(ngModel)]="searchTerm" />
-              <img class="input-icon" src="app-icons/board/search.svg" alt="Search Icon" />
+            <div class="search-container">
+              <div class="input-group">
+                <input type="search" placeholder="Find Task" [ngModel]="searchTerm()" (ngModelChange)="searchTerm.set($event)" />
+                <img class="input-icon" src="app-icons/board/search.svg" alt="Search Icon" />
+              </div>
+              @if (noTasksFound()) {
+                <p class="no-tasks-found">No tasks found</p>
+              }
             </div>
             <button (click)="openAddTask()">Add task +</button>
           </div>

@@ -1,4 +1,14 @@
 <article class="task-card" (click)="onCardClick()">
+  <button class="move-task-button" type="button" aria-label="Move task" (click)="toggleMoveMenu($event)">
+    &#9662;
+  </button>
+  @if (isMoveMenuOpen()) {
+    <div class="move-task-menu" role="menu">
+      @for (option of moveOptions(); track option.id) {
+        <button type="button" role="menuitem" (click)="moveTask(option.id, $event)">{{ option.title }}</button>
+      }
+    </div>
+  }
   <span class="task-card-badge" [ngClass]="task().category">
     {{ task().category === 'user_story' ? 'User Story' : 'Technical Task' }}
   </span>
@@ -8,7 +18,7 @@
 
   @if (subtasksTotal() > 0) {
   <div class="task-card-progress">
-    <div class="task-card-progress-track">
+    <div class="task-card-progress-track" [title]="subtasksDone() + ' von ' + subtasksTotal() + ' Subtasks done'">
       <div class="task-card-progress-bar" [style.width.%]="(subtasksDone() / subtasksTotal()) * 100">
       </div>
     </div>
