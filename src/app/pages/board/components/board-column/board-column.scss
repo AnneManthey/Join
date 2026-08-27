@@ -62,8 +62,19 @@
 }
 
 @media (max-width: 1250px) {
+  .column {
+    width: 100%;
+    max-width: none;
+  }
+
   .column-task-list {
     min-height: 0;
+    flex-direction: row;
+    flex-wrap: wrap;
+
+    > app-board-task-card {
+      flex: 0 0 200px;
+    }
   }
   .column-header {
     padding: 20px 0px;
