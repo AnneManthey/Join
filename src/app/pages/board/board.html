@@ -8,7 +8,7 @@
           <h1>Board</h1>
           <div class="board-actions">
             <div class="input-group">
-              <input type="search" placeholder="Find Task" [(ngModel)]="searchTerm" />
+              <input type="search" placeholder="Find Task" [ngModel]="searchTerm()" (ngModelChange)="searchTerm.set($event)" />
               <img class="input-icon" src="app-icons/board/search.svg" alt="Search Icon" />
             </div>
             <button (click)="openAddTask()">Add task +</button>
@@ -25,6 +25,9 @@
             </app-board-column>
           }
         </section>
+        @if (noTasksFound()) {
+          <p class="no-tasks-found">no tasks found</p>
+        }
         @if (selectedTask(); as task) {
           <app-task-detail-dialog
             [isTaskDetailDialogOpen]="isTaskDetailDialogOpen()"

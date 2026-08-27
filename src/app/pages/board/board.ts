@@ -19,7 +19,7 @@ export class Board implements OnInit {
   private taskService = inject(SupabaseTaskService);
 
   /** Current task search query. */
-  searchTerm = '';
+  searchTerm = signal('');
   isTaskDetailDialogOpen = signal(false);
   selectedTask = signal<Task | null>(null);
 
@@ -36,12 +36,31 @@ export class Board implements OnInit {
     { id: 'done', title: 'Done' },
   ];
 
-  /** Groups the loaded tasks by their status. */
+  /** Filters loaded tasks by the current search query. */
+  filteredTasks = computed(() => {
+    const searchTerm = this.searchTerm().trim().toLowerCase();
+
+    if (!searchTerm) {
+      return this.taskService.tasks();
+    }
+
+    return this.taskService.tasks().filter(task =>
+      task.title.toLowerCase().includes(searchTerm) ||
+      task.description?.toLowerCase().includes(searchTerm)
+    );
+  });
+
+  /** Indicates whether a non-empty search has no matching tasks. */
+  noTasksFound = computed(() =>
+    this.searchTerm().trim().length > 0 && this.filteredTasks().length === 0
+  );
+
+  /** Groups filtered tasks by their status. */
   columns = computed<Column[]>(() =>
     this.statusMap.map(s => ({
       id: s.id,
       title: s.title,
-      tasks: this.taskService.tasks().filter(t => t.status === s.id),
+      tasks: this.filteredTasks().filter(t => t.status === s.id),
     }))
   );
 
