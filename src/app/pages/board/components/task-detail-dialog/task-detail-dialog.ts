@@ -22,6 +22,7 @@ export class TaskDetailDialog {
   isTaskDetailDialogOpen = input.required<boolean>();
   task = input.required<Task>();
   close = output<void>();
+  edit = output<Task>();
 
   closeDialog(): void {
     this.close.emit();
@@ -33,6 +34,15 @@ export class TaskDetailDialog {
     const neuerStatus = !subtask.done;
    this.taskService.toggleSubtask(subtask.id, neuerStatus);
   }
+
+    deleteTask(): void {
+      // Placeholder
+  }
+
+  editTask(): void {
+    // Placeholder
+  }
+
 
 
 }
