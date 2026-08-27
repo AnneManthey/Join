@@ -54,7 +54,7 @@
         width: 32px;
       }
     }
-    button {
+    .btn-add-desktop {
       width: 100%;
       cursor: pointer;
       background-color: $dark-blue;
@@ -96,6 +96,14 @@
   font-weight: bold;
 }
 
+.btn-add-mobile {
+  display: none;
+  img {
+    width: 40px;
+    height: 40px;
+  }
+}
+
 @media (max-width: 1250px) {
   .board-columns {
     flex-direction: column;
@@ -112,14 +120,41 @@
 }
 
 @media (max-width: 770px) {
+  .board-main {
+    padding: 50px 20px;
+  }
+  .btn-add-mobile {
+    display: block;
+    padding: 0;
+    border: none;
+    background: none;
+    line-height: 0;
+    cursor: pointer;
+    overflow: hidden;
+  }
   .board-columns {
     flex-direction: column;
     align-items: center;
   }
   .board-header {
     align-items: center;
-  }
-  .board-actions {
-    flex-direction: column;
+    .board-h1-wrapper {
+      max-width: 300px;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .board-actions {
+      .input-group {
+        width: 300px;
+      }
+      input {
+        width: 260px;
+      }
+      .btn-add-desktop {
+        display: none;
+      }
+    }
   }
 }
