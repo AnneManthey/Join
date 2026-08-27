@@ -25,7 +25,7 @@ body {
 // Cursor Drag&Drop
 body:has(.cdk-drag-preview),
 body:has(.cdk-drag-preview) * {
-  cursor: grabbing !important;
+  cursor: grabbing;
 }
 
 // Animation Drag&Drop

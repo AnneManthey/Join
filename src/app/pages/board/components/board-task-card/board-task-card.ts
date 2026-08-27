@@ -4,6 +4,7 @@ import { Task } from '../../../../shared/interfaces/task';
 import { GetInitialsPipe } from '../../../../shared/pipes/get-initials-pipe';
 import { getColor } from '../../../../shared/utils/contacts-helper';
 
+
 @Component({
   selector: 'app-board-task-card',
   standalone: true,

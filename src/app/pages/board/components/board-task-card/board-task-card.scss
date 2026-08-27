@@ -49,6 +49,7 @@
     white-space: nowrap;
   }
   .task-card-progress-track {
+    position: relative;
     flex: 1;
     height: 8px;
     background-color: $light-grey;
