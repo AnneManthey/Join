@@ -3,32 +3,14 @@
     <div class="page-content">
         <app-header></app-header>
         <main>
-            <!-- @for (task of taskService.tasks(); track task.id) {
-            <h3>{{task.title}}</h3>
-            <p><b>Description:</b> {{task.description}}</p>
-            <p><b>Due Date:</b> {{task.due_date}}</p>
-            <p><b>Priority:</b> {{task.priority}}</p>
-            <p style="color:blue"><b>Category:</b> {{task.category}}</p>
-            <p><b>Status:</b> {{task.status}}</p>
-            <p><b>Assigned to:</b></p>
-            @for (contact of task.task_contacts; track contact.contact_id) {
-            <p>{{contact.contacts.contact_name}}</p>
-            }
-            <p><b>Subtasks:</b></p>
-            @for (subtask of task.subtasks; track subtask.id) {
-            <p>{{subtask.title}}</p>
-            }
-            <br>
-            } -->
             <router-outlet />
-
-
+            <h1 class="main-h1">Add Task</h1>
             <form class="task-form" [formGroup]="taskForm" (ngSubmit)="formSubmit()">
-
                 <div class="task-form__half-wrapper">
                     <div>
-                        <label class="task-form__label" for="title">Titel</label>
-                        <input class="task-form__input" id="title" type="text" name="title" formControlName="title">
+                        <label class="task-form__label" for="title">Title</label>
+                        <input class="task-form__input" id="title" type="text" name="title" formControlName="title"
+                            placeholder="Enter a title">
                         @if (!title?.valid && title?.touched) {
                         <p class="task-form__error" style="color:red">Please enter at least 4 characters</p>
                         }
@@ -37,11 +19,11 @@
                     <div>
                         <label class="task-form__label" for="description">Description</label>
                         <textarea class="task-form__textarea" id="description" name="description"
-                            formControlName="description"></textarea>
+                            formControlName="description" placeholder="Enter a description"></textarea>
                     </div>
 
                     <div>
-                        <label class="task-form__label" for="dueDate">Datum</label>
+                        <label class="task-form__label" for="dueDate">Due Date</label>
                         <input class="task-form__input" id="dueDate" type="date" name="dueDate"
                             formControlName="due_date">
                         @if (!duedate?.valid && duedate?.touched) {
@@ -57,31 +39,82 @@
 
                             <input class="task-form__radio" id="priorityLow" type="radio" name="priority" value="low"
                                 formControlName="priority">
-                            <label class="task-form__radio-label" for="priorityLow">Low</label>
+                            <label class="task-form__radio-label task-form__radio-label--low" for="priorityLow">Low
+                                <svg width="20" height="15" viewBox="0 0 20 15" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M10 8.76077C9.7654 8.76118 9.53687 8.68634 9.34802 8.54726L0.444913 1.97752C0.329075 1.89197 0.231235 1.78445 0.15698 1.66111C0.0827245 1.53777 0.033508 1.40102 0.0121402 1.25868C-0.031014 0.971193 0.0418855 0.678356 0.214802 0.444584C0.387718 0.210811 0.646486 0.0552534 0.934181 0.0121312C1.22188 -0.0309911 1.51493 0.0418545 1.74888 0.214643L10 6.29712L18.2511 0.214643C18.367 0.129087 18.4985 0.0671675 18.6383 0.0324205C18.7781 -0.00232646 18.9234 -0.00922079 19.0658 0.0121312C19.2083 0.0334832 19.3451 0.0826633 19.4685 0.156864C19.592 0.231064 19.6996 0.328831 19.7852 0.444584C19.8708 0.560336 19.9328 0.691806 19.9676 0.831488C20.0023 0.97117 20.0092 1.11633 19.9879 1.25868C19.9665 1.40102 19.9173 1.53777 19.843 1.66111C19.7688 1.78445 19.6709 1.89197 19.5551 1.97752L10.652 8.54726C10.4631 8.68634 10.2346 8.76118 10 8.76077Z"
+                                        fill="#7AE229" />
+                                    <path
+                                        d="M10 14.5093C9.7654 14.5097 9.53687 14.4349 9.34802 14.2958L0.444913 7.72606C0.210967 7.55327 0.0552944 7.29469 0.0121402 7.00721C-0.031014 6.71973 0.0418855 6.42689 0.214802 6.19312C0.387718 5.95935 0.646486 5.80379 0.934181 5.76067C1.22188 5.71754 1.51493 5.79039 1.74888 5.96318L10 12.0457L18.2511 5.96318C18.4851 5.79039 18.7781 5.71754 19.0658 5.76067C19.3535 5.80379 19.6123 5.95935 19.7852 6.19312C19.9581 6.42689 20.031 6.71973 19.9879 7.00721C19.9447 7.29469 19.789 7.55327 19.5551 7.72606L10.652 14.2958C10.4631 14.4349 10.2346 14.5097 10 14.5093Z"
+                                        fill="#7AE229" />
+                                </svg>
+                            </label>
 
                             <input class="task-form__radio" id="priorityMedium" type="radio" name="priority"
                                 value="medium" formControlName="priority">
-                            <label class="task-form__radio-label" for="priorityMedium">Medium</label>
+                            <label class="task-form__radio-label task-form__radio-label--medium"
+                                for="priorityMedium">Medium
+                                <svg width="20" height="8" viewBox="0 0 20 8" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <g clip-path="url(#clip0_156_1104)">
+                                        <path
+                                            d="M18.9041 7.45098H1.09589C0.805242 7.45098 0.526498 7.33469 0.320979 7.12767C0.11546 6.92066 0 6.63989 0 6.34714C0 6.05438 0.11546 5.77361 0.320979 5.5666C0.526498 5.35958 0.805242 5.24329 1.09589 5.24329H18.9041C19.1948 5.24329 19.4735 5.35958 19.679 5.5666C19.8845 5.77361 20 6.05438 20 6.34714C20 6.63989 19.8845 6.92066 19.679 7.12767C19.4735 7.33469 19.1948 7.45098 18.9041 7.45098Z"
+                                            fill="#FFA800" />
+                                        <path
+                                            d="M18.9041 2.2077H1.09589C0.805242 2.2077 0.526498 2.0914 0.320979 1.88439C0.11546 1.67738 0 1.39661 0 1.10385C0 0.81109 0.11546 0.530322 0.320979 0.32331C0.526498 0.116298 0.805242 0 1.09589 0L18.9041 0C19.1948 0 19.4735 0.116298 19.679 0.32331C19.8845 0.530322 20 0.81109 20 1.10385C20 1.39661 19.8845 1.67738 19.679 1.88439C19.4735 2.0914 19.1948 2.2077 18.9041 2.2077Z"
+                                            fill="#FFA800" />
+                                    </g>
+                                    <defs>
+                                        <clipPath id="clip0_156_1104">
+                                            <rect width="20" height="7.45098" fill="white" />
+                                        </clipPath>
+                                    </defs>
+                                </svg>
+                            </label>
 
                             <input class="task-form__radio" id="priorityUrgent" type="radio" name="priority"
                                 value="urgent" formControlName="priority">
-                            <label class="task-form__radio-label" for="priorityUrgent">Urgent</label>
+                            <label class="task-form__radio-label task-form__radio-label--urgent"
+                                for="priorityUrgent">Urgent
+                                <svg width="20" height="15" viewBox="0 0 20 15" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <g clip-path="url(#clip0_156_1119)">
+                                        <path
+                                            d="M18.9043 14.5098C18.6696 14.5102 18.4411 14.4354 18.2522 14.2963L10.0001 8.21313L1.74809 14.2963C1.63224 14.3819 1.50066 14.4438 1.36086 14.4785C1.22106 14.5133 1.07577 14.5202 0.933305 14.4988C0.790837 14.4775 0.653973 14.4283 0.530528 14.3541C0.407083 14.2799 0.299474 14.1821 0.213845 14.0663C0.128216 13.9506 0.0662437 13.8191 0.0314671 13.6794C-0.00330956 13.5397 -0.0102098 13.3945 0.0111604 13.2521C0.0543195 12.9646 0.21001 12.706 0.443982 12.5332L9.34809 5.96274C9.53679 5.82315 9.76536 5.7478 10.0001 5.7478C10.2349 5.7478 10.4635 5.82315 10.6522 5.96274L19.5563 12.5332C19.7422 12.6701 19.8801 12.8622 19.9503 13.0821C20.0204 13.302 20.0193 13.5384 19.9469 13.7576C19.8746 13.9768 19.7349 14.1675 19.5476 14.3026C19.3604 14.4377 19.1352 14.5102 18.9043 14.5098Z"
+                                            fill="#FF3D00" />
+                                        <path
+                                            d="M18.9043 8.76069C18.6696 8.76109 18.4411 8.68624 18.2522 8.54715L10.0002 2.46398L1.7481 8.54715C1.51412 8.71995 1.22104 8.79281 0.93331 8.74968C0.645583 8.70655 0.386785 8.55098 0.213849 8.31718C0.0409137 8.08338 -0.0319941 7.79051 0.011165 7.503C0.054324 7.21548 0.210015 6.95688 0.443986 6.78407L9.3481 0.213593C9.5368 0.0740019 9.76537 -0.00134277 10.0002 -0.00134277C10.2349 -0.00134277 10.4635 0.0740019 10.6522 0.213593L19.5563 6.78407C19.7422 6.92099 19.8801 7.1131 19.9503 7.33298C20.0204 7.55286 20.0193 7.78926 19.947 8.00845C19.8746 8.22763 19.7349 8.41838 19.5476 8.55347C19.3604 8.68856 19.1352 8.76109 18.9043 8.76069Z"
+                                            fill="#FF3D00" />
+                                    </g>
+                                    <defs>
+                                        <clipPath id="clip0_156_1119">
+                                            <rect width="20" height="14.5098" fill="white" />
+                                        </clipPath>
+                                    </defs>
+                                </svg>
+                            </label>
                         </fieldset>
                     </div>
                     <div>
                         <div class="task-form__dropdown">
-                            <button class="task-form__dropdown-toggle" type="button"
-                                (click)="toggleContactDropdown()">Assign to
-                                (klick mich)</button>
-                                <input type="text">
+                            <label class="task-form__label" for="assignedToInput">Assigned to</label>
+
+                            <div class="task-form__dropdown-trigger-wrapper">
+                                <input class="task-form__input task-form__dropdown-trigger" id="assignedToInput"
+                                    type="text" placeholder="Select contacts to assign"
+                                    (click)="toggleContactDropdown()">
+                            </div>
+
                             @if (contactDropdownOpen()) {
                             <div class="task-form__dropdown-panel">
                                 @for (contact of contacts(); track contact.id) {
                                 <label class="task-form__dropdown-option">
+                                    <span class="task-form__dropdown-avatar">{{ contact.contact_name }}</span>
+                                    <span class="task-form__dropdown-name">{{ contact.contact_name }}</span>
                                     <input class="task-form__checkbox" type="checkbox" [value]="contact.id"
                                         (change)="toggleSelectedContact(contact.id, $event)"
                                         [checked]="selectedContacts().includes(contact.id)">
-                                    {{ contact.contact_name }}
                                 </label>
                                 }
                             </div>
@@ -92,7 +125,7 @@
                     <div>
                         <label class="task-form__label" for="category">Category</label>
                         <select class="task-form__select" id="category" name="category" formControlName="category">
-                            <option value="">--Please choose an option--</option>
+                            <option value="">Select task category</option>
                             <option value="user_story">User Story</option>
                             <option value="technical_task">Technical Task</option>
                         </select>
@@ -104,19 +137,42 @@
                     <div>
                         <div class="task-form__subtasks">
                             <label class="task-form__label" for="subtaskInput">Subtasks</label>
-                            <input class="task-form__input" id="subtaskInput" type="text" name="subtaskInput"
-                                placeholder="Text eingeben..." formControlName="subtaskInput">
-                            <button class="task-form__subtask-cancel" type="button" name="cancelSubtask"
-                                (click)="resetSubtask()">reset subtask✖</button>
-                            <button class="task-form__subtask-confirm" type="button" name="confirmSubtask"
-                                (click)="addSubtask()">add subtask✔</button>
+                            <div class="task-form__subtask-input-wrapper">
+                                <input class="task-form__input" id="subtaskInput" type="text" name="subtaskInput"
+                                    placeholder="Add new subtask" formControlName="subtaskInput">
+
+                                <button class="task-form__subtask-cancel" type="button" name="cancelSubtask"
+                                    (click)="resetSubtask()">✖</button>
+                                <button class="task-form__subtask-confirm" type="button" name="confirmSubtask"
+                                    (click)="addSubtask()">✔</button>
+                            </div>
                             @for (subtask of assignedSubtasks(); track $index) {
                             <p class="task-form__subtask-item">{{subtask}}</p>
                             }
                         </div>
                     </div>
 
-                    <button class="task-form__submit" type="submit">submit</button>
+                    <button class="task-form__button task-form__button--clear" type="submit">Clear
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M12.0011 11.9998L17.2441 17.2428M6.75806 17.2428L12.0011 11.9998L6.75806 17.2428ZM17.2441 6.75684L12.0001 11.9998L17.2441 6.75684ZM12.0001 11.9998L6.75806 6.75684L12.0001 11.9998Z"
+                                stroke="#2A3647" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </button>
+
+                    <button class="task-form__button task-form__button--submit" type="submit">Create Task
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <mask id="mask0_500298_2039" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
+                                width="24" height="24">
+                                <rect width="24" height="24" fill="#D9D9D9" />
+                            </mask>
+                            <g mask="url(#mask0_500298_2039)">
+                                <path
+                                    d="M9.55069 15.15L18.0257 6.675C18.2257 6.475 18.4632 6.375 18.7382 6.375C19.0132 6.375 19.2507 6.475 19.4507 6.675C19.6507 6.875 19.7507 7.1125 19.7507 7.3875C19.7507 7.6625 19.6507 7.9 19.4507 8.1L10.2507 17.3C10.0507 17.5 9.81736 17.6 9.55069 17.6C9.28403 17.6 9.05069 17.5 8.85069 17.3L4.5507 13C4.3507 12.8 4.25486 12.5625 4.2632 12.2875C4.27153 12.0125 4.3757 11.775 4.5757 11.575C4.7757 11.375 5.0132 11.275 5.2882 11.275C5.5632 11.275 5.80069 11.375 6.00069 11.575L9.55069 15.15Z"
+                                    fill="white" />
+                            </g>
+                        </svg>
+                    </button>
                 </div>
             </form>
 
