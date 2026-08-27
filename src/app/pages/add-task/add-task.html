@@ -3,28 +3,9 @@
     <div class="page-content">
         <app-header></app-header>
         <main>
-            <!-- @for (task of taskService.tasks(); track task.id) {
-            <h3>{{task.title}}</h3>
-            <p><b>Description:</b> {{task.description}}</p>
-            <p><b>Due Date:</b> {{task.due_date}}</p>
-            <p><b>Priority:</b> {{task.priority}}</p>
-            <p style="color:blue"><b>Category:</b> {{task.category}}</p>
-            <p><b>Status:</b> {{task.status}}</p>
-            <p><b>Assigned to:</b></p>
-            @for (contact of task.task_contacts; track contact.contact_id) {
-            <p>{{contact.contacts.contact_name}}</p>
-            }
-            <p><b>Subtasks:</b></p>
-            @for (subtask of task.subtasks; track subtask.id) {
-            <p>{{subtask.title}}</p>
-            }
-            <br>
-            } -->
             <router-outlet />
-
-
+            <h1 class="main-h1">Add Task</h1>
             <form class="task-form" [formGroup]="taskForm" (ngSubmit)="formSubmit()">
-
                 <div class="task-form__half-wrapper">
                     <div>
                         <label class="task-form__label" for="title">Title</label>
@@ -171,7 +152,15 @@
                         </div>
                     </div>
 
-                    <button class="task-form__submit" type="submit">Create Task
+                    <button class="task-form__button task-form__button--clear" type="submit">Clear
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M12.0011 11.9998L17.2441 17.2428M6.75806 17.2428L12.0011 11.9998L6.75806 17.2428ZM17.2441 6.75684L12.0001 11.9998L17.2441 6.75684ZM12.0001 11.9998L6.75806 6.75684L12.0001 11.9998Z"
+                                stroke="#2A3647" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </button>
+
+                    <button class="task-form__button task-form__button--submit" type="submit">Create Task
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <mask id="mask0_500298_2039" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
                                 width="24" height="24">
