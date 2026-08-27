@@ -77,9 +77,67 @@
     }
   }
   .column-header {
+    width: 200px;
     padding: 20px 0px;
     h2 {
       font-size: 1.6rem;
     }
   }
+}
+
+@media (max-width: 400px) {
+//   .column-header {
+    
+//     position: relative;
+//     justify-content: center;
+
+//     .btn-img {
+//       position: absolute;
+//       right: 0;
+//     }
+//   }
+
+//   .column-task-list {
+//     .column-task-list {
+//   display: flex;
+//   flex-direction: row; /* Tasks nebeneinander anordnen */
+//   overflow-x: auto;   /* Horizontales Scrollen/Wischen aktivieren */
+//   scroll-snap-type: x mandatory; /* Erzwingt das Einrasten beim Swipen */
+//   scroll-behavior: smooth;
+//   gap: 16px;          /* Abstand zwischen den Tasks */
+//   padding-bottom: 8px; /* Platz für ggf. sichtbare Scrollbar */
+  
+//   /* Verhindert ungewolltes vertikales Ausbrechen beim Wischen */
+//   touch-action: pan-x pan-y; 
+  
+//   /* Blendet die Scrollbar optisch aus (optional) */
+//   scrollbar-width: none; /* Firefox */
+//   &::-webkit-scrollbar {  /* Chrome/Safari */
+//     display: none;
+//   }
+// }}
+
+//   .column-task-list > app-board-task-card {
+//     flex: 0 0 85%; 
+  
+//   /* Richtet die Card starr am LINKEN Rand aus (kein Zentrieren) */
+//   scroll-snap-align: start; 
+  
+//   /* Verhindert das Stauchen der Cards */
+//   box-sizing: border-box;
+//     // flex: 0 0 200px;
+//     // scroll-snap-align: start;
+//   }
+// }
+
+// // Two cards share the available row width on narrow screens.
+// @media (max-width: 400px) {
+//   .column-task-list {
+//     gap: 16px;
+
+//     > app-board-task-card {
+//       flex: 0 1 calc((100% - 16px) / 2);
+//       min-width: 0;
+//     }
+//   }
 }
