@@ -287,7 +287,7 @@ export class SupabaseTaskService {
      * @param taskId The ID of the task to update.
      * @returns Whether the status update succeeded.
      */
-    async setStatus(status: Task['status'], taskId: string): Promise<boolean> {
+    async setStatus(status: Task['status'], taskId: number): Promise<boolean> {
         const { data, error } = await this.supabase
             .from('tasks')
             .update({ status: status })

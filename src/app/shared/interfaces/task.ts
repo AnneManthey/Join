@@ -9,7 +9,7 @@ import { Contact } from "./contact";
 
 export interface Subtask {
     id: string;
-    task_id: string;
+    task_id: number;
     title: string;
     done: boolean;
 }
