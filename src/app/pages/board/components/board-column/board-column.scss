@@ -61,3 +61,15 @@
   border-radius: 10px;
   background: transparent;
 }
+
+@media (max-width: 1250px) {
+  .column-task-list {
+    min-height: 0;
+  }
+  .column-header {
+    padding: 20px 0px;
+    h2 {
+      font-size: 1.6rem;
+    }
+  }
+}

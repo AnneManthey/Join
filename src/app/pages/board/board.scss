@@ -112,6 +112,13 @@
 }
 
 @media (max-width: 770px) {
+  .board-columns {
+    flex-direction: column;
+    align-items: center;
+  }
+  .board-header {
+    align-items: center;
+  }
   .board-actions {
     flex-direction: column;
   }
