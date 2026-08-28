@@ -1,24 +1,30 @@
 @use '../../../styles' as *;
 
 main {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
     font-family: Inter;
-    padding: 0 96px;
+    height: 100dvh;
+    display: flex;
+    justify-content: flex-start;
 
     h1 {
         align-self: flex-start;
     }
 }
 
+.main-section {
+    padding: 79px 96px;
+    width: 100%;
+    justify-self: flex-start;
+}
+
 .task-form {
     display: flex;
-    justify-content: center;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-start;
     gap: 32px;
-    max-width: 100%;
-    padding: 48px 96px;
+    width: 100%;
+    padding-top: 48px;
     flex-shrink: 1;
 
     &__half-wrapper {
@@ -116,32 +122,25 @@ main {
         }
     }
 
-    &__radio:checked+.task-form__radio-label--low {
-        background-color: $task-low;
+    &__radio:checked+.task-form__radio-label {
         color: $white;
         font-weight: 700;
+    }
+
+    &__radio:checked+.task-form__radio-label--low {
+        background-color: $task-low;
     }
 
     &__radio:checked+.task-form__radio-label--medium {
         background-color: $task-medium;
-        color: $white;
-        font-weight: 700;
     }
 
     &__radio:checked+.task-form__radio-label--urgent {
         background-color: $task-urgent;
-        color: $white;
-        font-weight: 700;
     }
 
-    &__radio:checked+.task-form__radio-label--low svg path {
-        fill: $white;
-    }
-
-    &__radio:checked+.task-form__radio-label--medium svg path {
-        fill: $white;
-    }
-
+    &__radio:checked+.task-form__radio-label--low svg path,
+    &__radio:checked+.task-form__radio-label--medium svg path,
     &__radio:checked+.task-form__radio-label--urgent svg path {
         fill: $white;
     }
@@ -153,6 +152,7 @@ main {
 
     &__line {
         border-left: 2px solid $gray-medium;
+        height: 420px;
     }
 
     &__subtask-input-wrapper {
@@ -327,5 +327,35 @@ main {
         &--open {
             transform: translateY(-50%) rotate(180deg);
         }
+    }
+
+    &__footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        width: 100%;
+        margin-top: 80px;
+    }
+
+    &__required-note {
+        font-size: 1rem;
+        color: $black;
+    }
+
+    &__actions {
+        display: flex;
+        gap: 16px;
+    }
+}
+
+@media (min-width: 1440px) {
+    .main-section {
+        padding-left: max(96px, calc(50% - 720px));
+        padding-right: max(96px, calc(50% - 720px));
+    }
+
+    .task-form {
+        justify-content: flex-start;
+        // gap: 36px;
     }
 }
