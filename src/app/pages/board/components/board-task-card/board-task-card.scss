@@ -1,6 +1,7 @@
 @use '../../../../styles/variables' as *;
 
 .task-card {
+  max-width: 250px;
   position: relative;
   cursor: grab;
   background-color: $white;
@@ -147,8 +148,8 @@
   }
 }
 
-@media (max-width: 400px) {
+@media (max-width: 560px) {
   .task-card {
-    min-width: 0;
+    min-width: 250px;
   }
 }

@@ -1,112 +1,224 @@
-.input-group {
-    display: flex;
-    align-items: center;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    padding: 4px 8px;
-    width: 300px;
-}
-
-.input-group input {
-    flex: 1;
-    border: none;
-    outline: none;
-    padding: 6px;
-}
-
-.btn-cancel,
-.btn-confirm {
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-size: 16px;
-    padding: 4px 8px;
-    border-radius: 4px;
-}
-
-.btn-cancel {
-    color: #e53e3e;
-}
-
-/* Rot */
-.btn-cancel:hover {
-    background-color: #fff5f5;
-}
-
-.btn-confirm {
-    color: #38a169;
-}
-
-/* Grün */
-.btn-confirm:hover {
-    background-color: #f0fff4;
-}
-
-.priority-selection {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
-
-.priority-options {
-    display: flex;
-    gap: 6px;
-    background-color: #f3f4f6;
-    padding: 4px;
-    border-radius: 8px;
-}
-
-.btn-priority {
-    border: none;
-    background: transparent;
-    padding: 8px 16px;
-    border-radius: 6px;
-    cursor: pointer;
-    font-weight: 500;
-    transition: all 0.2s ease;
-}
-
-/* Aktiver Zustand (beispielhaft auf .medium gesetzt) */
-.btn-priority.low.active {
-    background-color: #def7ec;
-    color: #03543f;
-}
-
-.btn-priority.medium.active {
-    background-color: #fef3c7;
-    color: #92400e;
-}
-
-.btn-priority.urgent.active {
-    background-color: #fde8e8;
-    color: #9b1c1c;
-}
-
-.btn-cancel,
-.btn-confirm {
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-size: 18px;
-    padding: 4px 8px;
-}
-
-.btn-cancel {
-    color: #e53e3e;
-}
-
-.btn-confirm {
-    color: #38a169;
-}
-
-form {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    width: 500px;
-}
+@use '../../../styles' as *;
 
 main {
+    display: flex;
     flex-direction: column;
-    overflow-y: scroll;
+    justify-content: center;
+    align-items: center;
+    font-family: Inter;
+    padding: 0 96px;
+
+    h1 {
+        align-self: flex-start;
+    }
+}
+
+.task-form {
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+    max-width: 100%;
+    padding: 48px 96px;
+    flex-shrink: 1;
+
+    &__half-wrapper {
+        display: flex;
+        flex-direction: column;
+        gap: 32px;
+        width: 440px;
+    }
+
+    &__label,
+    &__legend {
+        display: block;
+        margin-bottom: 8px;
+        font-size: 1.25rem;
+    }
+
+    &__textarea {
+        overflow-y: scroll;
+        max-width: 440px;
+    }
+
+    &__input,
+    &__select,
+    &__textarea {
+        width: 440px;
+        height: 48px;
+        padding: 12px 21px;
+        border-radius: 10px;
+        border: 1px solid $gray-medium;
+        font-family: Inter;
+        cursor: pointer;
+        font-size: 1.25rem;
+    }
+
+
+    &__subtask-cancel,
+    &__subtask-confirm {
+        cursor: pointer;
+    }
+
+    &__selected-contacts {
+        display: flex;
+        margin-top: 8px;
+    }
+
+    &__contact-avatar {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 2.6rem;
+        height: 2.6rem;
+        border: 2px solid $white;
+        border-radius: 50%;
+        color: $white;
+        flex-shrink: 0;
+
+        &:not(:first-child) {
+            margin-left: -0.5rem;
+        }
+    }
+
+    &__radio {
+        position: absolute;
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+
+    &__fieldset {
+        border: none;
+        display: flex;
+        gap: 16px;
+    }
+
+    &__radio-label {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 16px;
+        border-radius: 8px;
+        cursor: pointer;
+        user-select: none;
+        background-color: $white;
+        font-size: 1.3rem;
+        box-shadow: 0px 0px 4px 0px #00000066;
+        transition: background-color 0.2s;
+
+        img {
+            width: 16px;
+            height: 16px;
+        }
+
+        &:hover {
+            box-shadow: 0px 4px 4px 0px #00000040;
+        }
+    }
+
+    &__radio:checked+.task-form__radio-label--low {
+        background-color: $task-low;
+        color: $white;
+        font-weight: 700;
+    }
+
+    &__radio:checked+.task-form__radio-label--medium {
+        background-color: $task-medium;
+        color: $white;
+        font-weight: 700;
+    }
+
+    &__radio:checked+.task-form__radio-label--urgent {
+        background-color: $task-urgent;
+        color: $white;
+        font-weight: 700;
+    }
+
+    &__radio:checked+.task-form__radio-label--low svg path {
+        fill: $white;
+    }
+
+    &__radio:checked+.task-form__radio-label--medium svg path {
+        fill: $white;
+    }
+
+    &__radio:checked+.task-form__radio-label--urgent svg path {
+        fill: $white;
+    }
+
+    &__radio:focus-visible+.task-form__radio-label {
+        outline: 2px solid $black;
+        outline-offset: 2px;
+    }
+
+    &__line {
+        border-left: 2px solid $gray-medium;
+    }
+
+    &__subtask-input-wrapper {
+        position: relative;
+        display: flex;
+        align-items: center;
+    }
+
+    &__subtask-input-wrapper .task-form__input {
+        padding-right: 64px;
+    }
+
+    &__subtask-cancel,
+    &__subtask-confirm {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 4px;
+    }
+
+    &__subtask-confirm {
+        right: 8px;
+    }
+
+    &__subtask-cancel {
+        right: 36px;
+    }
+
+    &__button {
+        width: fit-content;
+        padding: 16px;
+        border-radius: 10px;
+        font-family: Inter;
+        font-size: 1.3rem;
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        gap: 8px;
+        transition: all 255ms ease-in-out;
+    }
+
+    &__button--submit {
+        background-color: $dark-blue;
+        color: $white;
+        font-weight: 700;
+
+        &:hover,
+        &:active {
+            box-shadow: 0px 4px 4px 0px #00000040;
+            background-color: $blue-green;
+        }
+    }
+
+    &__button--clear {
+        background-color: $transparent;
+        color: $dark-blue;
+        font-weight: 400;
+        border: 1px solid $dark-blue;
+
+        &:hover,
+        &:active {
+            box-shadow: 0px 4px 4px 0px #00000040;
+            border: 1px solid $blue-green;
+        }
+    }
 }
