@@ -1,14 +1,16 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, ElementRef, HostListener, computed, inject, signal } from '@angular/core';
 import { SupabaseTaskService } from '../../shared/services/supabase-task-service';
 import { Header } from '../../layout/header/header';
 import { Navbar } from '../../layout/navbar/navbar';
 import { RouterOutlet } from '@angular/router';
 import { AbstractControl, ValidationErrors, FormControl, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { SupabaseService } from '../../shared/services/supabase-service';
+import { GetInitialsPipe } from '../../shared/pipes/get-initials-pipe';
+import { getColor } from '../../shared/utils/contacts-helper';
 
 @Component({
   selector: 'app-add-task',
-  imports: [Header, Navbar, RouterOutlet, ReactiveFormsModule],
+  imports: [Header, Navbar, RouterOutlet, ReactiveFormsModule, GetInitialsPipe],
   templateUrl: './add-task.html',
   styleUrl: './add-task.scss',
 })
@@ -26,10 +28,32 @@ export class AddTask {
 
   private supabaseService = inject(SupabaseService);
   private supabase = this.supabaseService.client;
+  private elementRef = inject(ElementRef);
   contacts = this.supabaseService.contacts;
   contactDropdownOpen = signal(false);
   selectedContacts = signal<number[]>([]);
   assignedSubtasks = signal<string[]>([]);
+  /** Current contact search query for the assigned-to dropdown. */
+  contactSearchTerm = signal('');
+
+  /** Filters loaded contacts by the current search query. */
+  filteredContacts = computed(() => {
+    const searchTerm = this.contactSearchTerm().trim().toLowerCase();
+    if (!searchTerm) {
+      return this.contacts();
+    }
+    return this.contacts().filter(contact =>
+      contact.contact_name.toLowerCase().includes(searchTerm)
+    );
+  });
+
+  /** Assigns each contact the same deterministic avatar color as the contact list. */
+  getColor = getColor;
+
+  /** Full contact objects for the currently assigned contact ids. */
+  selectedContactDetails = computed(() =>
+    this.contacts().filter(contact => this.selectedContacts().includes(contact.id))
+  );
 
 
 
@@ -149,6 +173,23 @@ export class AddTask {
 
   toggleContactDropdown() {
     this.contactDropdownOpen.update(open => !open);
+  }
+
+  /** Updates the contact search query and opens the dropdown if it is closed. */
+  onAssignedToInput(event: Event) {
+    this.contactSearchTerm.set((event.target as HTMLInputElement).value);
+    if (!this.contactDropdownOpen()) {
+      this.contactDropdownOpen.set(true);
+    }
+  }
+
+  /** Closes the assigned-to dropdown when clicking outside of it. */
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent) {
+    if (!this.contactDropdownOpen()) return;
+    if (!this.elementRef.nativeElement.contains(event.target)) {
+      this.contactDropdownOpen.set(false);
+    }
   }
 
   toggleSelectedContact(contactId: number, event: Event) {

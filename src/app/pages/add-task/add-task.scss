@@ -59,6 +59,27 @@ main {
         cursor: pointer;
     }
 
+    &__selected-contacts {
+        display: flex;
+        margin-top: 8px;
+    }
+
+    &__contact-avatar {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 2.6rem;
+        height: 2.6rem;
+        border: 2px solid $white;
+        border-radius: 50%;
+        color: $white;
+        flex-shrink: 0;
+
+        &:not(:first-child) {
+            margin-left: -0.5rem;
+        }
+    }
+
     &__radio {
         position: absolute;
         opacity: 0;

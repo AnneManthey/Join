@@ -103,12 +103,24 @@
                             <div class="task-form__dropdown-trigger-wrapper">
                                 <input class="task-form__input task-form__dropdown-trigger" id="assignedToInput"
                                     type="text" placeholder="Select contacts to assign"
-                                    (click)="toggleContactDropdown()">
+                                    (click)="toggleContactDropdown()" (input)="onAssignedToInput($event)">
                             </div>
+
+                            @if (selectedContactDetails().length > 0) {
+                            <div class="task-form__selected-contacts">
+                                @for (contact of selectedContactDetails(); track contact.id) {
+                                <span class="task-form__contact-avatar"
+                                    [style.background-color]="getColor(contact.contact_name)"
+                                    [title]="contact.contact_name">
+                                    {{ contact.contact_name | getInitials }}
+                                </span>
+                                }
+                            </div>
+                            }
 
                             @if (contactDropdownOpen()) {
                             <div class="task-form__dropdown-panel">
-                                @for (contact of contacts(); track contact.id) {
+                                @for (contact of filteredContacts(); track contact.id) {
                                 <label class="task-form__dropdown-option">
                                     <span class="task-form__dropdown-avatar">{{ contact.contact_name }}</span>
                                     <span class="task-form__dropdown-name">{{ contact.contact_name }}</span>
