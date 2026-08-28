@@ -171,6 +171,8 @@ export class AddTask {
     } else {
       console.log('form not valid');
     }
+    this.taskForm.markAllAsTouched();
+    this.resetForm();
   }
 
   resetForm() {
