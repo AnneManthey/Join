@@ -3,6 +3,7 @@ import { SupabaseService } from './supabase-service';
 import { Task } from '../interfaces/task';
 import { RealtimeChannel } from '@supabase/supabase-js';
 import { Subtask, TaskContact } from '../interfaces/task';
+import { AbstractControl, ValidationErrors, FormControl, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 
 
 @Service()
@@ -20,6 +21,7 @@ export class SupabaseTaskService {
     private taskContactsInsertChannel!: RealtimeChannel;
     private taskContactsUpdateChannel!: RealtimeChannel;
     private taskContactsDeleteChannel!: RealtimeChannel;
+    currentTaskId!: number;
 
     /** Initializes the service and starts loading tasks and realtime subscriptions. */
     constructor() {
@@ -298,6 +300,61 @@ export class SupabaseTaskService {
             return false;
         }
 
+        return true;
+    }
+
+    //  NUR PLATZHALTER!!!! NUR PLATZHALTER!!!!
+    //  NUR PLATZHALTER!!!! NUR PLATZHALTER!!!!
+    //  NUR PLATZHALTER!!!! NUR PLATZHALTER!!!!
+    editForm = new FormGroup({
+        title: new FormControl('', {
+            validators: [Validators.required, Validators.minLength(4)]
+        }),
+        description: new FormControl(''),
+        due_date: new FormControl('', {
+            validators: [Validators.required]
+        }),
+        priority: new FormControl('medium', {
+            validators: [Validators.required]
+        }),
+        assignedTo: new FormControl(''),
+        category: new FormControl('', {
+            validators: [Validators.required]
+        }),
+        subtaskInput: new FormControl('', {
+            validators: [Validators.minLength(4)]
+        })
+    })
+    //  NUR PLATZHALTER!!!! NUR PLATZHALTER!!!!
+    //  NUR PLATZHALTER!!!! NUR PLATZHALTER!!!!
+    //  NUR PLATZHALTER!!!! NUR PLATZHALTER!!!!
+
+
+    // hier fehlt: task_contacts, subtasks
+    onEditSubmit() {
+        const updatedFields: Partial<Task> = {
+            title: this.editForm.value.title ?? '',
+            description: this.editForm.value.description ?? '',
+            due_date: this.editForm.value.due_date ?? '',
+            priority: this.editForm.value.priority as Task['priority'],
+            category: this.editForm.value.category as Task['category']
+        };
+
+        this.editTask(this.currentTaskId, updatedFields);
+    }
+    
+    // hier fehlt: task_contacts, subtasks
+    async editTask(taskId: number, updatedTask: Partial<Task>) {
+        const { data, error } = await this.supabase
+            .from('tasks')
+            .update(updatedTask)
+            .eq('id', taskId)
+            .select()
+
+        if (error) {
+            console.error('Task could not be updated', error.message);
+            return false;
+        }
         return true;
     }
 
