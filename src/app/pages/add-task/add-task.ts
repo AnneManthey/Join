@@ -1,4 +1,4 @@
-import { Component, ElementRef, HostListener, computed, inject, signal } from '@angular/core';
+import { Component, ElementRef, HostListener, ViewChild, computed, inject, signal } from '@angular/core';
 import { SupabaseTaskService } from '../../shared/services/supabase-task-service';
 import { Header } from '../../layout/header/header';
 import { Navbar } from '../../layout/navbar/navbar';
@@ -28,7 +28,7 @@ export class AddTask {
 
   private supabaseService = inject(SupabaseService);
   private supabase = this.supabaseService.client;
-  private elementRef = inject(ElementRef);
+  @ViewChild('assignedToDropdown') assignedToDropdown?: ElementRef<HTMLElement>;
   contacts = this.supabaseService.contacts;
   contactDropdownOpen = signal(false);
   selectedContacts = signal<number[]>([]);
@@ -187,8 +187,9 @@ export class AddTask {
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: MouseEvent) {
     if (!this.contactDropdownOpen()) return;
-    if (!this.elementRef.nativeElement.contains(event.target)) {
+    if (!this.assignedToDropdown?.nativeElement.contains(event.target as Node)) {
       this.contactDropdownOpen.set(false);
+      this.contactSearchTerm.set('');
     }
   }
 
