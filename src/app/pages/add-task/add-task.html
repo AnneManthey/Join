@@ -8,7 +8,7 @@
                 <h1 class="main-h1">Add Task</h1>
                 <form class="task-form" [formGroup]="taskForm" (ngSubmit)="formSubmit()">
                     <div class="task-form__half-wrapper">
-                        <div>
+                        <div class="task-form__input-wrapper">
                             <label class="task-form__label" for="title">Title<span class="task-form__required-asterisk">&#42;</span></label>
                             <input class="task-form__input" id="title" type="text" name="title" formControlName="title"
                                 placeholder="Enter a title">
@@ -17,13 +17,13 @@
                             }
                         </div>
 
-                        <div>
+                        <div class="task-form__input-wrapper">
                             <label class="task-form__label" for="description">Description</label>
                             <textarea class="task-form__textarea" id="description" name="description"
                                 formControlName="description" placeholder="Enter a description"></textarea>
                         </div>
 
-                        <div>
+                        <div class="task-form__input-wrapper">
                             <label class="task-form__label" for="dueDate">Due Date<span class="task-form__required-asterisk">&#42;</span></label>
                             <input class="task-form__input" id="dueDate" type="date" name="dueDate"
                                 formControlName="due_date">
@@ -34,7 +34,7 @@
                     </div>
                     <div class="task-form__line"></div>
                     <div class="task-form__half-wrapper">
-                        <div>
+                        <div class="task-form__input-wrapper">
                             <fieldset class="task-form__fieldset">
                                 <legend class="task-form__legend">Priority</legend>
 
@@ -97,7 +97,7 @@
                                 </label>
                             </fieldset>
                         </div>
-                        <div>
+                        <div class="task-form__input-wrapper">
                             <div class="task-form__dropdown" #assignedToDropdown>
                                 <label class="task-form__label" for="assignedToInput">Assigned to</label>
 
@@ -150,7 +150,7 @@
                             </div>
                         </div>
 
-                        <div>
+                        <div class="task-form__input-wrapper">
                             <label class="task-form__label" for="category">Category<span class="task-form__required-asterisk">&#42;</span></label>
                             <select class="task-form__select" id="category" name="category" formControlName="category">
                                 <option value="">Select task category</option>
@@ -161,7 +161,7 @@
                             <p class="task-form__error">Please choose a category</p>
                             }
                         </div>
-                        <div>
+                        <div class="task-form__input-wrapper">
                             <div class="task-form__subtasks">
                                 <label class="task-form__label" for="subtaskInput">Subtasks</label>
                                 <div class="task-form__subtask-input-wrapper">

@@ -60,10 +60,13 @@ main {
         font-size: 1.25rem;
     }
 
-
     &__subtask-cancel,
     &__subtask-confirm {
         cursor: pointer;
+    }
+
+    &__input-wrapper {
+        min-height: 100px;
     }
 
     &__selected-contacts {
