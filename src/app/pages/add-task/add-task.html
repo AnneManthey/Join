@@ -106,7 +106,7 @@
                                     (click)="toggleContactDropdown()" (input)="onAssignedToInput($event)">
                             </div>
 
-                            @if (selectedContactDetails().length > 0) {
+                            @if (selectedContactDetails().length > 0 && !contactDropdownOpen()) {
                             <div class="task-form__selected-contacts">
                                 @for (contact of selectedContactDetails(); track contact.id) {
                                 <span class="task-form__contact-avatar"
@@ -122,11 +122,16 @@
                             <div class="task-form__dropdown-panel">
                                 @for (contact of filteredContacts(); track contact.id) {
                                 <label class="task-form__dropdown-option">
-                                    <span class="task-form__dropdown-avatar">{{ contact.contact_name }}</span>
-                                    <span class="task-form__dropdown-name">{{ contact.contact_name }}</span>
+                                    <!-- <span class="task-form__dropdown-avatar">{{ contact.contact_name }}</span> -->
                                     <input class="task-form__checkbox" type="checkbox" [value]="contact.id"
                                         (change)="toggleSelectedContact(contact.id, $event)"
                                         [checked]="selectedContacts().includes(contact.id)">
+                                    <span class="task-form__contact-avatar"
+                                        [style.background-color]="getColor(contact.contact_name)"
+                                        [title]="contact.contact_name">
+                                        {{ contact.contact_name | getInitials }}
+                                    </span>
+                                    <span class="task-form__dropdown-name">{{ contact.contact_name }}</span>
                                 </label>
                                 }
                             </div>
