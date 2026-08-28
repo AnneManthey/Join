@@ -301,6 +301,25 @@ export class SupabaseTaskService {
         return true;
     }
 
+    /**
+     * Deletes a task from the database by its unique identifier.
+     *
+     * @param taskId - The unique numeric ID of the task to be deleted.
+     * @returns A promise that resolves to `true` if the task was successfully deleted, or `false` if an error occurred.
+     */
+    async deleteTask(taskId: number) {
+        const { error } = await this.supabase
+            .from('tasks')
+            .delete()
+            .eq('id', taskId)
+
+        if (error) {
+            console.error('Task could not be deleted', error.message);
+            return false;
+        }
+        return true;
+    }
+
     async toggleSubtask(subtaskId: Subtask['id'], done: boolean) {
         const allTasks = this.tasks();
         for (const task of allTasks) {
