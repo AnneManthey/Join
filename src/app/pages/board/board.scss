@@ -6,7 +6,7 @@
   width: 100%;
   font-family: 'Inter', sans-serif;
   padding: 70px 60px;
-  background-color: rgba(246, 247, 248, 1);
+  background-color: $board-bg;
   overflow-y: auto;
   overflow-x: hidden;
 }
@@ -80,13 +80,6 @@
   }
 }
 
-.board-columns {
-  display: flex;
-  justify-content: flex-start;
-  gap: 26px;
-  padding-bottom: 50px;
-}
-
 .no-tasks-found {
   padding-top: 5px;
   position: absolute;
@@ -94,6 +87,13 @@
   color: $dark-blue;
   font-size: 0.9rem;
   font-weight: bold;
+}
+
+.board-columns {
+  display: flex;
+  justify-content: flex-start;
+  gap: 26px;
+  padding-bottom: 50px;
 }
 
 .btn-add-mobile {
@@ -169,16 +169,14 @@
     scroll-snap-type: x mandatory;
     -webkit-overflow-scrolling: touch;
     gap: 0;
+    // scrollbar-width: none;
+    // &::-webkit-scrollbar {
+    //   display: none;
+    // }
 
-    // Scrollbar optisch ausblenden (Swipe bleibt trotzdem möglich)
-    scrollbar-width: none;
-    &::-webkit-scrollbar {
-      display: none;
-    }
-    // Inhalt faded am rechten Rand aus
+    // Fadeout to right
     mask-image: linear-gradient(to right, black 90%, transparent 100%);
     -webkit-mask-image: linear-gradient(to right, black 90%, transparent 100%);
-  
   }
 
   app-board-column {

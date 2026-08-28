@@ -22,10 +22,8 @@
               }
             </div>
             <button class="btn-add-desktop" (click)="openAddTask()">Add task +</button>
-            <!-- <button class="btn-add-mobile"(click)="openAddTask()"><img src="app-icons/board/add-mobile.svg" alt="Add Icon"></button> -->
           </div>
         </header>
-
         <section class="board-columns" cdkDropListGroup>
           @for (column of columns(); track column.id) {
           <app-board-column [column]="column" (taskDropped)="onTaskDropped($event)"
