@@ -36,8 +36,7 @@ export class AddTask {
   contactDropdownOpen = signal(false);
   selectedContacts = this.supabaseTaskService.selectedContacts;
   assignedSubtasks = this.supabaseTaskService.assignedSubtasks;
-  selectedContacts = signal<number[]>([]);
-  assignedSubtasks = signal<string[]>([]);
+  
   /** Current contact search query for the assigned-to dropdown. */
   contactSearchTerm = signal('');
 
