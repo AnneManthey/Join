@@ -9,7 +9,8 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding-bottom: 16px;
+  // padding-bottom: 16px;
+  padding: 0px 5px 16px 5px;
   h2 {
     color: $menu-color;
     font-size: 1.2rem;
@@ -72,13 +73,13 @@
     flex-direction: row;
     flex-wrap: wrap;
 
-    > app-board-task-card {
-      flex: 0 0 200px;
-    }
+    // > app-board-task-card {
+    //   flex: 0 0 200px;
+    // }
   }
   .column-header {
-    width: 200px;
-    padding: 20px 0px;
+    width: 250px;
+    padding: 20px 5px 16px 5px;
     h2 {
       font-size: 1.6rem;
     }
@@ -89,7 +90,7 @@
   .column-header{
     justify-content: space-between;
     align-items: center;
-    width: 250px;
+    
     
   }
  
