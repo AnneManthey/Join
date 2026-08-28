@@ -15,6 +15,7 @@ main {
     padding: 79px 96px;
     width: 100%;
     justify-self: flex-start;
+    overflow-y: auto;
 }
 
 .task-form {
@@ -346,6 +347,11 @@ main {
         display: flex;
         gap: 16px;
     }
+
+    &__error,
+    &__required-asterisk {
+        color: $red;
+    }
 }
 
 @media (min-width: 1440px) {
@@ -356,6 +362,15 @@ main {
 
     .task-form {
         justify-content: flex-start;
-        // gap: 36px;
     }
 }
+
+// @media (max-width: 1369px) {
+//     .task-form {
+//         justify-content: center;
+
+//         &__line {
+//             border-color: transparent;
+//         }
+//     }
+// }
