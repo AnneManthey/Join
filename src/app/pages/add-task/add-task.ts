@@ -36,6 +36,7 @@ export class AddTask {
   contactDropdownOpen = signal(false);
   selectedContacts = this.supabaseTaskService.selectedContacts;
   assignedSubtasks = this.supabaseTaskService.assignedSubtasks;
+  isCategoryOpen = false;
 
   /** Current contact search query for the assigned-to dropdown. */
   contactSearchTerm = signal('');
@@ -174,7 +175,6 @@ export class AddTask {
       console.log('form not valid');
       this.taskForm.markAllAsTouched();
     }
-
   }
 
   resetForm() {
