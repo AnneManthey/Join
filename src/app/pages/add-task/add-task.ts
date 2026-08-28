@@ -59,8 +59,6 @@ export class AddTask {
     this.contacts().filter(contact => this.selectedContacts().includes(contact.id))
   );
 
-
-
   taskForm = new FormGroup({
     title: new FormControl('', {
       validators: [Validators.required, Validators.minLength(4)]
@@ -176,7 +174,9 @@ export class AddTask {
   }
 
   resetForm() {
-    this.taskForm.reset({ priority: 'medium' });
+    this.taskForm.reset({ priority: 'medium', category: '' });
+    this.selectedContacts.set([]);
+    this.assignedSubtasks.set([]);
   }
 
   toggleContactDropdown() {
@@ -190,6 +190,7 @@ export class AddTask {
       this.contactDropdownOpen.set(true);
     }
   }
+
 
   /** Closes the assigned-to dropdown when clicking outside of it. */
   @HostListener('document:click', ['$event'])
