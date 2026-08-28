@@ -66,21 +66,20 @@ main {
         height: 48px;
     }
 
-    // &__select {
-    //     appearance: none;
-    //     -webkit-appearance: none;
-    //     -moz-appearance: none;
-    //     background-image: url('/app-icons/addtask/arrow_drop_down.svg');
-    //     background-repeat: no-repeat;
-    //     background-position: right 12px center;
-    //     background-size: 8px 5px;
-    //     cursor: pointer;
-    //     transition: all 255ms ease-in-out;
+    &__input[type="date"] {
+        appearance: none;
+        position: relative;
+        cursor: pointer;
 
-    //     &:open {
-    //         background-image: url('/app-icons/addtask/arrow_drop_down_rotate.svg');
-    //     }
-    // }
+        &::-webkit-calendar-picker-indicator {
+            background-image: url('/app-icons/addtask/datepicker.svg');
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: 22px 22px;
+            cursor: pointer;
+            opacity: 1;
+        }
+    }
 
     &__subtask-cancel,
     &__subtask-confirm {
