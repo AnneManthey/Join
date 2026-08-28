@@ -121,7 +121,7 @@
                             @if (contactDropdownOpen()) {
                             <div class="task-form__dropdown-panel">
                                 @for (contact of filteredContacts(); track contact.id) {
-                                <label class="task-form__dropdown-option">
+                                <label class="task-form__dropdown-option" [class.task-form__checked-contact]="selectedContacts().includes(contact.id)">
                                     <div class="task-form__dropdown-contact-wrapper">
                                         <span class="task-form__contact-avatar"
                                             [style.background-color]="getColor(contact.contact_name)"
@@ -151,7 +151,6 @@
                         <p class="task-form__error" style="color:red">Please choose a category</p>
                         }
                     </div>
-
                     <div>
                         <div class="task-form__subtasks">
                             <label class="task-form__label" for="subtaskInput">Subtasks</label>
