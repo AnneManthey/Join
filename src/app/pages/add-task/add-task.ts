@@ -5,6 +5,7 @@ import { Navbar } from '../../layout/navbar/navbar';
 import { RouterOutlet } from '@angular/router';
 import { AbstractControl, ValidationErrors, FormControl, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { SupabaseService } from '../../shared/services/supabase-service';
+import { Task } from '../../shared/interfaces/task';
 import { GetInitialsPipe } from '../../shared/pipes/get-initials-pipe';
 import { getColor } from '../../shared/utils/contacts-helper';
 
@@ -27,10 +28,14 @@ export class AddTask {
   // TEST ENDE
 
   private supabaseService = inject(SupabaseService);
+  private supabaseTaskService = inject(SupabaseTaskService);
+
   private supabase = this.supabaseService.client;
   @ViewChild('assignedToDropdown') assignedToDropdown?: ElementRef<HTMLElement>;
   contacts = this.supabaseService.contacts;
   contactDropdownOpen = signal(false);
+  selectedContacts = this.supabaseTaskService.selectedContacts;
+  assignedSubtasks = this.supabaseTaskService.assignedSubtasks;
   selectedContacts = signal<number[]>([]);
   assignedSubtasks = signal<string[]>([]);
   /** Current contact search query for the assigned-to dropdown. */
@@ -115,8 +120,8 @@ export class AddTask {
             title: this.title?.value,
             description: this.description?.value ?? '',
             due_date: this.duedate?.value,
-            priority: this.priority?.value,
-            category: this.category?.value,
+            priority: this.priority?.value as Task['priority'],
+            category: this.category?.value as Task['category'],
             status: 'todo'
           },
         ])
