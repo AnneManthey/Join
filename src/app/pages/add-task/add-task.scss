@@ -228,7 +228,7 @@ main {
 
     &__dropdown-panel {
         position: absolute;
-        top: 100%;
+        top: 80px;
         left: 0;
         right: 0;
         z-index: 10;
@@ -269,46 +269,63 @@ main {
         color: $white;
         border-radius: 10px;
     }
-}
 
-.task-form__checkbox {
-    appearance: none;
-    -webkit-appearance: none;
-    width: 24px;
-    height: 24px;
-    border: 2px solid $dark-blue;
-    border-radius: 3px;
-    position: relative;
+    &__checkbox {
+        appearance: none;
+        -webkit-appearance: none;
+        width: 24px;
+        height: 24px;
+        border: 2px solid $dark-blue;
+        border-radius: 3px;
+        position: relative;
 
-    flex-shrink: 0;
-    cursor: pointer;
-    border: none;
-    background-color: transparent;
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: contain;
-    background-image: url('/app-icons/addtask/ckeck_unchecked.svg');
-    transition: background-color 0.2s, border-color 0.2s;
-
-    &:checked {
+        flex-shrink: 0;
+        cursor: pointer;
         border: none;
         background-color: transparent;
         background-repeat: no-repeat;
         background-position: center;
         background-size: contain;
-        background-image: url('/app-icons/addtask/check_checked.svg');
+        background-image: url('/app-icons/addtask/ckeck_unchecked.svg');
+        transition: background-color 0.2s, border-color 0.2s;
+
+        &:checked {
+            border: none;
+            background-color: transparent;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: contain;
+            background-image: url('/app-icons/addtask/check_checked.svg');
+        }
+
+        &:checked::after {
+            display: none;
+        }
+
+        &:focus-visible {
+            outline: 2px solid $blue-green;
+            outline-offset: 2px;
+        }
+
+        &:hover:not(:checked) {
+            border-color: $blue-green;
+        }
     }
 
-    &:checked::after {
-        display: none;
+    &__dropdown-trigger-wrapper {
+        position: relative;
     }
 
-    &:focus-visible {
-        outline: 2px solid $blue-green;
-        outline-offset: 2px;
-    }
+    &__dropdown-arrow {
+        position: absolute;
+        right: 16px;
+        top: 50%;
+        transform: translateY(-50%);
+        pointer-events: none;
+        transition: transform 255ms ease-in-out;
 
-    &:hover:not(:checked) {
-        border-color: $blue-green;
+        &--open {
+            transform: translateY(-50%) rotate(180deg);
+        }
     }
 }
