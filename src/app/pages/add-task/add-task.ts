@@ -168,17 +168,20 @@ export class AddTask {
       }
       this.assignedSubtasks.set([]);
 
+      this.resetForm();
+
     } else {
       console.log('form not valid');
+      this.taskForm.markAllAsTouched();
     }
-    this.taskForm.markAllAsTouched();
-    this.resetForm();
+
   }
 
   resetForm() {
     this.taskForm.reset({ priority: 'medium', category: '' });
     this.selectedContacts.set([]);
     this.assignedSubtasks.set([]);
+    this.taskForm.markAsUntouched();
   }
 
   toggleContactDropdown() {
