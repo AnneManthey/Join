@@ -81,6 +81,10 @@ main {
         }
     }
 
+    &__ul {
+        padding: 8px 20px;
+    }
+
     &__subtask-cancel,
     &__subtask-confirm {
         cursor: pointer;
