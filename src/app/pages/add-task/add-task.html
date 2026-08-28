@@ -104,9 +104,16 @@
                                 <input class="task-form__input task-form__dropdown-trigger" id="assignedToInput"
                                     type="text" placeholder="Select contacts to assign" [value]="contactSearchTerm()"
                                     (click)="toggleContactDropdown()" (input)="onAssignedToInput($event)">
+                                <svg class="task-form__dropdown-arrow"
+                                    [class.task-form__dropdown-arrow--open]="contactDropdownOpen()" width="8" height="5"
+                                    viewBox="0 0 8 5" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M2.90593 4.3L0.305932 1.7C-0.0107345 1.38333 -0.0815678 1.02083 0.0934322 0.6125C0.268432 0.204167 0.580932 0 1.03093 0H6.18093C6.63093 0 6.94343 0.204167 7.11843 0.6125C7.29343 1.02083 7.2226 1.38333 6.90593 1.7L4.30593 4.3C4.20593 4.4 4.0976 4.475 3.98093 4.525C3.86427 4.575 3.73927 4.6 3.60593 4.6C3.4726 4.6 3.3476 4.575 3.23093 4.525C3.11427 4.475 3.00593 4.4 2.90593 4.3Z"
+                                        fill="#2A3647" />
+                                </svg>
                             </div>
 
-                            @if (selectedContactDetails().length > 0 && !contactDropdownOpen()) {
+                            @if (selectedContactDetails().length > 0) {
                             <div class="task-form__selected-contacts">
                                 @for (contact of selectedContactDetails(); track contact.id) {
                                 <span class="task-form__contact-avatar"
@@ -121,17 +128,19 @@
                             @if (contactDropdownOpen()) {
                             <div class="task-form__dropdown-panel">
                                 @for (contact of filteredContacts(); track contact.id) {
-                                <label class="task-form__dropdown-option">
-                                    <!-- <span class="task-form__dropdown-avatar">{{ contact.contact_name }}</span> -->
+                                <label class="task-form__dropdown-option"
+                                    [class.task-form__checked-contact]="selectedContacts().includes(contact.id)">
+                                    <div class="task-form__dropdown-contact-wrapper">
+                                        <span class="task-form__contact-avatar"
+                                            [style.background-color]="getColor(contact.contact_name)"
+                                            [title]="contact.contact_name">
+                                            {{ contact.contact_name | getInitials }}
+                                        </span>
+                                        <span class="task-form__dropdown-name">{{ contact.contact_name }}</span>
+                                    </div>
                                     <input class="task-form__checkbox" type="checkbox" [value]="contact.id"
                                         (change)="toggleSelectedContact(contact.id, $event)"
                                         [checked]="selectedContacts().includes(contact.id)">
-                                    <span class="task-form__contact-avatar"
-                                        [style.background-color]="getColor(contact.contact_name)"
-                                        [title]="contact.contact_name">
-                                        {{ contact.contact_name | getInitials }}
-                                    </span>
-                                    <span class="task-form__dropdown-name">{{ contact.contact_name }}</span>
                                 </label>
                                 }
                             </div>
@@ -150,7 +159,6 @@
                         <p class="task-form__error" style="color:red">Please choose a category</p>
                         }
                     </div>
-
                     <div>
                         <div class="task-form__subtasks">
                             <label class="task-form__label" for="subtaskInput">Subtasks</label>
