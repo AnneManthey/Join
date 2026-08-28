@@ -36,7 +36,7 @@ export class AddTask {
   contactDropdownOpen = signal(false);
   selectedContacts = this.supabaseTaskService.selectedContacts;
   assignedSubtasks = this.supabaseTaskService.assignedSubtasks;
-  
+
   /** Current contact search query for the assigned-to dropdown. */
   contactSearchTerm = signal('');
 
@@ -173,6 +173,10 @@ export class AddTask {
     } else {
       console.log('form not valid');
     }
+  }
+
+  resetForm() {
+    this.taskForm.reset({ priority: 'medium' });
   }
 
   toggleContactDropdown() {
