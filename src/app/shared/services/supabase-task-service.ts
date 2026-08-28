@@ -23,6 +23,7 @@ export class SupabaseTaskService {
     private taskContactsDeleteChannel!: RealtimeChannel;
     currentTaskId!: number;
     selectedContacts = signal<number[]>([]);
+    assignedSubtasks = signal<string[]>([]);
 
 
     /** Initializes the service and starts loading tasks and realtime subscriptions. */
@@ -332,7 +333,6 @@ export class SupabaseTaskService {
     //  NUR PLATZHALTER!!!! NUR PLATZHALTER!!!!
 
 
-    // hier fehlt: subtasks
     async onEditSubmit() {
         const updatedFields: Partial<Task> = {
             title: this.editForm.value.title ?? '',
@@ -344,12 +344,36 @@ export class SupabaseTaskService {
 
         const taskSuccess = await this.editTask(this.currentTaskId, updatedFields);
         const contactsSuccess = await this.updateAssignedContacts(this.currentTaskId, this.selectedContacts());
+        const subtasksSuccess = await this.addNewSubtasks(this.currentTaskId, this.assignedSubtasks());
 
-        if (taskSuccess && contactsSuccess) {
-            console.log('Task erfolgreich aktualisiert');
+        if (taskSuccess && contactsSuccess && subtasksSuccess) {
+            console.log('Task successfully updated');
+            this.assignedSubtasks.set([]);
+            this.selectedContacts.set([]);
         }
     }
 
+    async addNewSubtasks(taskId: number, newSubtaskTitles: string[]): Promise<boolean> {
+        if (newSubtaskTitles.length === 0) {
+            return true;
+        }
+
+        const insertRows = newSubtaskTitles.map(title => ({
+            task_id: taskId,
+            title: title
+        }));
+
+        const { error } = await this.supabase
+            .from('subtasks')
+            .insert(insertRows);
+
+        if (error) {
+            console.error('Subtasks could not be added', error.message);
+            return false;
+        }
+
+        return true;
+    }
 
     async updateAssignedContacts(taskId: number, contactIds: number[]): Promise<boolean> {
         const { error } = await this.supabase.rpc('sync_task_contacts', {

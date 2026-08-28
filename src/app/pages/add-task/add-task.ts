@@ -32,8 +32,7 @@ export class AddTask {
   contacts = this.supabaseService.contacts;
   contactDropdownOpen = signal(false);
   selectedContacts = this.supabaseTaskService.selectedContacts;
-  assignedSubtasks = signal<string[]>([]);
-
+  assignedSubtasks = this.supabaseTaskService.assignedSubtasks;
 
 
   taskForm = new FormGroup({
