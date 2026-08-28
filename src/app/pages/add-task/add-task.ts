@@ -26,10 +26,12 @@ export class AddTask {
   // TEST ENDE
 
   private supabaseService = inject(SupabaseService);
+  private supabaseTaskService = inject(SupabaseTaskService);
+
   private supabase = this.supabaseService.client;
   contacts = this.supabaseService.contacts;
   contactDropdownOpen = signal(false);
-  selectedContacts = signal<number[]>([]);
+  selectedContacts = this.supabaseTaskService.selectedContacts;
   assignedSubtasks = signal<string[]>([]);
 
 

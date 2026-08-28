@@ -5,10 +5,10 @@ import { RealtimeChannel } from '@supabase/supabase-js';
 import { Subtask, TaskContact } from '../interfaces/task';
 import { AbstractControl, ValidationErrors, FormControl, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 
-
 @Service()
 export class SupabaseTaskService {
     private supabaseService = inject(SupabaseService);
+
     private supabase = this.supabaseService.client;
     tasks = signal<Task[]>([]);
 
@@ -22,6 +22,8 @@ export class SupabaseTaskService {
     private taskContactsUpdateChannel!: RealtimeChannel;
     private taskContactsDeleteChannel!: RealtimeChannel;
     currentTaskId!: number;
+    selectedContacts = signal<number[]>([]);
+
 
     /** Initializes the service and starts loading tasks and realtime subscriptions. */
     constructor() {
@@ -330,8 +332,8 @@ export class SupabaseTaskService {
     //  NUR PLATZHALTER!!!! NUR PLATZHALTER!!!!
 
 
-    // hier fehlt: task_contacts, subtasks
-    onEditSubmit() {
+    // hier fehlt: subtasks
+    async onEditSubmit() {
         const updatedFields: Partial<Task> = {
             title: this.editForm.value.title ?? '',
             description: this.editForm.value.description ?? '',
@@ -340,9 +342,28 @@ export class SupabaseTaskService {
             category: this.editForm.value.category as Task['category']
         };
 
-        this.editTask(this.currentTaskId, updatedFields);
+        const taskSuccess = await this.editTask(this.currentTaskId, updatedFields);
+        const contactsSuccess = await this.updateAssignedContacts(this.currentTaskId, this.selectedContacts());
+
+        if (taskSuccess && contactsSuccess) {
+            console.log('Task erfolgreich aktualisiert');
+        }
     }
-    
+
+
+    async updateAssignedContacts(taskId: number, contactIds: number[]): Promise<boolean> {
+        const { error } = await this.supabase.rpc('sync_task_contacts', {
+            p_task_id: taskId,
+            p_contact_ids: contactIds
+        });
+
+        if (error) {
+            console.error('Contacts could not be updated', error.message);
+            return false;
+        }
+        return true;
+    }
+
     // hier fehlt: task_contacts, subtasks
     async editTask(taskId: number, updatedTask: Partial<Task>) {
         const { data, error } = await this.supabase
