@@ -221,4 +221,39 @@ main {
             border: 1px solid $blue-green;
         }
     }
+
+    &__dropdown {
+        position: relative;
+    }
+
+    &__dropdown-panel {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        z-index: 10;
+        background: $white;
+        border-radius: 10px;
+        max-height: 250px;
+        overflow-y: auto;
+        box-shadow: 0px 0px 4px 0px #00000066;
+    }
+
+    &__dropdown-option {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        font-size: 1.25rem;
+        padding: 7px 16px;
+    }
+
+    &__dropdown-contact-wrapper {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+
+        & .task-form__contact-avatar {
+            font-size: 1rem;
+        }
+    }
 }
