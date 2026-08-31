@@ -119,6 +119,15 @@
   }
 }
 
+.add-task-dialog {
+  font-family: Inter;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: fit-content;
+}
+
 @media (max-width: 1250px) {
   .board-columns {
     flex-direction: column;

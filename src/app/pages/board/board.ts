@@ -1,4 +1,4 @@
-import { Component, computed, inject, OnInit, signal } from '@angular/core';
+import { Component, computed, inject, OnInit, signal, ViewChild, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { FormsModule } from '@angular/forms';
@@ -8,10 +8,11 @@ import { TaskDetailDialog } from './components/task-detail-dialog/task-detail-di
 import { Navbar } from '../../layout/navbar/navbar';
 import { Header } from '../../layout/header/header';
 import { SupabaseTaskService } from '../../shared/services/supabase-task-service';
+import { AddTaskForm } from "./components/add-task-form/add-task-form";
 
 @Component({
   selector: 'app-board',
-  imports: [BoardColumn, CommonModule, FormsModule, DragDropModule, TaskDetailDialog, Navbar, Header],
+  imports: [BoardColumn, CommonModule, FormsModule, DragDropModule, TaskDetailDialog, Navbar, Header, AddTaskForm],
   templateUrl: './board.html',
   styleUrl: './board.scss',
 })
@@ -27,6 +28,10 @@ export class Board implements OnInit {
 
   /** Task currently displayed in the detail dialog. */
   selectedTask = signal<Task | null>(null);
+
+  @ViewChild('addTaskDialog') addTaskDialog!: ElementRef<HTMLDialogElement>;
+
+
 
   /** Loads the tasks required to render the board. */
   ngOnInit(): void {
@@ -96,5 +101,14 @@ export class Board implements OnInit {
   /** Closes the task detail dialog. */
   closeTaskDetail(): void {
     this.isTaskDetailDialogOpen.set(false);
+  }
+
+
+  openAddTaskDialog() {
+    this.addTaskDialog.nativeElement.showModal();
+  }
+
+  closeAddTaskDialog() {
+    this.addTaskDialog.nativeElement.close();
   }
 }
