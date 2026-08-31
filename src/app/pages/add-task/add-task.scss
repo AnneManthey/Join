@@ -231,15 +231,50 @@ main {
         &:hover .task-form__subtask-button {
             display: block;
         }
+
+        &:hover .task-form__line {
+            border-left: 1px solid $light-grey;
+            height: 20px;
+            display: block;
+        }
+    }
+
+    &__subtask-edit-wrapper {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 6px 16px;
+        background-color: $white;
+        margin-top: 8px;
+        border-bottom: 1px solid $blue-green;
+    }
+
+    &__subtask-edit-input {
+        background-color: transparent;
+        border: none;
+        width: 100%;
+        font-size: 1rem;
+        font-family: Inter;
     }
 
     &__button-wrapper {
         display: flex;
+        align-items: center;
         gap: 8px;
     }
 
     &__subtask-button {
         display: none;
+    }
+
+    &__line {
+        display: none;
+
+        &-edit {
+            border-left: 1px solid $light-grey;
+            height: 20px;
+            display: block;
+        }
     }
 
     &__button {
