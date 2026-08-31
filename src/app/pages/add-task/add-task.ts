@@ -29,13 +29,15 @@ export class AddTask {
 
   private supabaseService = inject(SupabaseService);
   private supabaseTaskService = inject(SupabaseTaskService);
-
   private supabase = this.supabaseService.client;
+
   @ViewChild('assignedToDropdown') assignedToDropdown?: ElementRef<HTMLElement>;
   contacts = this.supabaseService.contacts;
   contactDropdownOpen = signal(false);
   selectedContacts = this.supabaseTaskService.selectedContacts;
   assignedSubtasks = this.supabaseTaskService.assignedSubtasks;
+  isCategoryOpen = false;
+  editingIndex = signal<number | null>(null);
 
   /** Current contact search query for the assigned-to dropdown. */
   contactSearchTerm = signal('');
@@ -168,8 +170,11 @@ export class AddTask {
       }
       this.assignedSubtasks.set([]);
 
+      this.resetForm();
+
     } else {
       console.log('form not valid');
+      this.taskForm.markAllAsTouched();
     }
   }
 
@@ -177,6 +182,7 @@ export class AddTask {
     this.taskForm.reset({ priority: 'medium', category: '' });
     this.selectedContacts.set([]);
     this.assignedSubtasks.set([]);
+    this.taskForm.markAsUntouched();
   }
 
   toggleContactDropdown() {
@@ -224,4 +230,16 @@ export class AddTask {
   resetSubtask() {
     this.subtaskInput?.reset();
   }
+
+  deleteEditSubtask(index: number) {
+    this.assignedSubtasks.update(subtasks => subtasks.filter((_, i) => i !== index));
+  }
+
+  updateEditSubtask(index: number, newSubtask: string) {
+    const newText = newSubtask.trim();
+    if (!newText) return;
+    this.assignedSubtasks.update(subtasks => subtasks.map((task, i) => i === index ? newText : task));
+
+  }
+
 }
