@@ -38,6 +38,7 @@ export class AddTask {
   assignedSubtasks = this.supabaseTaskService.assignedSubtasks;
   isCategoryOpen = false;
   editingIndex = signal<number | null>(null);
+  showTaskSuccessMessage = signal(false);
 
   /** Current contact search query for the assigned-to dropdown. */
   contactSearchTerm = signal('');
@@ -156,7 +157,6 @@ export class AddTask {
       const insertSubtasks = this.assignedSubtasks().map(subtask => ({
         task_id: taskId,
         title: subtask,
-        // done: false
       }));
 
       const { data: subtaskData, error: subtaskError } = await this.supabase
@@ -171,6 +171,8 @@ export class AddTask {
       this.assignedSubtasks.set([]);
 
       this.resetForm();
+      this.showTaskSuccessMessage.set(true);
+      setTimeout(() => {this.showTaskSuccessMessage.set(false)}, 1000)
 
     } else {
       console.log('form not valid');
