@@ -1,1 +1,23 @@
-<p>edit-task-detail-dialog works!</p>
+@if (isOpen()) {
+  <div class="dialog-overlay" (click)="closeDialog()">
+    <main class="dialog-content" (click)="$event.stopPropagation()">
+
+      <form [formGroup]="taskdetailForm">
+        <div class="dialog-header">
+          <p for="task-detail-title">Title</p>
+          <button class="dialog-close"
+            type="button"
+            (click)="closeDialog()">
+            &times;
+          </button>
+        </div>
+        <input id="task-detail-title" type="text" formControlName="taskdetailName">
+        <p for="task-detail-description">Description</p>
+        <input id="task-detail-description" type="text" formControlName="taskdetailDescription">
+      </form>
+    </main>
+  </div>
+}
+
+
+ 
