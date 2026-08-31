@@ -21,10 +21,16 @@ export class AddTaskForm {
 
   @ViewChild('assignedToDropdown') assignedToDropdown?: ElementRef<HTMLElement>;
   contacts = this.supabaseService.contacts;
-  contactDropdownOpen = signal(false);
   selectedContacts = this.supabaseTaskService.selectedContacts;
   assignedSubtasks = this.supabaseTaskService.assignedSubtasks;
+
+  /** Indicates whether the contact selection dropdown menu is open. */
+  contactDropdownOpen = signal(false);
+
+  /** Indicates whether the category selector menu is open. */
   isCategoryOpen = false;
+
+  /** Index of the subtask currently being edited, or `null` if no edit is active. */
   editingIndex = signal<number | null>(null);
 
   /** Indicates whether the task success message is currently visible. */
@@ -173,6 +179,9 @@ export class AddTaskForm {
     }
   }
 
+  /**
+ * Resets the task form to its default values and clears all state signals.
+ */
   resetForm() {
     this.taskForm.reset({ priority: 'medium', category: '' });
     this.selectedContacts.set([]);
@@ -180,6 +189,9 @@ export class AddTaskForm {
     this.taskForm.markAsUntouched();
   }
 
+  /**
+ * Toggles the visibility state of the contact dropdown menu.
+ */
   toggleContactDropdown() {
     this.contactDropdownOpen.update(open => !open);
   }
@@ -203,6 +215,12 @@ export class AddTaskForm {
     }
   }
 
+  /**
+   * Adds or removes a contact from the selected contacts list based on checkbox interaction.
+   * 
+   * @param contactId - The unique identifier of the contact to toggle.
+   * @param event - The input change event triggered by the checkbox.
+   */
   toggleSelectedContact(contactId: number, event: Event) {
     const checked = (event.target as HTMLInputElement).checked;
     if (checked) {
@@ -212,6 +230,9 @@ export class AddTaskForm {
     }
   }
 
+  /**
+ * Adds a new subtask to the list if the input value is non-empty and not a duplicate.
+ */
   addSubtask() {
     const newTask = (this.subtaskInput?.value ?? '').trim();
     if (!newTask) return;
@@ -222,14 +243,28 @@ export class AddTaskForm {
     this.resetSubtask();
   }
 
+  /**
+ * Clears the subtask input field.
+ */
   resetSubtask() {
     this.subtaskInput?.reset();
   }
 
+  /**
+ * Removes a subtask from the assigned subtasks list at the specified index.
+ * 
+ * @param index - The zero-based index of the subtask to delete.
+ */
   deleteEditSubtask(index: number) {
     this.assignedSubtasks.update(subtasks => subtasks.filter((_, i) => i !== index));
   }
 
+  /**
+ * Updates the text content of an assigned subtask at the specified index.
+ * 
+ * @param index - The zero-based index of the subtask to update.
+ * @param newSubtask - The updated text content for the subtask.
+ */
   updateEditSubtask(index: number, newSubtask: string) {
     const newText = newSubtask.trim();
     if (!newText) return;
