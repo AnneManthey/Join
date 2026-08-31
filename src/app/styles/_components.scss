@@ -6,12 +6,12 @@ body::-webkit-scrollbar {
 }
 
 body::-webkit-scrollbar-track {
-  background: var($board-bg);
-  // border-radius: 2px;
+  background: $white;
+  border-radius: 2px;
 }
 
 body::-webkit-scrollbar-thumb {
-  background: var($dark-blue);
+  background: $dark-blue;
   border-radius: 5px;
-  border: 1px solid var($light-blue);
+  border: 1px solid $dark-blue;
 }
