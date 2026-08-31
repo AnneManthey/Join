@@ -181,7 +181,7 @@
                                 <div class="task-form__subtask-input-wrapper">
                                     <input class="task-form__input task-form__input--subtasks" id="subtaskInput"
                                         type="text" name="subtaskInput" placeholder="Add new subtask"
-                                        formControlName="subtaskInput">
+                                        formControlName="subtaskInput" (keydown.enter)="addSubtask(); $event.preventDefault()">
 
                                     @if (subtaskInput?.value) {
                                     <button class="task-form__subtask-cancel" type="button" name="cancelSubtask"
