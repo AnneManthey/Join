@@ -11,8 +11,12 @@
                         <div class="task-form__input-wrapper">
                             <label class="task-form__label" for="title">Title<span
                                     class="task-form__required-asterisk">&#42;</span></label>
-                            <input class="task-form__input" id="title" type="text" name="title" formControlName="title"
-                                placeholder="Enter a title">
+                            <!-- <input class="task-form__input" id="title" type="text" name="title" formControlName="title"
+                                placeholder="Enter a title"> -->
+                            <textarea class="task-form__input task-form__input--autosize" id="title" name="title"
+                                rows="1" formControlName="title" placeholder="Enter a title"
+                                (keydown.enter)="$event.preventDefault()"></textarea>
+                                
                             @if (!title?.valid && title?.touched) {
                             <p class="task-form__error">Please enter at least 4 characters</p>
                             }
@@ -179,10 +183,15 @@
                             <div class="task-form__subtasks">
                                 <label class="task-form__label" for="subtaskInput">Subtasks</label>
                                 <div class="task-form__subtask-input-wrapper">
-                                    <input class="task-form__input task-form__input--subtasks" id="subtaskInput"
+                                    <!-- <input class="task-form__input task-form__input--subtasks" id="subtaskInput"
                                         type="text" name="subtaskInput" placeholder="Add new subtask"
                                         formControlName="subtaskInput"
-                                        (keydown.enter)="addSubtask(); $event.preventDefault()">
+                                        (keydown.enter)="addSubtask(); $event.preventDefault()"> -->
+                                    <textarea
+                                        class="task-form__input task-form__input--subtasks task-form__input--autosize"
+                                        id="subtaskInput" rows="1" name="subtaskInput" placeholder="Add new subtask"
+                                        formControlName="subtaskInput"
+                                        (keydown.enter)="addSubtask(); $event.preventDefault()"></textarea>
 
                                     @if (subtaskInput?.value) {
                                     <button class="task-form__subtask-cancel" type="button" name="cancelSubtask"
@@ -250,9 +259,13 @@
 
                                 @else {
                                 <div class="task-form__subtask-edit-wrapper">
-                                    <input #editInput type="text" [value]="subtask"
+                                    <!-- <input #editInput type="text" [value]="subtask"
                                         class="task-form__subtask-edit-input"
-                                        (keydown.enter)="editingIndex.set(null); $event.preventDefault(); updateEditSubtask($index, editInput.value)">
+                                        (keydown.enter)="editingIndex.set(null); $event.preventDefault(); updateEditSubtask($index, editInput.value)"> -->
+                                    <textarea #editInput rows="1" [value]="subtask"
+                                        class="task-form__subtask-edit-input task-form__input--autosize"
+                                        (keydown.enter)="editingIndex.set(null); $event.preventDefault(); updateEditSubtask($index, editInput.value)"></textarea>
+
                                     <div class="task-form__button-wrapper">
                                         <!-- DELETE BUTTON -->
                                         <button class="contact-details__button" type="button"
