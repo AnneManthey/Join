@@ -474,6 +474,25 @@ main {
             }
         }
     }
+    // Neuer Baustein für Textumbruch
+    &__input--autosize {
+        resize: none;              
+        field-sizing: content;     // Höhe wächst mit dem Inhalt
+        height: auto;              // hebt fixe height von 48px auf, damit nicht von Anfang an ein Scrollbalken entsteht
+        resize: none;
+        field-sizing: content;
+        min-height: 48px;
+        max-height: 150px;         // damit das Feld nicht unendlich wachsen kann, kann ggf. noch angepasst werden
+        overflow-y: auto;
+        line-height: 1.4;
+        white-space: pre-wrap;
+        word-break: break-word;
+    }
+}
+
+.task-form__subtask-edit-input.task-form__input--autosize {
+    min-height: 24px;
+    max-height: 120px;
 }
 
 @media (min-width: 1440px) {
