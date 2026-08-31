@@ -177,25 +177,27 @@
   .board-main {
     padding: 50px 8px;
   }
-  .board-columns {
-    display: flex;
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    -webkit-overflow-scrolling: touch;
-    gap: 0;
-    // scrollbar-width: none;
-    // &::-webkit-scrollbar {
-    //   display: none;
-    // }
 
-    // Fadeout to right
-    mask-image: linear-gradient(to right, black 90%, transparent 100%);
-    -webkit-mask-image: linear-gradient(to right, black 90%, transparent 100%);
-  }
-  app-board-column {
-    flex: 0 0 100%;
-    scroll-snap-align: start;
-    scroll-snap-stop: always;
-  }
+ 
+  // .board-columns {
+  //   display: flex;
+  //   flex-wrap: nowrap;
+  //   overflow-x: auto;
+  //   scroll-snap-type: x mandatory;
+  //   -webkit-overflow-scrolling: touch;
+  //   gap: 0;
+  //   // scrollbar-width: none;
+  //   // &::-webkit-scrollbar {
+  //   //   display: none;
+  //   // }
+
+  //   // Fadeout to right
+  //   mask-image: linear-gradient(to right, black 90%, transparent 100%);
+  //   -webkit-mask-image: linear-gradient(to right, black 90%, transparent 100%);
+  // }
+  // app-board-column {
+  //   flex: 0 0 100%;
+  //   scroll-snap-align: start;
+  //   scroll-snap-stop: always;
+  // }
 }

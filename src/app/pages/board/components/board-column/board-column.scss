@@ -77,20 +77,60 @@
   }
 }
 
+// @media (max-width: 560px) {
+//   .column {
+//     width: 100%;
+//     max-width: none;
+//   }
+//   .column-header {
+//     width: 100%;
+//     h2 {
+//       font-size: 1.6rem;
+//     }
+//   }
+//   .column-task-list {
+//     flex-wrap: nowrap;
+//     min-height: auto;
+//   }
+// }
+
 @media (max-width: 560px) {
   .column {
     width: 100%;
     max-width: none;
+    position: relative;
   }
+
   .column-header {
     width: 100%;
     h2 {
       font-size: 1.6rem;
     }
   }
+
   .column-task-list {
+    flex-direction: row;
     flex-wrap: nowrap;
     min-height: auto;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+
+    mask-image: linear-gradient(to right, black 90%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to right, black 90%, transparent 100%);
+  
+
+    // Scrollbar ausblenden, Swipe bleibt möglich
+    scrollbar-width: none;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    > app-board-task-card {
+      width: 250px;
+      flex: 0 0 85%; // Kartenbreite; 85% zeigt einen Hauch der nächsten Karte an
+      scroll-snap-align: start;
+      touch-action: pan-x; // verhindert Konflikt mit cdkDrag (siehe unten)
+    }
   }
 }
-
