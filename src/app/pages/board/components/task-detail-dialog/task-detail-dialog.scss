@@ -188,3 +188,34 @@ h2 {
   color: black;
 }
 
+.dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.dialog-action-divider {
+  width: 1px;
+  height: 24px;
+  margin: 0 8px;
+  background: #d1d1d1;
+}
+
+.dialog-action-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+  color: #2a3647;
+
+  img {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+
