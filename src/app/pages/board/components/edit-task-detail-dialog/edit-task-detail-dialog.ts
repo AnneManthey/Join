@@ -1,6 +1,7 @@
-import { Component, effect, input, output } from '@angular/core';
+import { Component, effect, input, output, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Task } from '../../../../shared/interfaces/task';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-edit-task-detail-dialog',
@@ -17,11 +18,18 @@ export class EditTaskDetailDialog {
     this.close.emit();
   }
 
+  selectedPriority = signal<Task['priority']>('medium');
+
+  setPriority(priority: Task['priority']): void {
+    this.selectedPriority.set(priority);
+  }
+
    taskdetailForm = new FormGroup({
       taskdetailName: new FormControl('', {
       validators: [Validators.required, Validators.minLength(4)]
       }),
       taskdetailDescription: new FormControl(''),
+      taskdetailDuedate: new FormControl(''),
   });
 
   constructor() {
@@ -29,7 +37,9 @@ export class EditTaskDetailDialog {
       this.taskdetailForm.patchValue({
         taskdetailName: this.task().title,
         taskdetailDescription: this.task().description,
+        taskdetailDuedate: this.task().due_date,
       });
+      this.selectedPriority.set(this.task().priority);
     });
   }
 

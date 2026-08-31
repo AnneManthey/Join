@@ -48,3 +48,56 @@ h2 {
   line-height: 1;
   cursor: pointer;
 }
+
+.priority-buttons {
+  display: flex;
+  gap: 16px;
+}
+
+.priority-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  background-color: white;
+  font-size: 1.3rem;
+  font-family: 'Inter', sans-serif;
+  box-shadow: 0px 0px 4px 0px #00000066;
+  transition: background-color 255ms;
+
+  &:hover {
+    box-shadow: 0px 4px 4px 0px #00000040;
+  }
+
+  &.selected {
+    color: white;
+    font-weight: 700;
+  }
+
+  &--low.selected {
+    background-color: #7ae229;
+
+    svg path {
+      fill: white;
+    }
+  }
+
+  &--medium.selected {
+    background-color: #ffa800;
+
+    svg path {
+      fill: white;
+    }
+  }
+
+  &--urgent.selected {
+    background-color: #ff3d00;
+
+    svg path {
+      fill: white;
+    }
+  }
+}
