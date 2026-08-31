@@ -3,6 +3,7 @@
 .column {
   max-width: 300px;
   font-family: 'Inter', sans-serif;
+  padding: 0px 8px;
 }
 
 .column-header {
@@ -27,8 +28,10 @@
 .column-task-list {
   min-width: 200px;
   min-height: 100dvh;
+  background-color: $board-bg;
   display: flex;
   flex-direction: column;
+  padding: 8px 4px;
   gap: 16px;
   transition:
     background-color 0.2s ease,
@@ -83,15 +86,14 @@
     max-width: none;
     position: relative;
   }
-
   .column-header {
     width: 100%;
     h2 {
       font-size: 1.6rem;
     }
   }
-
   .column-task-list {
+    gap: 8px;
     flex-direction: row;
     flex-wrap: nowrap;
     min-height: auto;
@@ -101,7 +103,7 @@
 
     mask-image: linear-gradient(to right, black 90%, transparent 100%);
     -webkit-mask-image: linear-gradient(to right, black 90%, transparent 100%);
-  
+
     scrollbar-width: none;
     &::-webkit-scrollbar {
       display: none;
@@ -109,7 +111,7 @@
 
     > app-board-task-card {
       width: 250px;
-      flex: 0 0 85%; // Kartenbreite; 85% zeigt einen Hauch der nächsten Karte an
+      flex: 0 0 80%;
       scroll-snap-align: start;
       touch-action: pan-x pan-y;
     }
