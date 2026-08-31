@@ -28,7 +28,7 @@ export class SupabaseTaskService {
 
     /** Initializes the service and starts loading tasks and realtime subscriptions. */
     constructor() {
-        console.log('Service initialisiert');
+        console.log('Service initialized');
         this.subscribeToChanges();
         this.getTasks();
     }
