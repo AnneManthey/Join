@@ -1,4 +1,5 @@
 @use '../../../styles' as *;
+@use '../contacts/components/contact-details/contact-details.scss';
 
 main {
     font-family: Inter;
@@ -82,7 +83,7 @@ main {
     }
 
     &__ul {
-        padding: 8px 20px;
+        padding: 8px 0 0 0;
     }
 
     &__subtask-cancel,
@@ -211,6 +212,34 @@ main {
 
     &__subtask-cancel {
         right: 36px;
+    }
+
+    &__subtask-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 30px;
+        padding: 6px 16px;
+        cursor: pointer;
+        transition: all 255ms ease-in-out;
+
+        &:hover {
+            background-color: $hover-light-grey;
+            border-radius: 10px;
+        }
+
+        &:hover .task-form__subtask-button {
+            display: block;
+        }
+    }
+
+    &__button-wrapper {
+        display: flex;
+        gap: 8px;
+    }
+
+    &__subtask-button {
+        display: none;
     }
 
     &__button {
