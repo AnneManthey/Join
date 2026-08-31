@@ -101,8 +101,8 @@
     scroll-snap-type: x mandatory;
     -webkit-overflow-scrolling: touch;
 
-    mask-image: linear-gradient(to right, black 90%, transparent 100%);
-    -webkit-mask-image: linear-gradient(to right, black 90%, transparent 100%);
+    // mask-image: linear-gradient(to right, black 90%, transparent 100%);
+    // -webkit-mask-image: linear-gradient(to right, black 90%, transparent 100%);
 
     scrollbar-width: none;
     &::-webkit-scrollbar {
