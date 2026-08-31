@@ -157,6 +157,22 @@
   &::backdrop {
     background-color: rgba(0, 0, 0, 0.35);
   }
+
+  &::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: $white;
+    border-radius: 2px;
+    margin: 20px 0;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: $dark-blue;
+    border-radius: 5px;
+    border: 1px solid $dark-blue;
+  }
 }
 
 @keyframes add-contact-dialog-enter {
@@ -208,7 +224,6 @@
     max-width: 500px;
   }
 }
-
 
 @media (max-width: 400px) {
   .add-contact-dialog {

@@ -1,8 +1,11 @@
-import { Component, input, output } from '@angular/core';
+import { Component, input, output, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CdkDragDrop, DragDropModule, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { BoardTaskCard } from '../board-task-card/board-task-card';
 import { Column, Task } from '../../../../shared/interfaces/task';
+import { BreakpointObserver } from '@angular/cdk/layout';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { map } from 'rxjs';
 
 @Component({
   selector: 'app-board-column',
@@ -41,4 +44,13 @@ export class BoardColumn {
       });
     }
   }
+
+  /** Whether the viewport is narrow enough that drag&drop should yield to swipe scrolling. */
+  private breakpointObserver = inject(BreakpointObserver);
+  isMobile = toSignal(
+    this.breakpointObserver.observe('(max-width: 560px)').pipe(map(r => r.matches)),
+    { initialValue: false }
+  );
+
+
 }
