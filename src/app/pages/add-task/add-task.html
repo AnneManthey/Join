@@ -34,7 +34,7 @@
                             }
                         </div>
                     </div>
-                    <div class="task-form__line"></div>
+                    <div class="task-form__line--form"></div>
                     <div class="task-form__half-wrapper">
                         <div class="task-form__input-wrapper">
                             <fieldset class="task-form__fieldset">
@@ -294,9 +294,12 @@
                                 }
                             </div>
                         </div>
+                        <span class="task-form__required-note task-form__required-note--mobile"><span
+                                class="task-form__required-asterisk">&#42;</span>This field is required</span>
+
                     </div>
                     <div class="task-form__footer">
-                        <span class="task-form__required-note"><span
+                        <span class="task-form__required-note task-form__required-note--desktop"><span
                                 class="task-form__required-asterisk">&#42;</span>This field is required</span>
                         <div class="task-form__actions">
                             <button (click)="resetForm()" class="task-form__button task-form__button--clear"
