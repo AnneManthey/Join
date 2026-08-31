@@ -8,6 +8,7 @@ import { SupabaseService } from '../../shared/services/supabase-service';
 import { Task } from '../../shared/interfaces/task';
 import { GetInitialsPipe } from '../../shared/pipes/get-initials-pipe';
 import { getColor } from '../../shared/utils/contacts-helper';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-add-task',
@@ -30,6 +31,7 @@ export class AddTask {
   private supabaseService = inject(SupabaseService);
   private supabaseTaskService = inject(SupabaseTaskService);
   private supabase = this.supabaseService.client;
+  private router = inject(Router);
 
   @ViewChild('assignedToDropdown') assignedToDropdown?: ElementRef<HTMLElement>;
   contacts = this.supabaseService.contacts;
@@ -38,6 +40,8 @@ export class AddTask {
   assignedSubtasks = this.supabaseTaskService.assignedSubtasks;
   isCategoryOpen = false;
   editingIndex = signal<number | null>(null);
+
+  /** Indicates whether the task success message is currently visible. */
   showTaskSuccessMessage = signal(false);
 
   /** Current contact search query for the assigned-to dropdown. */
@@ -172,7 +176,10 @@ export class AddTask {
 
       this.resetForm();
       this.showTaskSuccessMessage.set(true);
-      setTimeout(() => {this.showTaskSuccessMessage.set(false)}, 1000)
+      setTimeout(() => {
+        this.showTaskSuccessMessage.set(false);
+        this.router.navigate(['/board']);
+      }, 1000)
 
     } else {
       console.log('form not valid');
