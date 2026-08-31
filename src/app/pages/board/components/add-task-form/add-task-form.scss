@@ -1,0 +1,642 @@
+@use '../../../../../styles.scss' as *;
+@use '../../../contacts/components/contact-details/contact-details.scss';
+
+.main-section {
+    padding: 79px 96px;
+    width: 100%;
+    justify-self: flex-start;
+    overflow-y: auto;
+}
+
+.task-form {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 32px;
+    width: 100%;
+    padding-top: 48px;
+    flex-shrink: 1;
+
+    &__half-wrapper {
+        display: flex;
+        flex-direction: column;
+        gap: 32px;
+        width: 440px;
+    }
+
+    &__label,
+    &__legend {
+        display: block;
+        margin-bottom: 8px;
+        font-size: 1.25rem;
+    }
+
+    &__textarea {
+        overflow-y: scroll;
+        max-width: 440px;
+        max-height: 185px;
+    }
+
+    &__input,
+    &__select,
+    &__textarea {
+        width: 440px;
+        padding: 12px 21px;
+        border-radius: 10px;
+        border: 1px solid $gray-medium;
+        font-family: Inter;
+        cursor: pointer;
+        font-size: 1.25rem;
+        overflow-y: scroll;
+    }
+
+    &__input,
+    &__select {
+        height: 48px;
+    }
+
+    &__input[type="date"] {
+        appearance: none;
+        position: relative;
+        cursor: pointer;
+
+        &::-webkit-calendar-picker-indicator {
+            background-image: url('/app-icons/addtask/datepicker.svg');
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: 22px 22px;
+            cursor: pointer;
+            opacity: 1;
+        }
+    }
+
+    &__ul {
+        padding: 8px 0 0 0;
+    }
+
+    &__subtask-cancel,
+    &__subtask-confirm {
+        cursor: pointer;
+    }
+
+    &__input-wrapper {
+        min-height: 100px;
+    }
+
+    &__selected-contacts {
+        display: flex;
+        margin-top: 8px;
+    }
+
+    &__contact-avatar {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 2.6rem;
+        height: 2.6rem;
+        border: 2px solid $white;
+        border-radius: 50%;
+        color: $white;
+        flex-shrink: 0;
+
+        &:not(:first-child) {
+            margin-left: -0.5rem;
+        }
+    }
+
+    &__radio {
+        position: absolute;
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+
+    &__fieldset {
+        border: none;
+        display: flex;
+        gap: 16px;
+    }
+
+    &__radio-label {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 16px;
+        border-radius: 8px;
+        cursor: pointer;
+        user-select: none;
+        background-color: $white;
+        font-size: 1.3rem;
+        box-shadow: 0px 0px 4px 0px #00000066;
+        transition: background-color 255ms;
+
+        img {
+            width: 16px;
+            height: 16px;
+        }
+
+        &:hover {
+            box-shadow: 0px 4px 4px 0px #00000040;
+        }
+    }
+
+    &__radio:checked+.task-form__radio-label {
+        color: $white;
+        font-weight: 700;
+    }
+
+    &__radio:checked+.task-form__radio-label--low {
+        background-color: $task-low;
+    }
+
+    &__radio:checked+.task-form__radio-label--medium {
+        background-color: $task-medium;
+    }
+
+    &__radio:checked+.task-form__radio-label--urgent {
+        background-color: $task-urgent;
+    }
+
+    &__radio:checked+.task-form__radio-label--low svg path,
+    &__radio:checked+.task-form__radio-label--medium svg path,
+    &__radio:checked+.task-form__radio-label--urgent svg path {
+        fill: $white;
+    }
+
+    &__radio:focus-visible+.task-form__radio-label {
+        outline: 2px solid $black;
+        outline-offset: 2px;
+    }
+
+    &__line--form {
+        border-left: 2px solid $gray-medium;
+        height: 420px;
+    }
+
+    &__subtask-input-wrapper {
+        position: relative;
+        display: flex;
+        align-items: center;
+    }
+
+    &__subtask-input-wrapper .task-form__input {
+        padding-right: 64px;
+    }
+
+    &__subtask-cancel,
+    &__subtask-confirm {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 4px;
+    }
+
+    &__subtask-confirm {
+        right: 8px;
+    }
+
+    &__subtask-cancel {
+        right: 36px;
+    }
+
+    &__subtask-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 30px;
+        padding: 6px 16px;
+        cursor: pointer;
+        transition: all 255ms ease-in-out;
+
+        &:hover {
+            background-color: $hover-light-grey;
+            border-radius: 10px;
+        }
+
+        &:hover .task-form__subtask-button {
+            display: block;
+        }
+
+        &:hover .task-form__line {
+            border-left: 1px solid $light-grey;
+            height: 20px;
+            display: block;
+        }
+    }
+
+    &__subtask-edit-wrapper {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 6px 16px;
+        background-color: $white;
+        margin-top: 8px;
+        border-bottom: 1px solid $blue-green;
+    }
+
+    &__subtask-edit-input {
+        background-color: transparent;
+        border: none;
+        width: 100%;
+        font-size: 1rem;
+        font-family: Inter;
+    }
+
+    &__button-wrapper {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    &__subtask-button {
+        display: none;
+    }
+
+    &__line {
+        display: none;
+
+        &-edit {
+            border-left: 1px solid $light-grey;
+            height: 20px;
+            display: block;
+        }
+    }
+
+    &__button {
+        width: fit-content;
+        padding: 16px;
+        border-radius: 10px;
+        font-family: Inter;
+        font-size: 1.3rem;
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        gap: 8px;
+        transition: all 255ms ease-in-out;
+    }
+
+    &__button--submit {
+        background-color: $dark-blue;
+        color: $white;
+        font-weight: 700;
+
+        &:hover,
+        &:active {
+            box-shadow: 0px 4px 4px 0px #00000040;
+            background-color: $blue-green;
+        }
+    }
+
+    &__button--clear {
+        background-color: $transparent;
+        color: $dark-blue;
+        font-weight: 400;
+        border: 1px solid $dark-blue;
+
+        &:hover,
+        &:active {
+            box-shadow: 0px 4px 4px 0px #00000040;
+            border: 1px solid $blue-green;
+        }
+    }
+
+    &__dropdown {
+        position: relative;
+    }
+
+    &__dropdown-panel {
+        position: absolute;
+        top: 80px;
+        left: 0;
+        right: 0;
+        z-index: 10;
+        background: $white;
+        border-radius: 10px;
+        max-height: 250px;
+        overflow-y: auto;
+        box-shadow: 0px 0px 4px 0px #00000066;
+    }
+
+    &__dropdown-option {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        font-size: 1.25rem;
+        padding: 7px 16px;
+        margin: 2px;
+        transition: all 255ms ease-in-out;
+
+        &:hover:not(.task-form__checked-contact) {
+            background-color: $hover-light-grey;
+            border-radius: 10px;
+        }
+    }
+
+    &__dropdown-contact-wrapper {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+
+        & .task-form__contact-avatar {
+            font-size: 1rem;
+        }
+    }
+
+    &__checked-contact {
+        background-color: $dark-blue;
+        color: $white;
+        border-radius: 10px;
+    }
+
+    &__checkbox {
+        appearance: none;
+        -webkit-appearance: none;
+        width: 24px;
+        height: 24px;
+        border: 2px solid $dark-blue;
+        border-radius: 3px;
+        position: relative;
+
+        flex-shrink: 0;
+        cursor: pointer;
+        border: none;
+        background-color: transparent;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: contain;
+        background-image: url('/app-icons/addtask/ckeck_unchecked.svg');
+        transition: background-color 0.2s, border-color 0.2s;
+
+        &:checked {
+            border: none;
+            background-color: transparent;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: contain;
+            background-image: url('/app-icons/addtask/check_checked.svg');
+        }
+
+        &:checked::after {
+            display: none;
+        }
+
+        &:focus-visible {
+            outline: 2px solid $blue-green;
+            outline-offset: 2px;
+        }
+
+        &:hover:not(:checked) {
+            border-color: $blue-green;
+        }
+    }
+
+    &__dropdown-trigger-wrapper {
+        position: relative;
+    }
+
+    &__dropdown-arrow {
+        position: absolute;
+        right: 16px;
+        top: 50%;
+        transform: translateY(-50%);
+        pointer-events: none;
+        transition: transform 255ms ease-in-out;
+
+        &--open {
+            transform: translateY(-50%) rotate(180deg);
+        }
+    }
+
+    &__footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        width: 100%;
+    }
+
+    &__required-note {
+        font-size: 1rem;
+        color: $black;
+    }
+
+    &__required-note--mobile {
+        display: none;
+    }
+
+    &__actions {
+        display: flex;
+        gap: 16px;
+    }
+
+    &__error,
+    &__required-asterisk {
+        color: $red;
+    }
+
+    &__select-wrapper {
+        position: relative;
+        display: flex;
+        align-items: center;
+
+        & .task-form__select {
+            width: 100%;
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            padding-right: 40px;
+            cursor: pointer;
+        }
+
+        & .task-form__select-icon {
+            position: absolute;
+            right: 12px;
+            pointer-events: none;
+            transition: transform 255ms ease;
+
+            &.open {
+                transform: rotate(180deg);
+            }
+        }
+    }
+    // Neuer Baustein für Textumbruch
+    &__input--autosize {
+        resize: none;              
+        field-sizing: content;     // Höhe wächst mit dem Inhalt
+        height: auto;              // hebt fixe height von 48px auf, damit nicht von Anfang an ein Scrollbalken entsteht
+        resize: none;
+        field-sizing: content;
+        min-height: 48px;
+        max-height: 150px;         // damit das Feld nicht unendlich wachsen kann, kann ggf. noch angepasst werden
+        overflow-y: auto;
+        line-height: 1.4;
+        white-space: pre-wrap;
+        word-break: break-word;
+    }
+}
+
+.task-form__subtask-edit-input.task-form__input--autosize {
+    min-height: 24px;
+    max-height: 120px;
+}
+
+@media (min-width: 1440px) {
+    .main-section {
+        justify-content: flex-start;
+    }
+
+    .task-form {
+        max-width: 1014px;
+        gap: 32px;
+    }
+}
+
+@media (max-width: 1369px) {
+    .task-form {
+        justify-content: center;
+        flex-direction: column;
+        width: 100%;
+        align-items: stretch;
+
+        &__line--form {
+            display: none;
+        }
+
+        &__required-note--desktop {
+            display: none;
+        }
+
+        &__required-note--mobile {
+            display: block;
+        }
+
+        &__footer {
+            justify-content: flex-end;
+        }
+
+        &__half-wrapper {
+            width: 100%;
+            max-width: 100%;
+        }
+
+        &__input,
+        &__select,
+        &__textarea {
+            width: 100%;
+            max-width: 100%;
+        }
+
+        &__actions {
+            width: 100%;
+            justify-content: flex-end;
+            flex-wrap: wrap;
+        }
+
+        &__fieldset {
+            width: 100%;
+            flex-wrap: nowrap;
+        }
+
+        &__radio-label {
+            flex: 1 1 33.333%;
+            width: 33.333%;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1rem;
+        }
+    }
+}
+
+.task-success {
+    &__wrapper {
+        position: fixed;
+        top: 100%;
+        left: 50%;
+        transform: translate(-50%, 0);
+        font-size: 1.25rem;
+        background-color: $dark-blue;
+        border-radius: 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 32px;
+        padding: 25px 30px;
+        box-shadow: 0px 0px 4px 0px #00000066;
+        font-family: Inter;
+        color: $white;
+        width: fit-content;
+        transition: top 255ms ease-in-out;
+
+        &--visible {
+            top: 50%;
+            transform: translate(-50%, -50%);
+        }
+    }
+}
+
+@media (max-width: 992px) {
+    .main-section {
+        padding: 79px 48px;
+    }
+}
+
+@media (max-width: 820px) {
+
+    .task-form {
+        padding-left: 0;
+        padding-right: 0;
+
+    }
+
+    .main-section {
+        padding-left: 12px;
+        padding-right: 12px;
+    }
+}
+
+@media (max-width: 768px) {
+
+    .task-form {
+        &__fieldset {
+            width: 100%;
+            flex-wrap: nowrap;
+        }
+
+        &__radio-label {
+            flex: 1 1 33.333%;
+            width: 33.333%;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1rem;
+        }
+    }
+}
+
+@media (max-width: 480px) {
+    .task-form {
+        padding: 40px 0;
+    }
+
+    .main-section {
+        padding: 48px 12px 12px 12px;
+    }
+}
+
+@media (max-width: 390px) {
+    .task-form {
+        &__fieldset {
+            flex-direction: column;
+        }
+
+        &__radio-label {
+            display: flex;
+            width: 100%;
+            flex: 1 1 100%;
+        }
+    }
+}
