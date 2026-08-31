@@ -106,77 +106,128 @@ export class AddTaskForm {
     return this.taskForm.get('subtaskInput');
   }
 
+  /**
+   * Submits the entire task form by creating the task, saving related contacts,
+   * saving related subtasks, and resetting the form after a successful save.
+   */
   async formSubmit() {
-    if (this.taskForm.valid) {
-      console.log('form submitted');
-      const { data, error } = await this.supabase
-        .from('tasks')
-        .insert([
-          {
-            title: this.title?.value,
-            description: this.description?.value ?? '',
-            due_date: this.duedate?.value,
-            priority: this.priority?.value as Task['priority'],
-            category: this.category?.value as Task['category'],
-            status: 'todo'
-          },
-        ])
-        .select()
-
-      if (error) {
-        console.error('Keine Daten angekommen');
-        return;
-      }
-      const taskId = data?.[0]?.id;
-
-      if (!taskId) {
-        console.error('Keine Task-ID vorhanden');
-        return;
-      }
-
-      const insertContacts = this.selectedContacts().map(contactId => ({
-        task_id: taskId,
-        contact_id: contactId
-      }));
-
-      const { data: contactsData, error: contactsError } = await this.supabase
-        .from('task_contacts')
-        .insert(insertContacts)
-        .select();
-
-      if (contactsError) {
-        console.error('Keine contact ids angekommen');
-        return;
-      }
-      this.selectedContacts.set([]);
-
-      const insertSubtasks = this.assignedSubtasks().map(subtask => ({
-        task_id: taskId,
-        title: subtask,
-      }));
-
-      const { data: subtaskData, error: subtaskError } = await this.supabase
-        .from('subtasks')
-        .insert(insertSubtasks)
-        .select();
-
-      if (subtaskError) {
-        console.error('Keine subtasks angekommen');
-        return;
-      }
-      this.assignedSubtasks.set([]);
-
-      this.resetForm();
-      this.showTaskSuccessMessage.set(true);
-      setTimeout(() => {
-        this.showTaskSuccessMessage.set(false);
-        this.router.navigate(['/board']);
-      }, 1000)
-
-    } else {
+    if (!this.taskForm.valid) {
       console.log('form not valid');
       this.taskForm.markAllAsTouched();
+      return;
     }
+
+    const taskId = await this.createTask();
+    if (!taskId) return;
+
+    const contactsSaved = await this.saveTaskContacts(taskId);
+    if (!contactsSaved) return;
+
+    const subtasksSaved = await this.saveTaskSubtasks(taskId);
+    if (!subtasksSaved) return;
+
+    this.resetAndNavigate();
+  }
+
+  /**
+   * Creates the main task record in Supabase using the current form values.
+   *
+   * @returns The created task id, or null if the insert failed.
+   */
+  private async createTask(): Promise<number | null> {
+    console.log('form submitted');
+
+    const { data, error } = await this.supabase
+      .from('tasks')
+      .insert([
+        {
+          title: this.title?.value,
+          description: this.description?.value ?? '',
+          due_date: this.duedate?.value,
+          priority: this.priority?.value as Task['priority'],
+          category: this.category?.value as Task['category'],
+          status: 'todo'
+        },
+      ])
+      .select();
+
+    if (error) {
+      console.error('No data received');
+      return null;
+    }
+
+    const taskId = data?.[0]?.id;
+
+    if (!taskId) {
+      console.error('task id not found');
+      return null;
+    }
+
+    return taskId;
+  }
+
+  /**
+   * Saves the selected contacts for the created task in the task_contacts table.
+   *
+   * @param taskId - The id of the newly created task.
+   * @returns True if the contacts were saved successfully, otherwise false.
+   */
+  private async saveTaskContacts(taskId: number): Promise<boolean> {
+    const insertContacts = this.selectedContacts().map(contactId => ({
+      task_id: taskId,
+      contact_id: contactId
+    }));
+
+    const { error } = await this.supabase
+      .from('task_contacts')
+      .insert(insertContacts)
+      .select();
+
+    if (error) {
+      console.error('No contacts received');
+      return false;
+    }
+
+    this.selectedContacts.set([]);
+    return true;
+  }
+
+  /**
+   * Saves all subtasks assigned to the created task.
+   *
+   * @param taskId - The id of the newly created task.
+   * @returns True if the subtasks were saved successfully, otherwise false.
+   */
+  private async saveTaskSubtasks(taskId: number): Promise<boolean> {
+    const insertSubtasks = this.assignedSubtasks().map(subtask => ({
+      task_id: taskId,
+      title: subtask,
+    }));
+
+    const { error } = await this.supabase
+      .from('subtasks')
+      .insert(insertSubtasks)
+      .select();
+
+    if (error) {
+      console.error('Keine subtasks angekommen');
+      return false;
+    }
+
+    this.assignedSubtasks.set([]);
+    return true;
+  }
+
+  /**
+   * Resets the form state and redirects the user after a short success delay.
+   */
+  private resetAndNavigate() {
+    this.resetForm();
+    this.showTaskSuccessMessage.set(true);
+    setTimeout(() => {
+      this.showTaskSuccessMessage.set(false);
+      this.router.navigate(['/board']);
+    }, 1000);
   }
 
   /**
