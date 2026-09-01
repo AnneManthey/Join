@@ -40,7 +40,7 @@ export class TaskDetailDialog {
   }
 
   editTask(): void {
-    // Placeholder
+    this.edit.emit(this.task());
   }
 
 

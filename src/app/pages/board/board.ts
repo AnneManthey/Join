@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { BoardColumn } from './components/board-column/board-column';
 import { Column, Task } from '../../shared/interfaces/task';
 import { TaskDetailDialog } from './components/task-detail-dialog/task-detail-dialog';
+import { EditTaskDetailDialog } from './components/edit-task-detail-dialog/edit-task-detail-dialog';
 import { Navbar } from '../../layout/navbar/navbar';
 import { Header } from '../../layout/header/header';
 import { SupabaseTaskService } from '../../shared/services/supabase-task-service';
@@ -12,6 +13,7 @@ import { AddTaskDialog } from './components/add-task-dialog/add-task-dialog';
 
 @Component({
   selector: 'app-board',
+  imports: [BoardColumn, CommonModule, FormsModule, DragDropModule, TaskDetailDialog, EditTaskDetailDialog, Navbar, Header],
   imports: [BoardColumn, CommonModule, FormsModule, DragDropModule, TaskDetailDialog, Navbar, Header, AddTaskDialog],
   templateUrl: './board.html',
   styleUrl: './board.scss',
@@ -29,6 +31,8 @@ export class Board implements OnInit {
   /** Task currently displayed in the detail dialog. */
   selectedTask = signal<Task | null>(null);
 
+  /** Indicates whether the edit-task dialog is open. */
+  isEditTaskDetailDialogOpen = signal(false);
   @ViewChild('addTaskDialog') addTaskDialog!: ElementRef<HTMLDialogElement>;
 
 
@@ -111,6 +115,17 @@ export class Board implements OnInit {
     this.isTaskDetailDialogOpen.set(false);
   }
 
+  /** Opens the edit dialog for the selected task. */
+  openEditTaskDetail(task: Task): void {
+    this.selectedTask.set(task);
+    this.isTaskDetailDialogOpen.set(false);
+    this.isEditTaskDetailDialogOpen.set(true);
+  }
+
+  /** Closes the edit-task dialog. */
+  closeEditTaskDetail(): void {
+    this.isEditTaskDetailDialogOpen.set(false);
+  }
   /**
    * Opens the add-task dialog unless it is already open.
    */
