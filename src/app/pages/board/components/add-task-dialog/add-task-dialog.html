@@ -1,1 +1,2 @@
-<app-add-task-form [initialStatus]="initialStatus()"></app-add-task-form>
+<app-add-task-form [initialStatus]="initialStatus()" [isDialog]="true"
+  (taskCreated)="taskCreated.emit()"></app-add-task-form>
