@@ -18,52 +18,73 @@
         </button>
       </header>
 
-      <h2>{{ currentTask.title }}</h2>
+      <div class="dialog-body">
+        <div class="dialog-scrollable" #scrollableEl (scroll)="onScroll()">
+        <h2>{{ currentTask.title }}</h2>
 
-      <p class="dialog-description">{{ currentTask.description }}</p>
+        <p class="dialog-description">{{ currentTask.description }}</p>
 
-      <p class="due-date">
-        <span class="due-date-label">Due date:</span>
-        <span class="due-date-value">{{ currentTask.due_date | date:'MM/dd/yyyy' }}</span>
-      </p>
+        <p class="due-date">
+          <span class="due-date-label">Due date:</span>
+          <span class="due-date-value">{{ currentTask.due_date | date:'MM/dd/yyyy' }}</span>
+        </p>
 
-      <p class="priority">
-        <span class="priority-label">Priority:</span>
-        <span class="priority-value">
-          {{ currentTask.priority | titlecase }}
-          <img
-            class="priority-icon"
-            [src]="priorityIcon()"
-            [alt]="'Priority ' + currentTask.priority">
-        </span>
-      </p>
-
-      <p class="assigned-to">Assigned To:</p>
-
-      <div class="dialog-assignees">
-         @for (tc of currentTask.task_contacts; track tc.contact_id) {
-          <div class="assignee-row">
-            <span class="task-card-assignee" [style.background-color]="getColor(tc.contacts.contact_name)"
-              [title]="tc.contacts.contact_name">
-              {{ tc.contacts.contact_name | getInitials }}
-            </span>
-            <span class="assignee-name">{{ tc.contacts.contact_name }}</span>
-          </div>
-        }
-      </div>
-      <p class="subtasks-label">Subtasks</p>
-
-      <div class="dialog-subtasks">
-        @for (subtask of currentTask.subtasks; track subtask.id) {
-          <div class="subtask-row" (click)="toggleSubtask(subtask)">
+        <p class="priority">
+          <span class="priority-label">Priority:</span>
+          <span class="priority-value">
+            {{ currentTask.priority | titlecase }}
             <img
-              class="subtask-checkbox"
-              [src]="subtask.done ? 'app-icons/task-detail-dialog/check_button_checked.svg' : 'app-icons/task-detail-dialog/check_button.png'"
-              [alt]="subtask.done ? 'Checked' : 'Unchecked'">
-            <span class="subtask-title">{{ subtask.title }}</span>
+              class="priority-icon"
+              [src]="priorityIcon()"
+              [alt]="'Priority ' + currentTask.priority">
+          </span>
+        </p>
+
+        <p class="assigned-to">Assigned To:</p>
+
+        <div class="dialog-assignees">
+           @for (tc of currentTask.task_contacts; track tc.contact_id) {
+            <div class="assignee-row">
+              <span class="task-card-assignee" [style.background-color]="getColor(tc.contacts.contact_name)"
+                [title]="tc.contacts.contact_name">
+                {{ tc.contacts.contact_name | getInitials }}
+              </span>
+              <span class="assignee-name">{{ tc.contacts.contact_name }}</span>
+            </div>
+          }
+        </div>
+        <p class="subtasks-label">Subtasks</p>
+
+        <div class="dialog-subtasks">
+          @for (subtask of currentTask.subtasks; track subtask.id) {
+            <div class="subtask-row" (click)="toggleSubtask(subtask)">
+              <img
+                class="subtask-checkbox"
+                [src]="subtask.done ? 'app-icons/task-detail-dialog/check_button_checked.svg' : 'app-icons/task-detail-dialog/check_button.png'"
+                [alt]="subtask.done ? 'Checked' : 'Unchecked'">
+              <span class="subtask-title">{{ subtask.title }}</span>
+            </div>
+          }
+        </div>
+        </div>
+
+        @if (isScrollable()) {
+          <div class="custom-scrollbar">
+            <button type="button" class="scrollbar-arrow" (click)="scrollByStep(-40)">
+              <img src="app-icons/task-detail-dialog/scrollbar_arrow_up.svg" alt="Nach oben scrollen">
+            </button>
+
+            <div class="scrollbar-track" #trackEl>
+              <div class="scrollbar-thumb" [style.height.px]="thumbHeight()" [style.top.px]="thumbTop()"></div>
+            </div>
+
+            <button type="button" class="scrollbar-arrow" (click)="scrollByStep(40)">
+              <img src="app-icons/task-detail-dialog/scrollbar_arrow_down.svg" alt="Nach unten scrollen">
+            </button>
           </div>
         }
       </div>
+
       <div class="dialog-actions">
         <button class="dialog-action-button" type="button" (click)="taskService.deleteTask(currentTask.id)">
           <img src="app-icons/task-detail-dialog/delete.svg" alt="">
