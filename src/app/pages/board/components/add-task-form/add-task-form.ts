@@ -75,7 +75,7 @@ export class AddTaskForm {
       validators: [Validators.required]
     }),
     subtaskInput: new FormControl('', {
-      validators: [Validators.minLength(4)]
+      validators: [Validators.minLength(4), Validators.maxLength(50)]
     })
   })
 
