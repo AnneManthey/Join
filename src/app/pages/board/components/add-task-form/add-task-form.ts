@@ -15,7 +15,7 @@ import { getColor } from '../../../../shared/utils/contacts-helper';
 })
 export class AddTaskForm {
   private supabaseService = inject(SupabaseService);
-  private supabaseTaskService = inject(SupabaseTaskService);
+  supabaseTaskService = inject(SupabaseTaskService);
   private supabase = this.supabaseService.client;
   private router = inject(Router);
 
@@ -67,7 +67,7 @@ taskCreated = output<void>();
   taskForm = new FormGroup({
     // Validator für maxlength hinzugefügt
     title: new FormControl('', {
-      validators: [Validators.required, Validators.minLength(4), Validators.maxLength(50)]
+      validators: [Validators.required, Validators.minLength(4), Validators.maxLength(100)]
     }),
     description: new FormControl(''),
     due_date: new FormControl('', {
@@ -124,13 +124,20 @@ taskCreated = output<void>();
       return;
     }
 
-    const taskId = await this.createTask();
+    const taskId = await this.supabaseTaskService.createTask({
+      title: this.title?.value ?? '',
+      description: this.description?.value ?? '',
+      due_date: this.duedate?.value ?? '',
+      priority: this.priority?.value as Task['priority'],
+      category: this.category?.value as Task['category'],
+      status: this.initialStatus()
+    });
     if (!taskId) return;
 
-    const contactsSaved = await this.saveTaskContacts(taskId);
+    const contactsSaved = await this.supabaseTaskService.saveTaskContacts(taskId);
     if (!contactsSaved) return;
 
-    const subtasksSaved = await this.saveTaskSubtasks(taskId);
+    const subtasksSaved = await this.supabaseTaskService.saveTaskSubtasks(taskId);
     if (!subtasksSaved) return;
 
     this.resetAndNavigate();
@@ -138,95 +145,6 @@ taskCreated = output<void>();
 
   /** Task status pre-selected for the task being created, based on which column's "+" button opened the add-task dialog. */
   initialStatus = input<Task['status']>('todo');
-
-  /**
-   * Creates the main task record in Supabase using the current form values.
-   *
-   * @returns The created task id, or null if the insert failed.
-   */
-  private async createTask(): Promise<number | null> {
-  console.log('form submitted');
-
-  const { data, error } = await this.supabase
-    .from('tasks')
-    .insert([
-      {
-        title: this.title?.value,
-        description: this.description?.value ?? '',
-        due_date: this.duedate?.value,
-        priority: this.priority?.value as Task['priority'],
-        category: this.category?.value as Task['category'],
-        status: this.initialStatus() // use the pre-selected column status instead of hardcoding 'todo'
-      },
-    ])
-    .select();
-
-    if (error) {
-      console.error('No data received');
-      return null;
-    }
-
-    const taskId = data?.[0]?.id;
-
-    if (!taskId) {
-      console.error('task id not found');
-      return null;
-    }
-
-    return taskId;
-  }
-
-  /**
-   * Saves the selected contacts for the created task in the task_contacts table.
-   *
-   * @param taskId - The id of the newly created task.
-   * @returns True if the contacts were saved successfully, otherwise false.
-   */
-  private async saveTaskContacts(taskId: number): Promise<boolean> {
-    const insertContacts = this.selectedContacts().map(contactId => ({
-      task_id: taskId,
-      contact_id: contactId
-    }));
-
-    const { error } = await this.supabase
-      .from('task_contacts')
-      .insert(insertContacts)
-      .select();
-
-    if (error) {
-      console.error('No contacts received');
-      return false;
-    }
-
-    this.selectedContacts.set([]);
-    return true;
-  }
-
-  /**
-   * Saves all subtasks assigned to the created task.
-   *
-   * @param taskId - The id of the newly created task.
-   * @returns True if the subtasks were saved successfully, otherwise false.
-   */
-  private async saveTaskSubtasks(taskId: number): Promise<boolean> {
-    const insertSubtasks = this.assignedSubtasks().map(subtask => ({
-      task_id: taskId,
-      title: subtask,
-    }));
-
-    const { error } = await this.supabase
-      .from('subtasks')
-      .insert(insertSubtasks)
-      .select();
-
-    if (error) {
-      console.error('Keine subtasks angekommen');
-      return false;
-    }
-
-    this.assignedSubtasks.set([]);
-    return true;
-  }
 
   /**
    * Resets the form state and redirects the user after a short success delay.
@@ -265,7 +183,6 @@ taskCreated = output<void>();
     }
   }
 
-
   /** Closes the assigned-to dropdown when clicking outside of it. */
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: MouseEvent) {
@@ -273,21 +190,6 @@ taskCreated = output<void>();
     if (!this.assignedToDropdown?.nativeElement.contains(event.target as Node)) {
       this.contactDropdownOpen.set(false);
       this.contactSearchTerm.set('');
-    }
-  }
-
-  /**
-   * Adds or removes a contact from the selected contacts list based on checkbox interaction.
-   * 
-   * @param contactId - The unique identifier of the contact to toggle.
-   * @param event - The input change event triggered by the checkbox.
-   */
-  toggleSelectedContact(contactId: number, event: Event) {
-    const checked = (event.target as HTMLInputElement).checked;
-    if (checked) {
-      this.selectedContacts.update(ids => [...ids, contactId])
-    } else {
-      this.selectedContacts.update(ids => ids.filter(contact => contact !== contactId));
     }
   }
 
@@ -310,26 +212,4 @@ taskCreated = output<void>();
   resetSubtask() {
     this.subtaskInput?.reset();
   }
-
-  /**
- * Removes a subtask from the assigned subtasks list at the specified index.
- * 
- * @param index - The zero-based index of the subtask to delete.
- */
-  deleteEditSubtask(index: number) {
-    this.assignedSubtasks.update(subtasks => subtasks.filter((_, i) => i !== index));
-  }
-
-  /**
- * Updates the text content of an assigned subtask at the specified index.
- * 
- * @param index - The zero-based index of the subtask to update.
- * @param newSubtask - The updated text content for the subtask.
- */
-  updateEditSubtask(index: number, newSubtask: string) {
-    const newText = newSubtask.trim();
-    if (!newText) return;
-    this.assignedSubtasks.update(subtasks => subtasks.map((task, i) => i === index ? newText : task));
-  }
-
 }

@@ -1,7 +1,7 @@
-@if (isOpen()) {
+@if (isOpen() && task(); as currentTask) {
   <div class="dialog-overlay" (click)="closeDialog()">
     <main class="dialog-content" (click)="$event.stopPropagation()">
-      <form [formGroup]="taskdetailForm">
+      <form [formGroup]="taskdetailForm" (ngSubmit)="onEditSubmit()">
         <div class="dialog-header">
           <p for="task-detail-title">Title</p>
           <button class="dialog-close" type="button" (click)="closeDialog()">&times;</button>
@@ -235,7 +235,7 @@
                 </button>
               }
             </div>
-            @for (subtask of assignedSubtasks(); track $index) {
+            @for (subtask of editSubtasks(); track $index) {
               @if (editingIndex() !== $index) {
                 <ul class="task-form__ul">
                   <li (click)="editingIndex.set($index)" class="task-form__subtask-item">
@@ -333,7 +333,7 @@
           </div>
         </div>
         <div class="dialog-footer">
-          <button class="dialog-confirm-button" type="button" (click)="closeDialog()">
+          <button class="dialog-confirm-button" type="submit" (click)="closeDialog()">
             Ok
             <svg width="16" height="12" viewBox="0 0 16 12" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path
