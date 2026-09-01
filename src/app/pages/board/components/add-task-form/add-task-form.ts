@@ -59,8 +59,9 @@ export class AddTaskForm {
   );
 
   taskForm = new FormGroup({
+    // Validator für maxlength hinzugefügt
     title: new FormControl('', {
-      validators: [Validators.required, Validators.minLength(4)]
+      validators: [Validators.required, Validators.minLength(4), Validators.maxLength(50)]
     }),
     description: new FormControl(''),
     due_date: new FormControl('', {
