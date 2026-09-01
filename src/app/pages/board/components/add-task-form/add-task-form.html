@@ -1,4 +1,4 @@
-<section class="main-section">
+<section class="main-section"[class.is-dialog]="isDialog()">
     <h1 class="main-h1">Add Task</h1>
     <form class="task-form" [formGroup]="taskForm" (ngSubmit)="formSubmit()">
         <div class="task-form__half-wrapper">

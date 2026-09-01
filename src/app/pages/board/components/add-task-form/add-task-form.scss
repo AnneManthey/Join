@@ -240,7 +240,7 @@
   &__subtask-bullet {
     flex-shrink: 0;
   }
-  
+
   &__subtask-text {
     flex: 1 1 auto;
     min-width: 0;
@@ -610,6 +610,41 @@
         opacity: 1;
         visibility: visible;
       }
+    }
+  }
+}
+
+.main-section.is-dialog {
+  padding: 32px 40px;
+
+  .task-form {
+    gap: 20px;
+    padding-top: 24px;
+
+    &__half-wrapper {
+      gap: 20px;
+    }
+
+    &__input-wrapper {
+      min-height: 76px;
+    }
+
+    &__input,
+    &__select {
+      height: 42px;
+      padding-top: 8px;
+      padding-bottom: 8px;
+    }
+
+    &__textarea {
+      height: 72px;
+  max-height: 100px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+    }
+
+    &__line--form {
+      height: 320px;
     }
   }
 }
