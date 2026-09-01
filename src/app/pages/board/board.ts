@@ -8,11 +8,11 @@ import { TaskDetailDialog } from './components/task-detail-dialog/task-detail-di
 import { Navbar } from '../../layout/navbar/navbar';
 import { Header } from '../../layout/header/header';
 import { SupabaseTaskService } from '../../shared/services/supabase-task-service';
-import { AddTaskForm } from "./components/add-task-form/add-task-form";
+import { AddTaskDialog } from './components/add-task-dialog/add-task-dialog';
 
 @Component({
   selector: 'app-board',
-  imports: [BoardColumn, CommonModule, FormsModule, DragDropModule, TaskDetailDialog, Navbar, Header, AddTaskForm],
+  imports: [BoardColumn, CommonModule, FormsModule, DragDropModule, TaskDetailDialog, Navbar, Header, AddTaskDialog],
   templateUrl: './board.html',
   styleUrl: './board.scss',
 })
@@ -86,10 +86,13 @@ export class Board implements OnInit {
     }
   }
 
-  /** Opens the add-task flow for the selected column. */
+  /**
+   * Opens the add-task dialog from a board column.
+   *
+   * @param columnId - The column that initiated the add-task flow, if applicable.
+   */
   openAddTask(columnId?: string): void {
-    // später: Dialog öffnen
-    console.log('open add task for column', columnId);
+    this.openAddTaskDialog();
   }
 
   /** Opens the detail dialog for the selected task. */
@@ -103,12 +106,31 @@ export class Board implements OnInit {
     this.isTaskDetailDialogOpen.set(false);
   }
 
-
-  openAddTaskDialog() {
-    this.addTaskDialog.nativeElement.showModal();
+  /**
+   * Opens the add-task dialog unless it is already open.
+   */
+  openAddTaskDialog(): void {
+    const dialog = this.addTaskDialog.nativeElement;
+    if (!dialog.open) {
+      dialog.showModal();
+    }
   }
 
-  closeAddTaskDialog() {
+  /**
+   * Closes the add-task dialog.
+   */
+  closeAddTaskDialog(): void {
     this.addTaskDialog.nativeElement.close();
+  }
+
+  /**
+   * Closes the add-task dialog when the user clicks its backdrop.
+   *
+   * @param event - The click event emitted by the dialog element.
+   */
+  closeAddTaskDialogOnBackdrop(event: MouseEvent): void {
+    if (event.target === event.currentTarget) {
+      this.closeAddTaskDialog();
+    }
   }
 }

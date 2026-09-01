@@ -7,7 +7,7 @@
         <header class="board-header">
           <div class="board-h1-wrapper">
             <h1>Board</h1>
-            <button class="btn-add-mobile" (click)="openAddTask()"><img src="app-icons/board/add-mobile.svg"
+            <button class="btn-add-mobile" (click)="openAddTaskDialog()"><img src="app-icons/board/add-mobile.svg"
                 alt="Add Icon"></button>
           </div>
           <div class="board-actions">
@@ -21,7 +21,7 @@
               <p class="no-tasks-found">No tasks found</p>
               }
             </div>
-            <button class="btn-add-desktop" (click)="openAddTaskDialog()">Add task +</button>
+            <button class="btn-add-task-desktop" (click)="openAddTaskDialog()">Add task +</button>
           </div>
         </header>
         <section class="board-columns" cdkDropListGroup>
@@ -41,8 +41,8 @@
   </div>
 </div>
 
-<dialog #addTaskDialog class="add-task-dialog">
-  <button (click)="closeAddTaskDialog()"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<dialog #addTaskDialog class="add-task-dialog" (click)="closeAddTaskDialogOnBackdrop($event)">
+  <button type="button" aria-label="Close add task dialog" (click)="closeAddTaskDialog()"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
       <mask id="mask0_501507_5031" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24"
         height="24">
         <rect width="24" height="24" fill="#D9D9D9" />
@@ -54,5 +54,5 @@
       </g>
     </svg>
   </button>
-  <app-add-task-form></app-add-task-form>
+  <app-add-task-dialog></app-add-task-dialog>
 </dialog>
