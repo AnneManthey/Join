@@ -540,4 +540,38 @@ export class SupabaseTaskService {
         this.assignedSubtasks.set([]);
         return true;
     }
+
+    /**
+     * Creates the main task record in Supabase using the provided task data.
+     *
+     * @param taskData - The task fields required to create a new task.
+     * @returns The created task id, or null if the insert failed.
+     */
+    async createTask(taskData: {
+        title: string;
+        description: string;
+        due_date: string;
+        priority: Task['priority'];
+        category: Task['category'];
+        status: Task['status'];
+    }): Promise<number | null> {
+        const { data, error } = await this.supabase
+            .from('tasks')
+            .insert([taskData])
+            .select();
+
+        if (error) {
+            console.error('No data received');
+            return null;
+        }
+
+        const taskId = data?.[0]?.id;
+
+        if (!taskId) {
+            console.error('task id not found');
+            return null;
+        }
+
+        return taskId;
+    }
 }

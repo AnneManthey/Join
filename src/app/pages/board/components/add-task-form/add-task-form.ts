@@ -118,7 +118,14 @@ export class AddTaskForm {
       return;
     }
 
-    const taskId = await this.createTask();
+    const taskId = await this.supabaseTaskService.createTask({
+      title: this.title?.value ?? '',
+      description: this.description?.value ?? '',
+      due_date: this.duedate?.value ?? '',
+      priority: this.priority?.value as Task['priority'],
+      category: this.category?.value as Task['category'],
+      status: this.initialStatus()
+    });
     if (!taskId) return;
 
     const contactsSaved = await this.supabaseTaskService.saveTaskContacts(taskId);
@@ -132,43 +139,6 @@ export class AddTaskForm {
 
   /** Task status pre-selected for the task being created, based on which column's "+" button opened the add-task dialog. */
   initialStatus = input<Task['status']>('todo');
-
-  /**
-   * Creates the main task record in Supabase using the current form values.
-   *
-   * @returns The created task id, or null if the insert failed.
-   */
-  private async createTask(): Promise<number | null> {
-  console.log('form submitted');
-
-  const { data, error } = await this.supabase
-    .from('tasks')
-    .insert([
-      {
-        title: this.title?.value,
-        description: this.description?.value ?? '',
-        due_date: this.duedate?.value,
-        priority: this.priority?.value as Task['priority'],
-        category: this.category?.value as Task['category'],
-        status: this.initialStatus() // use the pre-selected column status instead of hardcoding 'todo'
-      },
-    ])
-    .select();
-
-    if (error) {
-      console.error('No data received');
-      return null;
-    }
-
-    const taskId = data?.[0]?.id;
-
-    if (!taskId) {
-      console.error('task id not found');
-      return null;
-    }
-
-    return taskId;
-  }
 
   /**
    * Resets the form state and redirects the user after a short success delay.
@@ -207,7 +177,6 @@ export class AddTaskForm {
     }
   }
 
-
   /** Closes the assigned-to dropdown when clicking outside of it. */
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: MouseEvent) {
@@ -237,9 +206,4 @@ export class AddTaskForm {
   resetSubtask() {
     this.subtaskInput?.reset();
   }
-
-
-
-
-
 }
