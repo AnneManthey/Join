@@ -1,4 +1,4 @@
-import { Component, computed, inject, OnInit, signal } from '@angular/core';
+import { Component, computed, inject, OnInit, signal, ViewChild, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { FormsModule } from '@angular/forms';
@@ -9,10 +9,12 @@ import { EditTaskDetailDialog } from './components/edit-task-detail-dialog/edit-
 import { Navbar } from '../../layout/navbar/navbar';
 import { Header } from '../../layout/header/header';
 import { SupabaseTaskService } from '../../shared/services/supabase-task-service';
+import { AddTaskDialog } from './components/add-task-dialog/add-task-dialog';
 
 @Component({
   selector: 'app-board',
   imports: [BoardColumn, CommonModule, FormsModule, DragDropModule, TaskDetailDialog, EditTaskDetailDialog, Navbar, Header],
+  imports: [BoardColumn, CommonModule, FormsModule, DragDropModule, TaskDetailDialog, Navbar, Header, AddTaskDialog],
   templateUrl: './board.html',
   styleUrl: './board.scss',
 })
@@ -31,6 +33,9 @@ export class Board implements OnInit {
 
   /** Indicates whether the edit-task dialog is open. */
   isEditTaskDetailDialogOpen = signal(false);
+  @ViewChild('addTaskDialog') addTaskDialog!: ElementRef<HTMLDialogElement>;
+
+
 
   /** Loads the tasks required to render the board. */
   ngOnInit(): void {
@@ -85,10 +90,18 @@ export class Board implements OnInit {
     }
   }
 
-  /** Opens the add-task flow for the selected column. */
+  /** Status pre-selected for a new task, based on which column's "+" button was clicked. */
+  initialStatus = signal<Task['status']>('todo');
+
+  /**
+  * Opens the add-task dialog, pre-filling the task status with the column
+  * that triggered the add-task flow.
+  *
+  * @param columnId - The column that initiated the add-task flow, if applicable.
+  */
   openAddTask(columnId?: string): void {
-    // später: Dialog öffnen
-    console.log('open add task for column', columnId);
+    this.initialStatus.set((columnId as Task['status']) ?? 'todo');
+    this.openAddTaskDialog();
   }
 
   /** Opens the detail dialog for the selected task. */
@@ -113,4 +126,46 @@ export class Board implements OnInit {
   closeEditTaskDetail(): void {
     this.isEditTaskDetailDialogOpen.set(false);
   }
+  /**
+   * Opens the add-task dialog unless it is already open.
+   */
+  openAddTaskDialog(): void {
+    const dialog = this.addTaskDialog.nativeElement;
+    if (!dialog.open) {
+      dialog.showModal();
+    }
+  }
+
+/**
+ * Closes the add-task dialog, playing the exit animation first.
+ */
+closeAddTaskDialog(): void {
+  const dialog = this.addTaskDialog.nativeElement;
+
+  if (!dialog.open) {
+    return;
+  }
+
+  dialog.classList.add('add-task-dialog--closing');
+
+  const onAnimationEnd = () => {
+    dialog.classList.remove('add-task-dialog--closing');
+    dialog.close();
+    dialog.removeEventListener('animationend', onAnimationEnd);
+  };
+
+  dialog.addEventListener('animationend', onAnimationEnd);
+}
+
+  /**
+   * Closes the add-task dialog when the user clicks its backdrop.
+   *
+   * @param event - The click event emitted by the dialog element.
+   */
+  closeAddTaskDialogOnBackdrop(event: MouseEvent): void {
+    if (event.target === event.currentTarget) {
+      this.closeAddTaskDialog();
+    }
+  }
+
 }
