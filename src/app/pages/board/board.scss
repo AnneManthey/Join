@@ -1,7 +1,5 @@
 @use '../../styles/variables' as *;
 
-
-
 .board-main {
   flex: 1;
   min-height: 0;
@@ -121,6 +119,25 @@
   }
 }
 
+dialog {
+  .btn-wrapper {
+    display: flex;
+    justify-content: flex-end;
+    position: relative;
+    button {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      padding: 0;
+      border: none;
+      background: none;
+      line-height: 0;
+      cursor: pointer;
+      overflow: hidden;
+    }
+  }
+}
+
 .add-task-dialog {
   font-family: Inter;
   position: fixed;
@@ -140,21 +157,6 @@
   overflow-x: hidden;
   overflow-y: auto;
 
-
-
-//   --dialog-animation-duration: 400ms;
-//   box-sizing: border-box;
-//   position: fixed;
-//   width: min(900px, calc(100vw - 32px));
-//   max-width: calc(100vw - 32px);
-//   max-height: calc(100dvh - 32px);
-//   inset: 0;
-//   margin: auto;
-//   border: none;
-//   padding: 0;
-//   border-radius: 30px;
-//   overflow-x: hidden;
-//   overflow-y: auto;
 
   &[open] {
     animation: add-task-dialog-enter var(--dialog-animation-duration) ease-out forwards;
@@ -205,10 +207,6 @@
   }
 }
 
-
-
-
-
 @media (max-width: 1250px) {
   .board-columns {
     flex-direction: column;
@@ -224,6 +222,17 @@
     gap: 1.5rem;
     justify-content: center;
     align-items: flex-start;
+  }
+  .add-task-dialog {
+    --dialog-animation-duration: 400ms;
+
+    &[open] {
+      animation: add-task-dialog-enter-mobile var(--dialog-animation-duration) ease-out forwards;
+    }
+
+    &--closing {
+      animation: add-task-dialog-exit-mobile var(--dialog-animation-duration) ease-in forwards !important;
+    }
   }
 }
 
@@ -267,5 +276,25 @@
 @media (max-width: 560px) {
   .board-main {
     padding: 50px 8px;
+  }
+
+  @keyframes add-task-dialog-enter-mobile {
+    from {
+      transform: translateY(100%);
+    }
+
+    to {
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes add-task-dialog-exit-mobile {
+    from {
+      transform: translateY(0);
+    }
+
+    to {
+      transform: translateY(100%);
+    }
   }
 }
