@@ -5,6 +5,7 @@ main {
     font-family: Inter;
     height: 100dvh;
     display: flex;
+    flex-direction: column;
     width: 100%;
     justify-content: flex-start;
     overflow-y: auto;
