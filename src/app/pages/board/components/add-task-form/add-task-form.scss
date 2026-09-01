@@ -598,6 +598,19 @@
       top: 50%;
       transform: translate(-50%, -50%);
     }
+
+    &.is-dialog {
+      top: 50%;
+      transform: translate(-50%, -50%);
+      transition: none;
+      opacity: 0;
+      visibility: hidden;
+
+      &.task-success__wrapper--visible {
+        opacity: 1;
+        visibility: visible;
+      }
+    }
   }
 }
 

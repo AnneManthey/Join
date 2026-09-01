@@ -1,4 +1,4 @@
-import { Component, ElementRef, HostListener, ViewChild, computed, inject, signal, input } from '@angular/core';
+import { Component, ElementRef, HostListener, ViewChild, computed, inject, signal, input, output } from '@angular/core';
 import { SupabaseTaskService } from '../../../../shared/services/supabase-task-service';
 import { Router } from '@angular/router';
 import { FormControl, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
@@ -35,6 +35,12 @@ export class AddTaskForm {
 
   /** Indicates whether the task success message is currently visible. */
   showTaskSuccessMessage = signal(false);
+
+  /** Whether this form runs inside the add-task dialog rather than as a standalone page. */
+isDialog = input(false);
+
+/** Emits once the task is created, so the parent dialog can close itself. */
+taskCreated = output<void>();
 
   /** Current contact search query for the assigned-to dropdown. */
   contactSearchTerm = signal('');
@@ -226,13 +232,13 @@ export class AddTaskForm {
    * Resets the form state and redirects the user after a short success delay.
    */
   private resetAndNavigate() {
-    this.resetForm();
-    this.showTaskSuccessMessage.set(true);
-    setTimeout(() => {
-      this.showTaskSuccessMessage.set(false);
-      this.router.navigate(['/board']);
-    }, 1000);
-  }
+  this.resetForm();
+  this.showTaskSuccessMessage.set(true);
+  setTimeout(() => {
+    this.showTaskSuccessMessage.set(false);
+    this.isDialog() ? this.taskCreated.emit() : this.router.navigate(['/board']);
+  }, 1000);
+}
 
   /**
  * Resets the task form to its default values and clears all state signals.
