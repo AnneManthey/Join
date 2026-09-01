@@ -199,8 +199,15 @@
 
                     @if(editingIndex() !== $index){
                     <ul class="task-form__ul">
-                        <li (click)="editingIndex.set($index)" class="task-form__subtask-item">
+                        <!-- <li (click)="editingIndex.set($index)" class="task-form__subtask-item">
                             &#x2022; {{subtask}}
+                            <div class="task-form__button-wrapper"> -->
+                        <li (click)="editingIndex.set($index)" class="task-form__subtask-item">
+                            <!-- <span class="task-form__subtask-text">&#x2022; {{subtask}}</span> -->
+                            <span class="task-form__subtask-content">
+                                <span class="task-form__subtask-bullet">&#x2022;</span>
+                                <span class="task-form__subtask-text">{{subtask}}</span>
+                            </span>
                             <div class="task-form__button-wrapper">
                                 <!-- EDIT BUTTON: -->
                                 <button (click)="editingIndex.set($index)"
