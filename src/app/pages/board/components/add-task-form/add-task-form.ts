@@ -61,7 +61,7 @@ export class AddTaskForm {
   taskForm = new FormGroup({
     // Validator für maxlength hinzugefügt
     title: new FormControl('', {
-      validators: [Validators.required, Validators.minLength(4), Validators.maxLength(50)]
+      validators: [Validators.required, Validators.minLength(4), Validators.maxLength(100)]
     }),
     description: new FormControl(''),
     due_date: new FormControl('', {
@@ -121,10 +121,10 @@ export class AddTaskForm {
     const taskId = await this.createTask();
     if (!taskId) return;
 
-    const contactsSaved = await this.saveTaskContacts(taskId);
+    const contactsSaved = await this.supabaseTaskService.saveTaskContacts(taskId);
     if (!contactsSaved) return;
 
-    const subtasksSaved = await this.saveTaskSubtasks(taskId);
+    const subtasksSaved = await this.supabaseTaskService.saveTaskSubtasks(taskId);
     if (!subtasksSaved) return;
 
     this.resetAndNavigate();
@@ -168,58 +168,6 @@ export class AddTaskForm {
     }
 
     return taskId;
-  }
-
-  /**
-   * Saves the selected contacts for the created task in the task_contacts table.
-   *
-   * @param taskId - The id of the newly created task.
-   * @returns True if the contacts were saved successfully, otherwise false.
-   */
-  private async saveTaskContacts(taskId: number): Promise<boolean> {
-    const insertContacts = this.selectedContacts().map(contactId => ({
-      task_id: taskId,
-      contact_id: contactId
-    }));
-
-    const { error } = await this.supabase
-      .from('task_contacts')
-      .insert(insertContacts)
-      .select();
-
-    if (error) {
-      console.error('No contacts received');
-      return false;
-    }
-
-    this.selectedContacts.set([]);
-    return true;
-  }
-
-  /**
-   * Saves all subtasks assigned to the created task.
-   *
-   * @param taskId - The id of the newly created task.
-   * @returns True if the subtasks were saved successfully, otherwise false.
-   */
-  private async saveTaskSubtasks(taskId: number): Promise<boolean> {
-    const insertSubtasks = this.assignedSubtasks().map(subtask => ({
-      task_id: taskId,
-      title: subtask,
-    }));
-
-    const { error } = await this.supabase
-      .from('subtasks')
-      .insert(insertSubtasks)
-      .select();
-
-    if (error) {
-      console.error('Keine subtasks angekommen');
-      return false;
-    }
-
-    this.assignedSubtasks.set([]);
-    return true;
   }
 
   /**

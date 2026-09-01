@@ -488,4 +488,56 @@ export class SupabaseTaskService {
             this.selectedContacts.update(ids => ids.filter(contact => contact !== contactId));
         }
     }
+
+    /**
+ * Saves the selected contacts for the created task in the task_contacts table.
+ *
+ * @param taskId - The id of the newly created task.
+ * @returns True if the contacts were saved successfully, otherwise false.
+ */
+    async saveTaskContacts(taskId: number): Promise<boolean> {
+        const insertContacts = this.selectedContacts().map(contactId => ({
+            task_id: taskId,
+            contact_id: contactId
+        }));
+
+        const { error } = await this.supabase
+            .from('task_contacts')
+            .insert(insertContacts)
+            .select();
+
+        if (error) {
+            console.error('No contacts received');
+            return false;
+        }
+
+        this.selectedContacts.set([]);
+        return true;
+    }
+
+    /**
+  * Saves all subtasks assigned to the created task.
+  *
+  * @param taskId - The id of the newly created task.
+  * @returns True if the subtasks were saved successfully, otherwise false.
+  */
+    async saveTaskSubtasks(taskId: number): Promise<boolean> {
+        const insertSubtasks = this.assignedSubtasks().map(subtask => ({
+            task_id: taskId,
+            title: subtask,
+        }));
+
+        const { error } = await this.supabase
+            .from('subtasks')
+            .insert(insertSubtasks)
+            .select();
+
+        if (error) {
+            console.error('Keine subtasks angekommen');
+            return false;
+        }
+
+        this.assignedSubtasks.set([]);
+        return true;
+    }
 }
