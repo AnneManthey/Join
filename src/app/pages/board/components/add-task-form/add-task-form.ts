@@ -1,4 +1,4 @@
-import { Component, ElementRef, HostListener, ViewChild, computed, inject, signal } from '@angular/core';
+import { Component, ElementRef, HostListener, ViewChild, computed, inject, signal, input } from '@angular/core';
 import { SupabaseTaskService } from '../../../../shared/services/supabase-task-service';
 import { Router } from '@angular/router';
 import { FormControl, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
@@ -130,27 +130,30 @@ export class AddTaskForm {
     this.resetAndNavigate();
   }
 
+  /** Task status pre-selected for the task being created, based on which column's "+" button opened the add-task dialog. */
+  initialStatus = input<Task['status']>('todo');
+
   /**
    * Creates the main task record in Supabase using the current form values.
    *
    * @returns The created task id, or null if the insert failed.
    */
   private async createTask(): Promise<number | null> {
-    console.log('form submitted');
+  console.log('form submitted');
 
-    const { data, error } = await this.supabase
-      .from('tasks')
-      .insert([
-        {
-          title: this.title?.value,
-          description: this.description?.value ?? '',
-          due_date: this.duedate?.value,
-          priority: this.priority?.value as Task['priority'],
-          category: this.category?.value as Task['category'],
-          status: 'todo'
-        },
-      ])
-      .select();
+  const { data, error } = await this.supabase
+    .from('tasks')
+    .insert([
+      {
+        title: this.title?.value,
+        description: this.description?.value ?? '',
+        due_date: this.duedate?.value,
+        priority: this.priority?.value as Task['priority'],
+        category: this.category?.value as Task['category'],
+        status: this.initialStatus() // use the pre-selected column status instead of hardcoding 'todo'
+      },
+    ])
+    .select();
 
     if (error) {
       console.error('No data received');

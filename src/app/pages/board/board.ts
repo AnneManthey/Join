@@ -86,12 +86,17 @@ export class Board implements OnInit {
     }
   }
 
+  /** Status pre-selected for a new task, based on which column's "+" button was clicked. */
+  initialStatus = signal<Task['status']>('todo');
+
   /**
-   * Opens the add-task dialog from a board column.
-   *
-   * @param columnId - The column that initiated the add-task flow, if applicable.
-   */
+  * Opens the add-task dialog, pre-filling the task status with the column
+  * that triggered the add-task flow.
+  *
+  * @param columnId - The column that initiated the add-task flow, if applicable.
+  */
   openAddTask(columnId?: string): void {
+    this.initialStatus.set((columnId as Task['status']) ?? 'todo');
     this.openAddTaskDialog();
   }
 
@@ -133,4 +138,5 @@ export class Board implements OnInit {
       this.closeAddTaskDialog();
     }
   }
+
 }

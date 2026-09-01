@@ -2,7 +2,9 @@
     <header class="column-header">
         <h2>{{ column().title }}</h2>
         @if (column().id !== 'done') {
-        <button class="btn-img" (click)="addTaskClicked.emit()"><img src="app-icons/board/plus-btn.svg" alt="Plus Icon"></button>
+        <button class="btn-img" (click)="addTaskClicked.emit(column().id)">
+            <img src="app-icons/board/plus-btn.svg" alt="Plus Icon">
+        </button>
         }
     </header>
 
@@ -15,7 +17,9 @@
             }
 
             @for (task of column().tasks; track task.id) {
-           <app-board-task-card [task]="task" cdkDrag [cdkDragDisabled]="isMobile()" [cdkDragData]="task" (clicked)="taskClicked.emit(task)" (taskMoved)="taskDropped.emit({ task, newColumnId: $event })"></app-board-task-card>
+            <app-board-task-card [task]="task" cdkDrag [cdkDragDisabled]="isMobile()" [cdkDragData]="task"
+                (clicked)="taskClicked.emit(task)"
+                (taskMoved)="taskDropped.emit({ task, newColumnId: $event })"></app-board-task-card>
             }
 
         </section>
