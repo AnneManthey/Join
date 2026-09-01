@@ -246,7 +246,9 @@ h2 {
 .dialog-subtasks {
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
   gap: 8px;
+  padding: 0 8px;
 }
 
 .subtask-row {
@@ -254,6 +256,14 @@ h2 {
   align-items: center;
   gap: 16px;
   cursor: pointer;
+  padding: 4px 8px;
+  margin: 0 -8px;
+  border-radius: 8px;
+  max-width: 100%;
+
+  &:hover {
+    background-color: #EEEEEE;
+  }
 }
 
 .subtask-checkbox {
