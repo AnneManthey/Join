@@ -13,8 +13,7 @@ import { AddTaskDialog } from './components/add-task-dialog/add-task-dialog';
 
 @Component({
   selector: 'app-board',
-  imports: [BoardColumn, CommonModule, FormsModule, DragDropModule, TaskDetailDialog, EditTaskDetailDialog, Navbar, Header],
-  imports: [BoardColumn, CommonModule, FormsModule, DragDropModule, TaskDetailDialog, Navbar, Header, AddTaskDialog],
+  imports: [BoardColumn, CommonModule, FormsModule, DragDropModule, TaskDetailDialog, Navbar, Header, AddTaskDialog, EditTaskDetailDialog],
   templateUrl: './board.html',
   styleUrl: './board.scss',
 })
