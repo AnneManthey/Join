@@ -38,8 +38,8 @@ export class EditTaskDetailDialog {
   /** IDs of currently selected contacts. */
   selectedContacts = this.supabaseTaskService.selectedContacts;
 
-  /** Titles of currently assigned subtasks. */
-  assignedSubtasks = this.supabaseTaskService.assignedSubtasks;
+  /** Titles of subtasks being edited in this dialog (local, not global). */
+  editSubtasks = signal<string[]>([]);
 
   /** Function for color mapping of contacts. */
   getColor = getColor;
@@ -131,7 +131,7 @@ export class EditTaskDetailDialog {
       this.selectedPriority.set(currentTask.priority);
       this.supabaseTaskService.currentTaskId = currentTask.id;
       this.selectedContacts.set(currentTask.task_contacts.map(taskContact => taskContact.contacts.id));
-      this.assignedSubtasks.set(currentTask.subtasks.map(subtask => subtask.title));
+      this.editSubtasks.set(currentTask.subtasks.map(subtask => subtask.title));
     });
   }
 
@@ -178,10 +178,10 @@ export class EditTaskDetailDialog {
   addSubtask() {
     const newTask = (this.subtaskInput?.value ?? '').trim();
     if (!newTask) return;
-    if (this.assignedSubtasks().includes(newTask)) {
+    if (this.editSubtasks().includes(newTask)) {
       return;
     }
-    this.assignedSubtasks.update(subtasks => [...subtasks, newTask]);
+    this.editSubtasks.update(subtasks => [...subtasks, newTask]);
     this.resetSubtask();
   }
 
@@ -197,7 +197,7 @@ export class EditTaskDetailDialog {
    * @param index - The index of the subtask to delete.
    */
   deleteEditSubtask(index: number) {
-    this.assignedSubtasks.update(subtasks => subtasks.filter((_, i) => i !== index));
+    this.editSubtasks.update(subtasks => subtasks.filter((_, i) => i !== index));
   }
 
   /**
@@ -208,7 +208,7 @@ export class EditTaskDetailDialog {
   updateEditSubtask(index: number, newSubtask: string) {
     const newText = newSubtask.trim();
     if (!newText) return;
-    this.assignedSubtasks.update(subtasks => subtasks.map((task, i) => i === index ? newText : task));
+    this.editSubtasks.update(subtasks => subtasks.map((task, i) => i === index ? newText : task));
   }
 
   async onEditSubmit() {
@@ -228,10 +228,10 @@ export class EditTaskDetailDialog {
     const contactsSuccess = await this.supabaseTaskService.updateAssignedContacts(currentTask.id, this.selectedContacts());
     if (!contactsSuccess) return;
 
-    const subtasksSuccess = await this.supabaseTaskService.addNewSubtasks(currentTask.id, this.assignedSubtasks());
+    const subtasksSuccess = await this.supabaseTaskService.addNewSubtasks(currentTask.id, this.editSubtasks());
     if (!subtasksSuccess) return;
 
-    this.assignedSubtasks.set([]);
+    this.editSubtasks.set([]);
     console.log('Task successfully updated');
     this.close.emit();
   }
