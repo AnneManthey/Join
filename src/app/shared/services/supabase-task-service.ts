@@ -422,36 +422,36 @@ export class SupabaseTaskService {
         return true;
     }
 
-    async toggleSubtask(subtaskId: Subtask['id'], done: boolean) {
-        const allTasks = this.tasks();
-        for (const task of allTasks) {
-            for (const subtask of task.subtasks) {
-                if (subtask.id === subtaskId) {
-                    subtask.done = done;
-                }
-            }
-        }
-        this.tasks.set([...allTasks]);
+    // async toggleSubtask(subtaskId: Subtask['id'], done: boolean) {
+    //     const allTasks = this.tasks();
+    //     for (const task of allTasks) {
+    //         for (const subtask of task.subtasks) {
+    //             if (subtask.id === subtaskId) {
+    //                 subtask.done = done;
+    //             }
+    //         }
+    //     }
+    //     this.tasks.set([...allTasks]);
 
-        const { data, error } = await this.supabase
-            .from('subtasks')
-            .update({ done: done })
-            .eq('id', subtaskId)
-            .select();
+    //     const { data, error } = await this.supabase
+    //         .from('subtasks')
+    //         .update({ done: done })
+    //         .eq('id', subtaskId)
+    //         .select();
 
-        if (error || !data || data.length === 0) {
-            console.error(error ?? 'Update hat keine Zeile verändert (RLS-Policy prüfen).');
+    //     if (error || !data || data.length === 0) {
+    //         console.error(error ?? 'Update hat keine Zeile verändert (RLS-Policy prüfen).');
 
-            for (const task of allTasks) {
-                for (const subtask of task.subtasks) {
-                    if (subtask.id === subtaskId) {
-                        subtask.done = !done;
-                    }
-                }
-            }
-            this.tasks.set([...allTasks]);
-        }
-    }
+    //         for (const task of allTasks) {
+    //             for (const subtask of task.subtasks) {
+    //                 if (subtask.id === subtaskId) {
+    //                     subtask.done = !done;
+    //                 }
+    //             }
+    //         }
+    //         this.tasks.set([...allTasks]);
+    //     }
+    // }
 
     /**
 * Removes a subtask from the assigned subtasks list at the specified index.
@@ -573,5 +573,31 @@ export class SupabaseTaskService {
         }
 
         return taskId;
+    }
+
+    async toggleSubtask(subtaskId: Subtask['id'], done: boolean): Promise<void> {
+        this.setSubtaskDone(subtaskId, done);
+
+        const { data, error } = await this.supabase
+            .from('subtasks')
+            .update({ done })
+            .eq('id', subtaskId)
+            .select();
+
+        if (error || !data || data.length === 0) {
+            console.error(error ?? 'Update hat keine Zeile verändert (RLS-Policy prüfen).');
+            this.setSubtaskDone(subtaskId, !done);
+        }
+    }
+
+    private setSubtaskDone(subtaskId: Subtask['id'], done: boolean): void {
+        this.tasks.update(tasks =>
+            tasks.map(task => ({
+                ...task,
+                subtasks: task.subtasks.map(subtask =>
+                    subtask.id === subtaskId ? { ...subtask, done } : subtask
+                )
+            }))
+        );
     }
 }
