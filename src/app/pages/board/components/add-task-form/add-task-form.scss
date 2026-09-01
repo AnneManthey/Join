@@ -497,15 +497,15 @@
       }
     }
   }
-  // Neuer Baustein für Textumbruch
+  
   &__input--autosize {
     resize: none;
-    field-sizing: content; // Höhe wächst mit dem Inhalt
-    height: auto; // hebt fixe height von 48px auf, damit nicht von Anfang an ein Scrollbalken entsteht
+    field-sizing: content;
+    height: auto;
     resize: none;
     field-sizing: content;
     min-height: 48px;
-    max-height: 150px; // damit das Feld nicht unendlich wachsen kann, kann ggf. noch angepasst werden
+    max-height: 150px;
     overflow-y: auto;
     line-height: 1.4;
     white-space: pre-wrap;
@@ -516,74 +516,6 @@
 .task-form__subtask-edit-input.task-form__input--autosize {
   min-height: 24px;
   max-height: 120px;
-}
-
-@media (min-width: 1440px) {
-  .main-section {
-    justify-content: flex-start;
-  }
-
-  .task-form {
-    max-width: 1014px;
-    gap: 32px;
-  }
-}
-
-@media (max-width: 1369px) {
-  .task-form {
-    justify-content: center;
-    flex-direction: column;
-    width: 100%;
-    align-items: stretch;
-
-    &__line--form {
-      display: none;
-    }
-
-    &__required-note--desktop {
-      display: none;
-    }
-
-    &__required-note--mobile {
-      display: block;
-    }
-
-    &__footer {
-      justify-content: flex-end;
-    }
-
-    &__half-wrapper {
-      width: 100%;
-      max-width: 100%;
-    }
-
-    &__input,
-    &__select,
-    &__textarea {
-      width: 100%;
-      max-width: 100%;
-    }
-
-    &__actions {
-      width: 100%;
-      justify-content: flex-end;
-      flex-wrap: wrap;
-    }
-
-    &__fieldset {
-      width: 100%;
-      flex-wrap: nowrap;
-    }
-
-    &__radio-label {
-      flex: 1 1 33.333%;
-      width: 33.333%;
-      display: inline-flex;
-      justify-content: center;
-      align-items: center;
-      font-size: 1rem;
-    }
-  }
 }
 
 .task-success {
@@ -660,6 +592,112 @@
     }
   }
 }
+
+
+@media (min-width: 1440px) {
+  .main-section {
+    justify-content: flex-start;
+  }
+
+  .task-form {
+    max-width: 1014px;
+    gap: 32px;
+  }
+}
+
+@media (max-width: 1369px) {
+  .task-form {
+    justify-content: center;
+    flex-direction: column;
+    width: 100%;
+    align-items: stretch;
+
+    &__line--form {
+      display: none;
+    }
+
+    &__required-note--desktop {
+      display: none;
+    }
+
+    &__required-note--mobile {
+      display: block;
+    }
+
+    &__footer {
+      justify-content: flex-end;
+    }
+
+    &__half-wrapper {
+      width: 100%;
+      max-width: 100%;
+    }
+
+    &__input,
+    &__select,
+    &__textarea {
+      width: 100%;
+      max-width: 100%;
+    }
+
+    &__actions {
+      width: 100%;
+      justify-content: flex-end;
+      flex-wrap: wrap;
+    }
+
+    &__fieldset {
+      width: 100%;
+      flex-wrap: nowrap;
+    }
+
+    &__radio-label {
+      flex: 1 1 33.333%;
+      width: 33.333%;
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 1rem;
+    }
+  }
+
+//   .main-section.is-dialog {
+//   padding: 32px 40px;
+  
+
+//   .task-form {
+//     gap: 20px;
+//     padding-top: 24px;
+
+//     &__half-wrapper {
+//       gap: 20px;
+//     }
+
+//     &__input-wrapper {
+//       min-height: 76px;
+//     }
+
+//     &__input,
+//     &__select {
+//       height: 42px;
+//       padding-top: 8px;
+//       padding-bottom: 8px;
+//     }
+
+//     &__textarea {
+//       height: 72px;
+//       max-height: 100px;
+//       padding-top: 8px;
+//       padding-bottom: 8px;
+//     }
+
+//     &__line--form {
+//       height: 320px;
+//     }
+//   }
+// }
+}
+
 
 @media (max-width: 992px) {
   .main-section {

@@ -219,20 +219,25 @@
   }
 }
 
-@media (max-width: 900px) {
-  .add-contact-dialog {
-    max-width: 500px;
-  }
-}
+ @keyframes add-contact-dialog-enter-mobile {
+    from {
+      transform: translateY(100%);
+    }
 
-@media (max-width: 400px) {
-  .add-contact-dialog {
-    width: 100%;
-    max-width: 100%;
-    height: 100dvh;
-    max-height: 100dvh;
+    to {
+      transform: translateY(0);
+    }
   }
-}
+
+  @keyframes add-contact-dialog-exit-mobile {
+    from {
+      transform: translateY(0);
+    }
+
+    to {
+      transform: translateY(100%);
+    }
+  }
 
 @media (max-width: 1200px) {
   .contact-list {
@@ -276,15 +281,19 @@
     }
   }
 
-  .add-contact-dialog {
-    --dialog-animation-duration: 400ms;
+  @media (max-width: 900px) {
+    .add-contact-dialog {
+      max-width: 500px;
+      --dialog-animation-duration: 400ms;
 
-    &[open] {
-      animation: add-contact-dialog-enter-mobile var(--dialog-animation-duration) ease-out forwards;
-    }
+      &[open] {
+        animation: add-contact-dialog-enter-mobile var(--dialog-animation-duration) ease-out
+          forwards;
+      }
 
-    &--closing {
-      animation: add-contact-dialog-exit-mobile var(--dialog-animation-duration) ease-in forwards !important;
+      &--closing {
+        animation: add-contact-dialog-exit-mobile var(--dialog-animation-duration) ease-in forwards !important;
+      }
     }
   }
 
@@ -295,24 +304,14 @@
       }
     }
   }
+}
 
-  @keyframes add-contact-dialog-enter-mobile {
-    from {
-      transform: translateY(100%);
-    }
-
-    to {
-      transform: translateY(0);
-    }
+@media (max-width: 400px) {
+  .add-contact-dialog {
+    width: 100%;
+    max-width: 100%;
+    height: 100dvh;
+    max-height: 100dvh;
   }
-
-  @keyframes add-contact-dialog-exit-mobile {
-    from {
-      transform: translateY(0);
-    }
-
-    to {
-      transform: translateY(100%);
-    }
-  }
+ 
 }
