@@ -1,5 +1,7 @@
 @use '../../styles/variables' as *;
 
+
+
 .board-main {
   flex: 1;
   min-height: 0;
@@ -126,7 +128,86 @@
   left: 50%;
   transform: translate(-50%, -50%);
   width: 1200px;
+
+  border-radius: 30px;
+  --dialog-animation-duration: 400ms;
+  border: none;
+  box-sizing: border-box;
+  position: fixed;
+  inset: 0;
+  margin: auto;
+  padding: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+
+
+
+//   --dialog-animation-duration: 400ms;
+//   box-sizing: border-box;
+//   position: fixed;
+//   width: min(900px, calc(100vw - 32px));
+//   max-width: calc(100vw - 32px);
+//   max-height: calc(100dvh - 32px);
+//   inset: 0;
+//   margin: auto;
+//   border: none;
+//   padding: 0;
+//   border-radius: 30px;
+//   overflow-x: hidden;
+//   overflow-y: auto;
+
+  &[open] {
+    animation: add-task-dialog-enter var(--dialog-animation-duration) ease-out forwards;
+  }
+
+  &--closing {
+    animation: add-task-dialog-exit var(--dialog-animation-duration) ease-in forwards !important;
+  }
+
+  &::backdrop {
+    background-color: rgba(0, 0, 0, 0.35);
+  }
+
+  &::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: $white;
+    border-radius: 2px;
+    margin: 20px 0;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: $dark-blue;
+    border-radius: 5px;
+    border: 1px solid $dark-blue;
+  }
 }
+
+@keyframes add-task-dialog-enter {
+  from {
+    transform: translateX(100%);
+  }
+
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes add-task-dialog-exit {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(100%);
+  }
+}
+
+
+
+
 
 @media (max-width: 1250px) {
   .board-columns {

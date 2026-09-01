@@ -121,12 +121,26 @@ export class Board implements OnInit {
     }
   }
 
-  /**
-   * Closes the add-task dialog.
-   */
-  closeAddTaskDialog(): void {
-    this.addTaskDialog.nativeElement.close();
+/**
+ * Closes the add-task dialog, playing the exit animation first.
+ */
+closeAddTaskDialog(): void {
+  const dialog = this.addTaskDialog.nativeElement;
+
+  if (!dialog.open) {
+    return;
   }
+
+  dialog.classList.add('add-task-dialog--closing');
+
+  const onAnimationEnd = () => {
+    dialog.classList.remove('add-task-dialog--closing');
+    dialog.close();
+    dialog.removeEventListener('animationend', onAnimationEnd);
+  };
+
+  dialog.addEventListener('animationend', onAnimationEnd);
+}
 
   /**
    * Closes the add-task dialog when the user clicks its backdrop.
