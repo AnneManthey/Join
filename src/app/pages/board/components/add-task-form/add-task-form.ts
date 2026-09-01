@@ -15,7 +15,7 @@ import { getColor } from '../../../../shared/utils/contacts-helper';
 })
 export class AddTaskForm {
   private supabaseService = inject(SupabaseService);
-  private supabaseTaskService = inject(SupabaseTaskService);
+  supabaseTaskService = inject(SupabaseTaskService);
   private supabase = this.supabaseService.client;
   private router = inject(Router);
 
@@ -271,21 +271,6 @@ export class AddTaskForm {
   }
 
   /**
-   * Adds or removes a contact from the selected contacts list based on checkbox interaction.
-   * 
-   * @param contactId - The unique identifier of the contact to toggle.
-   * @param event - The input change event triggered by the checkbox.
-   */
-  toggleSelectedContact(contactId: number, event: Event) {
-    const checked = (event.target as HTMLInputElement).checked;
-    if (checked) {
-      this.selectedContacts.update(ids => [...ids, contactId])
-    } else {
-      this.selectedContacts.update(ids => ids.filter(contact => contact !== contactId));
-    }
-  }
-
-  /**
  * Adds a new subtask to the list if the input value is non-empty and not a duplicate.
  */
   addSubtask() {
@@ -305,25 +290,8 @@ export class AddTaskForm {
     this.subtaskInput?.reset();
   }
 
-  /**
- * Removes a subtask from the assigned subtasks list at the specified index.
- * 
- * @param index - The zero-based index of the subtask to delete.
- */
-  deleteEditSubtask(index: number) {
-    this.assignedSubtasks.update(subtasks => subtasks.filter((_, i) => i !== index));
-  }
 
-  /**
- * Updates the text content of an assigned subtask at the specified index.
- * 
- * @param index - The zero-based index of the subtask to update.
- * @param newSubtask - The updated text content for the subtask.
- */
-  updateEditSubtask(index: number, newSubtask: string) {
-    const newText = newSubtask.trim();
-    if (!newText) return;
-    this.assignedSubtasks.update(subtasks => subtasks.map((task, i) => i === index ? newText : task));
-  }
+
+
 
 }

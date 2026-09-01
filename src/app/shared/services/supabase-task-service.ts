@@ -452,4 +452,40 @@ export class SupabaseTaskService {
             this.tasks.set([...allTasks]);
         }
     }
+
+    /**
+* Removes a subtask from the assigned subtasks list at the specified index.
+* 
+* @param index - The zero-based index of the subtask to delete.
+*/
+    deleteEditSubtask(index: number) {
+        this.assignedSubtasks.update(subtasks => subtasks.filter((_, i) => i !== index));
+    }
+
+    /**
+* Updates the text content of an assigned subtask at the specified index.
+* 
+* @param index - The zero-based index of the subtask to update.
+* @param newSubtask - The updated text content for the subtask.
+*/
+    updateEditSubtask(index: number, newSubtask: string) {
+        const newText = newSubtask.trim();
+        if (!newText) return;
+        this.assignedSubtasks.update(subtasks => subtasks.map((task, i) => i === index ? newText : task));
+    }
+
+    /**
+ * Adds or removes a contact from the selected contacts list based on checkbox interaction.
+ * 
+ * @param contactId - The unique identifier of the contact to toggle.
+ * @param event - The input change event triggered by the checkbox.
+ */
+    toggleSelectedContact(contactId: number, event: Event) {
+        const checked = (event.target as HTMLInputElement).checked;
+        if (checked) {
+            this.selectedContacts.update(ids => [...ids, contactId])
+        } else {
+            this.selectedContacts.update(ids => ids.filter(contact => contact !== contactId));
+        }
+    }
 }

@@ -133,7 +133,7 @@
                                 <span class="task-form__dropdown-name">{{ contact.contact_name }}</span>
                             </div>
                             <input class="task-form__checkbox" type="checkbox" [value]="contact.id"
-                                (change)="toggleSelectedContact(contact.id, $event)"
+                                (change)="supabaseTaskService.toggleSelectedContact(contact.id, $event)"
                                 [checked]="selectedContacts().includes(contact.id)">
                         </label>
                         }
@@ -227,7 +227,7 @@
                                 </button>
                                 <div class="task-form__line task-form__subtask-button"></div>
                                 <!-- DELETE BUTTON -->
-                                <button (click)="deleteEditSubtask($index)"
+                                <button (click)="supabaseTaskService.deleteEditSubtask($index)"
                                     class="contact-details__button task-form__subtask-button" type="button">
                                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                                         xmlns="http://www.w3.org/2000/svg">
@@ -255,12 +255,12 @@
                                         (keydown.enter)="editingIndex.set(null); $event.preventDefault(); updateEditSubtask($index, editInput.value)"> -->
                         <textarea #editInput rows="1" [value]="subtask"
                             class="task-form__subtask-edit-input task-form__input--autosize"
-                            (keydown.enter)="editingIndex.set(null); $event.preventDefault(); updateEditSubtask($index, editInput.value)"></textarea>
+                            (keydown.enter)="editingIndex.set(null); $event.preventDefault(); supabaseTaskService.updateEditSubtask($index, editInput.value)"></textarea>
 
                         <div class="task-form__button-wrapper">
                             <!-- DELETE BUTTON -->
                             <button class="contact-details__button" type="button"
-                                (click)="deleteEditSubtask($index); editingIndex.set(null)">
+                                (click)="supabaseTaskService.deleteEditSubtask($index); editingIndex.set(null)">
                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                                     xmlns="http://www.w3.org/2000/svg">
                                     <mask id="mask0_71348_10269" style="mask-type:alpha" maskUnits="userSpaceOnUse"
@@ -276,7 +276,7 @@
                             </button>
                             <div class="task-form__line-edit"></div>
                             <!-- CHECK BUTTON -->
-                            <button (click)="updateEditSubtask($index, editInput.value); editingIndex.set(null)"
+                            <button (click)="supabaseTaskService.updateEditSubtask($index, editInput.value); editingIndex.set(null)"
                                 class="contact-details__button" type="button">
                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                                     xmlns="http://www.w3.org/2000/svg">
