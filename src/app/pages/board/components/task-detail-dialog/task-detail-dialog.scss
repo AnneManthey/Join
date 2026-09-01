@@ -21,7 +21,7 @@
   padding: 48px 40px 48px 40px;
   max-width: 525px;
   width: 90%;
-  max-height: 931px;
+  max-height: 750px;
   overflow: hidden;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
 }
@@ -99,6 +99,10 @@ h2 {
   font-weight: 700;
   font-size: 61px;
   line-height: 120%;
+  max-width: 100%;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  hyphens: auto;
 }
 
 .dialog-header {
