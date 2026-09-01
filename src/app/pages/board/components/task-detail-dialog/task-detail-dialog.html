@@ -65,7 +65,7 @@
         }
       </div>
       <div class="dialog-actions">
-        <button class="dialog-action-button" type="button" (click)="deleteTask()">
+        <button class="dialog-action-button" type="button" (click)="taskService.deleteTask(currentTask.id)">
           <img src="app-icons/task-detail-dialog/delete.svg" alt="">
           Delete
         </button>

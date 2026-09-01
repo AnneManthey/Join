@@ -22,10 +22,10 @@ export class EditTaskDetailDialog {
 
   /** The ID of the task being edited. */
   taskId = input.required<number>();
-  
+
   /** The current task based on the taskId. */
   task = computed(() => this.supabaseTaskService.tasks().find(t => t.id === this.taskId()));
-  
+
   /** Emits when the dialog should be closed. */
   close = output<void>();
 
@@ -34,13 +34,13 @@ export class EditTaskDetailDialog {
 
   /** All available contacts. */
   contacts = this.supabaseService.contacts;
-  
+
   /** IDs of currently selected contacts. */
   selectedContacts = this.supabaseTaskService.selectedContacts;
-  
+
   /** Titles of currently assigned subtasks. */
   assignedSubtasks = this.supabaseTaskService.assignedSubtasks;
-  
+
   /** Function for color mapping of contacts. */
   getColor = getColor;
 
@@ -90,13 +90,13 @@ export class EditTaskDetailDialog {
   /** Reactive form for task details. */
   taskdetailForm = new FormGroup({
     taskdetailName: new FormControl('', {
-      validators: [Validators.required, Validators.minLength(4)]
+      validators: [Validators.required, Validators.minLength(4), Validators.maxLength(100)]
     }),
     taskdetailDescription: new FormControl(''),
     taskdetailDuedate: new FormControl(''),
     assignedTo: new FormControl(''),
     subtaskInput: new FormControl('', {
-      validators: [Validators.minLength(4)]
+      validators: [Validators.minLength(4), Validators.maxLength(50)]
     }),
   });
 
@@ -209,6 +209,31 @@ export class EditTaskDetailDialog {
     const newText = newSubtask.trim();
     if (!newText) return;
     this.assignedSubtasks.update(subtasks => subtasks.map((task, i) => i === index ? newText : task));
+  }
+
+  async onEditSubmit() {
+    const currentTask = this.task();
+    if (!currentTask) return;
+
+    const updatedFields: Partial<Task> = {
+      title: this.taskdetailForm.value.taskdetailName ?? '',
+      description: this.taskdetailForm.value.taskdetailDescription ?? '',
+      due_date: this.taskdetailForm.value.taskdetailDuedate ?? '',
+      priority: this.selectedPriority() as Task['priority'],
+    };
+
+    const taskSuccess = await this.supabaseTaskService.editTask(currentTask.id, updatedFields);
+    if (!taskSuccess) return;
+
+    const contactsSuccess = await this.supabaseTaskService.updateAssignedContacts(currentTask.id, this.selectedContacts());
+    if (!contactsSuccess) return;
+
+    const subtasksSuccess = await this.supabaseTaskService.addNewSubtasks(currentTask.id, this.assignedSubtasks());
+    if (!subtasksSuccess) return;
+
+    this.assignedSubtasks.set([]);
+    console.log('Task successfully updated');
+    this.close.emit();
   }
 
 }

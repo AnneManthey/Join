@@ -33,7 +33,7 @@ export class TaskDetailDialog {
     this.close.emit();
   }
 
-  private taskService = inject(SupabaseTaskService);
+  taskService = inject(SupabaseTaskService);
 
   toggleSubtask(subtask: Subtask): void {
     const neuerStatus = !subtask.done;
