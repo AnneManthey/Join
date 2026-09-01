@@ -35,7 +35,6 @@ export class Board implements OnInit {
   @ViewChild('addTaskDialog') addTaskDialog!: ElementRef<HTMLDialogElement>;
 
 
-
   /** Loads the tasks required to render the board. */
   ngOnInit(): void {
     this.taskService.getTasks();

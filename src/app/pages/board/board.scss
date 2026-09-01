@@ -157,7 +157,6 @@ dialog {
   overflow-x: hidden;
   overflow-y: auto;
 
-
   &[open] {
     animation: add-task-dialog-enter var(--dialog-animation-duration) ease-out forwards;
   }
