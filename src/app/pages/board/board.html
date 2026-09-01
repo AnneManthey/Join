@@ -31,11 +31,12 @@
           </app-board-column>
           }
         </section>
+        
         @if (selectedTask(); as task) {
-        <app-task-detail-dialog [isTaskDetailDialogOpen]="isTaskDetailDialogOpen()" [task]="task"
+        <app-task-detail-dialog [isTaskDetailDialogOpen]="isTaskDetailDialogOpen()" [taskId]="task.id"
           (close)="closeTaskDetail()" (edit)="openEditTaskDetail($event)">
         </app-task-detail-dialog>
-        <app-edit-task-detail-dialog [isOpen]="isEditTaskDetailDialogOpen()" [task]="task"
+        <app-edit-task-detail-dialog [isOpen]="isEditTaskDetailDialogOpen()" [taskId]="task.id"
           (close)="closeEditTaskDetail()">
         </app-edit-task-detail-dialog>
         }

@@ -15,12 +15,17 @@ import { SupabaseTaskService } from '../../../../shared/services/supabase-task-s
 })
 export class TaskDetailDialog {
 
-   getColor = getColor;
+  getColor = getColor;
 
-   priorityIcon = computed(() => `app-icons/board/prio-${this.task().priority}.svg`);
+  priorityIcon = computed(() => {
+    const currentTask = this.task();
+    return currentTask ? `app-icons/board/prio-${currentTask.priority}.svg` : '';
+  });
 
   isTaskDetailDialogOpen = input.required<boolean>();
-  task = input.required<Task>();
+
+  taskId = input.required<number>();
+  task = computed(() => this.taskService.tasks().find(t => t.id === this.taskId()));
   close = output<void>();
   edit = output<Task>();
 
@@ -28,21 +33,21 @@ export class TaskDetailDialog {
     this.close.emit();
   }
 
-  private taskService = inject(SupabaseTaskService);
+  taskService = inject(SupabaseTaskService);
 
   toggleSubtask(subtask: Subtask): void {
     const neuerStatus = !subtask.done;
-   this.taskService.toggleSubtask(subtask.id, neuerStatus);
+    this.taskService.toggleSubtask(subtask.id, neuerStatus);
   }
 
-    deleteTask(): void {
-      // Placeholder
+  deleteTask(): void {
+    // Placeholder
   }
 
   editTask(): void {
-    this.edit.emit(this.task());
+    const currentTask = this.task();
+    if (currentTask) {
+      this.edit.emit(currentTask);
+    }
   }
-
-
-
 }

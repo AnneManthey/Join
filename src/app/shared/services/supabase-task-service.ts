@@ -306,52 +306,6 @@ export class SupabaseTaskService {
         return true;
     }
 
-    //  NUR PLATZHALTER!!!! NUR PLATZHALTER!!!!
-    //  NUR PLATZHALTER!!!! NUR PLATZHALTER!!!!
-    //  NUR PLATZHALTER!!!! NUR PLATZHALTER!!!!
-    editForm = new FormGroup({
-        title: new FormControl('', {
-            validators: [Validators.required, Validators.minLength(4)]
-        }),
-        description: new FormControl(''),
-        due_date: new FormControl('', {
-            validators: [Validators.required]
-        }),
-        priority: new FormControl('medium', {
-            validators: [Validators.required]
-        }),
-        assignedTo: new FormControl(''),
-        category: new FormControl('', {
-            validators: [Validators.required]
-        }),
-        subtaskInput: new FormControl('', {
-            validators: [Validators.minLength(4)]
-        })
-    })
-    //  NUR PLATZHALTER!!!! NUR PLATZHALTER!!!!
-    //  NUR PLATZHALTER!!!! NUR PLATZHALTER!!!!
-    //  NUR PLATZHALTER!!!! NUR PLATZHALTER!!!!
-
-
-    async onEditSubmit() {
-        const updatedFields: Partial<Task> = {
-            title: this.editForm.value.title ?? '',
-            description: this.editForm.value.description ?? '',
-            due_date: this.editForm.value.due_date ?? '',
-            priority: this.editForm.value.priority as Task['priority'],
-            category: this.editForm.value.category as Task['category']
-        };
-
-        const taskSuccess = await this.editTask(this.currentTaskId, updatedFields);
-        const contactsSuccess = await this.updateAssignedContacts(this.currentTaskId, this.selectedContacts());
-        const subtasksSuccess = await this.addNewSubtasks(this.currentTaskId, this.assignedSubtasks());
-
-        if (taskSuccess && contactsSuccess && subtasksSuccess) {
-            console.log('Task successfully updated');
-            this.assignedSubtasks.set([]);
-            this.selectedContacts.set([]);
-        }
-    }
 
     async addNewSubtasks(taskId: number, newSubtaskTitles: string[]): Promise<boolean> {
         if (newSubtaskTitles.length === 0) {
@@ -388,7 +342,6 @@ export class SupabaseTaskService {
         return true;
     }
 
-    // hier fehlt: task_contacts, subtasks
     async editTask(taskId: number, updatedTask: Partial<Task>) {
         const { data, error } = await this.supabase
             .from('tasks')
@@ -422,34 +375,141 @@ export class SupabaseTaskService {
         return true;
     }
 
-    async toggleSubtask(subtaskId: Subtask['id'], done: boolean) {
-        const allTasks = this.tasks();
-        for (const task of allTasks) {
-            for (const subtask of task.subtasks) {
-                if (subtask.id === subtaskId) {
-                    subtask.done = done;
-                }
-            }
+    /**
+    * Removes a subtask from the assigned subtasks list at the specified index.
+    * 
+    * @param index - The zero-based index of the subtask to delete.
+    */
+    deleteEditSubtask(index: number) {
+        this.assignedSubtasks.update(subtasks => subtasks.filter((_, i) => i !== index));
+    }
+
+    /**
+* Updates the text content of an assigned subtask at the specified index.
+* 
+* @param index - The zero-based index of the subtask to update.
+* @param newSubtask - The updated text content for the subtask.
+*/
+    updateEditSubtask(index: number, newSubtask: string) {
+        const newText = newSubtask.trim();
+        if (!newText) return;
+        this.assignedSubtasks.update(subtasks => subtasks.map((task, i) => i === index ? newText : task));
+    }
+
+    /**
+ * Adds or removes a contact from the selected contacts list based on checkbox interaction.
+ * 
+ * @param contactId - The unique identifier of the contact to toggle.
+ * @param event - The input change event triggered by the checkbox.
+ */
+    toggleSelectedContact(contactId: number, event: Event) {
+        const checked = (event.target as HTMLInputElement).checked;
+        if (checked) {
+            this.selectedContacts.update(ids => [...ids, contactId])
+        } else {
+            this.selectedContacts.update(ids => ids.filter(contact => contact !== contactId));
         }
-        this.tasks.set([...allTasks]);
+    }
+
+    /**
+ * Saves the selected contacts for the created task in the task_contacts table.
+ *
+ * @param taskId - The id of the newly created task.
+ * @returns True if the contacts were saved successfully, otherwise false.
+ */
+    async saveTaskContacts(taskId: number): Promise<boolean> {
+        const insertContacts = this.selectedContacts().map(contactId => ({
+            task_id: taskId,
+            contact_id: contactId
+        }));
+        const { error } = await this.supabase
+            .from('task_contacts')
+            .insert(insertContacts)
+            .select();
+        if (error) {
+            console.error('No contacts received');
+            return false;
+        }
+        this.selectedContacts.set([]);
+        return true;
+    }
+
+    /**
+  * Saves all subtasks assigned to the created task.
+  *
+  * @param taskId - The id of the newly created task.
+  * @returns True if the subtasks were saved successfully, otherwise false.
+  */
+    async saveTaskSubtasks(taskId: number): Promise<boolean> {
+        const insertSubtasks = this.assignedSubtasks().map(subtask => ({
+            task_id: taskId,
+            title: subtask,
+        }));
+        const { error } = await this.supabase
+            .from('subtasks')
+            .insert(insertSubtasks)
+            .select();
+        if (error) {
+            console.error('Keine subtasks angekommen');
+            return false;
+        }
+        this.assignedSubtasks.set([]);
+        return true;
+    }
+
+    /**
+     * Creates the main task record in Supabase using the provided task data.
+     *
+     * @param taskData - The task fields required to create a new task.
+     * @returns The created task id, or null if the insert failed.
+     */
+    async createTask(taskData: {
+        title: string;
+        description: string;
+        due_date: string;
+        priority: Task['priority'];
+        category: Task['category'];
+        status: Task['status'];
+    }): Promise<number | null> {
+        const { data, error } = await this.supabase
+            .from('tasks')
+            .insert([taskData])
+            .select();
+        if (error) {
+            console.error('No data received');
+            return null;
+        }
+        const taskId = data?.[0]?.id;
+        if (!taskId) {
+            console.error('task id not found');
+            return null;
+        }
+        return taskId;
+    }
+
+    async toggleSubtask(subtaskId: Subtask['id'], done: boolean): Promise<void> {
+        this.setSubtaskDone(subtaskId, done);
 
         const { data, error } = await this.supabase
             .from('subtasks')
-            .update({ done: done })
+            .update({ done })
             .eq('id', subtaskId)
             .select();
 
         if (error || !data || data.length === 0) {
-            console.error(error ?? 'Update hat keine Zeile verändert (RLS-Policy prüfen).');
-
-            for (const task of allTasks) {
-                for (const subtask of task.subtasks) {
-                    if (subtask.id === subtaskId) {
-                        subtask.done = !done;
-                    }
-                }
-            }
-            this.tasks.set([...allTasks]);
+            console.error(error ?? 'Update did not change anything (check RLS-Policy).');
+            this.setSubtaskDone(subtaskId, !done);
         }
+    }
+
+    private setSubtaskDone(subtaskId: Subtask['id'], done: boolean): void {
+        this.tasks.update(tasks =>
+            tasks.map(task => ({
+                ...task,
+                subtasks: task.subtasks.map(subtask =>
+                    subtask.id === subtaskId ? { ...subtask, done } : subtask
+                )
+            }))
+        );
     }
 }
