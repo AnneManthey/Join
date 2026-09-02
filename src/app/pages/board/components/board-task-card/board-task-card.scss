@@ -85,17 +85,47 @@
   }
 }
 
+// .task-card-progress {
+//   display: flex;
+//   align-items: center;
+//   gap: 12px;
+//   padding-block: 16px;
+//   padding-bottom: 0px;
+//   span {
+//     font-size: 14px;
+//     color: $black;
+//     white-space: nowrap;
+//   }
+//   .task-card-progress-track {
+//     position: relative;
+//     flex: 1;
+//     height: 8px;
+//     background-color: $light-grey;
+//     border-radius: 4px;
+//     overflow: hidden;
+//     .task-card-progress-bar {
+//       height: 100%;
+//       background-color: $light-blue;
+//       border-radius: 4px;
+//       transition: width 0.3s ease-in-out;
+//     }
+//   }
+// }
+
 .task-card-progress {
+  position: relative; // damit .task-card-progress-info sich daran ausrichtet
   display: flex;
   align-items: center;
   gap: 12px;
   padding-block: 16px;
   padding-bottom: 0px;
+
   span {
     font-size: 14px;
     color: $black;
     white-space: nowrap;
   }
+
   .task-card-progress-track {
     position: relative;
     flex: 1;
@@ -103,6 +133,7 @@
     background-color: $light-grey;
     border-radius: 4px;
     overflow: hidden;
+
     .task-card-progress-bar {
       height: 100%;
       background-color: $light-blue;
@@ -110,7 +141,37 @@
       transition: width 0.3s ease-in-out;
     }
   }
+
+  //Progressbar Hover
+  .task-card-progress-info {
+    position: absolute;
+    bottom: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%);
+
+    background: $dark-blue;
+    padding: 8px 12px;
+    border-radius: 8px;
+    white-space: nowrap;
+    z-index: 100;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 150ms ease, visibility 150ms ease;
+    p{
+      color:$off-white;
+      font-size: 1rem;
+    }
+  }
+
+  &:hover .task-card-progress-info {
+    opacity: 1;
+    visibility: visible;
+  }
 }
+
 
 .task-card-avatars {
   display: flex;

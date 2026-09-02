@@ -3,11 +3,11 @@
     &#9662;
   </button>
   @if (isMoveMenuOpen()) {
-    <div class="move-task-menu" role="menu">
-      @for (option of moveOptions(); track option.id) {
-        <button type="button" role="menuitem" (click)="moveTask(option.id, $event)">{{ option.title }}</button>
-      }
-    </div>
+  <div class="move-task-menu" role="menu">
+    @for (option of moveOptions(); track option.id) {
+    <button type="button" role="menuitem" (click)="moveTask(option.id, $event)">{{ option.title }}</button>
+    }
+  </div>
   }
   <span class="task-card-badge" [ngClass]="task().category">
     {{ task().category === 'user_story' ? 'User Story' : 'Technical Task' }}
@@ -18,9 +18,15 @@
 
   @if (subtasksTotal() > 0) {
   <div class="task-card-progress">
-    <div class="task-card-progress-track" [title]="subtasksDone() + ' von ' + subtasksTotal() + ' Subtasks done'">
+    <!-- <div class="task-card-progress-track" [title]="subtasksDone() + ' von ' + subtasksTotal() + ' Subtasks done'">
       <div class="task-card-progress-bar" [style.width.%]="(subtasksDone() / subtasksTotal()) * 100">
       </div>
+    </div> -->
+    <div class="task-card-progress-track">
+      <div class="task-card-progress-bar" [style.width.%]="(subtasksDone() / subtasksTotal()) * 100"></div>
+    </div>
+    <div class="task-card-progress-info">
+      <p>{{ subtasksDone() }} of {{ subtasksTotal() }} Subtasks done</p>
     </div>
     <span>{{ subtasksDone() }}/{{ subtasksTotal() }} Subtasks</span>
   </div>
@@ -34,10 +40,7 @@
       </span>
       }
     </div>
-    <img
-      class="priority-icon"
-      [src]="priorityIcon()"
-      [alt]="'Priority ' + task().priority">
+    <img class="priority-icon" [src]="priorityIcon()" [alt]="'Priority ' + task().priority">
   </footer>
 
 </article>
