@@ -14,8 +14,14 @@
             formControlName="taskdetailName"
           />
         </div>
-        <p for="task-detail-description">Description</p>
-        <input id="task-detail-description" type="text" formControlName="taskdetailDescription" />
+        <div class="task-form__input-wrapper">
+          <label class="task-form__label" for="task-detail-description">Description</label>
+          <textarea
+            class="task-form__input task-form__input--description"
+            id="task-detail-description"
+            formControlName="taskdetailDescription"
+          ></textarea>
+        </div>
         <p for="task-detail-duedate">Due date</p>
         <input id="task-detail-duedate" type="text" formControlName="taskdetailDuedate" />
         <section class="priority-buttons">
