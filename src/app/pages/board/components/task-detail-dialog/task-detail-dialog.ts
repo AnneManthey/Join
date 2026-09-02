@@ -81,8 +81,14 @@ export class TaskDetailDialog implements AfterViewInit {
   close = output<void>();
   edit = output<Task>();
 
+  isClosing = signal(false);
+
   closeDialog(): void {
-    this.close.emit();
+    this.isClosing.set(true);
+    setTimeout(() => {
+      this.isClosing.set(false);
+      this.close.emit();
+    }, 300);
   }
 
   taskService = inject(SupabaseTaskService);

@@ -1,6 +1,6 @@
 @if (isTaskDetailDialogOpen() && task(); as currentTask) {
   <div class="dialog-overlay" (click)="closeDialog()">
-    <main class="dialog-content" (click)="$event.stopPropagation()">
+    <main class="dialog-content" [class.dialog-content--closing]="isClosing()" (click)="$event.stopPropagation()">
 
       <header class="dialog-header">
         <span
