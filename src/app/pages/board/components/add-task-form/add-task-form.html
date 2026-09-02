@@ -1,12 +1,10 @@
-<section class="main-section"[class.is-dialog]="isDialog()">
+<section class="main-section" [class.is-dialog]="isDialog()">
     <h1 class="main-h1">Add Task</h1>
     <form class="task-form" [formGroup]="taskForm" (ngSubmit)="formSubmit()">
         <div class="task-form__half-wrapper">
             <div class="task-form__input-wrapper">
                 <label class="task-form__label" for="title">Title<span
                         class="task-form__required-asterisk">&#42;</span></label>
-                <!-- <input class="task-form__input" id="title" type="text" name="title" formControlName="title"
-                                placeholder="Enter a title"> -->
                 <textarea class="task-form__input task-form__input--autosize" id="title" name="title" rows="1"
                     formControlName="title" placeholder="Enter a title"
                     (keydown.enter)="$event.preventDefault()"></textarea>
@@ -20,6 +18,9 @@
                 <label class="task-form__label" for="description">Description</label>
                 <textarea class="task-form__textarea" rows="5" id="description" name="description"
                     formControlName="description" placeholder="Enter a description"></textarea>
+                @if (!description?.valid && description?.touched) {
+                <p class="task-form__error">Please shorten your text to 150 characters or fewer.</p>
+                }
             </div>
 
             <div class="task-form__input-wrapper">
@@ -143,35 +144,42 @@
             </div>
 
             <div class="task-form__input-wrapper">
-                <label class="task-form__label" for="category">Category<span
-                        class="task-form__required-asterisk">&#42;</span></label>
-                <div class="task-form__select-wrapper">
-                    <select class="task-form__select" id="category" name="category" formControlName="category"
-                        (click)="isCategoryOpen = !isCategoryOpen" (blur)="isCategoryOpen = false">
-                        <option value="">Select task category</option>
-                        <option value="user_story">User Story</option>
-                        <option value="technical_task">Technical Task</option>
-                    </select>
-                    <svg class="task-form__select-icon" [class.open]="isCategoryOpen" width="8" height="5"
-                        viewBox="0 0 8 5" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path
-                            d="M2.90593 4.3L0.305932 1.7C-0.0107345 1.38333 -0.0815678 1.02083 0.0934322 0.6125C0.268432 0.204167 0.580932 0 1.03093 0H6.18093C6.63093 0 6.94343 0.204167 7.11843 0.6125C7.29343 1.02083 7.2226 1.38333 6.90593 1.7L4.30593 4.3C4.20593 4.4 4.0976 4.475 3.98093 4.525C3.86427 4.575 3.73927 4.6 3.60593 4.6C3.4726 4.6 3.3476 4.575 3.23093 4.525C3.11427 4.475 3.00593 4.4 2.90593 4.3Z"
-                            fill="#2A3647" />
-                    </svg>
-                </div>
+                <div class="task-form__dropdown" #categoryDropdown>
+                    <label class="task-form__label" for="categoryTrigger">Category<span
+                            class="task-form__required-asterisk">&#42;</span></label>
+                    <div class="task-form__dropdown-trigger-wrapper">
+                        <input class="task-form__input task-form__dropdown-trigger" id="categoryTrigger" type="text"
+                            readonly [value]="selectedCategoryLabel()" placeholder="Select task category"
+                            (click)="categoryDropdownOpen.set(!categoryDropdownOpen())">
+                        <svg class="task-form__dropdown-arrow"
+                            [class.task-form__dropdown-arrow--open]="categoryDropdownOpen()" width="8" height="5"
+                            viewBox="0 0 8 5" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M2.90593 4.3L0.305932 1.7C-0.0107345 1.38333 -0.0815678 1.02083 0.0934322 0.6125C0.268432 0.204167 0.580932 0 1.03093 0H6.18093C6.63093 0 6.94343 0.204167 7.11843 0.6125C7.29343 1.02083 7.2226 1.38333 6.90593 1.7L4.30593 4.3C4.20593 4.4 4.0976 4.475 3.98093 4.525C3.86427 4.575 3.73927 4.6 3.60593 4.6C3.4726 4.6 3.3476 4.575 3.23093 4.525C3.11427 4.475 3.00593 4.4 2.90593 4.3Z"
+                                fill="#2A3647" />
+                        </svg>
+                    </div>
 
+                    @if (categoryDropdownOpen()) {
+                    <div class="task-form__dropdown-panel">
+                        <div class="task-form__dropdown-option task-form__category-option"
+                            (click)="setCategory('user_story')">User Story</div>
+                        <div class="task-form__dropdown-option task-form__category-option"
+                            (click)="setCategory('technical_task')">Technical Task
+                        </div>
+                    </div>
+                    }
+                </div>
                 @if (!category?.valid && category?.touched) {
                 <p class="task-form__error">Please choose a category</p>
                 }
             </div>
+
+
             <div class="task-form__input-wrapper">
                 <div class="task-form__subtasks">
                     <label class="task-form__label" for="subtaskInput">Subtasks</label>
                     <div class="task-form__subtask-input-wrapper">
-                        <!-- <input class="task-form__input task-form__input--subtasks" id="subtaskInput"
-                                        type="text" name="subtaskInput" placeholder="Add new subtask"
-                                        formControlName="subtaskInput"
-                                        (keydown.enter)="addSubtask(); $event.preventDefault()"> -->
                         <textarea class="task-form__input task-form__input--subtasks task-form__input--autosize"
                             id="subtaskInput" rows="1" name="subtaskInput" placeholder="Add new subtask"
                             formControlName="subtaskInput"
@@ -196,21 +204,16 @@
                         </button>}
                     </div>
                     @for (subtask of assignedSubtasks(); track $index) {
-
                     @if(editingIndex() !== $index){
                     <ul class="task-form__ul">
-                        <!-- <li (click)="editingIndex.set($index)" class="task-form__subtask-item">
-                            &#x2022; {{subtask}}
-                            <div class="task-form__button-wrapper"> -->
                         <li (click)="editingIndex.set($index)" class="task-form__subtask-item">
-                            <!-- <span class="task-form__subtask-text">&#x2022; {{subtask}}</span> -->
                             <span class="task-form__subtask-content">
                                 <span class="task-form__subtask-bullet">&#x2022;</span>
                                 <span class="task-form__subtask-text">{{subtask}}</span>
                             </span>
                             <div class="task-form__button-wrapper">
                                 <!-- EDIT BUTTON: -->
-                                <button (click)="editingIndex.set($index)"
+                                <button (click)="editingIndex.set($index); $event.stopPropagation()"
                                     class="contact-details__button task-form__subtask-button" type="button">
                                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                                         xmlns="http://www.w3.org/2000/svg">
@@ -249,10 +252,7 @@
 
 
                     @else {
-                    <div class="task-form__subtask-edit-wrapper">
-                        <!-- <input #editInput type="text" [value]="subtask"
-                                        class="task-form__subtask-edit-input"
-                                        (keydown.enter)="editingIndex.set(null); $event.preventDefault(); updateEditSubtask($index, editInput.value)"> -->
+                    <div class="task-form__subtask-edit-wrapper" #subtaskEditWrapper>
                         <textarea #editInput rows="1" [value]="subtask"
                             class="task-form__subtask-edit-input task-form__input--autosize"
                             (keydown.enter)="editingIndex.set(null); $event.preventDefault(); supabaseTaskService.updateEditSubtask($index, editInput.value)"></textarea>
@@ -276,7 +276,8 @@
                             </button>
                             <div class="task-form__line-edit"></div>
                             <!-- CHECK BUTTON -->
-                            <button (click)="supabaseTaskService.updateEditSubtask($index, editInput.value); editingIndex.set(null)"
+                            <button
+                                (click)="supabaseTaskService.updateEditSubtask($index, editInput.value); editingIndex.set(null)"
                                 class="contact-details__button" type="button">
                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                                     xmlns="http://www.w3.org/2000/svg">
@@ -330,7 +331,6 @@
         </div>
     </form>
 </section>
-<!-- <div class="task-success__wrapper" [class.task-success__wrapper--visible]="showTaskSuccessMessage()"> -->
 <div class="task-success__wrapper" [class.is-dialog]="isDialog()"
     [class.task-success__wrapper--visible]="showTaskSuccessMessage()">
     <p class="task-success__text">Task added to board</p>

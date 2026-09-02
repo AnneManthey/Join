@@ -92,7 +92,9 @@ export class EditTaskDetailDialog {
     taskdetailName: new FormControl('', {
       validators: [Validators.required, Validators.minLength(4), Validators.maxLength(100)]
     }),
-    taskdetailDescription: new FormControl(''),
+    taskdetailDescription: new FormControl('', {
+      validators: Validators.maxLength(150)
+    }),
     taskdetailDuedate: new FormControl(''),
     assignedTo: new FormControl(''),
     subtaskInput: new FormControl('', {
@@ -232,7 +234,7 @@ export class EditTaskDetailDialog {
     if (!subtasksSuccess) return;
 
     this.editSelectedContacts.set([]);
-    this.editSubtasks.set([]); 
+    this.editSubtasks.set([]);
     console.log('Task successfully updated');
     this.close.emit();
   }
