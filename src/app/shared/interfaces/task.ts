@@ -1,21 +1,21 @@
 
 export interface Column {
-  id: string;
-  title: string;
-  tasks: Task[];
+    id: string;
+    title: string;
+    tasks: Task[];
 }
 
 import { Contact } from "./contact";
 
 export interface Subtask {
-    id: string;
+    id: number;
     task_id: number;
     title: string;
     done: boolean;
 }
 
 export interface TaskContact {
-    contact_id: string;
+    contact_id: number;
     contacts: Contact;
 }
 

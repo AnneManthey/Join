@@ -151,7 +151,7 @@
                 @for (contact of filteredContacts(); track contact.id) {
                   <label
                     class="task-form__dropdown-option"
-                    [class.task-form__checked-contact]="selectedContacts().includes(contact.id)"
+                    [class.task-form__checked-contact]="editSelectedContacts().includes(contact.id)"
                   >
                     <div class="task-form__dropdown-contact-wrapper">
                       <span
@@ -168,7 +168,7 @@
                       type="checkbox"
                       [value]="contact.id"
                       (change)="toggleSelectedContact(contact.id, $event)"
-                      [checked]="selectedContacts().includes(contact.id)"
+                      [checked]="editSelectedContacts().includes(contact.id)"
                     />
                   </label>
                 }

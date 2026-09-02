@@ -6,6 +6,11 @@ import { Subtask, TaskContact } from '../interfaces/task';
 import { AbstractControl, ValidationErrors, FormControl, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 
 @Service()
+/**
+ * Handles task-related persistence and real-time synchronization with Supabase.
+ * This service manages tasks, subtasks, and task-to-contact assignments and keeps
+ * Angular signals in sync with the database.
+ */
 export class SupabaseTaskService {
     private supabaseService = inject(SupabaseService);
 
@@ -33,7 +38,10 @@ export class SupabaseTaskService {
         this.getTasks();
     }
 
-    /** Loads all tasks together with their subtasks and assigned contacts. */
+    /**
+     * Loads all task records together with their nested subtasks and assigned contacts.
+     * The result is stored in the tasks signal for the UI to consume.
+     */
     async getTasks() {
         const { data, error } = await this.supabase
             .from('tasks')
@@ -285,8 +293,8 @@ export class SupabaseTaskService {
         this.supabase.removeChannel(this.taskContactsDeleteChannel);
     }
 
-    // TaskID als string gesetzt (vorher number), da die an anderer Stelle auch als string deklariert waren und sonst Fehler werfen
-    /** Updates the status of a task in the database.
+    /**
+     * Updates the status of a task in the database.
      *
      * @param status The new task status.
      * @param taskId The ID of the task to update.
@@ -307,6 +315,13 @@ export class SupabaseTaskService {
     }
 
 
+    /**
+     * Inserts one or more new subtasks to an existing task.
+     *
+     * @param taskId The task id that receives the subtasks.
+     * @param newSubtaskTitles The titles of the subtasks to create.
+     * @returns True when the insert succeeds, otherwise false.
+     */
     async addNewSubtasks(taskId: number, newSubtaskTitles: string[]): Promise<boolean> {
         if (newSubtaskTitles.length === 0) {
             return true;
@@ -329,19 +344,40 @@ export class SupabaseTaskService {
         return true;
     }
 
-    async updateAssignedContacts(taskId: number, contactIds: number[]): Promise<boolean> {
-        const { error } = await this.supabase.rpc('sync_task_contacts', {
-            p_task_id: taskId,
-            p_contact_ids: contactIds
-        });
+    /**
+     * Replaces the task's current contact assignments with a new contact list.
+     *
+     * @param taskId The task whose contact assignments are being updated.
+     * @param newIds The complete set of contact ids assigned to the task.
+     * @returns True when the update succeeds, otherwise false.
+     */
+    async updateAssignedContacts(taskId: number, newIds: number[]): Promise<boolean> {
+        const currentTask = this.tasks().find(t => t.id === taskId);
+        const oldIds = currentTask?.task_contacts.map(tc => tc.contact_id) ?? [];
 
-        if (error) {
-            console.error('Contacts could not be updated', error.message);
-            return false;
+        const toAdd = newIds.filter(id => !oldIds.includes(id)).map(contact_id => ({ task_id: taskId, contact_id }));
+        const toRemove = oldIds.filter(id => !newIds.includes(id));
+
+        if (toRemove.length > 0) {
+            const { error } = await this.supabase.from('task_contacts').delete().eq('task_id', taskId).in('contact_id', toRemove);
+            if (error) { console.error('Contacts could not be removed', error.message); return false; }
         }
+
+        if (toAdd.length > 0) {
+            const { error } = await this.supabase.from('task_contacts').insert(toAdd);
+            if (error) { console.error('Contacts could not be added', error.message); return false; }
+        }
+
         return true;
     }
 
+    /**
+     * Updates selected fields of an existing task.
+     *
+     * @param taskId The task id to update.
+     * @param updatedTask The partial task payload with the updated values.
+     * @returns True when the task update succeeds, otherwise false.
+     */
     async editTask(taskId: number, updatedTask: Partial<Task>) {
         const { data, error } = await this.supabase
             .from('tasks')
@@ -359,8 +395,8 @@ export class SupabaseTaskService {
     /**
      * Deletes a task from the database by its unique identifier.
      *
-     * @param taskId - The unique numeric ID of the task to be deleted.
-     * @returns A promise that resolves to `true` if the task was successfully deleted, or `false` if an error occurred.
+     * @param taskId The unique numeric ID of the task to delete.
+     * @returns True if the task was successfully deleted, otherwise false.
      */
     async deleteTask(taskId: number) {
         const { error } = await this.supabase
@@ -376,20 +412,20 @@ export class SupabaseTaskService {
     }
 
     /**
-    * Removes a subtask from the assigned subtasks list at the specified index.
-    * 
-    * @param index - The zero-based index of the subtask to delete.
-    */
+     * Removes a subtask from the local edit list at the given index.
+     *
+     * @param index The zero-based index of the subtask to delete.
+     */
     deleteEditSubtask(index: number) {
         this.assignedSubtasks.update(subtasks => subtasks.filter((_, i) => i !== index));
     }
 
-    /**
-* Updates the text content of an assigned subtask at the specified index.
-* 
-* @param index - The zero-based index of the subtask to update.
-* @param newSubtask - The updated text content for the subtask.
-*/
+        /**
+     * Updates the text content of a subtask in the current edit list.
+     *
+     * @param index The zero-based index of the subtask to update.
+     * @param newSubtask The new text content for the subtask.
+     */
     updateEditSubtask(index: number, newSubtask: string) {
         const newText = newSubtask.trim();
         if (!newText) return;
@@ -397,11 +433,11 @@ export class SupabaseTaskService {
     }
 
     /**
- * Adds or removes a contact from the selected contacts list based on checkbox interaction.
- * 
- * @param contactId - The unique identifier of the contact to toggle.
- * @param event - The input change event triggered by the checkbox.
- */
+     * Adds or removes a contact from the temporary selection list based on a checkbox event.
+     *
+     * @param contactId The unique identifier of the contact to toggle.
+     * @param event The change event triggered by the checkbox.
+     */
     toggleSelectedContact(contactId: number, event: Event) {
         const checked = (event.target as HTMLInputElement).checked;
         if (checked) {
@@ -412,11 +448,11 @@ export class SupabaseTaskService {
     }
 
     /**
- * Saves the selected contacts for the created task in the task_contacts table.
- *
- * @param taskId - The id of the newly created task.
- * @returns True if the contacts were saved successfully, otherwise false.
- */
+     * Saves the selected contacts for a newly created task in the task_contacts table.
+     *
+     * @param taskId The id of the newly created task.
+     * @returns True if the contacts were saved successfully, otherwise false.
+     */
     async saveTaskContacts(taskId: number): Promise<boolean> {
         const insertContacts = this.selectedContacts().map(contactId => ({
             task_id: taskId,
@@ -435,11 +471,11 @@ export class SupabaseTaskService {
     }
 
     /**
-  * Saves all subtasks assigned to the created task.
-  *
-  * @param taskId - The id of the newly created task.
-  * @returns True if the subtasks were saved successfully, otherwise false.
-  */
+     * Saves all subtasks assigned to a newly created task.
+     *
+     * @param taskId The id of the newly created task.
+     * @returns True if the subtasks were saved successfully, otherwise false.
+     */
     async saveTaskSubtasks(taskId: number): Promise<boolean> {
         const insertSubtasks = this.assignedSubtasks().map(subtask => ({
             task_id: taskId,
@@ -460,7 +496,7 @@ export class SupabaseTaskService {
     /**
      * Creates the main task record in Supabase using the provided task data.
      *
-     * @param taskData - The task fields required to create a new task.
+     * @param taskData The task fields required to create a new task.
      * @returns The created task id, or null if the insert failed.
      */
     async createTask(taskData: {
@@ -487,6 +523,13 @@ export class SupabaseTaskService {
         return taskId;
     }
 
+    /**
+     * Toggles the completion state of a subtask and syncs the local tasks signal
+     * with the value stored in Supabase.
+     *
+     * @param subtaskId The id of the subtask to update.
+     * @param done The new completion state.
+     */
     async toggleSubtask(subtaskId: Subtask['id'], done: boolean): Promise<void> {
         this.setSubtaskDone(subtaskId, done);
 

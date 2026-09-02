@@ -35,8 +35,8 @@ export class EditTaskDetailDialog {
   /** All available contacts. */
   contacts = this.supabaseService.contacts;
 
-  /** IDs of currently selected contacts. */
-  selectedContacts = this.supabaseTaskService.selectedContacts;
+  /** IDs of currently selected contacts (local to this dialog, not shared with add-task). */
+  editSelectedContacts = signal<number[]>([]);
 
   /** Titles of subtasks being edited in this dialog (local, not global). */
   editSubtasks = signal<string[]>([]);
@@ -66,7 +66,7 @@ export class EditTaskDetailDialog {
 
   /** Full contact objects for the currently assigned contact ids. */
   selectedContactDetails = computed(() =>
-    this.contacts().filter(contact => this.selectedContacts().includes(contact.id))
+    this.contacts().filter(contact => this.editSelectedContacts().includes(contact.id))
   );
 
   /**
@@ -130,7 +130,7 @@ export class EditTaskDetailDialog {
       });
       this.selectedPriority.set(currentTask.priority);
       this.supabaseTaskService.currentTaskId = currentTask.id;
-      this.selectedContacts.set(currentTask.task_contacts.map(taskContact => taskContact.contacts.id));
+      this.editSelectedContacts.set(currentTask.task_contacts.map(taskContact => taskContact.contacts.id));
       this.editSubtasks.set(currentTask.subtasks.map(subtask => subtask.title));
     });
   }
@@ -166,9 +166,9 @@ export class EditTaskDetailDialog {
   toggleSelectedContact(contactId: number, event: Event) {
     const checked = (event.target as HTMLInputElement).checked;
     if (checked) {
-      this.selectedContacts.update(ids => [...ids, contactId]);
+      this.editSelectedContacts.update(ids => [...ids, contactId]);
     } else {
-      this.selectedContacts.update(ids => ids.filter(id => id !== contactId));
+      this.editSelectedContacts.update(ids => ids.filter(id => id !== contactId));
     }
   }
 
@@ -225,13 +225,14 @@ export class EditTaskDetailDialog {
     const taskSuccess = await this.supabaseTaskService.editTask(currentTask.id, updatedFields);
     if (!taskSuccess) return;
 
-    const contactsSuccess = await this.supabaseTaskService.updateAssignedContacts(currentTask.id, this.selectedContacts());
+    const contactsSuccess = await this.supabaseTaskService.updateAssignedContacts(currentTask.id, this.editSelectedContacts());
     if (!contactsSuccess) return;
 
     const subtasksSuccess = await this.supabaseTaskService.addNewSubtasks(currentTask.id, this.editSubtasks());
     if (!subtasksSuccess) return;
 
-    this.editSubtasks.set([]);
+    this.editSelectedContacts.set([]);
+    this.editSubtasks.set([]); 
     console.log('Task successfully updated');
     this.close.emit();
   }
