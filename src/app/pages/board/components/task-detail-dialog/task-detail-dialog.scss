@@ -294,6 +294,11 @@ h2 {
   height: 24px;
   margin: 0 8px;
   background: #d1d1d1;
+  transition: opacity 0.15s ease;
+}
+
+.dialog-actions:has(.dialog-action-edit:hover) .dialog-action-divider {
+  opacity: 0;
 }
 
 .dialog-action-button {
