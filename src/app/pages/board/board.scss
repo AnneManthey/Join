@@ -203,28 +203,39 @@ dialog {
   }
 }
 
- @keyframes add-task-dialog-enter-mobile {
-    from {
-      transform: translateY(100%);
-    }
-
-    to {
-      transform: translateY(0);
-    }
+@keyframes add-task-dialog-enter-mobile {
+  from {
+    transform: translateY(100%);
   }
 
-  @keyframes add-task-dialog-exit-mobile {
-    from {
-      transform: translateY(0);
-    }
+  to {
+    transform: translateY(0);
+  }
+}
 
-    to {
-      transform: translateY(100%);
-    }
+@keyframes add-task-dialog-exit-mobile {
+  from {
+    transform: translateY(0);
   }
 
-@media (max-width: 1369px){
-  .add-task-dialog{
+  to {
+    transform: translateY(100%);
+  }
+}
+
+// @media (min-width: 1440px) {
+
+//   .add-task-dialog {
+//     top: 50%;
+//     left: calc(230px + min(100vw - 230px, 1440px) / 2);
+//     transform: translate(-50%, -50%);
+//     width: 1200px;
+//     margin: 0;
+//   }
+// }
+
+@media (max-width: 1369px) {
+  .add-task-dialog {
     max-width: 600px;
   }
 }
@@ -246,7 +257,6 @@ dialog {
     align-items: flex-start;
   }
   .add-task-dialog {
-
     --dialog-animation-duration: 400ms;
 
     &[open] {
@@ -311,5 +321,3 @@ dialog {
     padding: 50px 8px;
   }
 }
-
-

@@ -18,6 +18,7 @@ import { AddTaskDialog } from './components/add-task-dialog/add-task-dialog';
   styleUrl: './board.scss',
 })
 export class Board implements OnInit {
+
   /** Provides task data and persistence operations. */
   private taskService = inject(SupabaseTaskService);
 
@@ -92,9 +93,7 @@ export class Board implements OnInit {
   initialStatus = signal<Task['status']>('todo');
 
   /**
-  * Opens the add-task dialog, pre-filling the task status with the column
-  * that triggered the add-task flow.
-  *
+  * Opens the add-task dialog, pre-filling the task status with related column.
   * @param columnId - The column that initiated the add-task flow, if applicable.
   */
   openAddTask(columnId?: string): void {
@@ -124,9 +123,7 @@ export class Board implements OnInit {
   closeEditTaskDetail(): void {
     this.isEditTaskDetailDialogOpen.set(false);
   }
-  /**
-   * Opens the add-task dialog unless it is already open.
-   */
+  /** Opens the add-task dialog unless it is already open. */
   openAddTaskDialog(): void {
     const dialog = this.addTaskDialog.nativeElement;
     if (!dialog.open) {
@@ -134,9 +131,7 @@ export class Board implements OnInit {
     }
   }
 
-/**
- * Closes the add-task dialog, playing the exit animation first.
- */
+/** Closes the add-task dialog, playing the exit animation first. */
 closeAddTaskDialog(): void {
   const dialog = this.addTaskDialog.nativeElement;
 
@@ -165,5 +160,4 @@ closeAddTaskDialog(): void {
       this.closeAddTaskDialog();
     }
   }
-
 }
