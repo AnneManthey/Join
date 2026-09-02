@@ -86,6 +86,7 @@
 }
 
 .task-card-progress {
+  position: relative;
   display: flex;
   align-items: center;
   gap: 12px;
@@ -109,6 +110,30 @@
       border-radius: 4px;
       transition: width 0.3s ease-in-out;
     }
+  }
+  .task-card-progress-hover {
+    position: absolute;
+    bottom: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: $dark-blue;
+    padding: 8px 12px;
+    border-radius: 8px;
+    white-space: nowrap;
+    z-index: 100;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 150ms ease, visibility 150ms ease;
+    p{
+      color:$off-white;
+      font-size: 1rem;
+    }
+  }
+  &:hover .task-card-progress-hover {
+    opacity: 1;
+    visibility: visible;
   }
 }
 

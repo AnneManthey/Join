@@ -20,9 +20,9 @@
   }
 
   &::-webkit-scrollbar-thumb {
-    background: $dark-blue;
+    background: $scrollbar-grey;
     border-radius: 5px;
-    border: 1px solid $dark-blue;
+    border: 1px solid $scrollbar-grey;
   }
 }
 
@@ -119,6 +119,7 @@
   }
 }
 
+
 dialog {
   .btn-wrapper {
     display: flex;
@@ -167,7 +168,7 @@ dialog {
   }
 
   &::-webkit-scrollbar {
-    width: 10px;
+    width: 5px;
   }
 
   &::-webkit-scrollbar-track {
@@ -177,9 +178,9 @@ dialog {
   }
 
   &::-webkit-scrollbar-thumb {
-    background: $dark-blue;
+    background: $scrollbar-grey;
     border-radius: 5px;
-    border: 1px solid $dark-blue;
+    border: 1px solid $scrollbar-grey;
   }
 }
 
@@ -203,28 +204,28 @@ dialog {
   }
 }
 
- @keyframes add-task-dialog-enter-mobile {
-    from {
-      transform: translateY(100%);
-    }
-
-    to {
-      transform: translateY(0);
-    }
+@keyframes add-task-dialog-enter-mobile {
+  from {
+    transform: translateY(100%);
   }
 
-  @keyframes add-task-dialog-exit-mobile {
-    from {
-      transform: translateY(0);
-    }
+  to {
+    transform: translateY(0);
+  }
+}
 
-    to {
-      transform: translateY(100%);
-    }
+@keyframes add-task-dialog-exit-mobile {
+  from {
+    transform: translateY(0);
   }
 
-@media (max-width: 1369px){
-  .add-task-dialog{
+  to {
+    transform: translateY(100%);
+  }
+}
+
+@media (max-width: 1369px) {
+  .add-task-dialog {
     max-width: 600px;
   }
 }
@@ -246,7 +247,6 @@ dialog {
     align-items: flex-start;
   }
   .add-task-dialog {
-
     --dialog-animation-duration: 400ms;
 
     &[open] {
@@ -296,18 +296,18 @@ dialog {
   }
 }
 
-@media (max-width: 560px) {
-  .board-main {
-    padding: 50px 8px;
-  }
-}
-
-@media (max-width: 480px) {
+@media (max-width: 650px) {
   .add-task-dialog {
     width: 100%;
     max-width: 100%;
     height: 100dvh;
     max-height: 100dvh;
+    border-radius: 0px;
   }
- 
+}
+
+@media (max-width: 560px) {
+  .board-main {
+    padding: 50px 8px;
+  }
 }

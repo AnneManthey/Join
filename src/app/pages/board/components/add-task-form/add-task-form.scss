@@ -36,6 +36,7 @@
     overflow-y: scroll;
     max-width: 440px;
     max-height: 185px;
+    
     &::-webkit-scrollbar {
       width: 8px;
     }
@@ -45,7 +46,7 @@
     }
 
     &::-webkit-scrollbar-thumb {
-      background: $dark-blue;
+      background: $scrollbar-grey;
       border-radius: 5px;
     }
   }
@@ -660,7 +661,6 @@
     }
   }
 }
-
 
 @media (max-width: 992px) {
   .main-section {
