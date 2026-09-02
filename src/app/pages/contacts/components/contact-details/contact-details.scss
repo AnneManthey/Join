@@ -306,11 +306,9 @@
   }
 
   @media (max-width: 400px) {
-    .edit-contact-dialog {
-      width: 100%;
-      max-width: 100%;
-      height: 100dvh;
-      max-height: 100dvh;
+    .add-contact-dialog {
+      max-width: (calc(100% - 16px));
+      max-height: (calc(100dvh - 16px));
     }
   }
 
