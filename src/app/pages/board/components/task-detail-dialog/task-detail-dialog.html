@@ -1,6 +1,6 @@
 @if (isTaskDetailDialogOpen() && task(); as currentTask) {
   <div class="dialog-overlay" (click)="closeDialog()">
-    <main class="dialog-content" (click)="$event.stopPropagation()">
+    <main class="dialog-content" [class.dialog-content--closing]="isClosing()" (click)="$event.stopPropagation()">
 
       <header class="dialog-header">
         <span
@@ -91,7 +91,7 @@
           Delete
         </button>
         <span class="dialog-action-divider"></span>
-        <button class="dialog-action-button" type="button" (click)="editTask()">
+        <button class="dialog-action-button dialog-action-edit" type="button" (click)="editTask()">
           <img src="app-icons/task-detail-dialog/edit.svg" alt="">
           Edit
         </button>
