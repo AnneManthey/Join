@@ -267,6 +267,7 @@ h2 {
 
   &__selected-contacts {
     display: flex;
+    gap: 8px;
     margin-top: 8px;
   }
 
@@ -281,10 +282,6 @@ h2 {
     color: $white;
     font-size: 1rem;
     flex-shrink: 0;
-
-    &:not(:first-child) {
-      margin-left: -0.5rem;
-    }
   }
 
   &__dropdown {
