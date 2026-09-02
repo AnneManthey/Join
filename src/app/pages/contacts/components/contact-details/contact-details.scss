@@ -34,7 +34,7 @@
   }
 
   &::-webkit-scrollbar {
-    width: 10px;
+    width: 5px;
   }
 
   &::-webkit-scrollbar-track {
@@ -44,9 +44,9 @@
   }
 
   &::-webkit-scrollbar-thumb {
-    background: $dark-blue;
+    background: $scrollbar-grey;
     border-radius: 5px;
-    border: 1px solid $dark-blue;
+    border: 1px solid $scrollbar-grey;
   }
 }
 
