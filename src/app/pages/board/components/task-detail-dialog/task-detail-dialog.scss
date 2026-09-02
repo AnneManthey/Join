@@ -311,6 +311,11 @@ h2 {
     width: 24px;
     height: 24px;
   }
+
+  &:hover {
+    font-weight: 700;
+    color: $blue-green;
+  }
 }
 
 
