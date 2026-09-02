@@ -24,6 +24,31 @@
   max-height: 750px;
   overflow: hidden;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  animation: task-detail-slide-in 0.3s ease-out; 
+}
+
+@keyframes task-detail-slide-in {
+  from {
+    transform: translateX(100%);
+  }
+
+  to {
+    transform: translateX(0);
+  }
+}
+
+.dialog-content--closing {
+  animation: task-detail-slide-out 0.3s ease-in forwards;
+}
+
+@keyframes task-detail-slide-out {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(100%);
+  }
 }
 
 .dialog-body {
@@ -294,6 +319,11 @@ h2 {
   height: 24px;
   margin: 0 8px;
   background: #d1d1d1;
+  transition: opacity 0.15s ease;
+}
+
+.dialog-actions:has(.dialog-action-edit:hover) .dialog-action-divider {
+  opacity: 0;
 }
 
 .dialog-action-button {
@@ -310,6 +340,11 @@ h2 {
   img {
     width: 24px;
     height: 24px;
+  }
+
+  &:hover {
+    font-weight: 700;
+    color: $blue-green;
   }
 }
 
