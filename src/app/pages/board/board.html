@@ -29,12 +29,12 @@
         </header>
         <section class="board-columns" cdkDropListGroup>
           @for (column of columns(); track column.id) {
-          <app-board-column [column]="column" (taskDropped)="onTaskDropped($event)"
-            (addTaskClicked)="openAddTask(column.id)" (taskClicked)="openTaskDetail($event)">
-          </app-board-column>
           <!-- <app-board-column [column]="column" (taskDropped)="onTaskDropped($event)"
-            (addTaskClicked)="handleAddTaskClick(column.id)" (taskClicked)="openTaskDetail($event)">
+            (addTaskClicked)="openAddTask(column.id)" (taskClicked)="openTaskDetail($event)">
           </app-board-column> -->
+          <app-board-column [column]="column" (taskDropped)="onTaskDropped($event)"
+            (addTaskClicked)="handleAddTaskClick(column.id)" (taskClicked)="openTaskDetail($event)">
+          </app-board-column>
           }
         </section>
 
