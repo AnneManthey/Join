@@ -20,9 +20,18 @@ export class AddTaskForm {
   private router = inject(Router);
 
   @ViewChild('assignedToDropdown') assignedToDropdown?: ElementRef<HTMLElement>;
+  @ViewChild('categoryDropdown') categoryDropdown?: ElementRef<HTMLElement>;
+
   contacts = this.supabaseService.contacts;
   selectedContacts = this.supabaseTaskService.selectedContacts;
   assignedSubtasks = this.supabaseTaskService.assignedSubtasks;
+
+  categoryDropdownOpen = signal(false);
+
+  selectedCategoryLabel = computed(() => {
+    const value = this.category?.value;
+    return value === 'user_story' ? 'User Story' : value === 'technical_task' ? 'Technical Task' : '';
+  });
 
   /** Indicates whether the contact selection dropdown menu is open. */
   contactDropdownOpen = signal(false);
@@ -37,10 +46,10 @@ export class AddTaskForm {
   showTaskSuccessMessage = signal(false);
 
   /** Whether this form runs inside the add-task dialog rather than as a standalone page. */
-isDialog = input(false);
+  isDialog = input(false);
 
-/** Emits once the task is created, so the parent dialog can close itself. */
-taskCreated = output<void>();
+  /** Emits once the task is created, so the parent dialog can close itself. */
+  taskCreated = output<void>();
 
   /** Current contact search query for the assigned-to dropdown. */
   contactSearchTerm = signal('');
@@ -64,8 +73,17 @@ taskCreated = output<void>();
     this.contacts().filter(contact => this.selectedContacts().includes(contact.id))
   );
 
+  /**
+   * Sets the selected task category and closes the category dropdown.
+   *
+   * @param value The category value to assign to the task.
+   */
+  setCategory(value: Task['category']) {
+    this.taskForm.get('category')?.setValue(value);
+    this.categoryDropdownOpen.set(false);
+  }
+
   taskForm = new FormGroup({
-    // Validator für maxlength hinzugefügt
     title: new FormControl('', {
       validators: [Validators.required, Validators.minLength(4), Validators.maxLength(100)]
     }),
@@ -85,30 +103,37 @@ taskCreated = output<void>();
     })
   })
 
+  /** Returns the title form control. */
   get title() {
     return this.taskForm.get('title');
   }
 
+  /** Returns the description form control. */
   get description() {
     return this.taskForm.get('description');
   }
 
+  /** Returns the due date form control. */
   get duedate() {
     return this.taskForm.get('due_date');
   }
 
+  /** Returns the priority form control. */
   get priority() {
     return this.taskForm.get('priority');
   }
 
+  /** Returns the assigned-to form control. */
   get assignedTo() {
     return this.taskForm.get('assignedTo');
   }
 
+  /** Returns the category form control. */
   get category() {
     return this.taskForm.get('category');
   }
 
+  /** Returns the subtask input form control. */
   get subtaskInput() {
     return this.taskForm.get('subtaskInput');
   }
@@ -150,17 +175,17 @@ taskCreated = output<void>();
    * Resets the form state and redirects the user after a short success delay.
    */
   private resetAndNavigate() {
-  this.resetForm();
-  this.showTaskSuccessMessage.set(true);
-  setTimeout(() => {
-    this.showTaskSuccessMessage.set(false);
-    this.isDialog() ? this.taskCreated.emit() : this.router.navigate(['/board']);
-  }, 1000);
-}
+    this.resetForm();
+    this.showTaskSuccessMessage.set(true);
+    setTimeout(() => {
+      this.showTaskSuccessMessage.set(false);
+      this.isDialog() ? this.taskCreated.emit() : this.router.navigate(['/board']);
+    }, 1000);
+  }
 
   /**
- * Resets the task form to its default values and clears all state signals.
- */
+   * Resets the task form to its default values and clears all local state.
+   */
   resetForm() {
     this.taskForm.reset({ priority: 'medium', category: '' });
     this.selectedContacts.set([]);
@@ -169,8 +194,8 @@ taskCreated = output<void>();
   }
 
   /**
- * Toggles the visibility state of the contact dropdown menu.
- */
+   * Toggles the visibility state of the contact dropdown menu.
+   */
   toggleContactDropdown() {
     this.contactDropdownOpen.update(open => !open);
   }
@@ -183,19 +208,21 @@ taskCreated = output<void>();
     }
   }
 
-  /** Closes the assigned-to dropdown when clicking outside of it. */
+  /** Closes the assigned-to and category dropdowns when clicking outside of them. */
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: MouseEvent) {
-    if (!this.contactDropdownOpen()) return;
-    if (!this.assignedToDropdown?.nativeElement.contains(event.target as Node)) {
+    if (this.contactDropdownOpen() && !this.assignedToDropdown?.nativeElement.contains(event.target as Node)) {
       this.contactDropdownOpen.set(false);
       this.contactSearchTerm.set('');
+    }
+    if (this.categoryDropdownOpen() && !this.categoryDropdown?.nativeElement.contains(event.target as Node)) {
+      this.categoryDropdownOpen.set(false);
     }
   }
 
   /**
- * Adds a new subtask to the list if the input value is non-empty and not a duplicate.
- */
+   * Adds a new subtask to the list if the input value is non-empty and not a duplicate.
+   */
   addSubtask() {
     const newTask = (this.subtaskInput?.value ?? '').trim();
     if (!newTask) return;
@@ -207,8 +234,8 @@ taskCreated = output<void>();
   }
 
   /**
- * Clears the subtask input field.
- */
+   * Clears the subtask input field.
+   */
   resetSubtask() {
     this.subtaskInput?.reset();
   }
