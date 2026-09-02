@@ -329,16 +329,23 @@ export class SupabaseTaskService {
         return true;
     }
 
-    async updateAssignedContacts(taskId: number, contactIds: number[]): Promise<boolean> {
-        const { error } = await this.supabase.rpc('sync_task_contacts', {
-            p_task_id: taskId,
-            p_contact_ids: contactIds
-        });
+    async updateAssignedContacts(taskId: number, newIds: number[]): Promise<boolean> {
+        const currentTask = this.tasks().find(t => t.id === taskId);
+        const oldIds = currentTask?.task_contacts.map(tc => tc.contact_id) ?? [];
 
-        if (error) {
-            console.error('Contacts could not be updated', error.message);
-            return false;
+        const toAdd = newIds.filter(id => !oldIds.includes(id)).map(contact_id => ({ task_id: taskId, contact_id }));
+        const toRemove = oldIds.filter(id => !newIds.includes(id));
+
+        if (toRemove.length > 0) {
+            const { error } = await this.supabase.from('task_contacts').delete().eq('task_id', taskId).in('contact_id', toRemove);
+            if (error) { console.error('Contacts could not be removed', error.message); return false; }
         }
+
+        if (toAdd.length > 0) {
+            const { error } = await this.supabase.from('task_contacts').insert(toAdd);
+            if (error) { console.error('Contacts could not be added', error.message); return false; }
+        }
+
         return true;
     }
 
