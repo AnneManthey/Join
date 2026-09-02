@@ -36,7 +36,7 @@
     overflow-y: scroll;
     max-width: 440px;
     max-height: 185px;
-    
+
     &::-webkit-scrollbar {
       width: 8px;
     }
@@ -154,30 +154,30 @@
     }
   }
 
-  &__radio:checked + .task-form__radio-label {
+  &__radio:checked+.task-form__radio-label {
     color: $white;
     font-weight: 700;
   }
 
-  &__radio:checked + .task-form__radio-label--low {
+  &__radio:checked+.task-form__radio-label--low {
     background-color: $task-low;
   }
 
-  &__radio:checked + .task-form__radio-label--medium {
+  &__radio:checked+.task-form__radio-label--medium {
     background-color: $task-medium;
   }
 
-  &__radio:checked + .task-form__radio-label--urgent {
+  &__radio:checked+.task-form__radio-label--urgent {
     background-color: $task-urgent;
   }
 
-  &__radio:checked + .task-form__radio-label--low svg path,
-  &__radio:checked + .task-form__radio-label--medium svg path,
-  &__radio:checked + .task-form__radio-label--urgent svg path {
+  &__radio:checked+.task-form__radio-label--low svg path,
+  &__radio:checked+.task-form__radio-label--medium svg path,
+  &__radio:checked+.task-form__radio-label--urgent svg path {
     fill: $white;
   }
 
-  &__radio:focus-visible + .task-form__radio-label {
+  &__radio:focus-visible+.task-form__radio-label {
     outline: 2px solid $black;
     outline-offset: 2px;
   }
@@ -363,6 +363,7 @@
     padding: 7px 16px;
     margin: 2px;
     transition: all 255ms ease-in-out;
+    cursor: pointer;
 
     &:hover:not(.task-form__checked-contact) {
       background-color: $hover-light-grey;
@@ -498,7 +499,7 @@
       }
     }
   }
-  
+
   &__input--autosize {
     resize: none;
     field-sizing: content;
@@ -511,6 +512,10 @@
     line-height: 1.4;
     white-space: pre-wrap;
     word-break: break-word;
+  }
+
+  &__category-option {
+    height: 41px;
   }
 }
 
