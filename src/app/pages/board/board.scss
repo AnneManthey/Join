@@ -223,17 +223,6 @@ dialog {
   }
 }
 
-// @media (min-width: 1440px) {
-
-//   .add-task-dialog {
-//     top: 50%;
-//     left: calc(230px + min(100vw - 230px, 1440px) / 2);
-//     transform: translate(-50%, -50%);
-//     width: 1200px;
-//     margin: 0;
-//   }
-// }
-
 @media (max-width: 1369px) {
   .add-task-dialog {
     max-width: 600px;
