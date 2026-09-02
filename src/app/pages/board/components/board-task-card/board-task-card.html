@@ -18,14 +18,10 @@
 
   @if (subtasksTotal() > 0) {
   <div class="task-card-progress">
-    <!-- <div class="task-card-progress-track" [title]="subtasksDone() + ' von ' + subtasksTotal() + ' Subtasks done'">
-      <div class="task-card-progress-bar" [style.width.%]="(subtasksDone() / subtasksTotal()) * 100">
-      </div>
-    </div> -->
     <div class="task-card-progress-track">
       <div class="task-card-progress-bar" [style.width.%]="(subtasksDone() / subtasksTotal()) * 100"></div>
     </div>
-    <div class="task-card-progress-info">
+    <div class="task-card-progress-hover">
       <p>{{ subtasksDone() }} of {{ subtasksTotal() }} subtasks completed</p>
     </div>
     <span>{{ subtasksDone() }}/{{ subtasksTotal() }} Subtasks</span>
