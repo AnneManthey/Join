@@ -10,6 +10,7 @@ import { Navbar } from '../../layout/navbar/navbar';
 import { Header } from '../../layout/header/header';
 import { SupabaseTaskService } from '../../shared/services/supabase-task-service';
 import { AddTaskDialog } from './components/add-task-dialog/add-task-dialog';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-board',
@@ -18,6 +19,12 @@ import { AddTaskDialog } from './components/add-task-dialog/add-task-dialog';
   styleUrl: './board.scss',
 })
 export class Board implements OnInit {
+
+  /** Handles navigation to other routes/pages. */
+  private router = inject(Router);
+
+  /** Max viewport width (px) at which the add-task flow navigates instead of opening a dialog. */
+  private readonly MOBILE_BREAKPOINT = 450;
 
   /** Provides task data and persistence operations. */
   private taskService = inject(SupabaseTaskService);
@@ -93,6 +100,24 @@ export class Board implements OnInit {
   initialStatus = signal<Task['status']>('todo');
 
   /**
+ * Decides how to start the "add task" flow based on the current viewport width.
+ * On narrow screens (≤ MOBILE_BREAKPOINT) it navigates to the dedicated add-task page.
+ * On wider screens it opens the add-task dialog as before.
+ *
+ * @param columnId - The column that triggered the flow, used to preselect the task status.
+ */
+handleAddTaskClick(columnId?: string): void {
+  if (window.innerWidth <= this.MOBILE_BREAKPOINT) {
+    this.router.navigate(['/addtask'], {
+      queryParams: { status: columnId ?? 'todo' },
+    });
+    return;
+  }
+
+  this.openAddTask(columnId);
+}
+
+  /**
   * Opens the add-task dialog, pre-filling the task status with related column.
   * @param columnId - The column that initiated the add-task flow, if applicable.
   */
@@ -131,24 +156,24 @@ export class Board implements OnInit {
     }
   }
 
-/** Closes the add-task dialog, playing the exit animation first. */
-closeAddTaskDialog(): void {
-  const dialog = this.addTaskDialog.nativeElement;
+  /** Closes the add-task dialog, playing the exit animation first. */
+  closeAddTaskDialog(): void {
+    const dialog = this.addTaskDialog.nativeElement;
 
-  if (!dialog.open) {
-    return;
+    if (!dialog.open) {
+      return;
+    }
+
+    dialog.classList.add('add-task-dialog--closing');
+
+    const onAnimationEnd = () => {
+      dialog.classList.remove('add-task-dialog--closing');
+      dialog.close();
+      dialog.removeEventListener('animationend', onAnimationEnd);
+    };
+
+    dialog.addEventListener('animationend', onAnimationEnd);
   }
-
-  dialog.classList.add('add-task-dialog--closing');
-
-  const onAnimationEnd = () => {
-    dialog.classList.remove('add-task-dialog--closing');
-    dialog.close();
-    dialog.removeEventListener('animationend', onAnimationEnd);
-  };
-
-  dialog.addEventListener('animationend', onAnimationEnd);
-}
 
   /**
    * Closes the add-task dialog when the user clicks its backdrop.
