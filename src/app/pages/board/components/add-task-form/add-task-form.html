@@ -5,8 +5,6 @@
             <div class="task-form__input-wrapper">
                 <label class="task-form__label" for="title">Title<span
                         class="task-form__required-asterisk">&#42;</span></label>
-                <!-- <input class="task-form__input" id="title" type="text" name="title" formControlName="title"
-                                placeholder="Enter a title"> -->
                 <textarea class="task-form__input task-form__input--autosize" id="title" name="title" rows="1"
                     formControlName="title" placeholder="Enter a title"
                     (keydown.enter)="$event.preventDefault()"></textarea>
@@ -205,14 +203,13 @@
                     @if(editingIndex() !== $index){
                     <ul class="task-form__ul">
                         <li (click)="editingIndex.set($index)" class="task-form__subtask-item">
-                            <!-- <span class="task-form__subtask-text">&#x2022; {{subtask}}</span> -->
                             <span class="task-form__subtask-content">
                                 <span class="task-form__subtask-bullet">&#x2022;</span>
                                 <span class="task-form__subtask-text">{{subtask}}</span>
                             </span>
                             <div class="task-form__button-wrapper">
                                 <!-- EDIT BUTTON: -->
-                                <button (click)="editingIndex.set($index)"
+                                <button (click)="editingIndex.set($index); $event.stopPropagation()"
                                     class="contact-details__button task-form__subtask-button" type="button">
                                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                                         xmlns="http://www.w3.org/2000/svg">
@@ -251,7 +248,7 @@
 
 
                     @else {
-                    <div class="task-form__subtask-edit-wrapper">
+                    <div class="task-form__subtask-edit-wrapper" #subtaskEditWrapper>
                         <textarea #editInput rows="1" [value]="subtask"
                             class="task-form__subtask-edit-input task-form__input--autosize"
                             (keydown.enter)="editingIndex.set(null); $event.preventDefault(); supabaseTaskService.updateEditSubtask($index, editInput.value)"></textarea>

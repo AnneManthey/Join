@@ -1,4 +1,4 @@
-import { Component, ElementRef, HostListener, ViewChild, computed, inject, signal, input, output } from '@angular/core';
+import { Component, ElementRef, HostListener, ViewChild, ViewChildren, QueryList, computed, inject, signal, input, output } from '@angular/core';
 import { SupabaseTaskService } from '../../../../shared/services/supabase-task-service';
 import { Router } from '@angular/router';
 import { FormControl, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
@@ -21,13 +21,17 @@ export class AddTaskForm {
 
   @ViewChild('assignedToDropdown') assignedToDropdown?: ElementRef<HTMLElement>;
   @ViewChild('categoryDropdown') categoryDropdown?: ElementRef<HTMLElement>;
+  @ViewChildren('subtaskEditWrapper') subtaskEditWrappers!: QueryList<ElementRef<HTMLElement>>;
+  @ViewChildren('editInput') editInputs!: QueryList<ElementRef<HTMLTextAreaElement>>;
 
   contacts = this.supabaseService.contacts;
   selectedContacts = this.supabaseTaskService.selectedContacts;
   assignedSubtasks = this.supabaseTaskService.assignedSubtasks;
 
+  /** Indicates whether the category dropdown is currently opened. */
   categoryDropdownOpen = signal(false);
 
+  /** Returns the translated label for the currently selected task category. */
   selectedCategoryLabel = computed(() => {
     const value = this.category?.value;
     return value === 'user_story' ? 'User Story' : value === 'technical_task' ? 'Technical Task' : '';
@@ -54,7 +58,7 @@ export class AddTaskForm {
   /** Current contact search query for the assigned-to dropdown. */
   contactSearchTerm = signal('');
 
-  /** Filters loaded contacts by the current search query. */
+  /** Filters the loaded contacts by the current search query. */
   filteredContacts = computed(() => {
     const searchTerm = this.contactSearchTerm().trim().toLowerCase();
     if (!searchTerm) {
@@ -83,6 +87,7 @@ export class AddTaskForm {
     this.categoryDropdownOpen.set(false);
   }
 
+  /** Main form group for all task fields and validation rules. */
   taskForm = new FormGroup({
     title: new FormControl('', {
       validators: [Validators.required, Validators.minLength(4), Validators.maxLength(100)]
@@ -168,7 +173,10 @@ export class AddTaskForm {
     this.resetAndNavigate();
   }
 
-  /** Task status pre-selected for the task being created, based on which column's "+" button opened the add-task dialog. */
+  /**
+   * Task status pre-selected for the task being created, based on which column's
+   * "+" button opened the add-task dialog.
+   */
   initialStatus = input<Task['status']>('todo');
 
   /**
@@ -208,7 +216,7 @@ export class AddTaskForm {
     }
   }
 
-  /** Closes the assigned-to and category dropdowns when clicking outside of them. */
+  /** Closes the assigned-to, subtask editing state and category dropdowns when clicking outside of them. */
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: MouseEvent) {
     if (this.contactDropdownOpen() && !this.assignedToDropdown?.nativeElement.contains(event.target as Node)) {
@@ -217,6 +225,19 @@ export class AddTaskForm {
     }
     if (this.categoryDropdownOpen() && !this.categoryDropdown?.nativeElement.contains(event.target as Node)) {
       this.categoryDropdownOpen.set(false);
+    }
+
+    const index = this.editingIndex();
+    if (index !== null) {
+      const wrapper = this.subtaskEditWrappers.first;
+      const clickedInside = wrapper?.nativeElement.contains(event.target as Node);
+      if (!clickedInside) {
+        const input = this.editInputs.first;
+        if (input) {
+          this.supabaseTaskService.updateEditSubtask(index, input.nativeElement.value);
+        }
+        this.editingIndex.set(null);
+      }
     }
   }
 
