@@ -1,4 +1,4 @@
-<section class="main-section">
+<section class="main-section"[class.is-dialog]="isDialog()">
     <h1 class="main-h1">Add Task</h1>
     <form class="task-form" [formGroup]="taskForm" (ngSubmit)="formSubmit()">
         <div class="task-form__half-wrapper">
@@ -330,7 +330,9 @@
         </div>
     </form>
 </section>
-<div class="task-success__wrapper" [class.task-success__wrapper--visible]="showTaskSuccessMessage()">
+<!-- <div class="task-success__wrapper" [class.task-success__wrapper--visible]="showTaskSuccessMessage()"> -->
+<div class="task-success__wrapper" [class.is-dialog]="isDialog()"
+    [class.task-success__wrapper--visible]="showTaskSuccessMessage()">
     <p class="task-success__text">Task added to board</p>
     <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path

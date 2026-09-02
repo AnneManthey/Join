@@ -235,7 +235,7 @@
                 </button>
               }
             </div>
-            @for (subtask of assignedSubtasks(); track $index) {
+            @for (subtask of editSubtasks(); track $index) {
               @if (editingIndex() !== $index) {
                 <ul class="task-form__ul">
                   <li (click)="editingIndex.set($index)" class="task-form__subtask-item">

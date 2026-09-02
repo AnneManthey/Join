@@ -36,6 +36,19 @@
     overflow-y: scroll;
     max-width: 440px;
     max-height: 185px;
+    
+    &::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: $scrollbar-grey;
+      border-radius: 5px;
+    }
   }
 
   &__input,
@@ -207,7 +220,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    min-height: 30px;
+    height: 30px;
     gap: 8px;
     padding: 6px 16px;
     cursor: pointer;
@@ -240,7 +253,7 @@
   &__subtask-bullet {
     flex-shrink: 0;
   }
-  
+
   &__subtask-text {
     flex: 1 1 auto;
     min-width: 0;
@@ -485,15 +498,15 @@
       }
     }
   }
-  // Neuer Baustein für Textumbruch
+  
   &__input--autosize {
     resize: none;
-    field-sizing: content; // Höhe wächst mit dem Inhalt
-    height: auto; // hebt fixe height von 48px auf, damit nicht von Anfang an ein Scrollbalken entsteht
+    field-sizing: content;
+    height: auto;
     resize: none;
     field-sizing: content;
     min-height: 48px;
-    max-height: 150px; // damit das Feld nicht unendlich wachsen kann, kann ggf. noch angepasst werden
+    max-height: 150px;
     overflow-y: auto;
     line-height: 1.4;
     white-space: pre-wrap;
@@ -505,6 +518,82 @@
   min-height: 24px;
   max-height: 120px;
 }
+
+.task-success {
+  &__wrapper {
+    position: fixed;
+    top: 100%;
+    left: 50%;
+    transform: translate(-50%, 0);
+    font-size: 1.25rem;
+    background-color: $dark-blue;
+    border-radius: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 32px;
+    padding: 25px 30px;
+    box-shadow: 0px 0px 4px 0px #00000066;
+    font-family: Inter;
+    color: $white;
+    width: fit-content;
+    transition: top 255ms ease-in-out;
+
+    &--visible {
+      top: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    &.is-dialog {
+      top: 50%;
+      transform: translate(-50%, -50%);
+      transition: none;
+      opacity: 0;
+      visibility: hidden;
+
+      &.task-success__wrapper--visible {
+        opacity: 1;
+        visibility: visible;
+      }
+    }
+  }
+}
+
+.main-section.is-dialog {
+  padding: 32px 40px;
+
+  .task-form {
+    gap: 20px;
+    padding-top: 24px;
+
+    &__half-wrapper {
+      gap: 20px;
+    }
+
+    &__input-wrapper {
+      min-height: 76px;
+    }
+
+    &__input,
+    &__select {
+      height: 42px;
+      padding-top: 8px;
+      padding-bottom: 8px;
+    }
+
+    &__textarea {
+      height: 72px;
+      max-height: 100px;
+      padding-top: 8px;
+      padding-bottom: 8px;
+    }
+
+    &__line--form {
+      height: 320px;
+    }
+  }
+}
+
 
 @media (min-width: 1440px) {
   .main-section {
@@ -569,34 +658,6 @@
       display: inline-flex;
       justify-content: center;
       align-items: center;
-      font-size: 1rem;
-    }
-  }
-}
-
-.task-success {
-  &__wrapper {
-    position: fixed;
-    top: 100%;
-    left: 50%;
-    transform: translate(-50%, 0);
-    font-size: 1.25rem;
-    background-color: $dark-blue;
-    border-radius: 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 32px;
-    padding: 25px 30px;
-    box-shadow: 0px 0px 4px 0px #00000066;
-    font-family: Inter;
-    color: $white;
-    width: fit-content;
-    transition: top 255ms ease-in-out;
-
-    &--visible {
-      top: 50%;
-      transform: translate(-50%, -50%);
     }
   }
 }
@@ -627,11 +688,6 @@
     }
 
     &__radio-label {
-      flex: 1 1 33.333%;
-      width: 33.333%;
-      display: inline-flex;
-      justify-content: center;
-      align-items: center;
       font-size: 1rem;
     }
   }
@@ -640,6 +696,11 @@
 @media (max-width: 480px) {
   .task-form {
     padding: 40px 0;
+
+    &__button {
+      padding: 8px 12px;
+      font-size: 1rem;
+    }
   }
 
   .main-section {
