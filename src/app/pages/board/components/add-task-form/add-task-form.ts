@@ -92,7 +92,9 @@ export class AddTaskForm {
     title: new FormControl('', {
       validators: [Validators.required, Validators.minLength(4), Validators.maxLength(100)]
     }),
-    description: new FormControl(''),
+    description: new FormControl('', {
+      validators: Validators.maxLength(150)
+    }),
     due_date: new FormControl('', {
       validators: [Validators.required]
     }),

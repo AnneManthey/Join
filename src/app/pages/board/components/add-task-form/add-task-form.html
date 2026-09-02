@@ -18,6 +18,9 @@
                 <label class="task-form__label" for="description">Description</label>
                 <textarea class="task-form__textarea" rows="5" id="description" name="description"
                     formControlName="description" placeholder="Enter a description"></textarea>
+                @if (!description?.valid && description?.touched) {
+                <p class="task-form__error">Please shorten your text to 150 characters or fewer.</p>
+                }
             </div>
 
             <div class="task-form__input-wrapper">
@@ -159,8 +162,10 @@
 
                     @if (categoryDropdownOpen()) {
                     <div class="task-form__dropdown-panel">
-                        <div class="task-form__dropdown-option task-form__category-option" (click)="setCategory('user_story')">User Story</div>
-                        <div class="task-form__dropdown-option task-form__category-option" (click)="setCategory('technical_task')">Technical Task
+                        <div class="task-form__dropdown-option task-form__category-option"
+                            (click)="setCategory('user_story')">User Story</div>
+                        <div class="task-form__dropdown-option task-form__category-option"
+                            (click)="setCategory('technical_task')">Technical Task
                         </div>
                     </div>
                     }
@@ -199,7 +204,6 @@
                         </button>}
                     </div>
                     @for (subtask of assignedSubtasks(); track $index) {
-
                     @if(editingIndex() !== $index){
                     <ul class="task-form__ul">
                         <li (click)="editingIndex.set($index)" class="task-form__subtask-item">
