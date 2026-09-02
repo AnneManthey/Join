@@ -7,8 +7,11 @@
         <header class="board-header">
           <div class="board-h1-wrapper">
             <h1>Board</h1>
-            <button class="btn-add-mobile" (click)="openAddTaskDialog()"><img src="app-icons/board/add-mobile.svg"
-                alt="Add Icon"></button>
+            <!-- <button class="btn-add-mobile" (click)="openAddTaskDialog()"><img src="app-icons/board/add-mobile.svg"
+                alt="Add Icon"></button> -->
+            <button class="btn-add-mobile" (click)="handleAddTaskClick()">
+              <img src="app-icons/board/add-mobile.svg" alt="Add Icon">
+            </button>
           </div>
           <div class="board-actions">
             <div class="search-container">
@@ -29,9 +32,12 @@
           <app-board-column [column]="column" (taskDropped)="onTaskDropped($event)"
             (addTaskClicked)="openAddTask(column.id)" (taskClicked)="openTaskDetail($event)">
           </app-board-column>
+          <!-- <app-board-column [column]="column" (taskDropped)="onTaskDropped($event)"
+            (addTaskClicked)="handleAddTaskClick(column.id)" (taskClicked)="openTaskDetail($event)">
+          </app-board-column> -->
           }
         </section>
-        
+
         @if (selectedTask(); as task) {
         <app-task-detail-dialog [isTaskDetailDialogOpen]="isTaskDetailDialogOpen()" [taskId]="task.id"
           (close)="closeTaskDetail()" (edit)="openEditTaskDetail($event)">
