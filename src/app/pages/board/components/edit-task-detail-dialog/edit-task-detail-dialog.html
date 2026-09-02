@@ -22,13 +22,21 @@
             formControlName="taskdetailDescription"
           ></textarea>
         </div>
-        <p for="task-detail-duedate">Due date</p>
-        <input id="task-detail-duedate" type="text" formControlName="taskdetailDuedate" />
-        <section class="priority-buttons">
-          <p>Priority</p>
-          <button
-            type="button"
-            class="priority-button priority-button--low"
+        <div class="task-form__input-wrapper">
+          <label class="task-form__label" for="task-detail-duedate">Due date</label>
+          <input
+            class="task-form__input"
+            id="task-detail-duedate"
+            type="date"
+            formControlName="taskdetailDuedate"
+          />
+        </div>
+        <div class="task-form__input-wrapper">
+          <label class="task-form__label">Priority</label>
+          <section class="priority-buttons">
+            <button
+              type="button"
+              class="priority-button priority-button--low"
             [class.selected]="selectedPriority() === 'low'"
             (click)="setPriority('low')"
           >
@@ -114,7 +122,8 @@
               </defs>
             </svg>
           </button>
-        </section>
+          </section>
+        </div>
         <div class="task-form__input-wrapper">
           <div class="task-form__dropdown" #assignedToDropdown>
             <label class="task-form__label" for="assignedToInput">Assigned to</label>
