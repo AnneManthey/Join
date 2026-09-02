@@ -3,10 +3,17 @@
     <main class="dialog-content" (click)="$event.stopPropagation()">
       <form [formGroup]="taskdetailForm" (ngSubmit)="onEditSubmit()">
         <div class="dialog-header">
-          <p for="task-detail-title">Title</p>
+          <label class="task-form__label" for="task-detail-title">Title</label>
           <button class="dialog-close" type="button" (click)="closeDialog()">&times;</button>
         </div>
-        <input id="task-detail-title" type="text" formControlName="taskdetailName" />
+        <div class="task-form__input-wrapper">
+          <input
+            class="task-form__input"
+            id="task-detail-title"
+            type="text"
+            formControlName="taskdetailName"
+          />
+        </div>
         <p for="task-detail-description">Description</p>
         <input id="task-detail-description" type="text" formControlName="taskdetailDescription" />
         <p for="task-detail-duedate">Due date</p>
