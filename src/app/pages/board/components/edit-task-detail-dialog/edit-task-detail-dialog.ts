@@ -91,11 +91,18 @@ export class EditTaskDetailDialog implements AfterViewInit {
     this.contacts().filter(contact => this.editSelectedContacts().includes(contact.id))
   );
 
+  /** Whether the dialog is currently playing its closing animation. */
+  isClosing = signal(false);
+
   /**
-   * Closes the dialog and emits a close event.
+   * Plays the closing animation, then emits a close event.
    */
   closeDialog(): void {
-    this.close.emit();
+    this.isClosing.set(true);
+    setTimeout(() => {
+      this.isClosing.set(false);
+      this.close.emit();
+    }, 300);
   }
 
   /** The currently selected priority of the task. */

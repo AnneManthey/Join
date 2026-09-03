@@ -33,6 +33,20 @@
   }
 }
 
+.dialog-content--closing {
+  animation: edit-task-detail-slide-out 0.3s ease-in forwards;
+}
+
+@keyframes edit-task-detail-slide-out {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(100%);
+  }
+}
+
 .dialog-header {
   display: flex;
   align-items: center;

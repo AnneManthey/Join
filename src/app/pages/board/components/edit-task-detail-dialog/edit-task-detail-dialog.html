@@ -1,6 +1,6 @@
 @if (isOpen() && task(); as currentTask) {
   <div class="dialog-overlay" (click)="closeDialog()">
-    <main class="dialog-content" (click)="$event.stopPropagation()">
+    <main class="dialog-content" [class.dialog-content--closing]="isClosing()" (click)="$event.stopPropagation()">
       <form [formGroup]="taskdetailForm" (ngSubmit)="onEditSubmit()">
         <div class="dialog-header">
           <button class="dialog-close" type="button" (click)="closeDialog()">&times;</button>
