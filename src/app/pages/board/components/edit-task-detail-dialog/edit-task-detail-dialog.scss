@@ -18,7 +18,7 @@
   position: relative;
   background: white;
   border-radius: 30px;
-  padding: 88px 40px 32px 40px;
+  padding: 48px 40px 32px 40px;
   max-width: 525px;
   width: 90%;
   max-height: 750px;
@@ -28,6 +28,7 @@
   form {
     display: flex;
     flex-direction: column;
+    gap: 16px;
     flex: 1 1 auto;
     min-height: 0;
   }
@@ -48,6 +49,7 @@
 }
 
 .dialog-header {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: flex-end;
@@ -80,7 +82,7 @@
 
 .custom-scrollbar {
   position: absolute;
-  top: 0;
+  top: 25px;
   bottom: 0;
   right: -8px;
   width: 10px;
@@ -131,8 +133,11 @@ h2 {
 
 .dialog-close {
   position: absolute;
-  top: 41px;
-  right: 49px;
+  top: 50%;
+  right: -15px;
+  transform: translateY(-50%);
+  width: 24px;
+  height: 24px;
   padding: 0;
   border: none;
   background: transparent;
@@ -141,6 +146,14 @@ h2 {
   font-size: 24px;
   line-height: 1;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:hover {
+    border-radius: 50%;
+    background-color: #d9d9d9;
+  }
 }
 
 .priority-buttons {
