@@ -130,6 +130,18 @@ export class EditTaskDetailDialog {
   }
 
   /**
+   * Returns the FormControl for the 'taskdetailDescription' field.
+   */
+  get taskdetailDescription() {
+    return this.taskdetailForm.get('taskdetailDescription');
+  }
+
+  /** Checks whether the description exceeds the configured maximum character length. */
+  descriptionInputTooLong() {
+    return (this.taskdetailDescription?.value?.length ?? 0) > 150;
+  }
+
+  /**
    * Returns the FormControl for the 'assignedTo' field.
    */
   get assignedTo() {

@@ -255,6 +255,8 @@ h2 {
   &__length {
     color: $light-grey;
     justify-self: flex-end;
+    flex-shrink: 0;
+    white-space: nowrap;
 
     &-error {
       color: $red;
