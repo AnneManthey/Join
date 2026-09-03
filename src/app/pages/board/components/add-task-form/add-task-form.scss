@@ -302,6 +302,10 @@
     width: 100%;
     font-size: 1rem;
     font-family: Inter;
+
+    &:focus-visible {
+      outline: none;
+    }
   }
 
   &__button-wrapper {
@@ -342,6 +346,7 @@
     background-color: $dark-blue;
     color: $white;
     font-weight: 700;
+    border: none;
 
     &:hover,
     &:active {
