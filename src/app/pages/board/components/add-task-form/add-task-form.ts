@@ -258,6 +258,14 @@ export class AddTaskForm {
     }
   }
 
+  descriptionInputTooLong() {
+    return (this.description?.value?.length ?? 0) > 150;
+  }
+
+  titleInputTooLong() {
+    return (this.title?.value?.length ?? 0) > 100;
+  }
+
   /**
    * Adds a new subtask to the list if the input value is non-empty and not a duplicate.
    */
