@@ -19,7 +19,7 @@
       </header>
 
       <div class="dialog-body">
-        <div class="dialog-scrollable" #scrollableEl (scroll)="onScroll()">
+        <div class="dialog-scrollable">
         <h2>{{ currentTask.title }}</h2>
 
         <p class="dialog-description">{{ currentTask.description }}</p>
@@ -67,22 +67,6 @@
           }
         </div>
         </div>
-
-        @if (isScrollable()) {
-          <div class="custom-scrollbar">
-            <button type="button" class="scrollbar-arrow" (click)="scrollByStep(-40)">
-              <img src="app-icons/task-detail-dialog/scrollbar_arrow_up.svg" alt="Nach oben scrollen">
-            </button>
-
-            <div class="scrollbar-track" #trackEl>
-              <div class="scrollbar-thumb" [style.height.px]="thumbHeight()" [style.top.px]="thumbTop()"></div>
-            </div>
-
-            <button type="button" class="scrollbar-arrow" (click)="scrollByStep(40)">
-              <img src="app-icons/task-detail-dialog/scrollbar_arrow_down.svg" alt="Nach unten scrollen">
-            </button>
-          </div>
-        }
       </div>
 
       <div class="dialog-actions">

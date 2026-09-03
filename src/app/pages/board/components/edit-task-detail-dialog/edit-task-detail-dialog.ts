@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, HostListener, QueryList, ViewChildren, computed, effect, inject, input, output, signal, viewChild } from '@angular/core';
+import { Component, ElementRef, HostListener, QueryList, ViewChildren, computed, effect, inject, input, output, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Task } from '../../../../shared/interfaces/task';
 import { SupabaseService } from '../../../../shared/services/supabase-service';
@@ -16,7 +16,7 @@ import { getColor } from '../../../../shared/utils/contacts-helper';
   templateUrl: './edit-task-detail-dialog.html',
   styleUrl: './edit-task-detail-dialog.scss',
 })
-export class EditTaskDetailDialog implements AfterViewInit {
+export class EditTaskDetailDialog {
   /** Controls whether the dialog is open or closed. */
   isOpen = input.required<boolean>();
 
@@ -49,28 +49,6 @@ export class EditTaskDetailDialog implements AfterViewInit {
 
   /** References to the currently rendered subtask-edit inputs, used to save on outside clicks. */
   @ViewChildren('editInput') editInputs!: QueryList<ElementRef<HTMLTextAreaElement>>;
-
-  /** Reference to the scrollable content element. */
-  scrollableEl = viewChild<ElementRef<HTMLDivElement>>('scrollableEl');
-
-  /** Reference to the custom scrollbar track element. */
-  trackEl = viewChild<ElementRef<HTMLDivElement>>('trackEl');
-
-  /** Height of the custom scrollbar thumb in pixels. */
-  thumbHeight = signal(0);
-
-  /** Top offset of the custom scrollbar thumb in pixels. */
-  thumbTop = signal(0);
-
-  /** Whether the dialog content currently overflows and needs a scrollbar. */
-  isScrollable = signal(false);
-
-  /** Recomputes the custom scrollbar whenever the dialog is opened, since the component instance is reused across opens. */
-  private openEffect = effect(() => {
-    if (this.isOpen()) {
-      setTimeout(() => this.checkScrollable());
-    }
-  });
 
   /** Index of the subtask currently being edited, if any. */
   editingIndex = signal<number | null>(null);
@@ -169,52 +147,7 @@ export class EditTaskDetailDialog implements AfterViewInit {
       this.supabaseTaskService.currentTaskId = currentTask.id;
       this.editSelectedContacts.set(currentTask.task_contacts.map(taskContact => taskContact.contacts.id));
       this.editSubtasks.set(currentTask.subtasks.map(subtask => subtask.title));
-      setTimeout(() => this.checkScrollable());
     });
-  }
-
-  ngAfterViewInit(): void {
-    this.checkScrollable();
-  }
-
-  /** Recalculates the custom scrollbar thumb position while the user scrolls. */
-  onScroll(): void {
-    this.updateThumb();
-  }
-
-  /** Scrolls the content by a fixed step, e.g. via the scrollbar arrow buttons. */
-  scrollByStep(step: number): void {
-    this.scrollableEl()?.nativeElement.scrollBy({ top: step, behavior: 'smooth' });
-  }
-
-  /** Determines whether the scrollable content overflows and updates the thumb accordingly. */
-  private checkScrollable(): void {
-    const scrollable = this.scrollableEl()?.nativeElement;
-    if (!scrollable) {
-      return;
-    }
-
-    this.isScrollable.set(scrollable.scrollHeight > scrollable.clientHeight + 1);
-    setTimeout(() => this.updateThumb());
-  }
-
-  /** Updates the custom scrollbar thumb's height and position based on the current scroll state. */
-  private updateThumb(): void {
-    const scrollable = this.scrollableEl()?.nativeElement;
-    const track = this.trackEl()?.nativeElement;
-    if (!scrollable || !track) {
-      return;
-    }
-
-    const { scrollTop, scrollHeight, clientHeight } = scrollable;
-    const trackHeight = track.clientHeight;
-    const height = Math.max((clientHeight / scrollHeight) * trackHeight, 20);
-    const maxTop = trackHeight - height;
-    const scrollableDistance = scrollHeight - clientHeight;
-    const top = scrollableDistance > 0 ? (scrollTop / scrollableDistance) * maxTop : 0;
-
-    this.thumbHeight.set(height);
-    this.thumbTop.set(top);
   }
 
   /**

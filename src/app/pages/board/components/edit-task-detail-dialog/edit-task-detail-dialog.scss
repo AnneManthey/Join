@@ -49,7 +49,6 @@
 }
 
 .dialog-header {
-  position: relative;
   display: flex;
   align-items: center;
   justify-content: flex-end;
@@ -58,7 +57,6 @@
 }
 
 .dialog-body {
-  position: relative;
   display: flex;
   flex: 1 1 auto;
   min-height: 0;
@@ -70,57 +68,19 @@
   flex: 1 1 auto;
   min-height: 0;
   width: 100%;
-  padding-right: 32px;
+  padding-right: 12px;
   overflow-y: auto;
 
-  scrollbar-width: none;
+  scrollbar-color: $scrollbar-grey transparent;
 
-  &::-webkit-scrollbar {
-    display: none;
+  &::-webkit-scrollbar-track {
+    background: transparent;
+    margin-top: 32px;
   }
-}
 
-.custom-scrollbar {
-  position: absolute;
-  top: 25px;
-  bottom: 0;
-  right: -8px;
-  width: 10px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-}
-
-.scrollbar-arrow {
-  flex-shrink: 0;
-  width: 10px;
-  padding: 0;
-  border: none;
-  background: transparent;
-  cursor: pointer;
-
-  img {
-    display: block;
-    width: 100%;
-  }
-}
-
-.scrollbar-track {
-  position: relative;
-  flex: 1 1 auto;
-  width: 10px;
-}
-
-.scrollbar-thumb {
-  position: absolute;
-  left: 0;
-  width: 10px;
-  background-color: #A8A8A8;
-  border-radius: 8px;
-
-  &:hover {
-    background-color: #b0b0b0;
+  &::-webkit-scrollbar-thumb {
+    background: $scrollbar-grey;
+    border-radius: 5px;
   }
 }
 
@@ -132,12 +92,9 @@ h2 {
 }
 
 .dialog-close {
-  position: absolute;
-  top: 50%;
-  right: -15px;
-  transform: translateY(-50%);
   width: 24px;
   height: 24px;
+  margin-right: -12px;
   padding: 0;
   border: none;
   background: transparent;
@@ -214,6 +171,7 @@ h2 {
     display: block;
     margin-bottom: 8px;
     font-size: 1.25rem;
+    line-height: 1.5rem;
   }
 
   &__input-wrapper {

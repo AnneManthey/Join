@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, computed, effect, inject, input, output, signal, viewChild } from '@angular/core';
+import { Component, computed, inject, input, output, signal } from '@angular/core';
 import { Subtask, Task } from '../../../../shared/interfaces/task';
 import { GetInitialsPipe } from '../../../../shared/pipes/get-initials-pipe';
 import { getColor } from '../../../../shared/utils/contacts-helper';
@@ -13,61 +13,9 @@ import { SupabaseTaskService } from '../../../../shared/services/supabase-task-s
   templateUrl: './task-detail-dialog.html',
   styleUrl: './task-detail-dialog.scss',
 })
-export class TaskDetailDialog implements AfterViewInit {
+export class TaskDetailDialog {
 
   getColor = getColor;
-
-  scrollableEl = viewChild<ElementRef<HTMLDivElement>>('scrollableEl');
-  trackEl = viewChild<ElementRef<HTMLDivElement>>('trackEl');
-
-  thumbHeight = signal(0);
-  thumbTop = signal(0);
-  isScrollable = signal(false);
-
-  private taskChangeEffect = effect(() => {
-    this.task();
-    setTimeout(() => this.checkScrollable());
-  });
-
-  ngAfterViewInit(): void {
-    this.checkScrollable();
-  }
-
-  onScroll(): void {
-    this.updateThumb();
-  }
-
-  scrollByStep(step: number): void {
-    this.scrollableEl()?.nativeElement.scrollBy({ top: step, behavior: 'smooth' });
-  }
-
-  private checkScrollable(): void {
-    const scrollable = this.scrollableEl()?.nativeElement;
-    if (!scrollable) {
-      return;
-    }
-
-    this.isScrollable.set(scrollable.scrollHeight > scrollable.clientHeight + 1);
-    setTimeout(() => this.updateThumb());
-  }
-
-  private updateThumb(): void {
-    const scrollable = this.scrollableEl()?.nativeElement;
-    const track = this.trackEl()?.nativeElement;
-    if (!scrollable || !track) {
-      return;
-    }
-
-    const { scrollTop, scrollHeight, clientHeight } = scrollable;
-    const trackHeight = track.clientHeight;
-    const height = Math.max((clientHeight / scrollHeight) * trackHeight, 20);
-    const maxTop = trackHeight - height;
-    const scrollableDistance = scrollHeight - clientHeight;
-    const top = scrollableDistance > 0 ? (scrollTop / scrollableDistance) * maxTop : 0;
-
-    this.thumbHeight.set(height);
-    this.thumbTop.set(top);
-  }
 
   priorityIcon = computed(() => {
     const currentTask = this.task();
