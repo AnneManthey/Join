@@ -192,11 +192,6 @@ h2 {
     font-family: 'Inter', sans-serif;
     font-size: 1rem;
 
-    &:focus {
-      outline: none;
-      border-color: $light-grey;
-    }
-
     &.ng-invalid.ng-touched {
       border-color: $red;
     }
