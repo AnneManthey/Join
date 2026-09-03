@@ -13,7 +13,8 @@
                     <p class="task-form__error">Please enter between 4 - 100 characters</p>
                     }
                     <p></p>
-                    <p class="task-form__length" [class.task-form__length-error]="titleInputTooLong()">{{title?.value?.length}} / 100</p>
+                    <p class="task-form__length" [class.task-form__length-error]="titleInputTooLong()">
+                        {{title?.value?.length}} / 100</p>
                 </div>
             </div>
 
@@ -27,7 +28,8 @@
                     <p class="task-form__error">Please shorten your text to 150 characters or fewer.</p>
                     }
                     <p></p>
-                    <p class="task-form__length" [class.task-form__length-error]="descriptionInputTooLong()">{{description?.value?.length}} / 150</p>
+                    <p class="task-form__length" [class.task-form__length-error]="descriptionInputTooLong()">
+                        {{description?.value?.length}} / 150</p>
                 </div>
             </div>
 
@@ -215,6 +217,14 @@
                             </svg>
                         </button>}
                     </div>
+                    <div class="task-form__input-footer">
+                        @if (subtaskInput?.invalid && subtaskInput?.touched) {
+                        <p class="task-form__error">Please enter between 4 - 50 characters</p>
+                        }
+                        <p></p>
+                        <p class="task-form__length" [class.task-form__length-error]="subtaskInputTooLong()">
+                            {{subtaskInput?.value?.length ?? 0}} / 50</p>
+                    </div>
                     @for (subtask of assignedSubtasks(); track $index) {
                     @if(editingIndex() !== $index){
                     <ul class="task-form__ul">
@@ -261,8 +271,6 @@
                         </li>
                     </ul>
                     }
-
-
                     @else {
                     <div class="task-form__subtask-edit-wrapper" #subtaskEditWrapper>
                         <textarea #editInput rows="1" [value]="subtask"
@@ -310,8 +318,8 @@
                     }
                 </div>
             </div>
-            <span class="task-form__required-note task-form__required-note--mobile"><span
-                    class="task-form__required-asterisk">&#42;</span>This field is required</span>
+            <span class="task-form__required-note task-form__required-note--mobile">
+                <span class="task-form__required-asterisk">&#42;</span>This field is required</span>
 
         </div>
         <div class="task-form__footer">
