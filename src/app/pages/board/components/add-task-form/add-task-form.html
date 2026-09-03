@@ -3,7 +3,7 @@
     <form class="task-form" [formGroup]="taskForm" (ngSubmit)="formSubmit()">
         <div class="task-form__half-wrapper">
             <div class="task-form__input-wrapper">
-                <label class="task-form__label" for="title">Title<span
+                <label class="task-form__label" for="title" (mousedown)="$event.preventDefault()">Title<span
                         class="task-form__required-asterisk">&#42;</span></label>
                 <textarea class="task-form__input task-form__input--autosize" id="title" name="title" rows="1"
                     formControlName="title" placeholder="Enter a title"
@@ -15,17 +15,17 @@
             </div>
 
             <div class="task-form__input-wrapper">
-                <label class="task-form__label" for="description">Description</label>
+                <label class="task-form__label" for="description" (mousedown)="$event.preventDefault()">Description</label>
                 <textarea class="task-form__textarea" rows="5" id="description" name="description"
                     formControlName="description" placeholder="Enter a description"></textarea>
-                @if (description?.invalid && description?.touched) {
+                @if (description?.invalid) {
                 <p class="task-form__error">Please shorten your text to 150 characters or fewer.</p>
                 }
             </div>
 
             <div class="task-form__input-wrapper">
-                <label class="task-form__label" for="dueDate">Due Date<span
-                        class="task-form__required-asterisk">&#42;</span></label>
+                <label class="task-form__label" for="dueDate" (mousedown)="$event.preventDefault()">Due Date
+                    <span class="task-form__required-asterisk">&#42;</span></label>
                 <input class="task-form__input" id="dueDate" type="date" name="dueDate" formControlName="due_date">
                 @if (duedate?.invalid && duedate?.touched) {
                 <p class="task-form__error">Please enter a due date</p>
@@ -94,7 +94,7 @@
             </div>
             <div class="task-form__input-wrapper">
                 <div class="task-form__dropdown" #assignedToDropdown>
-                    <label class="task-form__label" for="assignedToInput">Assigned to</label>
+                    <label class="task-form__label" for="assignedToInput" (mousedown)="$event.preventDefault()">Assigned to</label>
 
                     <div class="task-form__dropdown-trigger-wrapper">
                         <input class="task-form__input task-form__dropdown-trigger" id="assignedToInput" type="text"
@@ -145,12 +145,12 @@
 
             <div class="task-form__input-wrapper">
                 <div class="task-form__dropdown" #categoryDropdown>
-                    <label class="task-form__label" for="categoryTrigger">Category<span
-                            class="task-form__required-asterisk">&#42;</span></label>
+                    <label class="task-form__label" for="categoryTrigger" (mousedown)="$event.preventDefault()">Category
+                        <span class="task-form__required-asterisk">&#42;</span></label>
                     <div class="task-form__dropdown-trigger-wrapper">
                         <input class="task-form__input task-form__dropdown-trigger" id="categoryTrigger" type="text"
                             readonly [value]="selectedCategoryLabel()" placeholder="Select task category"
-                            (click)="toggleCategoryDropdown()" [class.ng-invalid]="category?.invalid"
+                            (click)="toggleCategoryDropdown()"
                             [class.task-form__input--invalid]="category?.invalid && category?.touched"
                             (mousedown)="$event.preventDefault()">
                         <svg class="task-form__dropdown-arrow"
@@ -180,7 +180,7 @@
 
             <div class="task-form__input-wrapper">
                 <div class="task-form__subtasks">
-                    <label class="task-form__label" for="subtaskInput">Subtasks</label>
+                    <label class="task-form__label" for="subtaskInput" (mousedown)="$event.preventDefault()">Subtasks</label>
                     <div class="task-form__subtask-input-wrapper">
                         <textarea class="task-form__input task-form__input--subtasks task-form__input--autosize"
                             id="subtaskInput" rows="1" name="subtaskInput" placeholder="Add new subtask"

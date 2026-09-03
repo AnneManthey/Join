@@ -241,6 +241,7 @@ export class AddTaskForm {
     }
     if (this.categoryDropdownOpen() && !this.categoryDropdown?.nativeElement.contains(event.target as Node)) {
       this.categoryDropdownOpen.set(false);
+      this.category?.markAsTouched();
     }
 
     const index = this.editingIndex();
