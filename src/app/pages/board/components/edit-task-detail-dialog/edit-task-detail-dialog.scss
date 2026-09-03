@@ -321,7 +321,7 @@ h2 {
 
   &__subtask-content {
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     gap: 6px;
     min-width: 0;
     flex: 1 1 auto;
@@ -329,11 +329,13 @@ h2 {
 
   &__subtask-bullet {
     flex-shrink: 0;
+    line-height: 24px;
   }
 
   &__subtask-text {
     flex: 1 1 auto;
     min-width: 0;
+    line-height: 24px;
     overflow-wrap: anywhere;
     word-break: break-word;
   }
@@ -372,6 +374,7 @@ h2 {
     background-color: transparent;
     border: none;
     width: 100%;
+    min-height: 24px;
     font-size: 1rem;
     font-family: 'Inter', sans-serif;
 
@@ -580,9 +583,6 @@ h2 {
   }
 
   .dialog-scrollable::-webkit-scrollbar-track {
-    // Label line-height (16px * 120% = ~19px) + its 8px margin-bottom,
-    // so the scrollbar starts level with the top of the title input
-    // at the smaller mobile label size (was 32px for the desktop label).
     margin-top: 27px;
   }
 
@@ -598,10 +598,17 @@ h2 {
     width: 104px;
     height: 41px;
     flex: none;
+    gap: 6px;
+    padding: 8px 10px;
+    font-size: 0.875rem;
+
+    svg {
+      width: 16px;
+      height: auto;
+      flex-shrink: 0;
+    }
   }
 
-  // No hover on touch devices, so keep the edit/delete controls
-  // permanently visible instead of gating them behind :hover/--active.
   .task-form__button-wrapper .task-form__subtask-button {
     display: block;
   }
@@ -609,5 +616,28 @@ h2 {
   .task-form__line {
     border-left: 1px solid $light-grey;
     height: 20px;
+  }
+}
+
+@media (max-width: 400px) {
+  .priority-buttons {
+    gap: 8px;
+  }
+
+  .priority-button {
+    width: auto;
+    flex: 1 1 0;
+    min-width: 0;
+    height: 36px;
+    padding: 6px 4px;
+    gap: 4px;
+    font-size: 14px;
+    white-space: nowrap;
+
+    svg {
+      width: 14px;
+      height: auto;
+      flex-shrink: 0;
+    }
   }
 }
