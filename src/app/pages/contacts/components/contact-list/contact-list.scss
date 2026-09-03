@@ -163,15 +163,16 @@
   }
 
   &::-webkit-scrollbar-track {
-    background: $white;
+    background: transparent;
     border-radius: 2px;
-    margin: 20px 0;
+    margin: 10px 0;
   }
 
   &::-webkit-scrollbar-thumb {
     background: $scrollbar-grey;
     border-radius: 5px;
     border: 1px solid $scrollbar-grey;
+    margin-bottom: 25px;
   }
 }
 
@@ -310,6 +311,5 @@
   .add-contact-dialog {
     max-width: (calc(100% - 16px));
     max-height: (calc(100dvh - 16px));
-    
   }
 }

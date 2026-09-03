@@ -38,15 +38,16 @@
   }
 
   &::-webkit-scrollbar-track {
-    background: $white;
+    background: transparent;
     border-radius: 2px;
-    margin: 20px 0;
+    margin: 10px 0;
   }
 
   &::-webkit-scrollbar-thumb {
     background: $scrollbar-grey;
     border-radius: 5px;
     border: 1px solid $scrollbar-grey;
+    margin-bottom: 25px;
   }
 }
 
@@ -116,6 +117,7 @@
     background-color: transparent;
     display: flex;
     align-items: center;
+    min-width: 80px;
     gap: 2px;
     font-size: 1rem;
     font-family: Inter;
