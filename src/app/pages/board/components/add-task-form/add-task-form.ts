@@ -13,6 +13,10 @@ import { getColor } from '../../../../shared/utils/contacts-helper';
   templateUrl: './add-task-form.html',
   styleUrl: './add-task-form.scss',
 })
+/**
+ * Form component for creating a new task from the board or the task dialog.
+ * Handles validation, contact assignment, subtasks, and task submission.
+ */
 export class AddTaskForm {
   private supabaseService = inject(SupabaseService);
   supabaseTaskService = inject(SupabaseTaskService);
@@ -37,8 +41,8 @@ export class AddTaskForm {
     return value === 'user_story' ? 'User Story' : value === 'technical_task' ? 'Technical Task' : '';
   });
 
+  /** Stores the currently selected task category value. */
   private selectedCategory = signal<Task['category'] | ''>('');
-
 
   /** Indicates whether the contact selection dropdown menu is open. */
   contactDropdownOpen = signal(false);
@@ -92,6 +96,7 @@ export class AddTaskForm {
     this.categoryDropdownOpen.set(false);
   }
 
+  /** Toggles the visibility of the category dropdown and marks the field as touched when closed. */
   toggleCategoryDropdown() {
     if (this.categoryDropdownOpen()) {
       this.categoryDropdownOpen.set(false);
@@ -165,11 +170,9 @@ export class AddTaskForm {
    */
   async formSubmit() {
     if (!this.taskForm.valid) {
-      console.log('form not valid');
       this.taskForm.markAllAsTouched();
       return;
     }
-
     const taskId = await this.supabaseTaskService.createTask({
       title: this.title?.value ?? '',
       description: this.description?.value ?? '',
@@ -179,13 +182,8 @@ export class AddTaskForm {
       status: this.initialStatus()
     });
     if (!taskId) return;
-
-    const contactsSaved = await this.supabaseTaskService.saveTaskContacts(taskId);
-    if (!contactsSaved) return;
-
-    const subtasksSaved = await this.supabaseTaskService.saveTaskSubtasks(taskId);
-    if (!subtasksSaved) return;
-
+    if (!(await this.supabaseTaskService.saveTaskContacts(taskId))) return;
+    if (!(await this.supabaseTaskService.saveTaskSubtasks(taskId))) return;
     this.resetAndNavigate();
   }
 
@@ -258,14 +256,17 @@ export class AddTaskForm {
     }
   }
 
+  /** Checks whether the description exceeds the configured maximum character length. */
   descriptionInputTooLong() {
     return (this.description?.value?.length ?? 0) > 150;
   }
 
+  /** Checks whether the title exceeds the configured maximum character length. */
   titleInputTooLong() {
     return (this.title?.value?.length ?? 0) > 100;
   }
 
+  /** Checks whether the subtask input exceeds the configured maximum character length. */
   subtaskInputTooLong() {
     return (this.subtaskInput?.value?.length ?? 0) > 50;
   }
