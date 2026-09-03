@@ -319,6 +319,48 @@ h2 {
     width: min(525px, calc(100vw - 32px));
     max-width: calc(100vw - 32px);
     padding: 34px 24px 34px 24px;
+    gap: 16px;
+  }
+
+  .dialog-scrollable {
+    gap: 16px;
+  }
+
+  h2 {
+    font-size: 36px;
+    color: black;
+  }
+
+  .dialog-description {
+    font-size: 16px;
+  }
+
+  .due-date-label,
+  .priority,
+  .assigned-to,
+  .subtasks-label {
+    font-size: 16px;
+  }
+
+  .due-date-value {
+    font-size: 16px;
+  }
+
+  .task-card-assignee {
+    border: 2px solid white;
+  }
+
+  .dialog-assignees {
+    gap: 18px;
+    // .dialog-scrollable's gap is 16px; pull this up by 1px so the
+    // assigned-to-to-first-circle gap is 15px on mobile.
+    margin-top: -1px;
+  }
+
+  .subtasks-label {
+    // .dialog-scrollable's gap is 16px; push this down by 7px so the
+    // last-circle-to-subtasks gap is 23px on mobile.
+    margin-top: 7px;
   }
 }
 
