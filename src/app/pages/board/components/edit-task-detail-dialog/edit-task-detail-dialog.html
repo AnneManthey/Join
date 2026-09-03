@@ -9,13 +9,26 @@
         <div class="dialog-body">
         <div class="dialog-scrollable">
         <div class="task-form__input-wrapper">
-          <label class="task-form__label" for="task-detail-title">Title</label>
-          <input
-            class="task-form__input"
+          <label class="task-form__label" for="task-detail-title" (click)="$event.preventDefault()">
+            Title<span class="task-form__required-asterisk">&#42;</span>
+          </label>
+          <textarea
+            class="task-form__input task-form__input--autosize"
             id="task-detail-title"
-            type="text"
+            rows="1"
+            name="task-detail-title"
             formControlName="taskdetailName"
-          />
+            (keydown.enter)="$event.preventDefault()"
+          ></textarea>
+          <div class="task-form__input-footer">
+            @if (taskdetailName?.invalid && taskdetailName?.touched) {
+              <p class="task-form__error">Please enter between 4 - 100 characters</p>
+            }
+            <p></p>
+            <p class="task-form__length" [class.task-form__length-error]="titleInputTooLong()">
+              {{ taskdetailName?.value?.length }} / 100
+            </p>
+          </div>
         </div>
         <div class="task-form__input-wrapper">
           <label class="task-form__label" for="task-detail-description">Description</label>

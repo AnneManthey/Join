@@ -261,7 +261,8 @@ h2 {
     }
   }
 
-  &__error {
+  &__error,
+  &__required-asterisk {
     color: $red;
   }
 

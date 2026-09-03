@@ -118,6 +118,18 @@ export class EditTaskDetailDialog {
   });
 
   /**
+   * Returns the FormControl for the 'taskdetailName' field.
+   */
+  get taskdetailName() {
+    return this.taskdetailForm.get('taskdetailName');
+  }
+
+  /** Checks whether the title exceeds the configured maximum character length. */
+  titleInputTooLong() {
+    return (this.taskdetailName?.value?.length ?? 0) > 100;
+  }
+
+  /**
    * Returns the FormControl for the 'assignedTo' field.
    */
   get assignedTo() {
