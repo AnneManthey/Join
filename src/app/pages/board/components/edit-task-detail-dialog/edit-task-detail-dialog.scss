@@ -22,8 +22,15 @@
   max-width: 525px;
   width: 90%;
   max-height: 750px;
-  overflow-y: auto;
+  overflow: hidden;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+
+  form {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
+    min-height: 0;
+  }
 }
 
 .dialog-header {
@@ -31,6 +38,74 @@
   align-items: center;
   justify-content: space-between;
   width: 100%;
+  flex-shrink: 0;
+}
+
+.dialog-body {
+  position: relative;
+  display: flex;
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+.dialog-scrollable {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-height: 0;
+  width: 100%;
+  padding-right: 32px;
+  overflow-y: auto;
+
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.custom-scrollbar {
+  position: absolute;
+  top: 20px;
+  bottom: 0;
+  right: 8px;
+  width: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.scrollbar-arrow {
+  flex-shrink: 0;
+  width: 10px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+
+  img {
+    display: block;
+    width: 100%;
+  }
+}
+
+.scrollbar-track {
+  position: relative;
+  flex: 1 1 auto;
+  width: 10px;
+}
+
+.scrollbar-thumb {
+  position: absolute;
+  left: 0;
+  width: 10px;
+  background-color: #A8A8A8;
+  border-radius: 8px;
+
+  &:hover {
+    background-color: #b0b0b0;
+  }
 }
 
 h2 {
@@ -412,6 +487,7 @@ h2 {
   display: flex;
   justify-content: flex-end;
   margin-top: 8px;
+  flex-shrink: 0;
 }
 
 .dialog-confirm-button {

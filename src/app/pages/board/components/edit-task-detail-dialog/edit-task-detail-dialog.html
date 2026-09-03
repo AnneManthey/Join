@@ -6,6 +6,9 @@
           <label class="task-form__label" for="task-detail-title">Title</label>
           <button class="dialog-close" type="button" (click)="closeDialog()">&times;</button>
         </div>
+
+        <div class="dialog-body">
+        <div class="dialog-scrollable" #scrollableEl (scroll)="onScroll()">
         <div class="task-form__input-wrapper">
           <input
             class="task-form__input"
@@ -354,6 +357,25 @@
             }
           </div>
         </div>
+        </div>
+
+        @if (isScrollable()) {
+          <div class="custom-scrollbar">
+            <button type="button" class="scrollbar-arrow" (click)="scrollByStep(-40)">
+              <img src="app-icons/task-detail-dialog/scrollbar_arrow_up.svg" alt="Nach oben scrollen">
+            </button>
+
+            <div class="scrollbar-track" #trackEl>
+              <div class="scrollbar-thumb" [style.height.px]="thumbHeight()" [style.top.px]="thumbTop()"></div>
+            </div>
+
+            <button type="button" class="scrollbar-arrow" (click)="scrollByStep(40)">
+              <img src="app-icons/task-detail-dialog/scrollbar_arrow_down.svg" alt="Nach unten scrollen">
+            </button>
+          </div>
+        }
+        </div>
+
         <div class="dialog-footer">
           <button class="dialog-confirm-button" type="submit" (click)="closeDialog()">
             Ok
