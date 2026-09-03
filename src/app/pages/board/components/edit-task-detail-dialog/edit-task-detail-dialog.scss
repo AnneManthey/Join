@@ -548,3 +548,10 @@ h2 {
     background-color: $blue-green;
   }
 }
+
+@media (max-width: 550px) {
+  .dialog-content {
+    width: min(525px, calc(100vw - 32px));
+    max-width: calc(100vw - 32px);
+  }
+}
