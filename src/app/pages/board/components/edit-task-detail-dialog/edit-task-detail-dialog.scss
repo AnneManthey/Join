@@ -66,9 +66,9 @@
 
 .custom-scrollbar {
   position: absolute;
-  top: 20px;
+  top: -20px;
   bottom: 0;
-  right: 8px;
+  right: -8px;
   width: 10px;
   display: flex;
   flex-direction: column;
@@ -486,7 +486,7 @@ h2 {
 .dialog-footer {
   display: flex;
   justify-content: flex-end;
-  margin-top: 8px;
+  margin-top: 24px;
   flex-shrink: 0;
 }
 
