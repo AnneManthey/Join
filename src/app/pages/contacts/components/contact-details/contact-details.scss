@@ -117,13 +117,16 @@
     background-color: transparent;
     display: flex;
     align-items: center;
-    min-width: 80px;
     gap: 2px;
     font-size: 1rem;
     font-family: Inter;
     color: $dark-blue;
     transition: all 255ms ease-in-out;
     cursor: pointer;
+
+    &--contacts {
+      min-width: 80px;
+    }
 
     &:hover {
       font-weight: 700;
