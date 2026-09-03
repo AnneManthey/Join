@@ -1,17 +1,19 @@
 @use './variables' as *;
 
-//custom scrollbar
-body::-webkit-scrollbar {
-  width: 10px;
-}
+//subtle custom scrollbar for dialogs
+ &::-webkit-scrollbar {
+    width: 5px;
+  }
 
-body::-webkit-scrollbar-track {
-  background: $white;
-  border-radius: 2px;
-}
+  &::-webkit-scrollbar-track {
+    background: transparent;
+    border-radius: 2px;
+    margin: 10px 0;
+  }
 
-body::-webkit-scrollbar-thumb {
-  background: $scrollbar-grey;
-  border-radius: 5px;
-  border: 1px solid $scrollbar-grey;
-}
+  &::-webkit-scrollbar-thumb {
+    background: $scrollbar-grey;
+    border-radius: 5px;
+    border: 1px solid $scrollbar-grey;
+    margin-bottom: 25px;
+  }

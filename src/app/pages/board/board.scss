@@ -9,21 +9,6 @@
   background-color: $board-bg;
   overflow-y: auto;
   overflow-x: hidden;
-
-  &::-webkit-scrollbar {
-    width: 10px;
-  }
-
-  &::-webkit-scrollbar-track {
-    background: $white;
-    border-radius: 2px;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background: $scrollbar-grey;
-    border-radius: 5px;
-    border: 1px solid $scrollbar-grey;
-  }
 }
 
 .board {
@@ -44,6 +29,7 @@
     align-items: center;
     gap: 32px;
     input {
+      width: 240px;
       border: unset;
       border-right: 1px solid $input-border-color;
       outline: none;
@@ -55,6 +41,7 @@
       position: relative;
     }
     .input-group {
+      width: 300px;
       display: flex;
       align-items: center;
       position: relative;
@@ -69,6 +56,7 @@
       .input-icon {
         height: 32px;
         width: 32px;
+        margin-left: 10px;
       }
     }
     .btn-add-task-desktop {
@@ -176,7 +164,7 @@ dialog {
   &::-webkit-scrollbar-track {
     background: $white;
     border-radius: 2px;
-    margin: 20px 0;
+    margin: 25px 0;
   }
 
   &::-webkit-scrollbar-thumb {
@@ -238,7 +226,7 @@ dialog {
   }
 }
 
-@media (max-width: 992px) {
+@media (max-width: 1000px) {
   .board-main {
     padding: 50px 20px;
   }
@@ -285,12 +273,6 @@ dialog {
       align-items: center;
     }
     .board-actions {
-      .input-group {
-        width: 300px;
-      }
-      input {
-        width: 250px;
-      }
       .btn-add-task-desktop {
         display: none;
       }
