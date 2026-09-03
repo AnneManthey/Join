@@ -51,13 +51,18 @@
           </div>
         </div>
         <div class="task-form__input-wrapper">
-          <label class="task-form__label" for="task-detail-duedate">Due date</label>
+          <label class="task-form__label" for="task-detail-duedate" (click)="$event.preventDefault()">
+            Due date<span class="task-form__required-asterisk">&#42;</span>
+          </label>
           <input
             class="task-form__input"
             id="task-detail-duedate"
             type="date"
             formControlName="taskdetailDuedate"
           />
+          @if (taskdetailDuedate?.invalid && taskdetailDuedate?.touched) {
+            <p class="task-form__error">Please enter a due date</p>
+          }
         </div>
         <div class="task-form__input-wrapper">
           <label class="task-form__label">Priority</label>

@@ -110,7 +110,9 @@ export class EditTaskDetailDialog {
     taskdetailDescription: new FormControl('', {
       validators: Validators.maxLength(150)
     }),
-    taskdetailDuedate: new FormControl(''),
+    taskdetailDuedate: new FormControl('', {
+      validators: [Validators.required]
+    }),
     assignedTo: new FormControl(''),
     subtaskInput: new FormControl('', {
       validators: [Validators.minLength(4), Validators.maxLength(50)]
@@ -139,6 +141,13 @@ export class EditTaskDetailDialog {
   /** Checks whether the description exceeds the configured maximum character length. */
   descriptionInputTooLong() {
     return (this.taskdetailDescription?.value?.length ?? 0) > 150;
+  }
+
+  /**
+   * Returns the FormControl for the 'taskdetailDuedate' field.
+   */
+  get taskdetailDuedate() {
+    return this.taskdetailForm.get('taskdetailDuedate');
   }
 
   /**
