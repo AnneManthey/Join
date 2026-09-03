@@ -38,15 +38,16 @@
   }
 
   &::-webkit-scrollbar-track {
-    background: $white;
+    background: transparent;
     border-radius: 2px;
-    margin: 20px 0;
+    margin: 10px 0;
   }
 
   &::-webkit-scrollbar-thumb {
     background: $scrollbar-grey;
     border-radius: 5px;
     border: 1px solid $scrollbar-grey;
+    margin-bottom: 25px;
   }
 }
 
