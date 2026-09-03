@@ -295,15 +295,15 @@ h2 {
     border-radius: 10px;
     transition: all 255ms ease-in-out;
 
-    &:hover {
+    &.task-form__subtask-item--active {
       background-color: $hover-light-grey;
     }
 
-    &:hover .task-form__subtask-button {
+    &.task-form__subtask-item--active .task-form__subtask-button {
       display: block;
     }
 
-    &:hover .task-form__line {
+    &.task-form__subtask-item--active .task-form__line {
       display: block;
       border-left: 1px solid $light-grey;
       height: 20px;
@@ -336,7 +336,7 @@ h2 {
     flex-shrink: 0;
   }
 
-  &__subtask-button {
+  &__button-wrapper &__subtask-button {
     display: none;
   }
 

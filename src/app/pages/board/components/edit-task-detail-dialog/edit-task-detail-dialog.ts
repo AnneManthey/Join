@@ -53,6 +53,8 @@ export class EditTaskDetailDialog {
   /** Index of the subtask currently being edited, if any. */
   editingIndex = signal<number | null>(null);
 
+  hoveredSubtaskIndex = signal<number | null>(null);
+
   /** Whether the assigned-to contact dropdown is currently open. */
   contactDropdownOpen = signal(false);
 
@@ -198,6 +200,7 @@ export class EditTaskDetailDialog {
     }
     this.editSubtasks.update(subtasks => [...subtasks, newTask]);
     this.resetSubtask();
+    this.hoveredSubtaskIndex.set(null);
   }
 
   /**
@@ -235,6 +238,7 @@ export class EditTaskDetailDialog {
    */
   deleteEditSubtask(index: number) {
     this.editSubtasks.update(subtasks => subtasks.filter((_, i) => i !== index));
+    this.hoveredSubtaskIndex.set(null);
   }
 
   /**

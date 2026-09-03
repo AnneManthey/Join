@@ -268,7 +268,13 @@
             @for (subtask of editSubtasks(); track $index) {
               @if (editingIndex() !== $index) {
                 <ul class="task-form__ul">
-                  <li (click)="editingIndex.set($index)" class="task-form__subtask-item">
+                  <li
+                    (click)="editingIndex.set($index)"
+                    (mouseenter)="hoveredSubtaskIndex.set($index)"
+                    (mouseleave)="hoveredSubtaskIndex.set(null)"
+                    class="task-form__subtask-item"
+                    [class.task-form__subtask-item--active]="hoveredSubtaskIndex() === $index"
+                  >
                     <span class="task-form__subtask-content">
                       <span class="task-form__subtask-bullet">&#x2022;</span>
                       <span class="task-form__subtask-text">{{ subtask }}</span>
