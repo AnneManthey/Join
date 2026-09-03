@@ -278,17 +278,22 @@ h2 {
     right: 36px;
   }
 
+  &__subtask-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 8px;
+  }
+
   &__ul {
     list-style: none;
-    margin: 0;
-    padding: 8px 0 0 0;
   }
 
   &__subtask-item {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height: 30px;
+    min-height: 30px;
     gap: 8px;
     padding: 6px 16px;
     cursor: pointer;

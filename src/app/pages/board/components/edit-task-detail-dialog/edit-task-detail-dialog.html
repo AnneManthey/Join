@@ -265,6 +265,7 @@
                 {{ subtaskInput?.value?.length ?? 0 }} / 50
               </p>
             </div>
+            <div class="task-form__subtask-list">
             @for (subtask of editSubtasks(); track $index) {
               @if (editingIndex() !== $index) {
                 <ul class="task-form__ul">
@@ -404,6 +405,7 @@
                 </div>
               }
             }
+            </div>
           </div>
         </div>
         </div>
