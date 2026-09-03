@@ -83,7 +83,7 @@
 h2 {
   font-family: 'Inter';
   font-weight: 700;
-  font-size: 61px;
+  font-size: 3.8125rem;
   line-height: 120%;
   max-width: 100%;
   overflow-wrap: break-word;
@@ -106,9 +106,9 @@ h2 {
   padding: 0;
   border: none;
   background: transparent;
-  color: #2a3647;
+  color: $dark-blue;
   font-family: 'Inter', sans-serif;
-  font-size: 24px;
+  font-size: 1.5rem;
   line-height: 1;
   cursor: pointer;
   display: flex;
@@ -116,23 +116,23 @@ h2 {
   justify-content: center;
   &:hover {
     border-radius: 50%;
-    background-color: #D9D9D9;
+    background-color: $hover-grey;
   }
 }
 
 .dialog-badge {
   width: fit-content;
-  color: white;
+  color: $white;
   padding: 4px 16px;
   border-radius: 8px;
 
   font-family: 'Inter', sans-serif;
   font-weight: 400;
-  font-size: 23px;
+  font-size: 1.4375rem;
   line-height: 120%;
 
   &.user_story {
-    background-color: #0038ff;
+    background-color: $task-cat-user;
   }
 
   &.technical_task {
@@ -144,7 +144,7 @@ h2 {
   font-family: 'Inter', sans-serif;
   font-weight: 400;
   font-style: normal;
-  font-size: 20px;
+  font-size: 1.25rem;
   line-height: 120%;
   letter-spacing: 0;
 }
@@ -166,9 +166,9 @@ h2 {
 .subtasks-label {
   font-family: 'Inter', sans-serif;
   font-weight: 400;
-  font-size: 20px;
+  font-size: 1.25rem;
   line-height: 120%;
-  color: #42526e;
+  color: $menu-color;
 }
 
 .priority {
@@ -194,8 +194,8 @@ h2 {
 .due-date-value {
   font-family: 'Inter', sans-serif;
   font-weight: 400;
-  font-size: 19px;
-  color: black;
+  font-size: 1.1875rem;
+  color: $black;
 }
 
 .priority-icon {
@@ -216,8 +216,8 @@ h2 {
 
 .assignee-name {
   font-family: 'Inter', sans-serif;
-  font-size: 16px;
-  color: black;
+  font-size: 1rem;
+  color: $black;
 }
 
 
@@ -253,7 +253,7 @@ h2 {
   max-width: 100%;
 
   &:hover {
-    background-color: #EEEEEE;
+    background-color: $hover-light-grey;
   }
 }
 
@@ -266,8 +266,8 @@ h2 {
 
 .subtask-title {
   font-family: 'Inter', sans-serif;
-  font-size: 16px;
-  color: black;
+  font-size: 1rem;
+  color: $black;
   min-width: 0;
   overflow-wrap: anywhere;
   word-break: break-word;
@@ -284,7 +284,7 @@ h2 {
   width: 1px;
   height: 24px;
   margin: 0 8px;
-  background: #d1d1d1;
+  background: $light-grey;
   transition: opacity 0.15s ease;
 }
 
@@ -300,8 +300,8 @@ h2 {
   background: transparent;
   cursor: pointer;
   font-family: 'Inter', sans-serif;
-  font-size: 16px;
-  color: #2a3647;
+  font-size: 1rem;
+  color: $dark-blue;
 
   img {
     width: 24px;
@@ -327,23 +327,23 @@ h2 {
   }
 
   h2 {
-    font-size: 36px;
-    color: black;
+    font-size: 2.25rem;
+    color: $black;
   }
 
   .dialog-description {
-    font-size: 16px;
+    font-size: 1rem;
   }
 
   .due-date-label,
   .priority,
   .assigned-to,
   .subtasks-label {
-    font-size: 16px;
+    font-size: 1rem;
   }
 
   .due-date-value {
-    font-size: 16px;
+    font-size: 1rem;
   }
 
   .task-card-assignee {
@@ -352,14 +352,10 @@ h2 {
 
   .dialog-assignees {
     gap: 18px;
-    // .dialog-scrollable's gap is 16px; pull this up by 1px so the
-    // assigned-to-to-first-circle gap is 15px on mobile.
     margin-top: -1px;
   }
 
   .subtasks-label {
-    // .dialog-scrollable's gap is 16px; push this down by 7px so the
-    // last-circle-to-subtasks gap is 23px on mobile.
     margin-top: 7px;
   }
 }
