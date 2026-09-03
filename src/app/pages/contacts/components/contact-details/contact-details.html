@@ -15,7 +15,7 @@
         <div class="contact-details__name-button-wrapper">
             <p class="contact-details__name">{{ c.contact_name }}</p>
             <div class="contact-details__button-wrapper">
-                <button class="contact-details__button" (click)="openEditContactDialog()">
+                <button class="contact-details__button contact-details__button--contacts" (click)="openEditContactDialog()">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <mask id="mask0_69718_4858" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
                             width="24" height="24">
@@ -28,7 +28,7 @@
                         </g>
                     </svg>
                     Edit</button>
-                <button class="contact-details__button" (click)="deleteContact()">
+                <button class="contact-details__button contact-details__button--contacts" (click)="deleteContact()">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <mask id="mask0_71348_10269" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
                             width="24" height="24">
@@ -52,7 +52,7 @@
     }
     <div class="contact-details__responsive-options">
         <div class="contact-details__options-wrapper" [class.d-flex]="optionsOpen">
-            <button class="contact-details__button" (click)="openEditContactDialog()">
+            <button class="contact-details__button contact-details__button--contacts" (click)="openEditContactDialog()">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <mask id="mask0_69718_4858" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
                         width="24" height="24">
@@ -65,7 +65,7 @@
                     </g>
                 </svg>
                 Edit</button>
-            <button class="contact-details__button" (click)="deleteContact()">
+            <button class="contact-details__button contact-details__button--contacts" (click)="deleteContact()">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <mask id="mask0_71348_10269" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
                         width="24" height="24">

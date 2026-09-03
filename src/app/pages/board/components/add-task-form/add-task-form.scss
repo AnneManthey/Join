@@ -64,9 +64,33 @@
     overflow-y: scroll;
   }
 
+  &__textarea {
+    resize: none;
+  }
+
   &__input,
   &__select {
     height: 48px;
+  }
+
+  &__input.ng-invalid.ng-touched,
+  &__textarea.ng-invalid.ng-touched,
+  &__input--invalid {
+    border-color: $red;
+  }
+
+  &__input-footer {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__length {
+    color: $light-grey;
+    justify-self: flex-end;
+
+    &-error {
+      color: $red;
+    }
   }
 
   &__input[type='date'] {
@@ -191,6 +215,7 @@
     position: relative;
     display: flex;
     align-items: center;
+    margin-bottom: 2px;
   }
 
   &__subtask-input-wrapper .task-form__input {
@@ -277,6 +302,10 @@
     width: 100%;
     font-size: 1rem;
     font-family: Inter;
+
+    &:focus-visible {
+      outline: none;
+    }
   }
 
   &__button-wrapper {
@@ -317,6 +346,7 @@
     background-color: $dark-blue;
     color: $white;
     font-weight: 700;
+    border: none;
 
     &:hover,
     &:active {
