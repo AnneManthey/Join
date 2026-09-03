@@ -3,13 +3,13 @@
     <main class="dialog-content" (click)="$event.stopPropagation()">
       <form [formGroup]="taskdetailForm" (ngSubmit)="onEditSubmit()">
         <div class="dialog-header">
-          <label class="task-form__label" for="task-detail-title">Title</label>
           <button class="dialog-close" type="button" (click)="closeDialog()">&times;</button>
         </div>
 
         <div class="dialog-body">
         <div class="dialog-scrollable" #scrollableEl (scroll)="onScroll()">
         <div class="task-form__input-wrapper">
+          <label class="task-form__label" for="task-detail-title">Title</label>
           <input
             class="task-form__input"
             id="task-detail-title"
