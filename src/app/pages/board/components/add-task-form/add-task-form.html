@@ -9,7 +9,7 @@
                     formControlName="title" placeholder="Enter a title"
                     (keydown.enter)="$event.preventDefault()"></textarea>
 
-                @if (!title?.valid && title?.touched) {
+                @if (title?.invalid && title?.touched) {
                 <p class="task-form__error">Please enter between 4 - 100 characters</p>
                 }
             </div>
@@ -18,7 +18,7 @@
                 <label class="task-form__label" for="description">Description</label>
                 <textarea class="task-form__textarea" rows="5" id="description" name="description"
                     formControlName="description" placeholder="Enter a description"></textarea>
-                @if (!description?.valid && description?.touched) {
+                @if (description?.invalid && description?.touched) {
                 <p class="task-form__error">Please shorten your text to 150 characters or fewer.</p>
                 }
             </div>
@@ -27,7 +27,7 @@
                 <label class="task-form__label" for="dueDate">Due Date<span
                         class="task-form__required-asterisk">&#42;</span></label>
                 <input class="task-form__input" id="dueDate" type="date" name="dueDate" formControlName="due_date">
-                @if (!duedate?.valid && duedate?.touched) {
+                @if (duedate?.invalid && duedate?.touched) {
                 <p class="task-form__error">Please enter a due date</p>
                 }
             </div>
@@ -150,7 +150,9 @@
                     <div class="task-form__dropdown-trigger-wrapper">
                         <input class="task-form__input task-form__dropdown-trigger" id="categoryTrigger" type="text"
                             readonly [value]="selectedCategoryLabel()" placeholder="Select task category"
-                            (click)="categoryDropdownOpen.set(!categoryDropdownOpen())">
+                            (click)="toggleCategoryDropdown()" [class.ng-invalid]="category?.invalid"
+                            [class.task-form__input--invalid]="category?.invalid && category?.touched"
+                            (mousedown)="$event.preventDefault()">
                         <svg class="task-form__dropdown-arrow"
                             [class.task-form__dropdown-arrow--open]="categoryDropdownOpen()" width="8" height="5"
                             viewBox="0 0 8 5" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -170,7 +172,7 @@
                     </div>
                     }
                 </div>
-                @if (!category?.valid && category?.touched) {
+                @if (category?.invalid && category?.touched) {
                 <p class="task-form__error">Please choose a category</p>
                 }
             </div>

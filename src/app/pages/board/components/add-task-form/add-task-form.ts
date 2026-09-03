@@ -33,9 +33,12 @@ export class AddTaskForm {
 
   /** Returns the translated label for the currently selected task category. */
   selectedCategoryLabel = computed(() => {
-    const value = this.category?.value;
+    const value = this.selectedCategory();
     return value === 'user_story' ? 'User Story' : value === 'technical_task' ? 'Technical Task' : '';
   });
+
+  private selectedCategory = signal<Task['category'] | ''>('');
+
 
   /** Indicates whether the contact selection dropdown menu is open. */
   contactDropdownOpen = signal(false);
@@ -83,8 +86,19 @@ export class AddTaskForm {
    * @param value The category value to assign to the task.
    */
   setCategory(value: Task['category']) {
-    this.taskForm.get('category')?.setValue(value);
+    this.category?.setValue(value);
+    this.category?.markAsTouched();
+    this.selectedCategory.set(value);
     this.categoryDropdownOpen.set(false);
+  }
+
+  toggleCategoryDropdown() {
+    if (this.categoryDropdownOpen()) {
+      this.categoryDropdownOpen.set(false);
+      this.category?.markAsTouched();
+    } else {
+      this.categoryDropdownOpen.set(true);
+    }
   }
 
   /** Main form group for all task fields and validation rules. */

@@ -69,6 +69,12 @@
     height: 48px;
   }
 
+  &__input.ng-invalid.ng-touched,
+  &__textarea.ng-invalid.ng-touched,
+  &__input--invalid {
+    border-color: $red;
+  }
+
   &__input[type='date'] {
     appearance: none;
     position: relative;
