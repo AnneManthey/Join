@@ -194,6 +194,10 @@ h2 {
       outline: none;
       border-color: $light-grey;
     }
+
+    &.ng-invalid.ng-touched {
+      border-color: $red;
+    }
   }
 
   &__input--description {
