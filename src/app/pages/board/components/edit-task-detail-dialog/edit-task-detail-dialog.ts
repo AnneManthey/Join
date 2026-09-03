@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, computed, effect, inject, input, output, signal, viewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, HostListener, QueryList, ViewChildren, computed, effect, inject, input, output, signal, viewChild } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Task } from '../../../../shared/interfaces/task';
 import { SupabaseService } from '../../../../shared/services/supabase-service';
@@ -43,6 +43,12 @@ export class EditTaskDetailDialog implements AfterViewInit {
 
   /** Function for color mapping of contacts. */
   getColor = getColor;
+
+  /** References to the currently rendered subtask-edit wrappers, used to detect outside clicks. */
+  @ViewChildren('subtaskEditWrapper') subtaskEditWrappers!: QueryList<ElementRef<HTMLElement>>;
+
+  /** References to the currently rendered subtask-edit inputs, used to save on outside clicks. */
+  @ViewChildren('editInput') editInputs!: QueryList<ElementRef<HTMLTextAreaElement>>;
 
   /** Reference to the scrollable content element. */
   scrollableEl = viewChild<ElementRef<HTMLDivElement>>('scrollableEl');
@@ -266,6 +272,28 @@ export class EditTaskDetailDialog implements AfterViewInit {
    */
   resetSubtask() {
     this.subtaskInput?.reset();
+  }
+
+  /** Checks whether the subtask input exceeds the configured maximum character length. */
+  subtaskInputTooLong() {
+    return (this.subtaskInput?.value?.length ?? 0) > 50;
+  }
+
+  /** Saves an in-progress subtask edit when the user clicks outside of it. */
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent) {
+    const index = this.editingIndex();
+    if (index === null) return;
+
+    const wrapper = this.subtaskEditWrappers.first;
+    const clickedInside = wrapper?.nativeElement.contains(event.target as Node);
+    if (!clickedInside) {
+      const input = this.editInputs.first;
+      if (input) {
+        this.updateEditSubtask(index, input.nativeElement.value);
+      }
+      this.editingIndex.set(null);
+    }
   }
 
   /**

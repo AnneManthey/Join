@@ -276,10 +276,29 @@ h2 {
     position: relative;
     display: flex;
     align-items: center;
+    margin-bottom: 2px;
   }
 
   &__input--subtasks {
     padding-right: 64px;
+  }
+
+  &__input-footer {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__length {
+    color: $light-grey;
+    justify-self: flex-end;
+
+    &-error {
+      color: $red;
+    }
+  }
+
+  &__error {
+    color: $red;
   }
 
   &__subtask-cancel,
@@ -311,10 +330,12 @@ h2 {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    height: 30px;
+    gap: 8px;
     padding: 6px 16px;
     cursor: pointer;
     border-radius: 10px;
-    transition: background-color 255ms ease-in-out;
+    transition: all 255ms ease-in-out;
 
     &:hover {
       background-color: $hover-light-grey;
@@ -331,10 +352,30 @@ h2 {
     }
   }
 
+  &__subtask-content {
+    display: flex;
+    align-items: flex-start;
+    gap: 6px;
+    min-width: 0;
+    flex: 1 1 auto;
+  }
+
+  &__subtask-bullet {
+    flex-shrink: 0;
+  }
+
+  &__subtask-text {
+    flex: 1 1 auto;
+    min-width: 0;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+
   &__button-wrapper {
     display: flex;
     align-items: center;
     gap: 8px;
+    flex-shrink: 0;
   }
 
   &__subtask-button {
