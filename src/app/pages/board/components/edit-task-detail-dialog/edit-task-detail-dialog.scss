@@ -28,6 +28,7 @@
   form {
     display: flex;
     flex-direction: column;
+    gap: 16px;
     flex: 1 1 auto;
     min-height: 0;
   }
@@ -552,8 +553,12 @@ h2 {
   .dialog-content {
     width: min(525px, calc(100vw - 32px));
     max-width: calc(100vw - 32px);
-    padding: 80px 24px 96px 24px;
+    padding: 80px 12px 32px 24px;
     gap: 0;
+
+    form {
+      gap: 0;
+    }
   }
 
   .dialog-close {
@@ -567,5 +572,42 @@ h2 {
     font-weight: 400;
     line-height: 120%;
     color: black;
+  }
+
+  #task-detail-title {
+    min-height: 40px;
+    padding: 10px 21px;
+  }
+
+  .dialog-scrollable::-webkit-scrollbar-track {
+    // Label line-height (16px * 120% = ~19px) + its 8px margin-bottom,
+    // so the scrollbar starts level with the top of the title input
+    // at the smaller mobile label size (was 32px for the desktop label).
+    margin-top: 27px;
+  }
+
+  .task-form__input {
+    line-height: 120%;
+  }
+
+  .task-form__input--description {
+    height: 88px;
+  }
+
+  .priority-button {
+    width: 104px;
+    height: 41px;
+    flex: none;
+  }
+
+  // No hover on touch devices, so keep the edit/delete controls
+  // permanently visible instead of gating them behind :hover/--active.
+  .task-form__button-wrapper .task-form__subtask-button {
+    display: block;
+  }
+
+  .task-form__line {
+    border-left: 1px solid $light-grey;
+    height: 20px;
   }
 }

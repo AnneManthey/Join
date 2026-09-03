@@ -1,5 +1,6 @@
 import { Component, ElementRef, HostListener, QueryList, ViewChildren, computed, effect, inject, input, output, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { DatePipe } from '@angular/common';
 import { Task } from '../../../../shared/interfaces/task';
 import { SupabaseService } from '../../../../shared/services/supabase-service';
 import { SupabaseTaskService } from '../../../../shared/services/supabase-task-service';
@@ -13,10 +14,13 @@ import { getColor } from '../../../../shared/utils/contacts-helper';
 @Component({
   selector: 'app-edit-task-detail-dialog',
   imports: [ReactiveFormsModule, GetInitialsPipe],
+  providers: [DatePipe],
   templateUrl: './edit-task-detail-dialog.html',
   styleUrl: './edit-task-detail-dialog.scss',
 })
 export class EditTaskDetailDialog {
+  private datePipe = inject(DatePipe);
+
   /** Controls whether the dialog is open or closed. */
   isOpen = input.required<boolean>();
 
@@ -176,7 +180,7 @@ export class EditTaskDetailDialog {
       this.taskdetailForm.patchValue({
         taskdetailName: currentTask.title,
         taskdetailDescription: currentTask.description,
-        taskdetailDuedate: currentTask.due_date,
+        taskdetailDuedate: this.datePipe.transform(currentTask.due_date, 'yyyy-MM-dd'),
       });
       this.selectedPriority.set(currentTask.priority);
       this.supabaseTaskService.currentTaskId = currentTask.id;
