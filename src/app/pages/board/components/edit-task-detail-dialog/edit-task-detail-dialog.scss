@@ -28,7 +28,6 @@
   form {
     display: flex;
     flex-direction: column;
-    gap: 16px;
     flex: 1 1 auto;
     min-height: 0;
   }
@@ -553,5 +552,20 @@ h2 {
   .dialog-content {
     width: min(525px, calc(100vw - 32px));
     max-width: calc(100vw - 32px);
+    padding: 80px 24px 96px 24px;
+    gap: 0;
+  }
+
+  .dialog-close {
+    position: absolute;
+    top: 36px;
+    right: 28px;
+  }
+
+  .task-form__label {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 120%;
+    color: black;
   }
 }
