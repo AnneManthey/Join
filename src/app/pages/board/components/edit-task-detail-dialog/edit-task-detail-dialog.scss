@@ -617,6 +617,10 @@ h2 {
     border-left: 1px solid $light-grey;
     height: 20px;
   }
+
+  .task-form__subtask-item.task-form__subtask-item--active {
+    background-color: transparent;
+  }
 }
 
 @media (max-width: 400px) {
