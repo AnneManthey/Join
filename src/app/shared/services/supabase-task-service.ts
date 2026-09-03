@@ -33,7 +33,6 @@ export class SupabaseTaskService {
 
     /** Initializes the service and starts loading tasks and realtime subscriptions. */
     constructor() {
-        console.log('Service initialized');
         this.subscribeToChanges();
         this.getTasks();
     }
@@ -53,7 +52,6 @@ export class SupabaseTaskService {
             contacts:ContactList (*)
         )
         `);
-        console.log('data:', data)
         if (error) {
             console.error(error);
             return;
@@ -486,7 +484,7 @@ export class SupabaseTaskService {
             .insert(insertSubtasks)
             .select();
         if (error) {
-            console.error('Keine subtasks angekommen');
+            console.error('No subtasks recieved');
             return false;
         }
         this.assignedSubtasks.set([]);
