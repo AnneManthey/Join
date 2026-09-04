@@ -309,13 +309,11 @@ h2 {
     }
 
     &.task-form__subtask-item--active .task-form__subtask-button {
-      display: block;
+      visibility: visible;
     }
 
     &.task-form__subtask-item--active .task-form__line {
-      display: block;
-      border-left: 1px solid $light-grey;
-      height: 20px;
+      visibility: visible;
     }
   }
 
@@ -348,11 +346,13 @@ h2 {
   }
 
   &__button-wrapper &__subtask-button {
-    display: none;
+    visibility: hidden;
   }
 
   &__line {
-    display: none;
+    visibility: hidden;
+    border-left: 1px solid $light-grey;
+    height: 20px;
 
     &-edit {
       border-left: 1px solid $light-grey;
@@ -612,10 +612,11 @@ h2 {
   }
 
   .task-form__button-wrapper .task-form__subtask-button {
-    display: block;
+    visibility: visible;
   }
 
   .task-form__line {
+    visibility: visible;
     border-left: 1px solid $light-grey;
     height: 20px;
   }
