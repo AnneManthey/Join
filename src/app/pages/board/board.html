@@ -51,7 +51,7 @@
   </div>
 </div>
 
-<dialog #addTaskDialog class="add-task-dialog" (click)="closeAddTaskDialogOnBackdrop($event)">
+<dialog #addTaskDialog class="add-task-dialog" [class.is-mobile]="isMobileViewport()" (click)="closeAddTaskDialogOnBackdrop($event)">
   <div class="btn-wrapper">
     <button type="button" aria-label="Close add task dialog" (click)="closeAddTaskDialog()"><svg width="24" height="24"
         viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">

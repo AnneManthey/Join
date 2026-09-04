@@ -65,21 +65,32 @@
     top: 36px;
     right: 12px;
     min-width: 140px;
-    border-radius: 10px;
-    background-color: $white;
+    padding: 8px;
+    border-radius: 24px;
+    border-top-left-radius: 0px;
+    background-color: $dark-blue;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    p {
+      padding: 10px 12px;
+      text-align: center;
+      color: $off-white;
+      font-weight: bold;
+      font-family: 'Inter', sans-serif;
+    }
     button {
       padding: 10px 12px;
       border: 0;
-      border-radius: 10px;
+      border-radius: 30px;
+      min-width: 130px;
       background: transparent;
       text-align: left;
-      color: $dark-blue;
-      font-weight: bold;
+      color: $off-white;
       font-family: 'Inter', sans-serif;
       cursor: pointer;
       &:hover {
-        background-color: $off-white;
+        background-color: $denim-dark;
+        color: $white;
+        font-weight: bold;
       }
     }
   }
@@ -125,9 +136,11 @@
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
-    transition: opacity 150ms ease, visibility 150ms ease;
-    p{
-      color:$off-white;
+    transition:
+      opacity 150ms ease,
+      visibility 150ms ease;
+    p {
+      color: $off-white;
       font-size: 1rem;
     }
   }
@@ -167,8 +180,8 @@
   }
 }
 
-@media (max-width: 1250px){
-  .task-card{
+@media (max-width: 1250px) {
+  .task-card {
     min-width: 200px;
   }
 }

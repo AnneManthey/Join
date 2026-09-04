@@ -57,6 +57,7 @@
         height: 32px;
         width: 32px;
         margin-left: 10px;
+        cursor: pointer;
       }
     }
     .btn-add-task-desktop {
@@ -132,9 +133,7 @@ dialog {
 .add-task-dialog {
   font-family: Inter;
   position: fixed;
-  transform: translate(-50%, -50%);
   width: 1200px;
-
   border-radius: 30px;
   --dialog-animation-duration: 400ms;
   border: none;
@@ -149,8 +148,16 @@ dialog {
     animation: add-task-dialog-enter var(--dialog-animation-duration) ease-out forwards;
   }
 
+  &.is-mobile[open] {
+    animation: add-task-dialog-enter-mobile var(--dialog-animation-duration) ease-out forwards;
+  }
+
   &--closing {
     animation: add-task-dialog-exit var(--dialog-animation-duration) ease-in forwards !important;
+  }
+
+  &.is-mobile.add-task-dialog--closing {
+    animation: add-task-dialog-exit-mobile var(--dialog-animation-duration) ease-in forwards !important;
   }
 
   &::backdrop {
@@ -174,11 +181,11 @@ dialog {
   }
 }
 
+
 @keyframes add-task-dialog-enter {
   from {
     transform: translateX(100%);
   }
-
   to {
     transform: translateX(0);
   }
@@ -188,7 +195,6 @@ dialog {
   from {
     transform: translateX(0);
   }
-
   to {
     transform: translateX(100%);
   }
@@ -198,7 +204,6 @@ dialog {
   from {
     transform: translateY(100%);
   }
-
   to {
     transform: translateY(0);
   }
@@ -208,7 +213,6 @@ dialog {
   from {
     transform: translateY(0);
   }
-
   to {
     transform: translateY(100%);
   }
@@ -235,17 +239,6 @@ dialog {
     gap: 1.5rem;
     justify-content: center;
     align-items: flex-start;
-  }
-  .add-task-dialog {
-    --dialog-animation-duration: 400ms;
-
-    &[open] {
-      animation: add-task-dialog-enter-mobile var(--dialog-animation-duration) ease-out forwards;
-    }
-
-    &--closing {
-      animation: add-task-dialog-exit-mobile var(--dialog-animation-duration) ease-in forwards !important;
-    }
   }
 }
 
@@ -282,9 +275,10 @@ dialog {
 
 @media (max-width: 650px) {
   .add-task-dialog {
-    --dialog-animation-duration: 1ms;
     width: 100%;
+    max-width: 100%;
     height: 100dvh;
+    max-height: 100dvi;
     border-radius: 0px;
   }
 }

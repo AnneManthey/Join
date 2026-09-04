@@ -4,6 +4,7 @@
   </button>
   @if (isMoveMenuOpen()) {
   <div class="move-task-menu" role="menu">
+    <p>Move to</p>
     @for (option of moveOptions(); track option.id) {
     <button type="button" role="menuitem" (click)="moveTask(option.id, $event)">{{ option.title }}</button>
     }
