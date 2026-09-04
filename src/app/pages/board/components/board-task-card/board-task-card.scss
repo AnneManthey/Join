@@ -42,17 +42,22 @@
 .task-card-title {
   overflow: hidden;
   text-overflow: ellipsis;
-  white-space: nowrap; // Titel = 1 Zeile
+  white-space: nowrap;
 }
 
 .task-card-description {
   display: -webkit-box;
   -webkit-line-clamp: 2;
-  line-clamp: 2; // Standard-Property für Kompatibilität
+  line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
   word-break: break-word;
+}
+
+.task-card-avatar-more {
+  background-color: $gray-medium;
+  font-weight: 700;
 }
 
 .move-task-button,

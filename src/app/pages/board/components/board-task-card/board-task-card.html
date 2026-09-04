@@ -30,10 +30,15 @@
   }
   <footer class="task-footer">
     <div class="task-card-avatars">
-      @for (tc of task().task_contacts; track tc.contact_id) {
+      @for (tc of visibleContacts(); track tc.contact_id) {
       <span class="task-card-avatar" [style.background-color]="getColor(tc.contacts.contact_name)"
         [title]="tc.contacts.contact_name">
         {{ tc.contacts.contact_name | getInitials }}
+      </span>
+      }
+      @if (hiddenContactsCount() > 0) {
+      <span class="task-card-avatar task-card-avatar-more" [title]="hiddenContactsCount() + ' more'">
+        +{{ hiddenContactsCount() }}
       </span>
       }
     </div>
