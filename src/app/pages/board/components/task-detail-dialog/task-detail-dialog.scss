@@ -380,7 +380,7 @@ h2 {
   }
 }
 
-@media (hover: none) and (orientation: landscape) {
+@media (hover: none) and (orientation: landscape) and (max-height: 600px) {
   .dialog-content {
     display: none;
   }
