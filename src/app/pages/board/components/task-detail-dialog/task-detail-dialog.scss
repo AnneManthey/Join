@@ -380,3 +380,19 @@ h2 {
   }
 }
 
+@media (hover: none) and (orientation: landscape) {
+  .dialog-content {
+    display: none;
+  }
+
+  .dialog-overlay::after {
+    content: 'Please turn your device';
+    color: $white;
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 1.25rem;
+    text-align: center;
+    padding: 0 24px;
+  }
+}
+
