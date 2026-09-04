@@ -331,6 +331,8 @@
 
   &__button {
     width: fit-content;
+    justify-content: center;
+    align-items: center;
     padding: 16px;
     border-radius: 10px;
     font-family: Inter;
