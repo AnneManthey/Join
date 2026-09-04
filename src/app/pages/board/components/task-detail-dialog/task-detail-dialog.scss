@@ -52,7 +52,6 @@
 }
 
 .dialog-body {
-  position: relative;
   display: flex;
   flex: 1 1 auto;
   min-height: 0;
@@ -65,64 +64,26 @@
   flex: 1 1 auto;
   min-height: 0;
   width: 100%;
-  padding-right: 32px;
+  padding-right: 12px;
   overflow-y: auto;
 
-  scrollbar-width: none;
+  scrollbar-color: $scrollbar-grey transparent;
 
-  &::-webkit-scrollbar {
-    display: none;
+  &::-webkit-scrollbar-track {
+    background: transparent;
+    margin-top: 20px;
   }
-}
 
-.custom-scrollbar {
-  position: absolute;
-  top: 20px;
-  bottom: 0;
-  right: 8px;
-  width: 10px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-}
-
-.scrollbar-arrow {
-  flex-shrink: 0;
-  width: 10px;
-  padding: 0;
-  border: none;
-  background: transparent;
-  cursor: pointer;
-
-  img {
-    display: block;
-    width: 100%;
-  }
-}
-
-.scrollbar-track {
-  position: relative;
-  flex: 1 1 auto;
-  width: 10px;
-}
-
-.scrollbar-thumb {
-  position: absolute;
-  left: 0;
-  width: 10px;
-  background-color: #A8A8A8;
-  border-radius: 8px;
-
-  &:hover {
-    background-color: #b0b0b0;
+  &::-webkit-scrollbar-thumb {
+    background: $scrollbar-grey;
+    border-radius: 5px;
   }
 }
 
 h2 {
   font-family: 'Inter';
   font-weight: 700;
-  font-size: 61px;
+  font-size: 3.8125rem;
   line-height: 120%;
   max-width: 100%;
   overflow-wrap: break-word;
@@ -141,12 +102,13 @@ h2 {
 .dialog-close {
   width: 24px;
   height: 24px;
+  margin-right: -4px;
   padding: 0;
   border: none;
   background: transparent;
-  color: #2a3647;
+  color: $dark-blue;
   font-family: 'Inter', sans-serif;
-  font-size: 24px;
+  font-size: 1.5rem;
   line-height: 1;
   cursor: pointer;
   display: flex;
@@ -154,23 +116,23 @@ h2 {
   justify-content: center;
   &:hover {
     border-radius: 50%;
-    background-color: #D9D9D9;
+    background-color: $hover-grey;
   }
 }
 
 .dialog-badge {
   width: fit-content;
-  color: white;
+  color: $white;
   padding: 4px 16px;
   border-radius: 8px;
 
   font-family: 'Inter', sans-serif;
   font-weight: 400;
-  font-size: 23px;
+  font-size: 1.4375rem;
   line-height: 120%;
 
   &.user_story {
-    background-color: #0038ff;
+    background-color: $task-cat-user;
   }
 
   &.technical_task {
@@ -182,7 +144,7 @@ h2 {
   font-family: 'Inter', sans-serif;
   font-weight: 400;
   font-style: normal;
-  font-size: 20px;
+  font-size: 1.25rem;
   line-height: 120%;
   letter-spacing: 0;
 }
@@ -204,9 +166,9 @@ h2 {
 .subtasks-label {
   font-family: 'Inter', sans-serif;
   font-weight: 400;
-  font-size: 20px;
+  font-size: 1.25rem;
   line-height: 120%;
-  color: #42526e;
+  color: $menu-color;
 }
 
 .priority {
@@ -232,8 +194,8 @@ h2 {
 .due-date-value {
   font-family: 'Inter', sans-serif;
   font-weight: 400;
-  font-size: 19px;
-  color: black;
+  font-size: 1.1875rem;
+  color: $black;
 }
 
 .priority-icon {
@@ -254,8 +216,8 @@ h2 {
 
 .assignee-name {
   font-family: 'Inter', sans-serif;
-  font-size: 16px;
-  color: black;
+  font-size: 1rem;
+  color: $black;
 }
 
 
@@ -282,7 +244,7 @@ h2 {
 
 .subtask-row {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 16px;
   cursor: pointer;
   padding: 4px 8px;
@@ -291,7 +253,7 @@ h2 {
   max-width: 100%;
 
   &:hover {
-    background-color: #EEEEEE;
+    background-color: $hover-light-grey;
   }
 }
 
@@ -299,12 +261,16 @@ h2 {
   width: 24px;
   height: 24px;
   object-fit: contain;
+  flex-shrink: 0;
 }
 
 .subtask-title {
   font-family: 'Inter', sans-serif;
-  font-size: 16px;
-  color: black;
+  font-size: 1rem;
+  color: $black;
+  min-width: 0;
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
 .dialog-actions {
@@ -318,7 +284,7 @@ h2 {
   width: 1px;
   height: 24px;
   margin: 0 8px;
-  background: #d1d1d1;
+  background: $light-grey;
   transition: opacity 0.15s ease;
 }
 
@@ -334,8 +300,8 @@ h2 {
   background: transparent;
   cursor: pointer;
   font-family: 'Inter', sans-serif;
-  font-size: 16px;
-  color: #2a3647;
+  font-size: 1rem;
+  color: $dark-blue;
 
   img {
     width: 24px;
@@ -348,4 +314,49 @@ h2 {
   }
 }
 
+@media (max-width: 550px) {
+  .dialog-content {
+    width: min(525px, calc(100vw - 32px));
+    max-width: calc(100vw - 32px);
+    padding: 34px 24px 34px 24px;
+    gap: 16px;
+  }
+
+  .dialog-scrollable {
+    gap: 16px;
+  }
+
+  h2 {
+    font-size: 2.25rem;
+    color: $black;
+  }
+
+  .dialog-description {
+    font-size: 1rem;
+  }
+
+  .due-date-label,
+  .priority,
+  .assigned-to,
+  .subtasks-label {
+    font-size: 1rem;
+  }
+
+  .due-date-value {
+    font-size: 1rem;
+  }
+
+  .task-card-assignee {
+    border: 2px solid white;
+  }
+
+  .dialog-assignees {
+    gap: 18px;
+    margin-top: -1px;
+  }
+
+  .subtasks-label {
+    margin-top: 7px;
+  }
+}
 

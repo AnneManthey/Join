@@ -16,9 +16,9 @@
   gap: 16px;
 
   position: relative;
-  background: white;
+  background: $white;
   border-radius: 30px;
-  padding: 88px 40px 32px 40px;
+  padding: 48px 40px 32px 40px;
   max-width: 525px;
   width: 90%;
   max-height: 750px;
@@ -28,21 +28,35 @@
   form {
     display: flex;
     flex-direction: column;
+    gap: 16px;
     flex: 1 1 auto;
     min-height: 0;
+  }
+}
+
+.dialog-content--closing {
+  animation: edit-task-detail-slide-out 0.3s ease-in forwards;
+}
+
+@keyframes edit-task-detail-slide-out {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(100%);
   }
 }
 
 .dialog-header {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-end;
   width: 100%;
   flex-shrink: 0;
 }
 
 .dialog-body {
-  position: relative;
   display: flex;
   flex: 1 1 auto;
   min-height: 0;
@@ -54,79 +68,49 @@
   flex: 1 1 auto;
   min-height: 0;
   width: 100%;
-  padding-right: 32px;
+  padding-right: 12px;
   overflow-y: auto;
 
-  scrollbar-width: none;
+  scrollbar-color: $scrollbar-grey transparent;
 
-  &::-webkit-scrollbar {
-    display: none;
+  &::-webkit-scrollbar-track {
+    background: transparent;
+    margin-top: 32px;
   }
-}
 
-.custom-scrollbar {
-  position: absolute;
-  top: -20px;
-  bottom: 0;
-  right: -8px;
-  width: 10px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-}
-
-.scrollbar-arrow {
-  flex-shrink: 0;
-  width: 10px;
-  padding: 0;
-  border: none;
-  background: transparent;
-  cursor: pointer;
-
-  img {
-    display: block;
-    width: 100%;
-  }
-}
-
-.scrollbar-track {
-  position: relative;
-  flex: 1 1 auto;
-  width: 10px;
-}
-
-.scrollbar-thumb {
-  position: absolute;
-  left: 0;
-  width: 10px;
-  background-color: #A8A8A8;
-  border-radius: 8px;
-
-  &:hover {
-    background-color: #b0b0b0;
+  &::-webkit-scrollbar-thumb {
+    background: $scrollbar-grey;
+    border-radius: 5px;
   }
 }
 
 h2 {
   font-family: 'Inter';
   font-weight: 700;
-  font-size: 61px;
+  font-size: 3.875rem;
   line-height: 120%;
 }
 
 .dialog-close {
-  position: absolute;
-  top: 41px;
-  right: 49px;
+  width: 24px;
+  height: 24px;
+  margin-right: -4px;
   padding: 0;
   border: none;
   background: transparent;
-  color: #2a3647;
+  color: $dark-blue;
   font-family: 'Inter', sans-serif;
-  font-size: 24px;
+  font-size: 1.5rem;
   line-height: 1;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:hover {
+    border-radius: 50%;
+    background-color: $hover-grey;
+  }
 }
 
 .priority-buttons {
@@ -137,12 +121,14 @@ h2 {
 .priority-button {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 8px;
+  flex: 1 1 0;
   padding: 10px 16px;
   border: none;
   border-radius: 8px;
   cursor: pointer;
-  background-color: white;
+  background-color: $white;
   font-size: 1.3rem;
   font-family: 'Inter', sans-serif;
   box-shadow: 0px 0px 4px 0px #00000066;
@@ -158,26 +144,26 @@ h2 {
   }
 
   &--low.selected {
-    background-color: #7ae229;
+    background-color: $task-low;
 
     svg path {
-      fill: white;
+      fill: $white;
     }
   }
 
   &--medium.selected {
-    background-color: #ffa800;
+    background-color: $task-medium;
 
     svg path {
-      fill: white;
+      fill: $white;
     }
   }
 
   &--urgent.selected {
-    background-color: #ff3d00;
+    background-color: $task-urgent;
 
     svg path {
-      fill: white;
+      fill: $white;
     }
   }
 }
@@ -187,6 +173,7 @@ h2 {
     display: block;
     margin-bottom: 8px;
     font-size: 1.25rem;
+    line-height: 1.5rem;
   }
 
   &__input-wrapper {
@@ -205,9 +192,8 @@ h2 {
     font-family: 'Inter', sans-serif;
     font-size: 1rem;
 
-    &:focus {
-      outline: none;
-      border-color: $light-grey;
+    &.ng-invalid.ng-touched {
+      border-color: $red;
     }
   }
 
@@ -249,10 +235,32 @@ h2 {
     position: relative;
     display: flex;
     align-items: center;
+    margin-bottom: 2px;
   }
 
   &__input--subtasks {
     padding-right: 64px;
+  }
+
+  &__input-footer {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__length {
+    color: $light-grey;
+    justify-self: flex-end;
+    flex-shrink: 0;
+    white-space: nowrap;
+
+    &-error {
+      color: $red;
+    }
+  }
+
+  &__error,
+  &__required-asterisk {
+    color: $red;
   }
 
   &__subtask-cancel,
@@ -274,43 +282,72 @@ h2 {
     right: 36px;
   }
 
+  &__subtask-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 8px;
+  }
+
   &__ul {
     list-style: none;
-    margin: 0;
-    padding: 8px 0 0 0;
   }
 
   &__subtask-item {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    min-height: 30px;
+    gap: 8px;
     padding: 6px 16px;
     cursor: pointer;
     border-radius: 10px;
-    transition: background-color 255ms ease-in-out;
+    transition: all 255ms ease-in-out;
 
-    &:hover {
+    &.task-form__subtask-item--active {
       background-color: $hover-light-grey;
     }
 
-    &:hover .task-form__subtask-button {
+    &.task-form__subtask-item--active .task-form__subtask-button {
       display: block;
     }
 
-    &:hover .task-form__line {
+    &.task-form__subtask-item--active .task-form__line {
       display: block;
       border-left: 1px solid $light-grey;
       height: 20px;
     }
   }
 
+  &__subtask-content {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    min-width: 0;
+    flex: 1 1 auto;
+  }
+
+  &__subtask-bullet {
+    flex-shrink: 0;
+    line-height: 24px;
+  }
+
+  &__subtask-text {
+    flex: 1 1 auto;
+    min-width: 0;
+    line-height: 24px;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+
   &__button-wrapper {
     display: flex;
     align-items: center;
     gap: 8px;
+    flex-shrink: 0;
   }
 
-  &__subtask-button {
+  &__button-wrapper &__subtask-button {
     display: none;
   }
 
@@ -337,6 +374,7 @@ h2 {
     background-color: transparent;
     border: none;
     width: 100%;
+    min-height: 24px;
     font-size: 1rem;
     font-family: 'Inter', sans-serif;
 
@@ -511,5 +549,100 @@ h2 {
   &:active {
     box-shadow: 0px 4px 4px 0px #00000040;
     background-color: $blue-green;
+  }
+}
+
+@media (max-width: 550px) {
+  .dialog-content {
+    width: min(525px, calc(100vw - 32px));
+    max-width: calc(100vw - 32px);
+    padding: 80px 12px 32px 24px;
+    gap: 0;
+
+    form {
+      gap: 0;
+    }
+  }
+
+  .dialog-close {
+    position: absolute;
+    top: 36px;
+    right: 28px;
+  }
+
+  .task-form__label {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 120%;
+    color: black;
+  }
+
+  #task-detail-title {
+    min-height: 40px;
+    padding: 10px 21px;
+  }
+
+  .dialog-scrollable::-webkit-scrollbar-track {
+    margin-top: 27px;
+  }
+
+  .task-form__input {
+    line-height: 120%;
+  }
+
+  .task-form__input--description {
+    height: 88px;
+    padding: 18px 21px 32px 21px;
+  }
+
+  .priority-button {
+    width: 104px;
+    height: 41px;
+    flex: none;
+    gap: 6px;
+    padding: 8px 10px;
+    font-size: 0.875rem;
+
+    svg {
+      width: 16px;
+      height: auto;
+      flex-shrink: 0;
+    }
+  }
+
+  .task-form__button-wrapper .task-form__subtask-button {
+    display: block;
+  }
+
+  .task-form__line {
+    border-left: 1px solid $light-grey;
+    height: 20px;
+  }
+
+  .task-form__subtask-item.task-form__subtask-item--active {
+    background-color: transparent;
+  }
+}
+
+@media (max-width: 400px) {
+  .priority-buttons {
+    gap: 8px;
+  }
+
+  .priority-button {
+    width: auto;
+    flex: 1 1 0;
+    min-width: 0;
+    height: 36px;
+    padding: 6px 4px;
+    gap: 4px;
+    font-size: 0.875rem;
+    white-space: nowrap;
+
+    svg {
+      width: 14px;
+      height: auto;
+      flex-shrink: 0;
+    }
   }
 }

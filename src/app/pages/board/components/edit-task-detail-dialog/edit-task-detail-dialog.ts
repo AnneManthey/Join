@@ -1,5 +1,6 @@
-import { AfterViewInit, Component, ElementRef, computed, effect, inject, input, output, signal, viewChild } from '@angular/core';
+import { Component, ElementRef, HostListener, QueryList, ViewChildren, computed, effect, inject, input, output, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { DatePipe } from '@angular/common';
 import { Task } from '../../../../shared/interfaces/task';
 import { SupabaseService } from '../../../../shared/services/supabase-service';
 import { SupabaseTaskService } from '../../../../shared/services/supabase-task-service';
@@ -13,10 +14,13 @@ import { getColor } from '../../../../shared/utils/contacts-helper';
 @Component({
   selector: 'app-edit-task-detail-dialog',
   imports: [ReactiveFormsModule, GetInitialsPipe],
+  providers: [DatePipe],
   templateUrl: './edit-task-detail-dialog.html',
   styleUrl: './edit-task-detail-dialog.scss',
 })
-export class EditTaskDetailDialog implements AfterViewInit {
+export class EditTaskDetailDialog {
+  private datePipe = inject(DatePipe);
+
   /** Controls whether the dialog is open or closed. */
   isOpen = input.required<boolean>();
 
@@ -44,30 +48,16 @@ export class EditTaskDetailDialog implements AfterViewInit {
   /** Function for color mapping of contacts. */
   getColor = getColor;
 
-  /** Reference to the scrollable content element. */
-  scrollableEl = viewChild<ElementRef<HTMLDivElement>>('scrollableEl');
+  /** References to the currently rendered subtask-edit wrappers, used to detect outside clicks. */
+  @ViewChildren('subtaskEditWrapper') subtaskEditWrappers!: QueryList<ElementRef<HTMLElement>>;
 
-  /** Reference to the custom scrollbar track element. */
-  trackEl = viewChild<ElementRef<HTMLDivElement>>('trackEl');
-
-  /** Height of the custom scrollbar thumb in pixels. */
-  thumbHeight = signal(0);
-
-  /** Top offset of the custom scrollbar thumb in pixels. */
-  thumbTop = signal(0);
-
-  /** Whether the dialog content currently overflows and needs a scrollbar. */
-  isScrollable = signal(false);
-
-  /** Recomputes the custom scrollbar whenever the dialog is opened, since the component instance is reused across opens. */
-  private openEffect = effect(() => {
-    if (this.isOpen()) {
-      setTimeout(() => this.checkScrollable());
-    }
-  });
+  /** References to the currently rendered subtask-edit inputs, used to save on outside clicks. */
+  @ViewChildren('editInput') editInputs!: QueryList<ElementRef<HTMLTextAreaElement>>;
 
   /** Index of the subtask currently being edited, if any. */
   editingIndex = signal<number | null>(null);
+
+  hoveredSubtaskIndex = signal<number | null>(null);
 
   /** Whether the assigned-to contact dropdown is currently open. */
   contactDropdownOpen = signal(false);
@@ -91,11 +81,18 @@ export class EditTaskDetailDialog implements AfterViewInit {
     this.contacts().filter(contact => this.editSelectedContacts().includes(contact.id))
   );
 
+  /** Whether the dialog is currently playing its closing animation. */
+  isClosing = signal(false);
+
   /**
-   * Closes the dialog and emits a close event.
+   * Plays the closing animation, then emits a close event.
    */
   closeDialog(): void {
-    this.close.emit();
+    this.isClosing.set(true);
+    setTimeout(() => {
+      this.isClosing.set(false);
+      this.close.emit();
+    }, 300);
   }
 
   /** The currently selected priority of the task. */
@@ -117,12 +114,45 @@ export class EditTaskDetailDialog implements AfterViewInit {
     taskdetailDescription: new FormControl('', {
       validators: Validators.maxLength(150)
     }),
-    taskdetailDuedate: new FormControl(''),
+    taskdetailDuedate: new FormControl('', {
+      validators: [Validators.required]
+    }),
     assignedTo: new FormControl(''),
     subtaskInput: new FormControl('', {
       validators: [Validators.minLength(4), Validators.maxLength(50)]
     }),
   });
+
+  /**
+   * Returns the FormControl for the 'taskdetailName' field.
+   */
+  get taskdetailName() {
+    return this.taskdetailForm.get('taskdetailName');
+  }
+
+  /** Checks whether the title exceeds the configured maximum character length. */
+  titleInputTooLong() {
+    return (this.taskdetailName?.value?.length ?? 0) > 100;
+  }
+
+  /**
+   * Returns the FormControl for the 'taskdetailDescription' field.
+   */
+  get taskdetailDescription() {
+    return this.taskdetailForm.get('taskdetailDescription');
+  }
+
+  /** Checks whether the description exceeds the configured maximum character length. */
+  descriptionInputTooLong() {
+    return (this.taskdetailDescription?.value?.length ?? 0) > 150;
+  }
+
+  /**
+   * Returns the FormControl for the 'taskdetailDuedate' field.
+   */
+  get taskdetailDuedate() {
+    return this.taskdetailForm.get('taskdetailDuedate');
+  }
 
   /**
    * Returns the FormControl for the 'assignedTo' field.
@@ -150,58 +180,13 @@ export class EditTaskDetailDialog implements AfterViewInit {
       this.taskdetailForm.patchValue({
         taskdetailName: currentTask.title,
         taskdetailDescription: currentTask.description,
-        taskdetailDuedate: currentTask.due_date,
+        taskdetailDuedate: this.datePipe.transform(currentTask.due_date, 'yyyy-MM-dd'),
       });
       this.selectedPriority.set(currentTask.priority);
       this.supabaseTaskService.currentTaskId = currentTask.id;
       this.editSelectedContacts.set(currentTask.task_contacts.map(taskContact => taskContact.contacts.id));
       this.editSubtasks.set(currentTask.subtasks.map(subtask => subtask.title));
-      setTimeout(() => this.checkScrollable());
     });
-  }
-
-  ngAfterViewInit(): void {
-    this.checkScrollable();
-  }
-
-  /** Recalculates the custom scrollbar thumb position while the user scrolls. */
-  onScroll(): void {
-    this.updateThumb();
-  }
-
-  /** Scrolls the content by a fixed step, e.g. via the scrollbar arrow buttons. */
-  scrollByStep(step: number): void {
-    this.scrollableEl()?.nativeElement.scrollBy({ top: step, behavior: 'smooth' });
-  }
-
-  /** Determines whether the scrollable content overflows and updates the thumb accordingly. */
-  private checkScrollable(): void {
-    const scrollable = this.scrollableEl()?.nativeElement;
-    if (!scrollable) {
-      return;
-    }
-
-    this.isScrollable.set(scrollable.scrollHeight > scrollable.clientHeight + 1);
-    setTimeout(() => this.updateThumb());
-  }
-
-  /** Updates the custom scrollbar thumb's height and position based on the current scroll state. */
-  private updateThumb(): void {
-    const scrollable = this.scrollableEl()?.nativeElement;
-    const track = this.trackEl()?.nativeElement;
-    if (!scrollable || !track) {
-      return;
-    }
-
-    const { scrollTop, scrollHeight, clientHeight } = scrollable;
-    const trackHeight = track.clientHeight;
-    const height = Math.max((clientHeight / scrollHeight) * trackHeight, 20);
-    const maxTop = trackHeight - height;
-    const scrollableDistance = scrollHeight - clientHeight;
-    const top = scrollableDistance > 0 ? (scrollTop / scrollableDistance) * maxTop : 0;
-
-    this.thumbHeight.set(height);
-    this.thumbTop.set(top);
   }
 
   /**
@@ -252,6 +237,7 @@ export class EditTaskDetailDialog implements AfterViewInit {
     }
     this.editSubtasks.update(subtasks => [...subtasks, newTask]);
     this.resetSubtask();
+    this.hoveredSubtaskIndex.set(null);
   }
 
   /**
@@ -261,12 +247,35 @@ export class EditTaskDetailDialog implements AfterViewInit {
     this.subtaskInput?.reset();
   }
 
+  /** Checks whether the subtask input exceeds the configured maximum character length. */
+  subtaskInputTooLong() {
+    return (this.subtaskInput?.value?.length ?? 0) > 50;
+  }
+
+  /** Saves an in-progress subtask edit when the user clicks outside of it. */
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent) {
+    const index = this.editingIndex();
+    if (index === null) return;
+
+    const wrapper = this.subtaskEditWrappers.first;
+    const clickedInside = wrapper?.nativeElement.contains(event.target as Node);
+    if (!clickedInside) {
+      const input = this.editInputs.first;
+      if (input) {
+        this.updateEditSubtask(index, input.nativeElement.value);
+      }
+      this.editingIndex.set(null);
+    }
+  }
+
   /**
    * Deletes a subtask from the list based on its index.
    * @param index - The index of the subtask to delete.
    */
   deleteEditSubtask(index: number) {
     this.editSubtasks.update(subtasks => subtasks.filter((_, i) => i !== index));
+    this.hoveredSubtaskIndex.set(null);
   }
 
   /**
