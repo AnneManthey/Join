@@ -1,4 +1,4 @@
-import { Component, computed, inject, OnInit, signal, ViewChild, ElementRef } from '@angular/core';
+import { Component, computed, inject, OnInit, signal, ViewChild, ElementRef, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { FormsModule } from '@angular/forms';
@@ -106,16 +106,16 @@ export class Board implements OnInit {
  *
  * @param columnId - The column that triggered the flow, used to preselect the task status.
  */
-handleAddTaskClick(columnId?: string): void {
-  if (window.innerWidth <= this.MOBILE_BREAKPOINT) {
-    this.router.navigate(['/addtask'], {
-      queryParams: { status: columnId ?? 'todo' },
-    });
-    return;
-  }
+  handleAddTaskClick(columnId?: string): void {
+    if (window.innerWidth <= this.MOBILE_BREAKPOINT) {
+      this.router.navigate(['/addtask'], {
+        queryParams: { status: columnId ?? 'todo' },
+      });
+      return;
+    }
 
-  this.openAddTask(columnId);
-}
+    this.openAddTask(columnId);
+  }
 
   /**
   * Opens the add-task dialog, pre-filling the task status with related column.
@@ -166,13 +166,20 @@ handleAddTaskClick(columnId?: string): void {
 
     dialog.classList.add('add-task-dialog--closing');
 
-    const onAnimationEnd = () => {
+    let closed = false;
+    const finalize = () => {
+      if (closed) return;
+      closed = true;
       dialog.classList.remove('add-task-dialog--closing');
       dialog.close();
       dialog.removeEventListener('animationend', onAnimationEnd);
+      clearTimeout(fallbackTimer);
     };
 
+    const onAnimationEnd = () => finalize();
     dialog.addEventListener('animationend', onAnimationEnd);
+
+    const fallbackTimer = setTimeout(finalize, 500);
   }
 
   /**
@@ -184,5 +191,14 @@ handleAddTaskClick(columnId?: string): void {
     if (event.target === event.currentTarget) {
       this.closeAddTaskDialog();
     }
+  }
+
+  /** Whether the viewport is at or below `DIALOG_MOBILE_BREAKPOINT`. */
+  isMobileViewport = signal(window.innerWidth <= 1000);
+
+  /** Keeps `isMobileViewport` in sync on resize. */
+  @HostListener('window:resize')
+  onResize(): void {
+    this.isMobileViewport.set(window.innerWidth <= 1000);
   }
 }

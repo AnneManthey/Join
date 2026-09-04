@@ -130,57 +130,34 @@ dialog {
   }
 }
 
-// .add-task-dialog {
-//   font-family: Inter;
-//   position: fixed;
-//   transform: translate(-50%, -50%);
-//   width: 1200px;
-
-//   border-radius: 30px;
-//   --dialog-animation-duration: 400ms;
-//   border: none;
-//   box-sizing: border-box;
-//   inset: 0;
-//   margin: auto;
-//   padding: 0;
-//   overflow-x: hidden;
-//   overflow-y: auto;
-
-//   &[open] {
-//     animation: add-task-dialog-enter var(--dialog-animation-duration) ease-out forwards;
-//   }
-
-//   &--closing {
-//     animation: add-task-dialog-exit var(--dialog-animation-duration) ease-in forwards !important;
-//   }
-
-//   &::backdrop {
-//     background-color: rgba(0, 0, 0, 0.35);
-//   }
-
 .add-task-dialog {
   font-family: Inter;
   position: fixed;
   width: 1200px;
-
   border-radius: 30px;
   --dialog-animation-duration: 400ms;
   border: none;
   box-sizing: border-box;
   inset: 0;
-  margin: auto; // <- zentriert jetzt allein, ohne transform
+  margin: auto;
   padding: 0;
   overflow-x: hidden;
   overflow-y: auto;
-
-  // transform: translate(-50%, -50%);  <- ENTFERNT
 
   &[open] {
     animation: add-task-dialog-enter var(--dialog-animation-duration) ease-out forwards;
   }
 
+  &.is-mobile[open] {
+    animation: add-task-dialog-enter-mobile var(--dialog-animation-duration) ease-out forwards;
+  }
+
   &--closing {
     animation: add-task-dialog-exit var(--dialog-animation-duration) ease-in forwards !important;
+  }
+
+  &.is-mobile.add-task-dialog--closing {
+    animation: add-task-dialog-exit-mobile var(--dialog-animation-duration) ease-in forwards !important;
   }
 
   &::backdrop {
@@ -204,45 +181,6 @@ dialog {
   }
 }
 
-// @keyframes add-task-dialog-enter {
-//   from {
-//     transform: translateX(100%);
-//   }
-
-//   to {
-//     transform: translateX(0);
-//   }
-// }
-
-// @keyframes add-task-dialog-exit {
-//   from {
-//     transform: translateX(0);
-//   }
-
-//   to {
-//     transform: translateX(100%);
-//   }
-// }
-
-// @keyframes add-task-dialog-enter-mobile {
-//   from {
-//     transform: translateY(100%);
-//   }
-
-//   to {
-//     transform: translateY(0);
-//   }
-// }
-
-// @keyframes add-task-dialog-exit-mobile {
-//   from {
-//     transform: translateY(0);
-//   }
-
-//   to {
-//     transform: translateY(100%);
-//   }
-// }
 
 @keyframes add-task-dialog-enter {
   from {
@@ -302,17 +240,6 @@ dialog {
     justify-content: center;
     align-items: flex-start;
   }
-  .add-task-dialog {
-    --dialog-animation-duration: 400ms;
-
-    &[open] {
-      animation: add-task-dialog-enter-mobile var(--dialog-animation-duration) ease-out forwards;
-    }
-
-    &--closing {
-      animation: add-task-dialog-exit-mobile var(--dialog-animation-duration) ease-in forwards !important;
-    }
-  }
 }
 
 @media (max-width: 770px) {
@@ -348,9 +275,10 @@ dialog {
 
 @media (max-width: 650px) {
   .add-task-dialog {
-    --dialog-animation-duration: 1ms;
     width: 100%;
+    max-width: 100%;
     height: 100dvh;
+    max-height: 100dvi;
     border-radius: 0px;
   }
 }
