@@ -320,23 +320,44 @@ export class SupabaseTaskService {
      * @param newSubtaskTitles The titles of the subtasks to create.
      * @returns True when the insert succeeds, otherwise false.
      */
+    // async addNewSubtasks(taskId: number, newSubtaskTitles: string[]): Promise<boolean> {
+    //     if (newSubtaskTitles.length === 0) {
+    //         return true;
+    //     }
+
+    //     const insertRows = newSubtaskTitles.map(title => ({
+    //         task_id: taskId,
+    //         title: title
+    //     }));
+
+    //     const { error } = await this.supabase
+    //         .from('subtasks')
+    //         .insert(insertRows);
+
+    //     if (error) {
+    //         console.error('Subtasks could not be added', error.message);
+    //         return false;
+    //     }
+
+    //     return true;
+    // }
     async addNewSubtasks(taskId: number, newSubtaskTitles: string[]): Promise<boolean> {
-        if (newSubtaskTitles.length === 0) {
-            return true;
+        const currentTask = this.tasks().find(t => t.id === taskId);
+        const oldTitles = currentTask?.subtasks.map(s => s.title) ?? [];
+
+        const toAdd = newSubtaskTitles.filter(title => !oldTitles.includes(title));
+        const toRemove = oldTitles.filter(title => !newSubtaskTitles.includes(title));
+
+        if (toRemove.length > 0) {
+            const { error } = await this.supabase.from('subtasks')
+                .delete().eq('task_id', taskId).in('title', toRemove);
+            if (error) { console.error('Subtasks could not be removed', error.message); return false; }
         }
 
-        const insertRows = newSubtaskTitles.map(title => ({
-            task_id: taskId,
-            title: title
-        }));
-
-        const { error } = await this.supabase
-            .from('subtasks')
-            .insert(insertRows);
-
-        if (error) {
-            console.error('Subtasks could not be added', error.message);
-            return false;
+        if (toAdd.length > 0) {
+            const { error } = await this.supabase.from('subtasks')
+                .insert(toAdd.map(title => ({ task_id: taskId, title })));
+            if (error) { console.error('Subtasks could not be added', error.message); return false; }
         }
 
         return true;
@@ -418,12 +439,12 @@ export class SupabaseTaskService {
         this.assignedSubtasks.update(subtasks => subtasks.filter((_, i) => i !== index));
     }
 
-        /**
-     * Updates the text content of a subtask in the current edit list.
-     *
-     * @param index The zero-based index of the subtask to update.
-     * @param newSubtask The new text content for the subtask.
-     */
+    /**
+ * Updates the text content of a subtask in the current edit list.
+ *
+ * @param index The zero-based index of the subtask to update.
+ * @param newSubtask The new text content for the subtask.
+ */
     updateEditSubtask(index: number, newSubtask: string) {
         const newText = newSubtask.trim();
         if (!newText) return;
