@@ -256,9 +256,28 @@ h2 {
 .dialog-subtasks {
   display: flex;
   flex-direction: column;
+  gap: 8px;
+}
+
+.dialog-subtasks__subtasks-wrapper {
+  display: flex;
+  flex-direction: column;
   align-items: flex-start;
   gap: 8px;
   padding: 0 8px;
+  max-height: 150px;
+  overflow-y: auto;
+
+  scrollbar-color: $scrollbar-grey transparent;
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: $scrollbar-grey;
+    border-radius: 5px;
+  }
 }
 
 .subtask-row {

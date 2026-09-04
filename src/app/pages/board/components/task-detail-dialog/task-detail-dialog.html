@@ -58,15 +58,17 @@
         <p class="subtasks-label">Subtasks</p>
 
         <div class="dialog-subtasks">
-          @for (subtask of currentTask.subtasks; track subtask.id) {
-            <div class="subtask-row" (click)="toggleSubtask(subtask)">
-              <img
-                class="subtask-checkbox"
-                [src]="subtask.done ? 'app-icons/task-detail-dialog/check_button_checked.svg' : 'app-icons/task-detail-dialog/check_button.png'"
-                [alt]="subtask.done ? 'Checked' : 'Unchecked'">
-              <span class="subtask-title">{{ subtask.title }}</span>
-            </div>
-          }
+          <div class="dialog-subtasks__subtasks-wrapper">
+            @for (subtask of currentTask.subtasks; track subtask.id) {
+              <div class="subtask-row" (click)="toggleSubtask(subtask)">
+                <img
+                  class="subtask-checkbox"
+                  [src]="subtask.done ? 'app-icons/task-detail-dialog/check_button_checked.svg' : 'app-icons/task-detail-dialog/check_button.png'"
+                  [alt]="subtask.done ? 'Checked' : 'Unchecked'">
+                <span class="subtask-title">{{ subtask.title }}</span>
+              </div>
+            }
+          </div>
         </div>
         </div>
       </div>
