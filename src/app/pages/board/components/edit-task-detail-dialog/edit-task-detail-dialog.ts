@@ -85,6 +85,17 @@ export class EditTaskDetailDialog {
     this.contacts().filter(contact => this.editSelectedContacts().includes(contact.id))
   );
 
+  /** Maximum number of contact avatars shown before collapsing into a "+N" badge. */
+  readonly maxVisibleAvatars = 4;
+
+  /** Subset of selected contacts rendered as avatars; excess contacts are summarized separately. */
+  visibleSelectedContacts = computed(() => this.selectedContactDetails().slice(0, this.maxVisibleAvatars));
+
+  /** Count of selected contacts not shown as individual avatars, displayed as "+N" when positive. */
+  hiddenSelectedContactsCount = computed(() =>
+    Math.max(0, this.selectedContactDetails().length - this.maxVisibleAvatars)
+  );
+
   /** Whether the dialog is currently playing its closing animation. */
   isClosing = signal(false);
 
