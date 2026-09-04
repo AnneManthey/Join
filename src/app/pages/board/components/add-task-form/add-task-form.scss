@@ -1,5 +1,6 @@
 @use '../../../../../styles.scss' as *;
 @use '../../../contacts/components/contact-details/contact-details.scss';
+@use '../../../../styles/_components.scss' as *;
 
 .main-section {
   padding: 79px 96px;
