@@ -43,6 +43,7 @@
         <p class="assigned-to">Assigned To:</p>
 
         <div class="dialog-assignees">
+          <div class="dialog-assignees__assignees-wrapper">
            @for (tc of currentTask.task_contacts; track tc.contact_id) {
             <div class="assignee-row">
               <span class="task-card-assignee" [style.background-color]="getColor(tc.contacts.contact_name)"
@@ -52,6 +53,7 @@
               <span class="assignee-name">{{ tc.contacts.contact_name }}</span>
             </div>
           }
+        </div>
         </div>
         <p class="subtasks-label">Subtasks</p>
 
