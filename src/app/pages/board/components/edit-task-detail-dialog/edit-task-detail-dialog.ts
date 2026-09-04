@@ -329,7 +329,6 @@ export class EditTaskDetailDialog {
 
     this.editSelectedContacts.set([]);
     this.editSubtasks.set([]);
-    console.log('Task successfully updated');
     this.close.emit();
   }
 

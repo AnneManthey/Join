@@ -35,17 +35,15 @@ export class Board implements OnInit {
   /** Indicates whether the task detail dialog is open. */
   isTaskDetailDialogOpen = signal(false);
 
+  
+
   /** Task currently displayed in the detail dialog. */
   // selectedTask = signal<Task | null>(null);
 
   /** Indicates whether the edit-task dialog is open. */
   isEditTaskDetailDialogOpen = signal(false);
   @ViewChild('addTaskDialog') addTaskDialog!: ElementRef<HTMLDialogElement>;
-
-
-
-
-
+  @ViewChild('addTaskDialogComponent') addTaskDialogComponent!: AddTaskDialog;
 
   /** ID of the task currently displayed in the detail dialog. */
   private selectedTaskId = signal<number | null>(null);
@@ -55,9 +53,6 @@ export class Board implements OnInit {
     this.taskService.tasks().find(t => t.id === this.selectedTaskId())
     ?? null
   );
-
-
-
 
   /** Loads the tasks required to render the board. */
   ngOnInit(): void {
@@ -196,6 +191,8 @@ export class Board implements OnInit {
     dialog.addEventListener('animationend', onAnimationEnd);
 
     const fallbackTimer = setTimeout(finalize, 500);
+    this.addTaskDialogComponent.resetForm();
+
   }
 
   /**
