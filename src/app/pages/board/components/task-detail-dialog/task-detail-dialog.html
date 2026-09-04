@@ -43,6 +43,7 @@
         <p class="assigned-to">Assigned To:</p>
 
         <div class="dialog-assignees">
+          <div class="dialog-assignees__assignees-wrapper">
            @for (tc of currentTask.task_contacts; track tc.contact_id) {
             <div class="assignee-row">
               <span class="task-card-assignee" [style.background-color]="getColor(tc.contacts.contact_name)"
@@ -53,18 +54,21 @@
             </div>
           }
         </div>
+        </div>
         <p class="subtasks-label">Subtasks</p>
 
         <div class="dialog-subtasks">
-          @for (subtask of currentTask.subtasks; track subtask.id) {
-            <div class="subtask-row" (click)="toggleSubtask(subtask)">
-              <img
-                class="subtask-checkbox"
-                [src]="subtask.done ? 'app-icons/task-detail-dialog/check_button_checked.svg' : 'app-icons/task-detail-dialog/check_button.png'"
-                [alt]="subtask.done ? 'Checked' : 'Unchecked'">
-              <span class="subtask-title">{{ subtask.title }}</span>
-            </div>
-          }
+          <div class="dialog-subtasks__subtasks-wrapper">
+            @for (subtask of currentTask.subtasks; track subtask.id) {
+              <div class="subtask-row" (click)="toggleSubtask(subtask)">
+                <img
+                  class="subtask-checkbox"
+                  [src]="subtask.done ? 'app-icons/task-detail-dialog/check_button_checked.svg' : 'app-icons/task-detail-dialog/check_button.png'"
+                  [alt]="subtask.done ? 'Checked' : 'Unchecked'">
+                <span class="subtask-title">{{ subtask.title }}</span>
+              </div>
+            }
+          </div>
         </div>
         </div>
       </div>

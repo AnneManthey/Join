@@ -58,6 +58,7 @@
             class="task-form__input"
             id="task-detail-duedate"
             type="date"
+            [min]="minDate"
             formControlName="taskdetailDuedate"
           />
           @if (taskdetailDuedate?.invalid && taskdetailDuedate?.touched) {
@@ -189,13 +190,21 @@
 
             @if (selectedContactDetails().length > 0) {
               <div class="task-form__selected-contacts">
-                @for (contact of selectedContactDetails(); track contact.id) {
+                @for (contact of visibleSelectedContacts(); track contact.id) {
                   <span
                     class="task-form__contact-avatar"
                     [style.background-color]="getColor(contact.contact_name)"
                     [title]="contact.contact_name"
                   >
                     {{ contact.contact_name | getInitials }}
+                  </span>
+                }
+                @if (hiddenSelectedContactsCount() > 0) {
+                  <span
+                    class="task-form__contact-avatar task-form__contact-avatar-more"
+                    [title]="hiddenSelectedContactsCount() + ' more'"
+                  >
+                    +{{ hiddenSelectedContactsCount() }}
                   </span>
                 }
               </div>
@@ -296,6 +305,7 @@
               </p>
             </div>
             <div class="task-form__subtask-list">
+            <div class="task-form__subtask-list-wrapper">
             @for (subtask of editSubtasks(); track $index) {
               @if (editingIndex() !== $index) {
                 <ul class="task-form__ul">
@@ -435,6 +445,7 @@
                 </div>
               }
             }
+            </div>
             </div>
           </div>
         </div>

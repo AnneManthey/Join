@@ -6,6 +6,7 @@ import { SupabaseService } from '../../../../shared/services/supabase-service';
 import { SupabaseTaskService } from '../../../../shared/services/supabase-task-service';
 import { GetInitialsPipe } from '../../../../shared/pipes/get-initials-pipe';
 import { getColor } from '../../../../shared/utils/contacts-helper';
+import { futureDateValidator } from '../../../../shared/utils/future-date-validator';
 
 /**
  * Dialog component for editing task details.
@@ -48,6 +49,9 @@ export class EditTaskDetailDialog {
   /** Function for color mapping of contacts. */
   getColor = getColor;
 
+  /** Today's date in ISO format (YYYY-MM-DD), used as the `min` value for the date input to prevent selecting past dates in the UI. */
+  minDate = new Date().toISOString().split('T')[0];
+
   /** References to the currently rendered subtask-edit wrappers, used to detect outside clicks. */
   @ViewChildren('subtaskEditWrapper') subtaskEditWrappers!: QueryList<ElementRef<HTMLElement>>;
 
@@ -79,6 +83,17 @@ export class EditTaskDetailDialog {
   /** Full contact objects for the currently assigned contact ids. */
   selectedContactDetails = computed(() =>
     this.contacts().filter(contact => this.editSelectedContacts().includes(contact.id))
+  );
+
+  /** Maximum number of contact avatars shown before collapsing into a "+N" badge. */
+  readonly maxVisibleAvatars = 4;
+
+  /** Subset of selected contacts rendered as avatars; excess contacts are summarized separately. */
+  visibleSelectedContacts = computed(() => this.selectedContactDetails().slice(0, this.maxVisibleAvatars));
+
+  /** Count of selected contacts not shown as individual avatars, displayed as "+N" when positive. */
+  hiddenSelectedContactsCount = computed(() =>
+    Math.max(0, this.selectedContactDetails().length - this.maxVisibleAvatars)
   );
 
   /** Whether the dialog is currently playing its closing animation. */
@@ -115,7 +130,7 @@ export class EditTaskDetailDialog {
       validators: Validators.maxLength(150)
     }),
     taskdetailDuedate: new FormControl('', {
-      validators: [Validators.required]
+      validators: [Validators.required, futureDateValidator()]
     }),
     assignedTo: new FormControl(''),
     subtaskInput: new FormControl('', {

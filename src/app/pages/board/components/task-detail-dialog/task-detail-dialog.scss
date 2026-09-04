@@ -208,6 +208,25 @@ h2 {
   gap: 11px;
 }
 
+.dialog-assignees__assignees-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+  max-height: 150px;
+  overflow-y: auto;
+
+  scrollbar-color: $scrollbar-grey transparent;
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: $scrollbar-grey;
+    border-radius: 5px;
+  }
+}
+
 .assignee-row {
   display: flex;
   align-items: center;
@@ -237,9 +256,28 @@ h2 {
 .dialog-subtasks {
   display: flex;
   flex-direction: column;
+  gap: 8px;
+}
+
+.dialog-subtasks__subtasks-wrapper {
+  display: flex;
+  flex-direction: column;
   align-items: flex-start;
   gap: 8px;
   padding: 0 8px;
+  max-height: 150px;
+  overflow-y: auto;
+
+  scrollbar-color: $scrollbar-grey transparent;
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: $scrollbar-grey;
+    border-radius: 5px;
+  }
 }
 
 .subtask-row {
@@ -358,6 +396,22 @@ h2 {
 
   .subtasks-label {
     margin-top: 7px;
+  }
+}
+
+@media (hover: none) and (orientation: landscape) and (max-height: 600px) {
+  .dialog-content {
+    display: none;
+  }
+
+  .dialog-overlay::after {
+    content: 'Please turn your device';
+    color: $white;
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 1.25rem;
+    text-align: center;
+    padding: 0 24px;
   }
 }
 
