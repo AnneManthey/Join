@@ -36,11 +36,27 @@ export class Board implements OnInit {
   isTaskDetailDialogOpen = signal(false);
 
   /** Task currently displayed in the detail dialog. */
-  selectedTask = signal<Task | null>(null);
+  // selectedTask = signal<Task | null>(null);
 
   /** Indicates whether the edit-task dialog is open. */
   isEditTaskDetailDialogOpen = signal(false);
   @ViewChild('addTaskDialog') addTaskDialog!: ElementRef<HTMLDialogElement>;
+
+
+
+
+
+
+  /** ID of the task currently displayed in the detail dialog. */
+  private selectedTaskId = signal<number | null>(null);
+
+  /** Task currently displayed in the detail dialog — live-derived from taskService.tasks(). */
+  selectedTask = computed(() =>
+    this.taskService.tasks().find(t => t.id === this.selectedTaskId())
+    ?? null
+  );
+
+
 
 
   /** Loads the tasks required to render the board. */
@@ -106,16 +122,16 @@ export class Board implements OnInit {
  *
  * @param columnId - The column that triggered the flow, used to preselect the task status.
  */
-handleAddTaskClick(columnId?: string): void {
-  if (window.innerWidth <= this.MOBILE_BREAKPOINT) {
-    this.router.navigate(['/addtask'], {
-      queryParams: { status: columnId ?? 'todo' },
-    });
-    return;
-  }
+  handleAddTaskClick(columnId?: string): void {
+    if (window.innerWidth <= this.MOBILE_BREAKPOINT) {
+      this.router.navigate(['/addtask'], {
+        queryParams: { status: columnId ?? 'todo' },
+      });
+      return;
+    }
 
-  this.openAddTask(columnId);
-}
+    this.openAddTask(columnId);
+  }
 
   /**
   * Opens the add-task dialog, pre-filling the task status with related column.
@@ -128,7 +144,7 @@ handleAddTaskClick(columnId?: string): void {
 
   /** Opens the detail dialog for the selected task. */
   openTaskDetail(task: Task): void {
-    this.selectedTask.set(task);
+    this.selectedTaskId.set(task.id);
     this.isTaskDetailDialogOpen.set(true);
   }
 
@@ -139,7 +155,7 @@ handleAddTaskClick(columnId?: string): void {
 
   /** Opens the edit dialog for the selected task. */
   openEditTaskDetail(task: Task): void {
-    this.selectedTask.set(task);
+    this.selectedTaskId.set(task.id);
     this.isTaskDetailDialogOpen.set(false);
     this.isEditTaskDetailDialogOpen.set(true);
   }

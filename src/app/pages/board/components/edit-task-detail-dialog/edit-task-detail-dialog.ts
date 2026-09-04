@@ -1,4 +1,4 @@
-import { Component, ElementRef, HostListener, QueryList, ViewChildren, computed, effect, inject, input, output, signal } from '@angular/core';
+import { Component, ElementRef, HostListener, QueryList, ViewChildren, computed, effect, inject, input, output, signal, untracked } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 import { Task } from '../../../../shared/interfaces/task';
@@ -173,8 +173,26 @@ export class EditTaskDetailDialog {
    * to update the form with its values.
    */
   constructor() {
+    // effect(() => {
+    //   const currentTask = this.task();
+    //   if (!currentTask) return;
+
+    //   this.taskdetailForm.patchValue({
+    //     taskdetailName: currentTask.title,
+    //     taskdetailDescription: currentTask.description,
+    //     taskdetailDuedate: this.datePipe.transform(currentTask.due_date, 'yyyy-MM-dd'),
+    //   });
+    //   this.selectedPriority.set(currentTask.priority);
+    //   this.supabaseTaskService.currentTaskId = currentTask.id;
+    //   this.editSelectedContacts.set(currentTask.task_contacts.map(taskContact => taskContact.contacts.id));
+    //   this.editSubtasks.set(currentTask.subtasks.map(subtask => subtask.title));
+    // });
     effect(() => {
-      const currentTask = this.task();
+      const open = this.isOpen();
+      const id = this.taskId();
+      if (!open) return;
+
+      const currentTask = untracked(() => this.supabaseTaskService.tasks().find(t => t.id === id));
       if (!currentTask) return;
 
       this.taskdetailForm.patchValue({
@@ -184,8 +202,8 @@ export class EditTaskDetailDialog {
       });
       this.selectedPriority.set(currentTask.priority);
       this.supabaseTaskService.currentTaskId = currentTask.id;
-      this.editSelectedContacts.set(currentTask.task_contacts.map(taskContact => taskContact.contacts.id));
-      this.editSubtasks.set(currentTask.subtasks.map(subtask => subtask.title));
+      this.editSelectedContacts.set(currentTask.task_contacts.map(tc => tc.contacts.id));
+      this.editSubtasks.set(currentTask.subtasks.map(s => s.title));
     });
   }
 
