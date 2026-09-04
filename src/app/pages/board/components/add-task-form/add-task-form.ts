@@ -6,6 +6,7 @@ import { SupabaseService } from '../../../../shared/services/supabase-service';
 import { Task } from '../../../../shared/interfaces/task';
 import { GetInitialsPipe } from '../../../../shared/pipes/get-initials-pipe';
 import { getColor } from '../../../../shared/utils/contacts-helper';
+import { futureDateValidator } from '../../../../shared/utils/future-date-validator';
 
 @Component({
   selector: 'app-add-task-form',
@@ -62,6 +63,9 @@ export class AddTaskForm {
   /** Emits once the task is created, so the parent dialog can close itself. */
   taskCreated = output<void>();
 
+  /** Today's date in ISO format (YYYY-MM-DD), used as the `min` value for the date input to prevent selecting past dates in the UI. */
+  minDate = new Date().toISOString().split('T')[0];
+
   /** Current contact search query for the assigned-to dropdown. */
   contactSearchTerm = signal('');
 
@@ -115,7 +119,7 @@ export class AddTaskForm {
       validators: Validators.maxLength(150)
     }),
     due_date: new FormControl('', {
-      validators: [Validators.required]
+      validators: [Validators.required, futureDateValidator()]
     }),
     priority: new FormControl('medium', {
       validators: [Validators.required]

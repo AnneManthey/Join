@@ -36,9 +36,9 @@
             <div class="task-form__input-wrapper">
                 <label class="task-form__label" for="dueDate" (click)="$event.preventDefault()">
                     Due Date<span class="task-form__required-asterisk">&#42;</span></label>
-                <input class="task-form__input" id="dueDate" type="date" name="dueDate" formControlName="due_date">
+                <input class="task-form__input" id="dueDate" type="date" [min]="minDate" name="dueDate" formControlName="due_date">
                 @if (duedate?.invalid && duedate?.touched) {
-                <p class="task-form__error">Please enter a due date</p>
+                <p class="task-form__error">Please select a due date in the future</p>
                 }
             </div>
         </div>
