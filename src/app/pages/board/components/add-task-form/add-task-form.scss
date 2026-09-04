@@ -112,6 +112,11 @@
     padding: 8px 0 0 0;
   }
 
+  &__subtask-list-wrapper{
+    max-height: 120px;
+    overflow-y: auto;
+  }
+
   &__subtask-cancel,
   &__subtask-confirm {
     cursor: pointer;
