@@ -118,16 +118,6 @@
                         </svg>
                     </div>
 
-                    <!-- @if (selectedContactDetails().length > 0) {
-                    <div class="task-form__selected-contacts">
-                        @for (contact of selectedContactDetails(); track contact.id) {
-                        <span class="task-form__contact-avatar"
-                            [style.background-color]="getColor(contact.contact_name)" [title]="contact.contact_name">
-                            {{ contact.contact_name | getInitials }}
-                        </span>
-                        }
-                    </div>
-                    } -->
                     @if (selectedContactDetails().length > 0) {
                     <div class="task-form__selected-contacts">
                         @for (contact of visibleContactDetails(); track contact.id) {
