@@ -19,8 +19,7 @@
             </div>
 
             <div class="task-form__input-wrapper">
-                <label class="task-form__label" for="description"
-                    (click)="$event.preventDefault()">Description</label>
+                <label class="task-form__label" for="description" (click)="$event.preventDefault()">Description</label>
                 <textarea class="task-form__textarea" rows="5" id="description" name="description"
                     formControlName="description" placeholder="Enter a description"></textarea>
                 <div class="task-form__input-footer">
@@ -121,10 +120,16 @@
 
                     @if (selectedContactDetails().length > 0) {
                     <div class="task-form__selected-contacts">
-                        @for (contact of selectedContactDetails(); track contact.id) {
+                        @for (contact of visibleContactDetails(); track contact.id) {
                         <span class="task-form__contact-avatar"
                             [style.background-color]="getColor(contact.contact_name)" [title]="contact.contact_name">
                             {{ contact.contact_name | getInitials }}
+                        </span>
+                        }
+                        @if (hiddenContactDetailsCount() > 0) {
+                        <span class="task-form__contact-avatar task-form__contact-avatar--more"
+                            [title]="hiddenContactDetailsCount() + ' more'">
+                            +{{ hiddenContactDetailsCount() }}
                         </span>
                         }
                     </div>

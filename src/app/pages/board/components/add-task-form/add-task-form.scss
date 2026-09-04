@@ -127,20 +127,25 @@
   }
 
   &__contact-avatar {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 2.6rem;
-    height: 2.6rem;
-    border: 2px solid $white;
-    border-radius: 50%;
-    color: $white;
-    flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.6rem;
+  height: 2.6rem;
+  border: 2px solid $white;
+  border-radius: 50%;
+  color: $white;
+  flex-shrink: 0;
 
-    &:not(:first-child) {
-      margin-left: -0.5rem;
-    }
+  &:not(:first-child) {
+    margin-left: -0.5rem;
   }
+
+  &--more {
+    background-color: $gray-medium;
+    font-weight: 700;
+  }
+}
 
   &__radio {
     position: absolute;

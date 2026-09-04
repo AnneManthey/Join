@@ -32,6 +32,8 @@ export class AddTaskForm {
   selectedContacts = this.supabaseTaskService.selectedContacts;
   assignedSubtasks = this.supabaseTaskService.assignedSubtasks;
 
+
+
   /** Indicates whether the category dropdown is currently opened. */
   categoryDropdownOpen = signal(false);
 
@@ -82,6 +84,19 @@ export class AddTaskForm {
   /** Full contact objects for the currently assigned contact ids. */
   selectedContactDetails = computed(() =>
     this.contacts().filter(contact => this.selectedContacts().includes(contact.id))
+  );
+
+  /** Maximum number of contact avatars shown before collapsing into a "+N" badge. */
+  readonly maxVisibleAvatars = 6;
+
+  /** Subset of selected contacts rendered as avatars; excess contacts are summarized separately. */
+  visibleContactDetails = computed(() =>
+    this.selectedContactDetails().slice(0, this.maxVisibleAvatars)
+  );
+
+  /** Count of selected contacts not shown as individual avatars, displayed as "+N" when positive. */
+  hiddenContactDetailsCount = computed(() =>
+    Math.max(0, this.selectedContactDetails().length - this.maxVisibleAvatars)
   );
 
   /**

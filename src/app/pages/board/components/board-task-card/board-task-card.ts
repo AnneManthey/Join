@@ -18,6 +18,17 @@ export class BoardTaskCard {
   /** Task displayed by the card. */
   task = input.required<Task>();
 
+  /** Maximum number of contact avatars shown before collapsing into a "+N" badge. */
+  readonly maxVisibleAvatars = 4;
+
+  /** Subset of contacts rendered as avatars; excess contacts are summarized separately. */
+  visibleContacts = computed(() => this.task().task_contacts.slice(0, this.maxVisibleAvatars));
+
+  /** Count of contacts not shown as individual avatars, displayed as "+N" when positive. */
+  hiddenContactsCount = computed(() =>
+    Math.max(0, this.task().task_contacts.length - this.maxVisibleAvatars)
+  );
+
   /** Assigns each contact the same deterministic avatar color as the contact list. */
   getColor = getColor;
 
