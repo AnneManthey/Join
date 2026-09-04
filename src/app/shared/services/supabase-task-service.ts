@@ -124,7 +124,32 @@ export class SupabaseTaskService {
         this.subscribeToSubtasksDelete();
     }
 
-    /** Subscribes to newly inserted subtasks. */
+    // /** Subscribes to newly inserted subtasks. */
+    // subscribeToSubtasksInsert(): void {
+    //     this.subtasksInsertChannel = this.supabase.channel('subtasks-insert-channel')
+    //         .on('postgres_changes',
+    //             { event: 'INSERT', schema: 'public', table: 'subtasks' },
+    //             (payload) => {
+    //                 const newSubtask = payload.new as Subtask;
+    //                 this.tasks.update(list =>
+    //                     list.map(task =>
+    //                         task.id === newSubtask.task_id
+    //                             ? { ...task, subtasks: [...task.subtasks, newSubtask] }
+    //                             : task
+    //                     )
+    //                 );
+    //             }
+    //         )
+    //         .subscribe();
+    // }
+
+    /**
+ * Subscribes to newly inserted subtasks.
+ *
+ * Skips subtasks that are already present locally (e.g. because they
+ * were just added optimistically by `addNewSubtasks`), to avoid
+ * duplicate entries when the realtime event arrives afterwards.
+ */
     subscribeToSubtasksInsert(): void {
         this.subtasksInsertChannel = this.supabase.channel('subtasks-insert-channel')
             .on('postgres_changes',
@@ -132,17 +157,17 @@ export class SupabaseTaskService {
                 (payload) => {
                     const newSubtask = payload.new as Subtask;
                     this.tasks.update(list =>
-                        list.map(task =>
-                            task.id === newSubtask.task_id
-                                ? { ...task, subtasks: [...task.subtasks, newSubtask] }
-                                : task
-                        )
+                        list.map(task => {
+                            if (task.id !== newSubtask.task_id) return task;
+                            const alreadyExists = task.subtasks.some(s => s.id === newSubtask.id);
+                            if (alreadyExists) return task;
+                            return { ...task, subtasks: [...task.subtasks, newSubtask] };
+                        })
                     );
                 }
             )
             .subscribe();
     }
-
     /** Subscribes to updates of existing subtasks. */
     subscribeToSubtasksUpdate(): void {
         this.subtasksUpdateChannel = this.supabase.channel('subtasks-update-channel')
@@ -348,6 +373,38 @@ export class SupabaseTaskService {
 
     //     return true;
     // }
+    // async addNewSubtasks(taskId: number, newSubtaskTitles: string[]): Promise<boolean> {
+    //     const currentTask = this.tasks().find(t => t.id === taskId);
+    //     const oldTitles = currentTask?.subtasks.map(s => s.title) ?? [];
+
+    //     const toAdd = newSubtaskTitles.filter(title => !oldTitles.includes(title));
+    //     const toRemove = oldTitles.filter(title => !newSubtaskTitles.includes(title));
+
+    //     if (toRemove.length > 0) {
+    //         const { error } = await this.supabase.from('subtasks')
+    //             .delete().eq('task_id', taskId).in('title', toRemove);
+    //         if (error) { console.error('Subtasks could not be removed', error.message); return false; }
+    //     }
+
+    //     if (toAdd.length > 0) {
+    //         const { error } = await this.supabase.from('subtasks')
+    //             .insert(toAdd.map(title => ({ task_id: taskId, title })));
+    //         if (error) { console.error('Subtasks could not be added', error.message); return false; }
+    //     }
+
+    //     return true;
+    // }
+
+    /**
+ * Inserts or removes subtasks of a task in Supabase so that its subtasks
+ * match `newSubtaskTitles`, and immediately keeps the local `tasks`
+ * state in sync, without waiting for the realtime event (avoids UI
+ * delay after saving).
+ *
+ * @param taskId - The task id that receives/loses subtasks.
+ * @param newSubtaskTitles - The complete new list of subtask titles.
+ * @returns True when the update succeeds, otherwise false.
+ */
     async addNewSubtasks(taskId: number, newSubtaskTitles: string[]): Promise<boolean> {
         const currentTask = this.tasks().find(t => t.id === taskId);
         const oldTitles = currentTask?.subtasks.map(s => s.title) ?? [];
@@ -361,11 +418,24 @@ export class SupabaseTaskService {
             if (error) { console.error('Subtasks could not be removed', error.message); return false; }
         }
 
+        let insertedSubtasks: Subtask[] = [];
         if (toAdd.length > 0) {
-            const { error } = await this.supabase.from('subtasks')
-                .insert(toAdd.map(title => ({ task_id: taskId, title })));
+            const { data, error } = await this.supabase.from('subtasks')
+                .insert(toAdd.map(title => ({ task_id: taskId, title })))
+                .select();
             if (error) { console.error('Subtasks could not be added', error.message); return false; }
+            insertedSubtasks = data ?? [];
         }
+
+        // Keep the local state consistent immediately, independent of realtime latency
+        this.tasks.update(list =>
+            list.map(task => {
+                if (task.id !== taskId) return task;
+
+                const keptSubtasks = task.subtasks.filter(s => !toRemove.includes(s.title));
+                return { ...task, subtasks: [...keptSubtasks, ...insertedSubtasks] };
+            })
+        );
 
         return true;
     }
