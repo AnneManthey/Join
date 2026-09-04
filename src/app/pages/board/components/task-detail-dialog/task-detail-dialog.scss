@@ -318,6 +318,7 @@ h2 {
   .dialog-content {
     width: min(525px, calc(100vw - 32px));
     max-width: calc(100vw - 32px);
+    height: 650px;
     padding: 34px 24px 34px 24px;
     gap: 16px;
   }
