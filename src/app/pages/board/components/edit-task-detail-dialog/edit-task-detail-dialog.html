@@ -58,6 +58,7 @@
             class="task-form__input"
             id="task-detail-duedate"
             type="date"
+            [min]="minDate"
             formControlName="taskdetailDuedate"
           />
           @if (taskdetailDuedate?.invalid && taskdetailDuedate?.touched) {
@@ -296,6 +297,7 @@
               </p>
             </div>
             <div class="task-form__subtask-list">
+            <div class="task-formsubtask-list-wrapper">
             @for (subtask of editSubtasks(); track $index) {
               @if (editingIndex() !== $index) {
                 <ul class="task-form__ul">
@@ -435,6 +437,7 @@
                 </div>
               }
             }
+            </div>
             </div>
           </div>
         </div>
