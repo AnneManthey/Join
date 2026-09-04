@@ -194,7 +194,13 @@ export class SupabaseTaskService {
         this.subscribeToTaskContactsDelete();
     }
 
-    /** Subscribes to newly created task-contact assignments. */
+    /**
+ * Subscribes to newly created task-contact assignments.
+ *
+ * Skips contacts that are already present locally (e.g. because they
+ * were just added optimistically by `updateAssignedContacts`), to
+ * avoid duplicate entries when the realtime event arrives afterwards.
+ */
     subscribeToTaskContactsInsert(): void {
         this.taskContactsInsertChannel = this.supabase.channel('task-contacts-insert-channel')
             .on('postgres_changes',
@@ -210,11 +216,12 @@ export class SupabaseTaskService {
                     }
                     const newTaskContact: TaskContact = { contact_id: contactId, contacts: contact };
                     this.tasks.update(list =>
-                        list.map(task =>
-                            task.id === taskId
-                                ? { ...task, task_contacts: [...task.task_contacts, newTaskContact] }
-                                : task
-                        )
+                        list.map(task => {
+                            if (task.id !== taskId) return task;
+                            const alreadyExists = task.task_contacts.some(tc => tc.contact_id === contactId);
+                            if (alreadyExists) return task;
+                            return { ...task, task_contacts: [...task.task_contacts, newTaskContact] };
+                        })
                     );
                 }
             )
@@ -363,29 +370,61 @@ export class SupabaseTaskService {
         return true;
     }
 
+
     /**
-     * Replaces the task's current contact assignments with a new contact list.
-     *
-     * @param taskId The task whose contact assignments are being updated.
-     * @param newIds The complete set of contact ids assigned to the task.
-     * @returns True when the update succeeds, otherwise false.
-     */
+ * Updates the contacts assigned to a task in Supabase and immediately
+ * keeps the local `tasks` state in sync, without waiting for the
+ * realtime event (avoids UI delay after saving).
+ *
+ * Computes the difference between the old and new contact IDs, removes
+ * and inserts only the actually changed rows in `task_contacts`, and
+ * then writes the result directly into the `tasks` signal.
+ *
+ * @param taskId - The ID of the task whose contacts are being updated.
+ * @param newIds - The complete new list of assigned contact IDs.
+ * @returns `true` if removing and adding succeeded, otherwise `false`.
+ */
     async updateAssignedContacts(taskId: number, newIds: number[]): Promise<boolean> {
         const currentTask = this.tasks().find(t => t.id === taskId);
         const oldIds = currentTask?.task_contacts.map(tc => tc.contact_id) ?? [];
 
-        const toAdd = newIds.filter(id => !oldIds.includes(id)).map(contact_id => ({ task_id: taskId, contact_id }));
+        // IDs that are newly added or need to be removed
+        const idsToAdd = newIds.filter(id => !oldIds.includes(id));
+        const toAdd = idsToAdd.map(contact_id => ({ task_id: taskId, contact_id }));
         const toRemove = oldIds.filter(id => !newIds.includes(id));
 
+        // Remove deleted assignments from the DB
         if (toRemove.length > 0) {
             const { error } = await this.supabase.from('task_contacts').delete().eq('task_id', taskId).in('contact_id', toRemove);
             if (error) { console.error('Contacts could not be removed', error.message); return false; }
         }
 
+        // Insert new assignments into the DB
         if (toAdd.length > 0) {
             const { error } = await this.supabase.from('task_contacts').insert(toAdd);
             if (error) { console.error('Contacts could not be added', error.message); return false; }
         }
+
+        // Keep the local state consistent immediately, independent of realtime latency
+        const allContacts = this.supabaseService.contacts();
+        this.tasks.update(list =>
+            list.map(task => {
+                if (task.id !== taskId) return task;
+
+                // Filter out removed contacts
+                const keptContacts = task.task_contacts.filter(tc => !toRemove.includes(tc.contact_id));
+
+                // Resolve newly added contact IDs into full TaskContact objects
+                const newContacts: TaskContact[] = idsToAdd
+                    .map(contact_id => {
+                        const contact = allContacts.find(c => c.id === contact_id);
+                        return contact ? { contact_id, contacts: contact } : null;
+                    })
+                    .filter((tc): tc is TaskContact => tc !== null);
+
+                return { ...task, task_contacts: [...keptContacts, ...newContacts] };
+            })
+        );
 
         return true;
     }
