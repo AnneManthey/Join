@@ -4,6 +4,8 @@ import { ContactDetails } from './pages/contacts/components/contact-details/cont
 import { Contacts } from './pages/contacts/contacts';
 import { AddTask } from './pages/add-task/add-task';
 import { LoginHome } from './pages/login-home/login-home';
+import { authGuard } from './shared/guards/auth-guard';
+import { Register } from './pages/login-home/components/register/register';
 
 export const routes: Routes = [
     // Startseite auf Contacts weitergeleitet, damit der Router nicht leer bleibt.
@@ -13,18 +15,25 @@ export const routes: Routes = [
         component: LoginHome
     },
     {
+        path: 'register',
+        component: Register
+    },
+    {
         path: 'addtask',
-        component: AddTask
+        component: AddTask,
+        canActivate: [authGuard]
     },
     {
         path: 'board',
-        component: Board
+        component: Board,
+        canActivate: [authGuard]
     },
     {
         path: 'contacts',
         component: Contacts,
         children: [
             { path: ':id', component: ContactDetails }
-        ]
+        ],
+        canActivate: [authGuard]
     }
 ];
