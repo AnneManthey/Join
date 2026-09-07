@@ -3,9 +3,20 @@
 <form [formGroup]="registerForm" (ngSubmit)="submitRegister()">
     <label for="registerUsername">User Name</label>
     <input type="text" id="registerUsername" formControlName="registerUsername">
+
     <label for="registerUsermail">User Mail</label>
     <input type="text" id="registerUsermail" formControlName="registerUsermail">
+
     <label for="registerPassword">Password</label>
     <input type="text" id="registerPassword" formControlName="registerPassword">
-    <button type="submit">Sign Up</button>
+
+    <label for="confirmPassword">Confirm Password</label>
+    <input type="text" id="confirmPassword" formControlName="confirmPassword">
+    
+    <label for="registerPolicy">Accept Policy</label>
+    <input type="checkbox" id="registerPolicy" formControlName="registerPolicy">
+
+    <button type="submit" [disabled]="registerForm.invalid">Sign Up</button>
 </form>
+
+<!-- Type="password" setzen -->
