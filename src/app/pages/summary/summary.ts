@@ -18,6 +18,7 @@ export class Summary {
   private readonly taskService = inject(SupabaseTaskService);
 
   /** Name of the logged-in user, used in the greeting. */
+  //TODO: eingeloggten User/Guest übergeben
   readonly userName = signal<string>('Sofia Müller');
 
   /** All tasks currently loaded from Supabase. */
