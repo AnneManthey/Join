@@ -10,5 +10,7 @@
 }
 
 @if (!authService.isLoggedIn()) {
-    <p>failed to log in</p>
+    <p>failed to log in or signed out</p>
 }
+
+<button (click)="authService.signOut()">sign out</button>

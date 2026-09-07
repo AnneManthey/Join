@@ -39,5 +39,9 @@ export class AuthService {
         } else {
             console.log('Successfully logged in', data);
         }
+    };
+
+    async signOut() {
+        const { error } = await this.supabase.auth.signOut();
     }
 }
