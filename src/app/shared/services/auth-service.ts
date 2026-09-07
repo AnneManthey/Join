@@ -3,15 +3,22 @@ import { SupabaseService } from './supabase-service';
 import { Router } from '@angular/router';
 
 @Service()
+/** Provides authentication operations and exposes the current authentication state. */
 export class AuthService {
+    /** Supabase client used for authentication requests. */
     supabase = inject(SupabaseService).client;
+    /** Router used to navigate after authentication state changes. */
     private router = inject(Router);
+    /** Indicates whether a user is currently authenticated. */
     isLoggedIn = signal<boolean>(false);
     // currentUserId wird benötigt, um den user in die contact list zu übertragen
     // Anlegen vom foreign key in supabase noch notwendig
+    /** Stores the ID of the currently authenticated user. */
     currentUserId = signal<string | null>(null);
+    /** Stores the latest authentication error shown to the user. */
     loginError = signal<string | null>(null);
 
+    /** Starts listening for Supabase authentication state changes. */
     initAuthListener(): Promise<void> {
         return new Promise((resolve) => {
             this.supabase.auth.onAuthStateChange((event, session) => {
@@ -26,6 +33,7 @@ export class AuthService {
         });
     };
 
+    /** Registers a new user with the provided email address and password. */
     async signUpNewUser(email: string, password: string) {
         const { data, error } = await this.supabase.auth.signUp({
             email: email,
@@ -42,6 +50,7 @@ export class AuthService {
         }
     };
 
+    /** Signs in a user with an email address and password. */
     async signInWithEmail(email: string, password: string) {
         // loginerror wird hier auf null gesetzt, wenn man mehrmals falsch eingegeben hat, 
         // damit klar wird, dass der login nochmal probiert wird, 
@@ -61,6 +70,7 @@ export class AuthService {
         }
     };
 
+    /** Signs out the current user and returns to the login page. */
     async signOut() {
         const { error } = await this.supabase.auth.signOut();
         if (error) {
@@ -70,6 +80,7 @@ export class AuthService {
         }
     };
 
+    /** Signs in anonymously as a guest user. */
     async signInAsGuest() {
         this.loginError.set(null);
         const { data, error } = await this.supabase.auth.signInAnonymously();

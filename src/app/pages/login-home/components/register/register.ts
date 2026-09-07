@@ -12,11 +12,16 @@ import { RouterLink } from "@angular/router";
   styleUrl: './register.scss',
   providers: [AddContactDialog]
 })
+/** Displays the registration form and creates new user accounts. */
 export class Register {
+  /** Provides registration actions and state for the registration view. */
   authService = inject(AuthService);
+  /** Pattern used to validate the display name. */
   nameValidator = inject(AddContactDialog).namePattern;
+  /** Pattern used to validate the registration email address. */
   mailValidator = inject(AddContactDialog).emailDomainPattern;
 
+  /** Reactive form containing the registration data and policy consent. */
   registerForm = new FormGroup({
     registerUsername: new FormControl('', { validators: [Validators.required, Validators.pattern(this.nameValidator)] }),
     registerUsermail: new FormControl('', { validators: [Validators.required, Validators.pattern(this.mailValidator)] }),
@@ -25,26 +30,32 @@ export class Register {
     registerPolicy: new FormControl(false, { validators: Validators.requiredTrue }),
   }, { validators: [confirmPasswordValidator()] });
 
+  /** Returns the username form control. */
   get registerUsername() {
     return this.registerForm.get('registerUsername');
   };
 
+  /** Returns the registration email form control. */
   get registerUsermail() {
     return this.registerForm.get('registerUsermail');
   };
 
+  /** Returns the registration password form control. */
   get registerPassword() {
     return this.registerForm.get('registerPassword');
   };
 
+  /** Returns the privacy policy consent form control. */
   get registerPolicy() {
     return this.registerForm.get('registerPolicy');
   };
 
+  /** Returns the password confirmation form control. */
   get confirmPassword() {
     return this.registerForm.get('confirmPassword');
   };
 
+  /** Submits valid registration data to the authentication service. */
   submitRegister() {
     if (this.registerForm.valid) {
       this.authService.signUpNewUser(this.registerUsermail?.value ?? '', this.registerPassword?.value ?? '');
@@ -52,6 +63,7 @@ export class Register {
     }
   };
 
+  /** Resets all fields in the registration form. */
   clearRegisterForm() {
     this.registerForm.reset();
   }
