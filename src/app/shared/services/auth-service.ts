@@ -1,9 +1,18 @@
-import { Service, inject } from '@angular/core';
+import { Service, inject, signal } from '@angular/core';
 import { SupabaseService } from './supabase-service';
 
 @Service()
 export class AuthService {
     supabase = inject(SupabaseService).client;
+    isLoggedIn = signal<boolean>(false);
+    currentUserId = signal<string | null>(null);
+
+    constructor() {
+        this.supabase.auth.onAuthStateChange((event, session) => {
+            this.isLoggedIn.set(session !== null);
+            this.currentUserId.set(session?.user.id ?? null);
+        });
+    }
 
     async signUpNewUser(email: string, password: string) {
         const { data, error } = await this.supabase.auth.signUp({
@@ -21,9 +30,14 @@ export class AuthService {
     };
 
     async signInWithEmail(email: string, password: string) {
-    const { data, error } = await this.supabase.auth.signInWithPassword({
-        email: email,
-        password: password,
-    })
-}
+        const { data, error } = await this.supabase.auth.signInWithPassword({
+            email: email,
+            password: password,
+        })
+        if (error) {
+            console.log(error);
+        } else {
+            console.log('Successfully logged in', data);
+        }
+    }
 }
