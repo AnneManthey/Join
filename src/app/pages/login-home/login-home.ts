@@ -2,18 +2,22 @@ import { Component, inject } from '@angular/core';
 import { AuthService } from '../../shared/services/auth-service';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Register } from './components/register/register';
+import { AddContactDialog } from '../contacts/components/add-contact-dialog/add-contact-dialog';
 
 @Component({
   selector: 'app-login-home',
   imports: [ReactiveFormsModule, Register],
   templateUrl: './login-home.html',
   styleUrl: './login-home.scss',
+  providers: [AddContactDialog]
 })
+
 export class LoginHome {
   authService = inject(AuthService);
+  mailValidator = inject(AddContactDialog).emailDomainPattern;
 
   loginForm = new FormGroup({
-    usermail: new FormControl('', { validators: Validators.required }),
+    usermail: new FormControl('', { validators: [Validators.required, Validators.pattern(this.mailValidator)] }),
     password: new FormControl('', { validators: Validators.required }),
   });
 
@@ -26,6 +30,13 @@ export class LoginHome {
   };
 
   submitLogin() {
-    this.authService.signInWithEmail(this.usermail?.value ?? '', this.password?.value ?? '')
-  }
+    if (this.loginForm.valid) {
+      this.authService.signInWithEmail(this.usermail?.value ?? '', this.password?.value ?? '');
+      this.clearLoginForm();
+    }
+  };
+
+  clearLoginForm() {
+    this.loginForm.reset();
+  };
 }

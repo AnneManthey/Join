@@ -3,18 +3,33 @@
 <form [formGroup]="registerForm" (ngSubmit)="submitRegister()">
     <label for="registerUsername">User Name</label>
     <input type="text" id="registerUsername" formControlName="registerUsername">
+    @if (registerUsername?.invalid) {
+    <p style=color:red>User Name not valid</p>
+    }
 
     <label for="registerUsermail">User Mail</label>
     <input type="text" id="registerUsermail" formControlName="registerUsermail">
+    @if (registerUsermail?.invalid) {
+    <p style=color:red>User Mail not valid</p>
+    }
 
     <label for="registerPassword">Password</label>
     <input type="text" id="registerPassword" formControlName="registerPassword">
+    @if (registerPassword?.invalid) {
+    <p style=color:red>Password not valid</p>
+    }
 
     <label for="confirmPassword">Confirm Password</label>
     <input type="text" id="confirmPassword" formControlName="confirmPassword">
-    
+    @if (registerForm.hasError('passwordMismatch')) {
+    <p style=color:red>password doesn't match</p>
+    }
+
     <label for="registerPolicy">Accept Policy</label>
     <input type="checkbox" id="registerPolicy" formControlName="registerPolicy">
+    @if (registerPolicy?.invalid) {
+    <p style=color:red>please accept privacy policy</p>
+    }
 
     <button type="submit" [disabled]="registerForm.invalid">Sign Up</button>
 </form>

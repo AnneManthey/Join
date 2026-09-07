@@ -18,10 +18,10 @@ export class Register {
 
   registerForm = new FormGroup({
     registerUsername: new FormControl('', { validators: [Validators.required, Validators.pattern(this.nameValidator)] }),
-    registerUsermail: new FormControl('', { validators: [Validators.required, Validators.pattern(this.mailValidator)]}),
+    registerUsermail: new FormControl('', { validators: [Validators.required, Validators.pattern(this.mailValidator)] }),
     registerPassword: new FormControl('', { validators: Validators.required }),
     confirmPassword: new FormControl('', { validators: Validators.required }),
-    registerPolicy: new FormControl(false, { validators: Validators.requiredTrue})
+    registerPolicy: new FormControl(false, { validators: Validators.requiredTrue }),
   }, { validators: [confirmPasswordValidator()] });
 
   get registerUsername() {
@@ -36,11 +36,22 @@ export class Register {
     return this.registerForm.get('registerPassword');
   };
 
+  get registerPolicy() {
+    return this.registerForm.get('registerPolicy');
+  };
+
   get confirmPassword() {
     return this.registerForm.get('confirmPassword');
   };
 
   submitRegister() {
-    this.authService.signUpNewUser(this.registerUsermail?.value ?? '', this.registerPassword?.value ?? '');
+    if (this.registerForm.valid) {
+      this.authService.signUpNewUser(this.registerUsermail?.value ?? '', this.registerPassword?.value ?? '');
+      this.clearRegisterForm();
+    }
   };
+
+  clearRegisterForm() {
+    this.registerForm.reset();
+  }
 }

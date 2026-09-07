@@ -6,6 +6,7 @@ export class AuthService {
     supabase = inject(SupabaseService).client;
     isLoggedIn = signal<boolean>(false);
     currentUserId = signal<string | null>(null);
+    loginError = signal<string | null>(null);
 
     constructor() {
         this.supabase.auth.onAuthStateChange((event, session) => {
@@ -15,6 +16,7 @@ export class AuthService {
     }
 
     async signUpNewUser(email: string, password: string) {
+
         const { data, error } = await this.supabase.auth.signUp({
             email: email,
             password: password,
@@ -30,14 +32,20 @@ export class AuthService {
     };
 
     async signInWithEmail(email: string, password: string) {
+        // loginerror wird hier auf null gesetzt, wenn man mehrmals falsch eingegeben hat, 
+        // damit klar wird, dass der login nochmal probiert wird, 
+        // denn die errormeldung verschwindet hierdurch
+        this.loginError.set(null);
         const { data, error } = await this.supabase.auth.signInWithPassword({
             email: email,
             password: password,
         })
         if (error) {
             console.log(error);
+            this.loginError.set('user could not be found')
         } else {
             console.log('Successfully logged in', data);
+            this.loginError.set(null);
         }
     };
 
