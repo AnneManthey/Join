@@ -1,10 +1,11 @@
 import { Component, inject } from '@angular/core';
 import { AuthService } from '../../shared/services/auth-service';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Register } from './components/register/register';
 
 @Component({
   selector: 'app-login-home',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, Register],
   templateUrl: './login-home.html',
   styleUrl: './login-home.scss',
 })

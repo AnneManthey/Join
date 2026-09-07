@@ -25,7 +25,7 @@ export class AuthService {
         if (error) {
             console.log(error);
         } else {
-            console.log(data);
+            console.log('Successfully signed up', data);
         }
     };
 
