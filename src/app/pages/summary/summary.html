@@ -11,48 +11,48 @@
             <section class="dashboard-wrapper">
                 <section class="summary-dashboard">
                     <div class="part-1">
-                        <article class="card-wrapper">
+                        <button class="card-wrapper">
                             <img class="img-normal" src="app-icons/summary/todo.svg" alt="To Do Icon">
                             <img class="img-hover" src="app-icons/summary/todo-hover.svg" alt="To Do Icon">
                             <div>
                                 <h4>{{ statusMetrics()[0].value }}</h4>
                                 <p>To-do</p>
                             </div>
-                        </article>
-                        <article class="card-wrapper">
+                        </button>
+                        <button class="card-wrapper">
                             <img class="img-normal" src="app-icons/summary/done.svg" alt="Done Icon">
                             <img class="img-hover" src="app-icons/summary/done-hover.svg" alt="Done Icon">
                             <div>
                                 <h4>{{ statusMetrics()[1].value }}</h4>
                                 <p>Done</p>
                             </div>
-                        </article>
+                        </button>
                     </div>
-                    <article class="card-urgent">
+                    <button class="card-urgent">
                         <img src="app-icons/summary/urgent.svg" alt="Urgent Icon">
-                        <div>
+                        <div class="urgent-wrapper">
                             <h4>{{ statusMetrics()[2].value }}</h4>
                             <p>Urgent</p>
                         </div>
                         <div class="grey-line"></div>
-                        <div>
+                        <div class="urgent-wrapper">
                             <span>{{ formattedDeadline() }}</span>
-                            <p>Upcoming Deadline</p>
+                            <p class="urgent-p">Upcoming Deadline</p>
                         </div>
-                    </article>
+                    </button>
                     <div class="part-2">
-                        <article class="card-single">
+                        <button class="card-single">
                             <h4>{{ statMetrics()[0].value }}</h4>
                             <p>Tasks in Board</p>
-                        </article>
-                        <article class="card-single">
+                        </button>
+                        <button class="card-single">
                             <h4>{{ statMetrics()[1].value }}</h4>
                             <p>Tasks in Progress</p>
-                        </article>
-                        <article class="card-single">
+                        </button>
+                        <button class="card-single">
                             <h4>{{ statMetrics()[2].value }}</h4>
                             <p>Awaiting Feedback</p>
-                        </article>
+                        </button>
                     </div>
                 </section>
                 <section class="summary-greeting">
