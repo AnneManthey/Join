@@ -1,0 +1,65 @@
+<div class="app-layout">
+    <app-navbar></app-navbar>
+    <div class="page-content">
+        <app-header></app-header>
+        <main class="summary-main">
+            <header class="summary-header">
+                <h1>Join 360</h1>
+                <div class="blue-line"></div>
+                <h2>Key Metrics at a Glance</h2>
+            </header>
+            <section class="dashboard-wrapper">
+                <section class="summary-dashboard">
+                    <div class="part-1">
+                        <button class="card-wrapper" routerLink="/board">
+                            <img class="img-normal" src="app-icons/summary/todo.svg" alt="To Do Icon">
+                            <img class="img-hover" src="app-icons/summary/todo-hover.svg" alt="To Do Icon">
+                            <div class="card-inner-wrapper">
+                                <h4>{{ statusMetrics()[0].value }}</h4>
+                                <p>To-do</p>
+                            </div>
+                        </button>
+                        <button class="card-wrapper" routerLink="/board">
+                            <img class="img-normal" src="app-icons/summary/done.svg" alt="Done Icon">
+                            <img class="img-hover" src="app-icons/summary/done-hover.svg" alt="Done Icon">
+                            <div class="card-inner-wrapper">
+                                <h4>{{ statusMetrics()[1].value }}</h4>
+                                <p>Done</p>
+                            </div>
+                        </button>
+                    </div>
+                    <button class="card-urgent" routerLink="/board">
+                        <img src="app-icons/summary/urgent.svg" alt="Urgent Icon">
+                        <div class="urgent-wrapper">
+                            <h4>{{ statusMetrics()[2].value }}</h4>
+                            <p>Urgent</p>
+                        </div>
+                        <div class="grey-line"></div>
+                        <div class="urgent-wrapper">
+                            <span>{{ formattedDeadline() }}</span>
+                            <p class="urgent-p">Upcoming Deadline</p>
+                        </div>
+                    </button>
+                    <div class="part-2">
+                        <button class="card-single" routerLink="/board">
+                            <h4>{{ statMetrics()[0].value }}</h4>
+                            <p>Tasks in Board</p>
+                        </button>
+                        <button class="card-single" routerLink="/board">
+                            <h4>{{ statMetrics()[1].value }}</h4>
+                            <p>Tasks in Progress</p>
+                        </button>
+                        <button class="card-single" routerLink="/board">
+                            <h4>{{ statMetrics()[2].value }}</h4>
+                            <p>Awaiting Feedback</p>
+                        </button>
+                    </div>
+                </section>
+                <section class="summary-greeting">
+                    <p>{{ greeting() }},</p>
+                    <h3>{{ userName() }}</h3>
+                </section>
+            </section>
+        </main>
+    </div>
+</div>
