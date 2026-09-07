@@ -3,6 +3,7 @@ import { Board } from './pages/board/board';
 import { ContactDetails } from './pages/contacts/components/contact-details/contact-details';
 import { Contacts } from './pages/contacts/contacts';
 import { AddTask } from './pages/add-task/add-task';
+import { LegalNotice } from './pages/legal-notice/legal-notice';
 
 export const routes: Routes = [
     // Startseite auf Contacts weitergeleitet, damit der Router nicht leer bleibt.
@@ -18,5 +19,10 @@ export const routes: Routes = [
         children: [
             { path: ':id', component: ContactDetails }
         ]
-    }
+    },
+    {
+        path: 'legal-notice',
+        component: LegalNotice
+    },
+
 ];
