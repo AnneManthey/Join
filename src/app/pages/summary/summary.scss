@@ -1,2 +1,57 @@
 @use '../../styles/variables' as *;
 
+.summary-main {
+  background-color: $board-bg;
+  font-family: 'Inter', sans-serif;
+  display: flex;
+  flex-direction: column;
+  padding: 70px 60px;
+  .summary-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    h1 {
+      font-weight: 700;
+      font-size: 3.8rem;
+      line-height: 120%;
+    }
+    h2 {
+      font-weight: 400;
+      font-size: 1.7rem;
+      line-height: 120%;
+      color: $dark-blue;
+    }
+    .blue-line {
+      height: 3rem;
+      width: 2px;
+      background-color: $bright-light-blue;
+    }
+  }
+}
+
+.dashboard-wrapper {
+  display: flex;
+  .summary-dashboard {
+    // flex-wrap: wrap;
+
+    .card-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: $white;
+      border: 1px solid $light-grey;
+      border-radius: 30px;
+      padding: 38px 19px;
+      gap: 18px;
+    }
+    .card-single {
+      display: flex;
+      flex-direction: column;
+      background-color: $white;
+      border: 1px solid $light-grey;
+      border-radius: 30px;
+      padding: 38px 19px;
+      gap: 18px;
+    }
+  }
+}
