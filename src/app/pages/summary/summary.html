@@ -15,7 +15,7 @@
                             <img class="img-normal" src="app-icons/summary/todo.svg" alt="To Do Icon">
                             <img class="img-hover" src="app-icons/summary/todo-hover.svg" alt="To Do Icon">
                             <div>
-                                <h4>1</h4>
+                                <h4>{{ statusMetrics()[0].value }}</h4>
                                 <p>To-do</p>
                             </div>
                         </article>
@@ -23,7 +23,7 @@
                             <img class="img-normal" src="app-icons/summary/done.svg" alt="Done Icon">
                             <img class="img-hover" src="app-icons/summary/done-hover.svg" alt="Done Icon">
                             <div>
-                                <h4>2</h4>
+                                <h4>{{ statusMetrics()[1].value }}</h4>
                                 <p>Done</p>
                             </div>
                         </article>
@@ -31,26 +31,26 @@
                     <article class="card-urgent">
                         <img src="app-icons/summary/urgent.svg" alt="Urgent Icon">
                         <div>
-                            <h4>1</h4>
+                            <h4>{{ statusMetrics()[2].value }}</h4>
                             <p>Urgent</p>
                         </div>
                         <div class="grey-line"></div>
                         <div>
-                            <span>Date</span>
+                            <span>{{ formattedDeadline() }}</span>
                             <p>Upcoming Deadline</p>
                         </div>
                     </article>
                     <div class="part-2">
                         <article class="card-single">
-                            <h4>5</h4>
+                            <h4>{{ statMetrics()[0].value }}</h4>
                             <p>Tasks in Board</p>
                         </article>
                         <article class="card-single">
-                            <h4>2</h4>
+                            <h4>{{ statMetrics()[1].value }}</h4>
                             <p>Tasks in Progress</p>
                         </article>
                         <article class="card-single">
-                            <h4>3</h4>
+                            <h4>{{ statMetrics()[2].value }}</h4>
                             <p>Awaiting Feedback</p>
                         </article>
                     </div>
