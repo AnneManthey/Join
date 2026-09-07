@@ -1,7 +1,36 @@
 main {
+    display: block;
     overflow-y: auto;
+}
+
+.legal-notice-wrapper {
+    margin-top: 116px;
+    margin-left: 96px;
+    margin-right: 98px;
+    padding-bottom: 116px;
+    font-family: 'Inter';
+}
+
+h1 {
+    font-weight: 700;
+    font-size: 3,8125rem;
+    line-height: 120%;
+    color: black;
+}
+
+h2 {
+    font-weight: 700;
+    line-height: 120%;
+    color: black;
+    font-size: 1,6875rem;
+    margin-top: 24px;
 }
 
 .leerzeile {
     margin-top: 1rem;
 }
+
+p {
+    font-size: 1rem;
+}
+
