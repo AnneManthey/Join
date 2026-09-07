@@ -1,41 +1,16 @@
 import { Component, computed, inject, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
+// import { CommonModule } from '@angular/common';
 import { Header } from '../../layout/header/header';
 import { Navbar } from '../../layout/navbar/navbar';
 import { RouterLink } from '@angular/router';
 import { Task } from '../../shared/interfaces/task';
+import { StatMetric, StatusMetric } from '../../shared/interfaces/summary-metric';
 import { SupabaseTaskService } from '../../shared/services/supabase-task-service';
-
-/**
- * A single status chip shown at the top of the summary (e.g. "To-do", "Done", "Urgent").
- */
-export interface StatusMetric {
-  /** Unique identifier, also used for `@for` tracking */
-  id: string;
-  /** Text shown under the value */
-  label: string;
-  /** Numeric count displayed on the chip */
-  value: number;
-  /** Determines which icon/color variant is rendered */
-  icon: 'todo' | 'done' | 'urgent';
-}
-
-/**
- * A single stat card shown at the bottom of the summary (e.g. "Tasks in Board").
- */
-export interface StatMetric {
-  /** Unique identifier, also used for `@for` tracking */
-  id: string;
-  /** Numeric value displayed on the card */
-  value: number;
-  /** Description shown under the value */
-  label: string;
-}
 
 
 @Component({
   selector: 'app-summary',
-  imports: [Header, Navbar, CommonModule, RouterLink],
+  imports: [Header, Navbar, RouterLink],
   templateUrl: './summary.html',
   styleUrl: './summary.scss',
 })
