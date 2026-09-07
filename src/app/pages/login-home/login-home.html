@@ -1,7 +1,14 @@
 <form [formGroup]="loginForm" (ngSubmit)="submitLogin()">
     <label for="usermail">email</label>
     <input type="text" id="usermail" formControlName="usermail">
-    <label for="password">email</label>
+    <label for="password">password</label>
     <input type="text" id="password" formControlName="password">
     <button type="submit">Log In</button>
 </form>
+@if (authService.isLoggedIn()) {
+    <p>logged in successfully</p>
+}
+
+@if (!authService.isLoggedIn()) {
+    <p>failed to log in</p>
+}
