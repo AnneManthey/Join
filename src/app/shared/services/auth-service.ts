@@ -51,5 +51,20 @@ export class AuthService {
 
     async signOut() {
         const { error } = await this.supabase.auth.signOut();
-    }
+        if (error) {
+            console.error(error)
+        }
+    };
+
+    async signInAsGuest() {
+        this.loginError.set(null);
+        const { data, error } = await this.supabase.auth.signInAnonymously();
+        if (error) {
+            console.log(error);
+            this.loginError.set('guest login failed');
+        } else {
+            console.log('Successfully signed in as guest', data);
+            this.loginError.set(null);
+        }
+    };
 }

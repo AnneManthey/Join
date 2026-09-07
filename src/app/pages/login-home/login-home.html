@@ -14,6 +14,7 @@
     <p style=color:red> {{authService.loginError()}}</p>
     }
     <button type="submit">Log In</button>
+    <button type="button" (click)="authService.signInAsGuest()"> Guest Log In</button>
 </form>
 <br>
 <hr>
