@@ -2,6 +2,7 @@ import { Component, computed, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Header } from '../../layout/header/header';
 import { Navbar } from '../../layout/navbar/navbar';
+import { RouterLink } from '@angular/router';
 import { Task } from '../../shared/interfaces/task';
 import { SupabaseTaskService } from '../../shared/services/supabase-task-service';
 
@@ -34,7 +35,7 @@ export interface StatMetric {
 
 @Component({
   selector: 'app-summary',
-  imports: [Header, Navbar, CommonModule],
+  imports: [Header, Navbar, CommonModule, RouterLink],
   templateUrl: './summary.html',
   styleUrl: './summary.scss',
 })
