@@ -5,6 +5,7 @@
   font-family: 'Inter', sans-serif;
   display: flex;
   flex-direction: column;
+  overflow-y: auto;
   padding: 70px 60px;
   .summary-header {
     display: flex;
