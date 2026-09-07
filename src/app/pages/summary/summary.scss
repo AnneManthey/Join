@@ -9,6 +9,7 @@
   .summary-header {
     display: flex;
     align-items: center;
+    padding-bottom: 50px;
     gap: 16px;
     h1 {
       font-weight: 700;
@@ -31,10 +32,22 @@
 
 .dashboard-wrapper {
   display: flex;
+  align-items: center;
+//   justify-content: space-evenly;
   .summary-dashboard {
-    // flex-wrap: wrap;
-
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+    .part-1 {
+      display: flex;
+      gap: 28px;
+    }
+    .part-2 {
+      display: flex;
+      gap: 28px;
+    }
     .card-wrapper {
+      width: 260px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -43,15 +56,72 @@
       border-radius: 30px;
       padding: 38px 19px;
       gap: 18px;
+      img {
+        width: 70px;
+        height: 70px;
+      }
+      h4 {
+        font-size: 4rem;
+        text-align: center;
+      }
+      p {
+        font-size: 1.2rem;
+        text-align: center;
+      }
+    }
+    .card-urgent {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: $white;
+      border: 1px solid $light-grey;
+      border-radius: 30px;
+      padding: 38px 19px;
+      gap: 18px;
+      img {
+        width: 70px;
+        height: 70px;
+      }
+      h4 {
+        font-size: 4rem;
+        text-align: center;
+      }
+      p {
+        font-size: 1.2rem;
+        text-align: center;
+      }
     }
     .card-single {
+      width: 170px;
+      height: 170px;
       display: flex;
       flex-direction: column;
       background-color: $white;
       border: 1px solid $light-grey;
       border-radius: 30px;
       padding: 38px 19px;
-      gap: 18px;
+
+      h4 {
+        font-size: 4rem;
+        text-align: center;
+      }
+      p {
+        font-size: 1.2rem;
+        text-align: center;
+      }
     }
   }
+}
+
+.summary-greeting{
+    padding-left: 150px;
+    color:$dark-blue ;
+    p{
+        font-size: 2.9rem;
+    }
+    h3{
+        font-size: 4rem;
+        font-weight: 700;
+    }
 }
