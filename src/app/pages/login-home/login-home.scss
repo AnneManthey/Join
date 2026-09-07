@@ -14,7 +14,9 @@
         align-items: flex-start;
         width: 100%;
     }
+}
 
+.auth {
     &__form-wrapper {
         display: flex;
         flex-direction: column;

@@ -3,10 +3,11 @@ import { AuthService } from '../../../../shared/services/auth-service';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { confirmPasswordValidator } from '../../../../shared/utils/confirm-password-validator';
 import { AddContactDialog } from '../../../contacts/components/add-contact-dialog/add-contact-dialog';
+import { RouterLink } from "@angular/router";
 
 @Component({
   selector: 'app-register',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, RouterLink],
   templateUrl: './register.html',
   styleUrl: './register.scss',
   providers: [AddContactDialog]

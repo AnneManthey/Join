@@ -6,9 +6,9 @@
     </div>
 </header>
 
-<div class="login__form-wrapper">
+<div class="auth__form-wrapper">
     <h1>Log in</h1>
-    <form class="login__form" [formGroup]="loginForm" (ngSubmit)="submitLogin()">
+    <form class="auth__form" [formGroup]="loginForm" (ngSubmit)="submitLogin()">
         <label for="usermail">email</label>
         <input type="text" id="usermail" formControlName="usermail">
         <!-- @if (usermail?.invalid) {
@@ -27,8 +27,7 @@
         <button type="button" (click)="authService.signInAsGuest()"> Guest Log In</button>
     </form>
 </div>
-<br>
-<hr>
+
 @if (authService.isLoggedIn()) {
 <p>logged in successfully</p>
 }
@@ -36,7 +35,6 @@
 @if (!authService.isLoggedIn()) {
 <p>failed to log in or signed out</p>
 }
-<br>
 <button (click)="authService.signOut()">sign out</button>
 
 
