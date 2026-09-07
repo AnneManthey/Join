@@ -1,21 +1,32 @@
-<form [formGroup]="loginForm" (ngSubmit)="submitLogin()">
-    <label for="usermail">email</label>
-    <input type="text" id="usermail" formControlName="usermail">
-    <!-- @if (usermail?.invalid) {
+<header class="login__header">
+    <img src="/app-icons/join_favicon.svg">
+    <div class="login__register-wrapper">
+        <p>Not a Join user?</p>
+        <button routerLink="register">Sign up</button>
+    </div>
+</header>
+
+<div class="login__form-wrapper">
+    <h1>Log in</h1>
+    <form class="login__form" [formGroup]="loginForm" (ngSubmit)="submitLogin()">
+        <label for="usermail">email</label>
+        <input type="text" id="usermail" formControlName="usermail">
+        <!-- @if (usermail?.invalid) {
     <p style=color:red>user mail not valid</p>
     } -->
-    <label for="password">password</label>
-    <input type="text" id="password" formControlName="password">
-    <!-- @if (password?.invalid) {
+        <label for="password">password</label>
+        <input type="text" id="password" formControlName="password">
+        <!-- @if (password?.invalid) {
     <p style=color:red>password not valid</p>
     } -->
 
-    @if(authService.loginError()) {
-    <p style=color:red> {{authService.loginError()}}</p>
-    }
-    <button type="submit">Log In</button>
-    <button type="button" (click)="authService.signInAsGuest()"> Guest Log In</button>
-</form>
+        @if(authService.loginError()) {
+        <p style=color:red> {{authService.loginError()}}</p>
+        }
+        <button type="submit">Log In</button>
+        <button type="button" (click)="authService.signInAsGuest()"> Guest Log In</button>
+    </form>
+</div>
 <br>
 <hr>
 @if (authService.isLoggedIn()) {
@@ -28,6 +39,5 @@
 <br>
 <button (click)="authService.signOut()">sign out</button>
 
-<button routerLink="register">sign up</button>
 
 <!-- Type="password" setzen -->
