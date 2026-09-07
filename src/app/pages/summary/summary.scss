@@ -10,7 +10,7 @@
     display: flex;
     align-items: center;
     padding-bottom: 50px;
-    gap: 16px;
+    gap: 30px;
     h1 {
       font-weight: 700;
       font-size: 3.8rem;
@@ -24,7 +24,7 @@
     }
     .blue-line {
       height: 3rem;
-      width: 2px;
+      width: 3px;
       background-color: $bright-light-blue;
     }
   }
@@ -33,7 +33,6 @@
 .dashboard-wrapper {
   display: flex;
   align-items: center;
-//   justify-content: space-evenly;
   .summary-dashboard {
     display: flex;
     flex-direction: column;
@@ -56,9 +55,14 @@
       border-radius: 30px;
       padding: 38px 19px;
       gap: 18px;
+      cursor: pointer;
+      transition: all 255ms ease-in-out;
       img {
         width: 70px;
         height: 70px;
+      }
+      .img-hover {
+        display: none;
       }
       h4 {
         font-size: 4rem;
@@ -67,6 +71,18 @@
       p {
         font-size: 1.2rem;
         text-align: center;
+      }
+      &:hover {
+        background-color: $dark-blue;
+        color: $white;
+        box-shadow: 0px 4px 4px 0px #00000040;
+        transform: scale(1.05);
+        .img-hover {
+          display: block;
+        }
+        .img-normal {
+          display: none;
+        }
       }
     }
     .card-urgent {
@@ -79,6 +95,8 @@
       border-radius: 30px;
       padding: 38px 19px;
       gap: 18px;
+      cursor: pointer;
+      transition: all 255ms ease-in-out;
       img {
         width: 70px;
         height: 70px;
@@ -91,6 +109,12 @@
         font-size: 1.2rem;
         text-align: center;
       }
+       &:hover {
+        background-color: $dark-blue;
+        color: $white;
+        box-shadow: 0px 4px 4px 0px #00000040;
+        transform: scale(1.05);
+       }
     }
     .card-single {
       width: 170px;
@@ -101,6 +125,8 @@
       border: 1px solid $light-grey;
       border-radius: 30px;
       padding: 38px 19px;
+      cursor: pointer;
+      transition: all 255ms ease-in-out;
 
       h4 {
         font-size: 4rem;
@@ -110,18 +136,24 @@
         font-size: 1.2rem;
         text-align: center;
       }
+      &:hover {
+        background-color: $dark-blue;
+        color: $white;
+        box-shadow: 0px 4px 4px 0px #00000040;
+        transform: scale(1.05);
+       }
     }
   }
 }
 
-.summary-greeting{
-    padding-left: 150px;
-    color:$dark-blue ;
-    p{
-        font-size: 2.9rem;
-    }
-    h3{
-        font-size: 4rem;
-        font-weight: 700;
-    }
+.summary-greeting {
+  padding-left: 150px;
+  color: $dark-blue;
+  p {
+    font-size: 2.9rem;
+  }
+  h3 {
+    font-size: 4rem;
+    font-weight: 700;
+  }
 }
