@@ -3,10 +3,11 @@ import { AuthService } from '../../shared/services/auth-service';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Register } from './components/register/register';
 import { AddContactDialog } from '../contacts/components/add-contact-dialog/add-contact-dialog';
+import { RouterLink } from "@angular/router";
 
 @Component({
   selector: 'app-login-home',
-  imports: [ReactiveFormsModule, Register],
+  imports: [ReactiveFormsModule, Register, RouterLink],
   templateUrl: './login-home.html',
   styleUrl: './login-home.scss',
   providers: [AddContactDialog]

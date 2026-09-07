@@ -7,7 +7,7 @@ export class AuthService {
     supabase = inject(SupabaseService).client;
     private router = inject(Router);
     isLoggedIn = signal<boolean>(false);
-    // wird benötigt, um den user in die contact list zu übertragen
+    // currentUserId wird benötigt, um den user in die contact list zu übertragen
     // Anlegen vom foreign key in supabase noch notwendig
     currentUserId = signal<string | null>(null);
     loginError = signal<string | null>(null);
@@ -64,7 +64,9 @@ export class AuthService {
     async signOut() {
         const { error } = await this.supabase.auth.signOut();
         if (error) {
-            console.error(error)
+            console.error(error);
+        } else {
+            this.router.navigate([''])
         }
     };
 
