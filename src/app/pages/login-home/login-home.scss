@@ -131,6 +131,10 @@
         right: 16px;
         top: 50%;
         transform: translateY(-50%);
+
+        &-clickable {
+            cursor: pointer;
+        }
     }
 
     &__button {
