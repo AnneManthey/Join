@@ -15,9 +15,9 @@
     <form class="auth__form auth__form--register" [formGroup]="registerForm" (ngSubmit)="submitRegister()">
         <div class="auth__input-outer-wrapper">
             <div class="auth__input-wrapper">
-                <label for="registerUsername"></label>
+                <label for="registerUsername" (click)="$event.preventDefault()"></label>
                 <input class="auth__input" type="text" id="registerUsername" formControlName="registerUsername"
-                    placeholder="Name">
+                    placeholder="Name" (keydown.enter)="$event.preventDefault()">
                 <svg class="auth__icon" width="24" height="24" viewBox="0 0 24 24" fill="none"
                     xmlns="http://www.w3.org/2000/svg">
                     <mask id="mask0_505780_1998" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
@@ -31,16 +31,16 @@
                     </g>
                 </svg>
             </div>
-            @if (registerUsername?.invalid) {
-            <p class="task-form__error">User Name not valid</p>
+            @if (registerUsername?.invalid && registerUsername?.touched) {
+            <p class="task-form__error">Letters only, max. one space.</p>
             }
         </div>
 
         <div class="auth__input-outer-wrapper">
             <div class="auth__input-wrapper">
-                <label for="registerUsermail"></label>
+                <label for="registerUsermail" (click)="$event.preventDefault()"></label>
                 <input class="auth__input" type="text" id="registerUsermail" formControlName="registerUsermail"
-                    placeholder="Email">
+                    placeholder="Email" (keydown.enter)="$event.preventDefault()">
                 <svg class="auth__icon" width="24" height="24" viewBox="0 0 24 24" fill="none"
                     xmlns="http://www.w3.org/2000/svg">
                     <mask id="mask0_505780_2005" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
@@ -54,16 +54,16 @@
                     </g>
                 </svg>
             </div>
-            @if (registerUsermail?.invalid) {
-            <p class="task-form__error">User Mail not valid</p>
+            @if (registerUsermail?.invalid && registerUsermail?.touched) {
+            <p class="task-form__error">Please enter a valid email address.</p>
             }
         </div>
 
         <div class="auth__input-outer-wrapper">
             <div class="auth__input-wrapper">
-                <label for="registerPassword"></label>
+                <label for="registerPassword" (click)="$event.preventDefault()"></label>
                 <input class="auth__input" type="text" id="registerPassword" formControlName="registerPassword"
-                    placeholder="Password">
+                    placeholder="Password" (keydown.enter)="$event.preventDefault()">
                 <svg class="auth__icon" width="24" height="24" viewBox="0 0 24 24" fill="none"
                     xmlns="http://www.w3.org/2000/svg">
                     <mask id="mask0_505780_2012" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
@@ -77,16 +77,16 @@
                     </g>
                 </svg>
             </div>
-            @if (registerPassword?.invalid) {
-            <p class="task-form__error">Password not valid</p>
+            @if (registerPassword?.invalid && registerPassword?.touched) {
+            <p class="task-form__error">Please choose a password.</p>
             }
         </div>
 
         <div class="auth__input-outer-wrapper">
             <div class="auth__input-wrapper">
-                <label for="confirmPassword"></label>
+                <label for="confirmPassword" (click)="$event.preventDefault()"></label>
                 <input class="auth__input" type="text" id="confirmPassword" formControlName="confirmPassword"
-                    placeholder="Confirm Password">
+                    placeholder="Confirm Password" (keydown.enter)="$event.preventDefault()">
                 <svg class="auth__icon" width="24" height="24" viewBox="0 0 24 24" fill="none"
                     xmlns="http://www.w3.org/2000/svg">
                     <mask id="mask0_505780_2012" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
@@ -101,22 +101,23 @@
                 </svg>
             </div>
             @if (registerForm.hasError('passwordMismatch')) {
-            <p class="task-form__error">password doesn't match</p>
+            <p class="task-form__error">Your passwords don't match. Please try again.</p>
             }
         </div>
         <div class="auth__checkbox-outer-wrapper">
             <div class="auth__checkbox-wrapper">
                 <input class="task-form__checkbox" type="checkbox" id="registerPolicy" formControlName="registerPolicy">
-                <label class="auth__checkbox-label" for="registerPolicy">I accept the <a class="register__link">Privacy
+                <label class="auth__checkbox-label" for="registerPolicy" (click)="$event.preventDefault()">I accept the <a class="register__link">Privacy
                         Policy</a></label>
             </div>
-            @if (registerPolicy?.invalid) {
-            <p class="task-form__error">please accept privacy policy</p>
+            @if (registerPolicy?.invalid && registerPolicy?.touched) {
+            <p class="task-form__error">Please accept the privacy policy.</p>
             }
         </div>
 
-        <button class="auth__button auth__button--dark" type="submit" [disabled]="registerForm.invalid">Sign
-            Up</button>
+        <button class="auth__button auth__button--dark" type="submit" 
+        [class.auth__disabled]="registerForm.invalid"
+        >Sign Up</button>
     </form>
 </div>
 

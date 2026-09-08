@@ -122,6 +122,10 @@
         height: 67px;
     }
 
+    &__error-input {
+        border-color: $red;
+    }
+
     &__icon {
         position: absolute;
         right: 16px;
@@ -157,6 +161,11 @@
         align-items: center;
         gap: 36px;
     }
+    
+    &__disabled{
+        color: $light-grey;
+        background-color: $dark-blue-muted;
+    }
 
     &__checkbox-wrapper {
         display: flex;
@@ -189,4 +198,8 @@
     &__link {
         cursor: pointer;
     }
+}
+
+.ng-touched.ng-invalid {
+    border-color: $red;
 }

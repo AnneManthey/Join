@@ -14,8 +14,10 @@
     <form class="auth__form auth__form--login" [formGroup]="loginForm" (ngSubmit)="submitLogin()">
         <div class="auth__input-outer-wrapper">
             <div class="auth__input-wrapper">
-                <label for="usermail"></label>
-                <input class="auth__input" type="text" id="usermail" formControlName="usermail" placeholder="Email">
+                <label for="usermail" (click)="$event.preventDefault()"></label>
+                <input class="auth__input" [class.auth__error-input]="authService.loginError()" type="text"
+                    id="usermail" formControlName="usermail" placeholder="Email"
+                    (keydown.enter)="$event.preventDefault()">
                 <svg class="auth__icon" width="24" height="24" viewBox="0 0 24 24" fill="none"
                     xmlns="http://www.w3.org/2000/svg">
                     <mask id="mask0_505780_3825" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
@@ -29,15 +31,16 @@
                     </g>
                 </svg>
             </div>
-            @if (usermail?.invalid) {
-            <p class="task-form__error">user mail not valid</p>
+            @if (usermail?.invalid && usermail?.touched) {
+            <p class="task-form__error">Please enter a valid email address.</p>
             }
         </div>
         <div class="auth__input-outer-wrapper">
-
             <div class="auth__input-wrapper">
-                <label for="password"></label>
-                <input class="auth__input" type="text" id="password" formControlName="password" placeholder="Password">
+                <label for="password" (click)="$event.preventDefault()"></label>
+                <input class="auth__input" [class.auth__error-input]="authService.loginError()" type="text"
+                    id="password" formControlName="password" placeholder="Password"
+                    (keydown.enter)="$event.preventDefault()">
                 <svg class="auth__icon" width="24" height="24" viewBox="0 0 24 24" fill="none"
                     xmlns="http://www.w3.org/2000/svg">
                     <mask id="mask0_505780_3832" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
@@ -51,18 +54,14 @@
                     </g>
                 </svg>
             </div>
-            @if (password?.invalid) {
-            <p class="task-form__error">password not valid</p>
+            @if(authService.loginError()) {
+            <p class="task-form__error"> {{authService.loginError()}}</p>
             }
         </div>
-
-        @if(authService.loginError()) {
-        <p class="task-form__error"> {{authService.loginError()}}</p>
-        }
         <div class="auth__button-wrapper">
-            <button class="auth__button auth__button--dark" type="submit">Log In</button>
-            <button class="auth__button auth__button--light" type="button" (click)="authService.signInAsGuest()">
-                Guest
+            <button class="auth__button auth__button--dark" type="submit"
+                [class.auth__disabled]="loginForm.invalid">Log In</button>
+            <button class="auth__button auth__button--light" type="button" (click)="authService.signInAsGuest()">Guest
                 Log in</button>
         </div>
     </form>
@@ -71,11 +70,11 @@
 @if (authService.isLoggedIn()) {
 <p>logged in successfully</p>
 }
-
 @if (!authService.isLoggedIn()) {
 <p>failed to log in or signed out</p>
 }
-<button (click)="authService.signOut()">sign out</button>
+
+<button (click)="authService.signOut()" style="font-size:2rem">sign out</button>
 <footer class="auth__footer">
     <a class="auth__link">Privacy Policy</a>
     <a class="auth__link">Legal notice</a>

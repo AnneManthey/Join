@@ -40,6 +40,8 @@ export class LoginHome {
     if (this.loginForm.valid) {
       this.authService.signInWithEmail(this.usermail?.value ?? '', this.password?.value ?? '');
       this.clearLoginForm();
+    } else {
+      this.loginForm.markAllAsTouched();
     }
   };
 

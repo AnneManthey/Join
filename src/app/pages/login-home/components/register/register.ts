@@ -60,6 +60,8 @@ export class Register {
     if (this.registerForm.valid) {
       this.authService.signUpNewUser(this.registerUsermail?.value ?? '', this.registerPassword?.value ?? '');
       this.clearRegisterForm();
+    } else {
+      this.registerForm.markAllAsTouched();
     }
   };
 
