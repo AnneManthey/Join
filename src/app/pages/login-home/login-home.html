@@ -6,12 +6,12 @@
     </div>
 </header>
 
-<div class="auth__form-wrapper">
+<div class="auth__form-wrapper auth__form-wrapper--login">
     <div class="auth__heading-wrapper">
         <h1 class="main-h1">Log in</h1>
         <div class="auth__heading-line"></div>
     </div>
-    <form class="auth__form" [formGroup]="loginForm" (ngSubmit)="submitLogin()">
+    <form class="auth__form auth__form--login" [formGroup]="loginForm" (ngSubmit)="submitLogin()">
         <div class="auth__input-wrapper">
             <label for="usermail"></label>
             <input class="auth__input" type="text" id="usermail" formControlName="usermail" placeholder="Email">

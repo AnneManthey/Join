@@ -5,10 +5,10 @@
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    height: 100dvh;
+    min-height: 100dvh;
     width: 100%;
     font-family: Inter;
-    padding: 100px;
+    padding: 65px 100px;
     background-color: $board-bg;
 }
 
@@ -41,9 +41,16 @@
         align-items: center;
         gap: 32px;
         background-color: $white;
-        padding: 48px 115px;
         border-radius: 30px;
         box-shadow: 0px 0px 14px 3px #00000024;
+
+        &--register {
+            padding: 48px 88px;
+        }
+
+        &--login {
+            padding: 48px 115px;
+        }
     }
 
     &__form {
@@ -51,7 +58,14 @@
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        gap: 32px;
+
+        &--login {
+            gap: 32px;
+        }
+
+        &--register {
+            gap: 24px;
+        }
     }
 
     &__heading-wrapper {
@@ -60,6 +74,12 @@
         justify-content: center;
         align-items: center;
         gap: 16px;
+        width: 100%;
+    }
+
+    &__heading-arrow-wrapper {
+        width: 100%;
+        text-align: center;
     }
 
     &__heading-line {
@@ -122,5 +142,21 @@
         justify-content: center;
         align-items: center;
         gap: 36px;
+    }
+
+    &__checkbox-wrapper {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    &__return-arrow {
+        float: left;
+        cursor: pointer;
+    }
+
+    &__checkbox-label {
+        font-size: 1rem;
+        color: $gray-medium;
     }
 }
