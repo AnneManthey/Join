@@ -1,9 +1,10 @@
 @use '../../../styles.scss' as *;
+@use '../board/components/add-task-form/add-task-form.scss';
 
 :host {
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
+    justify-content: space-between;
     align-items: center;
     min-height: 100dvh;
     width: 100%;
@@ -60,7 +61,7 @@
         align-items: center;
 
         &--login {
-            gap: 32px;
+            gap: 24px;
         }
 
         &--register {
@@ -88,12 +89,19 @@
         border-radius: 3px;
     }
 
+    &__return-arrow {
+        float: left;
+        cursor: pointer;
+    }
+
     &__input {
         padding: 15px 40px 15px 21px;
         border-radius: 10px;
         border: 1px solid $gray-medium;
         cursor: pointer;
         width: 100%;
+        font-family: Inter;
+        font-size: 1rem;
 
         &::placeholder {
             color: $gray-medium;
@@ -106,6 +114,12 @@
             display: inline-block;
             width: 420px;
         }
+    }
+
+    &__input-outer-wrapper {
+        display: flex;
+        flex-direction: column;
+        height: 67px;
     }
 
     &__icon {
@@ -150,13 +164,29 @@
         align-items: center;
     }
 
-    &__return-arrow {
-        float: left;
-        cursor: pointer;
-    }
-
     &__checkbox-label {
         font-size: 1rem;
         color: $gray-medium;
+    }
+
+    &__checkbox-outer-wrapper {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        height: 45px;
+    }
+
+    &__footer {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 16px;
+        color: $gray-medium;
+        font-size: 1rem;
+    }
+
+    &__link {
+        cursor: pointer;
     }
 }
