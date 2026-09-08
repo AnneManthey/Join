@@ -6,8 +6,8 @@ p {
   color: $dark-blue;
 }
 
-.heading__wrapper{
-padding: 0px 50px 50px 0px;
+.heading__wrapper {
+  padding: 0px 50px 50px 0px;
 }
 
 .summary-main {
@@ -136,7 +136,7 @@ padding: 0px 50px 50px 0px;
         display: flex;
         flex-direction: column;
         align-items: flex-start;
-        gap: 8px;
+        gap: 16px;
         padding: 0px 20px;
         font-family: 'Inter', sans-serif;
 
@@ -279,7 +279,7 @@ padding: 0px 50px 50px 0px;
     }
   }
 
-.dashboard-wrapper {
+  .dashboard-wrapper {
     .summary-dashboard {
       opacity: 0;
       visibility: hidden;
@@ -309,58 +309,39 @@ padding: 0px 50px 50px 0px;
   }
 }
 
- @keyframes greetingIntro {
-    0%,
-    83% {
-      opacity: 1;
-      visibility: visible;
-    }
-    100% {
-      opacity: 0;
-      visibility: hidden;
-    }
+@keyframes greetingIntro {
+  0%,
+  83% {
+    opacity: 1;
+    visibility: visible;
   }
-
-  @keyframes fadeInContent {
-    0% {
-      opacity: 0;
-      visibility: hidden;
-    }
-    1% {
-      visibility: visible;
-    }
-    100% {
-      opacity: 1;
-      visibility: visible;
-    }
+  100% {
+    opacity: 0;
+    visibility: hidden;
   }
+}
 
+@keyframes fadeInContent {
+  0% {
+    opacity: 0;
+    visibility: hidden;
+  }
+  1% {
+    visibility: visible;
+  }
+  100% {
+    opacity: 1;
+    visibility: visible;
+  }
+}
 
 @media (max-width: 500px) {
   p {
-  font-size: 1rem;
-}
-.summary-main {
-    padding: 32px 16px;
-    .summary-header {
-      align-items: center;
-      gap: 16px;
-      h1 {
-        font-size: 2.9rem;
-      }
-      h2 {
-        font-size: 1.2rem;
-      }
-      .blue-line-vertical {
-        display: none;
-      }
-      .blue-line {
-        display: block;
-        width: 100px;
-      }
-    }
+    font-size: 1rem;
   }
-
+  .summary-main {
+    padding: 32px 16px;
+  }
   .dashboard-wrapper {
     justify-content: center;
     .summary-dashboard {
@@ -404,8 +385,7 @@ padding: 0px 50px 50px 0px;
 }
 
 @media (max-width: 400px) {
-
-.summary-main {
+  .summary-main {
     padding: 32px 16px;
     .summary-header {
       align-items: center;
