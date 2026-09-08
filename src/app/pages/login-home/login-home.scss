@@ -219,12 +219,40 @@
         }
 
         &-logo {
-            height: 270px;
             width: auto;
+
+            &--desktop {
+                display: block;
+                height: 270px;
+            }
+
+            &--mobile {
+                display: none;
+            }
         }
     }
 }
 
 .ng-touched.ng-invalid {
     border-color: $red;
+}
+
+@media (max-width: 768px) {
+
+    .auth {
+        &__overlay {
+            background-color: $dark-blue;
+
+            &-logo {
+                &--desktop {
+                    display: none;
+                }
+
+                &--mobile {
+                    display: block;
+                    height: 180px;
+                }
+            }
+        }
+    }
 }
