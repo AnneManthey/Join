@@ -6,6 +6,7 @@ import { AddTask } from './pages/add-task/add-task';
 import { LoginHome } from './pages/login-home/login-home';
 import { authGuard } from './shared/guards/auth-guard';
 import { Register } from './pages/login-home/components/register/register';
+import { Summary } from './pages/summary/summary';
 
 export const routes: Routes = [
     // Startseite auf Contacts weitergeleitet, damit der Router nicht leer bleibt.
@@ -28,6 +29,8 @@ export const routes: Routes = [
         component: Board,
         canActivate: [authGuard]
     },
+    { path: 'summary', component: Summary },
+    { path: 'board', component: Board },
     {
         path: 'contacts',
         component: Contacts,
