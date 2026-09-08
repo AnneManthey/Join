@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { AuthService } from '../../../../shared/services/auth-service';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { confirmPasswordValidator } from '../../../../shared/utils/confirm-password-validator';
@@ -16,8 +16,24 @@ import { RouterLink } from "@angular/router";
 export class Register {
   /** Provides registration actions and state for the registration view. */
   authService = inject(AuthService);
+
+  /** Whether the password is currently shown as plain text instead of masked. */
+  isPasswordVisible = signal(false);
+
+  /** Whether the confirm-password is currently shown as plain text instead of masked. */
+  isConfirmPasswordVisible = signal(false);
+
+
+  /** Whether the password input is currently focused. */
+  isFocused = signal(false);
+
+  /** Whether the confirm-password input is currently focused. */
+  isConfirmFocused = signal(false);
+
+
   /** Pattern used to validate the display name. */
   nameValidator = inject(AddContactDialog).namePattern;
+
   /** Pattern used to validate the registration email address. */
   mailValidator = inject(AddContactDialog).emailDomainPattern;
 
@@ -60,11 +76,23 @@ export class Register {
     if (this.registerForm.valid) {
       this.authService.signUpNewUser(this.registerUsermail?.value ?? '', this.registerPassword?.value ?? '');
       this.clearRegisterForm();
+    } else {
+      this.registerForm.markAllAsTouched();
     }
   };
 
   /** Resets all fields in the registration form. */
   clearRegisterForm() {
     this.registerForm.reset();
+  }
+
+  /** Toggles the visibility of the password between masked and plain text. */
+  togglePasswordVisibility() {
+    this.isPasswordVisible.update(visible => !visible);
+  }
+
+  /** Toggles the visibility of the confirm-password between masked and plain text. */
+  toggleConfirmPasswordVisibility() {
+    this.isConfirmPasswordVisible.update(visible => !visible);
   }
 }

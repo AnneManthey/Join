@@ -1,7 +1,35 @@
 @use '../../login-home.scss';
+@use '../../../board/components/add-task-form/add-task-form.scss';
+@use '../../../../../styles.scss' as *;
 
 .register {
     &__logo {
         align-self: flex-start;
+        justify-self: flex-start;
+        // margin-bottom: 86px;
     }
+
+    &__link {
+        color: $blue-green;
+        text-decoration: none;
+        cursor: pointer;
+    }
+}
+
+.task-form__checkbox {
+    margin-right: 8px;
+
+    &:checked {
+        background-image: url('/app-icons/login/checkbox_checked_login.svg');
+    }
+
+    &:hover {
+        background-color: #EDF2FA;
+        border-radius: 50%;
+    }
+}
+
+.main-h1 {
+    align-self: center;
+    justify-self: center;
 }

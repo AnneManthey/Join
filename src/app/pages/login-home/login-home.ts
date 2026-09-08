@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { AuthService } from '../../shared/services/auth-service';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AddContactDialog } from '../contacts/components/add-contact-dialog/add-contact-dialog';
@@ -16,6 +16,13 @@ import { RouterLink } from "@angular/router";
 export class LoginHome {
   /** Provides authentication actions and state for the login view. */
   authService = inject(AuthService);
+
+  /** Whether the password is currently shown as plain text instead of masked. */
+  isPasswordVisible = signal(false);
+
+  /** Whether the password input is currently focused. */
+  isFocused = signal(false);
+
   /** Pattern used to validate the login email address. */
   mailValidator = inject(AddContactDialog).emailDomainPattern;
 
@@ -40,6 +47,8 @@ export class LoginHome {
     if (this.loginForm.valid) {
       this.authService.signInWithEmail(this.usermail?.value ?? '', this.password?.value ?? '');
       this.clearLoginForm();
+    } else {
+      this.loginForm.markAllAsTouched();
     }
   };
 
@@ -47,4 +56,9 @@ export class LoginHome {
   clearLoginForm() {
     this.loginForm.reset();
   };
+
+  /** Toggles the visibility of the password between masked and plain text. */
+  togglePasswordVisibility() {
+    this.isPasswordVisible.update(visible => !visible);
+  }
 }

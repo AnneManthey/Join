@@ -62,7 +62,7 @@ export class AuthService {
         })
         if (error) {
             console.log(error);
-            this.loginError.set('user could not be found')
+            this.loginError.set('Check your email and password. Please try again.')
         } else {
             console.log('Successfully logged in', data);
             this.loginError.set(null);
