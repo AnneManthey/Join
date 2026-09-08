@@ -26,13 +26,13 @@ export class AddContactDialog {
   isDialogOpen = true;
 
   /** Allows letters (incl. umlauts) and spaces only. */
-  private readonly namePattern = /^[A-Za-zÀ-ÖØ-öø-ÿ\s]+$/;
+  readonly namePattern = /^[A-Za-zÀ-ÖØ-öø-ÿ\s]+$/;
 
   /** Allows digits and spaces with an optional leading '+'. */
   private readonly phonePattern = /^\+?[0-9 ]+$/;
 
   /** Requires a dotted domain with a top-level domain of at least two characters. */
-  private readonly emailDomainPattern = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+  readonly emailDomainPattern = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
   /** Holds the values and validation rules for the new contact form. */
   contactForm: FormGroup = this.fb.group({
