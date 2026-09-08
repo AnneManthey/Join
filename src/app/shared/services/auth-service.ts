@@ -46,7 +46,7 @@ export class AuthService {
             console.log(error);
         } else {
             console.log('Successfully signed up', data);
-            this.router.navigate(['/summary']);
+            this.router.navigate(['/summary'], { state: { fromLogin: true } });
         }
     };
 
@@ -66,7 +66,7 @@ export class AuthService {
         } else {
             console.log('Successfully logged in', data);
             this.loginError.set(null);
-            this.router.navigate(['/summary']);
+            this.router.navigate(['/summary'], { state: { fromLogin: true } });
         }
     };
 
@@ -90,7 +90,7 @@ export class AuthService {
         } else {
             console.log('Successfully signed in as guest', data);
             this.loginError.set(null);
-            this.router.navigate(['/summary']);
+            this.router.navigate(['/summary'], { state: { fromLogin: true } });
         }
     };
 }
