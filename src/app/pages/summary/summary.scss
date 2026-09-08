@@ -166,12 +166,13 @@ padding: 0px 50px 50px 0px;
     }
     .card-single {
       width: 160px;
+      height: 160px;
       display: flex;
       flex-direction: column;
       background-color: $white;
       border: 1px solid $light-grey;
       border-radius: 30px;
-      padding: 38px 19px;
+      padding: 20px 10px;
       gap: 8px;
       cursor: pointer;
       transition: all 255ms ease-in-out;
@@ -231,6 +232,7 @@ padding: 0px 50px 50px 0px;
       }
       .card-single {
         width: 100%;
+        height: auto;
         padding: 20px 19px;
         h4 {
           font-size: 3rem;
