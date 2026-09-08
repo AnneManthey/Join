@@ -112,4 +112,9 @@
     <a class="auth__link">Legal notice</a>
 </footer>
 
-<!-- Type="password" setzen -->
+@if (showOverlay()) {
+<div class="auth__overlay" [class.auth__overlay--fade-out]="isFadingOut()" (transitionend)="onOverlayTransitionEnd()">
+    <img src="/app-icons/join_favicon.svg" alt="Logo" class="auth__overlay-logo auth__overlay-logo--desktop">
+    <img src="/app-icons/join_logo.svg" alt="Logo" class="auth__overlay-logo auth__overlay-logo--mobile">
+</div>
+}
