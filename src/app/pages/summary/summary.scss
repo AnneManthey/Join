@@ -1,9 +1,13 @@
-@use '../../styles/variables' as *;
+@use '../../../styles' as *;
 
 p {
   font-size: 1.1rem;
   text-align: center;
   color: $dark-blue;
+}
+
+.heading__wrapper {
+  padding: 0px 50px 50px 0px;
 }
 
 .summary-main {
@@ -12,7 +16,7 @@ p {
   display: flex;
   flex-direction: column;
   overflow-y: auto;
-  padding: 70px 60px;
+  padding: 79px 96px;
   .summary-header {
     display: flex;
     align-items: center;
@@ -132,7 +136,7 @@ p {
         display: flex;
         flex-direction: column;
         align-items: flex-start;
-        gap: 8px;
+        gap: 16px;
         padding: 0px 20px;
         font-family: 'Inter', sans-serif;
 
@@ -140,12 +144,10 @@ p {
           font-size: 1.2rem;
           font-weight: 700;
           color: $dark-blue;
-          // text-align: center;
         }
         .urgent-p {
           font-size: 1rem;
           color: $dark-blue;
-          // text-align: center;
         }
       }
       &:hover {
@@ -164,12 +166,13 @@ p {
     }
     .card-single {
       width: 160px;
+      height: 160px;
       display: flex;
       flex-direction: column;
       background-color: $white;
       border: 1px solid $light-grey;
       border-radius: 30px;
-      padding: 38px 19px;
+      padding: 20px 10px;
       gap: 8px;
       cursor: pointer;
       transition: all 255ms ease-in-out;
@@ -229,6 +232,7 @@ p {
       }
       .card-single {
         width: 100%;
+        height: auto;
         padding: 20px 19px;
         h4 {
           font-size: 3rem;
@@ -258,7 +262,7 @@ p {
 
       opacity: 0;
       visibility: hidden;
-      animation: fadeInContent 0.6s ease-in-out 3s forwards;
+      animation: fadeInContent 0.6s ease-in-out 2s forwards;
 
       h1 {
         font-weight: 700;
@@ -275,15 +279,19 @@ p {
     }
   }
 
-.dashboard-wrapper {
-    .summary-dashboard {
+  .dashboard-wrapper {
+    &.show-intro .summary-dashboard {
       opacity: 0;
       visibility: hidden;
-      animation: fadeInContent 0.6s ease-in-out 3s forwards;
+      animation: fadeInContent 0.6s ease-in-out 2s forwards;
     }
   }
 
   .summary-greeting {
+    display: none;
+  }
+
+  .dashboard-wrapper.show-intro .summary-greeting {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -292,7 +300,7 @@ p {
     inset: 0;
     z-index: 1000;
     background-color: $board-bg;
-    animation: greetingIntro 3.6s ease-in-out forwards;
+    animation: greetingIntro 2.6s ease-in-out forwards;
 
     padding-left: 0px;
     text-align: center;
@@ -305,58 +313,39 @@ p {
   }
 }
 
- @keyframes greetingIntro {
-    0%,
-    83% {
-      opacity: 1;
-      visibility: visible;
-    }
-    100% {
-      opacity: 0;
-      visibility: hidden;
-    }
+@keyframes greetingIntro {
+  0%,
+  83% {
+    opacity: 1;
+    visibility: visible;
   }
-
-  @keyframes fadeInContent {
-    0% {
-      opacity: 0;
-      visibility: hidden;
-    }
-    1% {
-      visibility: visible;
-    }
-    100% {
-      opacity: 1;
-      visibility: visible;
-    }
+  100% {
+    opacity: 0;
+    visibility: hidden;
   }
+}
 
+@keyframes fadeInContent {
+  0% {
+    opacity: 0;
+    visibility: hidden;
+  }
+  1% {
+    visibility: visible;
+  }
+  100% {
+    opacity: 1;
+    visibility: visible;
+  }
+}
 
 @media (max-width: 500px) {
   p {
-  font-size: 1rem;
-}
-.summary-main {
-    padding: 32px 16px;
-    .summary-header {
-      align-items: center;
-      gap: 16px;
-      h1 {
-        font-size: 2.9rem;
-      }
-      h2 {
-        font-size: 1.2rem;
-      }
-      .blue-line-vertical {
-        display: none;
-      }
-      .blue-line {
-        display: block;
-        width: 100px;
-      }
-    }
+    font-size: 1rem;
   }
-
+  .summary-main {
+    padding: 32px 16px;
+  }
   .dashboard-wrapper {
     justify-content: center;
     .summary-dashboard {
@@ -400,8 +389,7 @@ p {
 }
 
 @media (max-width: 400px) {
-
-.summary-main {
+  .summary-main {
     padding: 32px 16px;
     .summary-header {
       align-items: center;

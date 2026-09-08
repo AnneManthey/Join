@@ -17,6 +17,9 @@ import { SupabaseTaskService } from '../../shared/services/supabase-task-service
 export class Summary {
   private readonly taskService = inject(SupabaseTaskService);
 
+  /** Whether this view was entered via the login redirect (drives the mobile greeting splash). */
+  readonly showGreetingIntro = signal<boolean>(!!(history.state as { fromLogin?: boolean })?.fromLogin);
+
   /** Name of the logged-in user, used in the greeting. */
   //TODO: eingeloggten User/Guest übergeben
   readonly userName = signal<string>('Sofia Müller');
