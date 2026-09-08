@@ -24,7 +24,7 @@ export class Summary {
   /** All tasks currently loaded from Supabase. */
   readonly tasks = computed(() => this.taskService.tasks());
 
-  /** Status chips: To-do / Done / Urgent counts. */
+  /** Status: To-do / Done / Urgent counts. */
   readonly statusMetrics = computed<StatusMetric[]>(() => [
     { id: 'todo', label: 'To-do', value: this.countByStatus('todo'), icon: 'todo' },
     { id: 'done', label: 'Done', value: this.countByStatus('done'), icon: 'done' },
@@ -66,7 +66,7 @@ export class Summary {
   });
 
   /**
-   * Human-readable deadline date.
+   * Display deadline date.
    * @returns `upcomingDeadline` formatted as e.g. "October 18, 2022".
    */
   readonly formattedDeadline = computed(() => {
