@@ -29,8 +29,16 @@ export const routes: Routes = [
         component: Board,
         canActivate: [authGuard]
     },
-    { path: 'summary', component: Summary },
-    { path: 'board', component: Board },
+    {
+        path: 'summary', 
+        component: Summary, 
+        canActivate: [authGuard]
+    },
+    {
+        path: 'board', 
+        component: Board, 
+        canActivate: [authGuard]
+    },
     {
         path: 'contacts',
         component: Contacts,
