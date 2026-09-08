@@ -191,4 +191,7 @@
     <a class="auth__link">Privacy Policy</a>
     <a class="auth__link">Legal notice</a>
 </footer>
-<!-- Type="password" setzen -->
+
+<div class="task-success__wrapper" [class.task-success__wrapper--visible]="authService.showLoginSuccessMessage()">
+    <p class="task-success__text">You Singed Up successfully.</p>
+</div>

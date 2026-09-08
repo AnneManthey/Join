@@ -7,16 +7,23 @@ import { Router } from '@angular/router';
 export class AuthService {
     /** Supabase client used for authentication requests. */
     supabase = inject(SupabaseService).client;
+
     /** Router used to navigate after authentication state changes. */
     private router = inject(Router);
+
     /** Indicates whether a user is currently authenticated. */
     isLoggedIn = signal<boolean>(false);
+
     // currentUserId wird benötigt, um den user in die contact list zu übertragen
     // Anlegen vom foreign key in supabase noch notwendig
     /** Stores the ID of the currently authenticated user. */
     currentUserId = signal<string | null>(null);
+
     /** Stores the latest authentication error shown to the user. */
     loginError = signal<string | null>(null);
+
+    /** Controls the success message shown after a successful login. */
+    showLoginSuccessMessage = signal(false);
 
     /** Starts listening for Supabase authentication state changes. */
     initAuthListener(): Promise<void> {
@@ -45,8 +52,11 @@ export class AuthService {
         if (error) {
             console.log(error);
         } else {
-            console.log('Successfully signed up', data);
-            this.router.navigate(['/summary'], { state: { fromLogin: true } });
+            this.showLoginSuccessMessage.set(true);
+            setTimeout(() => {
+                this.showLoginSuccessMessage.set(false);
+                this.router.navigate(['/summary'], { state: { fromLogin: true } });
+            }, 1000)
         }
     };
 
@@ -64,7 +74,6 @@ export class AuthService {
             console.log(error);
             this.loginError.set('Check your email and password. Please try again.')
         } else {
-            console.log('Successfully logged in', data);
             this.loginError.set(null);
             this.router.navigate(['/summary'], { state: { fromLogin: true } });
         }
