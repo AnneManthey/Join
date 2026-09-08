@@ -165,8 +165,8 @@
         align-items: center;
         gap: 36px;
     }
-    
-    &__disabled{
+
+    &__disabled {
         color: $light-grey;
         background-color: $dark-blue-muted;
     }
@@ -201,6 +201,27 @@
 
     &__link {
         cursor: pointer;
+    }
+
+    &__overlay {
+        position: fixed;
+        inset: 0;
+        z-index: 20;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: $board-bg;
+        opacity: 1;
+        transition: opacity 400ms ease-out;
+
+        &--fade-out {
+            opacity: 0;
+        }
+
+        &-logo {
+            height: 270px;
+            width: auto;
+        }
     }
 }
 

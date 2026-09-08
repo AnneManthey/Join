@@ -26,6 +26,18 @@ export class LoginHome {
   /** Pattern used to validate the login email address. */
   mailValidator = inject(AddContactDialog).emailDomainPattern;
 
+  /** Controls whether the splash overlay exists in the DOM at all. */
+  showOverlay = signal(true);
+
+  /** Controls whether the overlay is currently fading out (triggers the CSS transition). */
+  isFadingOut = signal(false);
+
+  ngOnInit() {
+    setTimeout(() => {
+      this.isFadingOut.set(true);
+    }, 1000);
+  }
+
   /** Reactive form containing the user's login credentials. */
   loginForm = new FormGroup({
     usermail: new FormControl('', { validators: [Validators.required, Validators.pattern(this.mailValidator)] }),
@@ -60,5 +72,10 @@ export class LoginHome {
   /** Toggles the visibility of the password between masked and plain text. */
   togglePasswordVisibility() {
     this.isPasswordVisible.update(visible => !visible);
+  };
+
+  /** Called once the CSS opacity transition on the overlay finishes. */
+  onOverlayTransitionEnd() {
+    this.showOverlay.set(false);
   }
 }
