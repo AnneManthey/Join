@@ -9,63 +9,67 @@ main {
     margin-right: 98px;
     padding-bottom: 116px;
     font-family: 'Inter';
-}
 
-.legal-notice-heading {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
+    @media (max-width: 576px) {
+        margin-top: 48px;
+        margin-left: 16px;
+        margin-right: 16px;
+        padding-bottom: 48px;
+    }
 
-.back-button {
-    background: none;
-    border: none;
-    padding: 0;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-}
+    .legal-notice-heading {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
 
-h1 {
-    font-weight: 700;
-    font-size: 3,8125rem;
-    line-height: 120%;
-    color: black;
-}
+        @media (max-width: 576px) {
+            align-items: flex-start;
+        }
 
-h2 {
-    font-weight: 700;
-    line-height: 120%;
-    color: black;
-    font-size: 1,6875rem;
-    margin-top: 24px;
-}
+        h1 {
+            font-weight: 700;
+            font-size: 3.8125rem;
+            line-height: 120%;
+            color: black;
 
-.line-break {
-    margin-top: 1rem;
-}
+            @media (max-width: 576px) {
+                font-size: 2.9375rem;
+            }
+        }
 
-p,
-li {
-    font-size: 1rem;
-}
+        .back-button {
+            background: none;
+            border: none;
+            padding: 0;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
 
-ul {
-    padding-left: 20px;
-    margin: 0.5rem 0;
-}
+            @media (max-width: 576px) {
+                margin-top: 8px;
+            }
+        }
+    }
 
-@media (max-width: 576px) {
+    h2 {
+        font-weight: 700;
+        line-height: 120%;
+        color: black;
+        font-size: 1.6875rem;
+        margin-top: 24px;
+    }
 
-    .legal-notice-wrapper {
-    margin-top: 48px;
-    margin-left: 16px;
-    margin-right: 16px;
-    padding-bottom: 48px;
-}
+    .line-break {
+        margin-top: 1rem;
+    }
 
-h1 {
-    font-size: 2,9375rem;
-}
+    p,
+    li {
+        font-size: 1rem;
+    }
 
+    ul {
+        padding-left: 20px;
+        margin: 0.5rem 0;
+    }
 }
