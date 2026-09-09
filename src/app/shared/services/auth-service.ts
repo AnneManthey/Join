@@ -26,17 +26,26 @@ export class AuthService {
     /** Controls the success message shown after a successful login. */
     showLoginSuccessMessage = signal(false);
 
+    /** Holds the Supabase auth state subscription so it can be cleaned up later. */
+    private authSubscription: { unsubscribe: () => void } | null = null;
+
     /** Starts listening for Supabase authentication state changes. */
     initAuthListener(): Promise<void> {
         return new Promise((resolve) => {
-            this.supabase.auth.onAuthStateChange((event, session) => {
+            const { data } = this.supabase.auth.onAuthStateChange((event, session) => {
                 this.isLoggedIn.set(session !== null);
                 this.currentUserId.set(session?.user.id ?? null);
                 this.currentUserName.set(session?.user.user_metadata?.['display_name'] ?? null);
                 resolve();
             });
+            this.authSubscription = data.subscription;
         });
     };
+
+    /** Unsubscribes from the Supabase auth listener when the service is destroyed. */
+    ngOnDestroy(): void {
+        this.authSubscription?.unsubscribe();
+    }
 
     /** Registers a new user with the provided email address and password. */
     async signUpNewUser(name: string, email: string, password: string) {
