@@ -25,8 +25,8 @@ export class AddContactDialog {
   /** Controls whether the dialog is rendered. */
   isDialogOpen = true;
 
-  /** Allows letters (incl. umlauts) and spaces only. */
-  readonly namePattern = /^[A-Za-zÀ-ÖØ-öø-ÿ\s]+$/;
+  /** Allows one or two name parts separated by one normal space. */
+  readonly namePattern = /^[A-Za-zÀ-ÖØ-öø-ÿ'-]+(?: [A-Za-zÀ-ÖØ-öø-ÿ'-]+)?$/;
 
   /** Allows digits and spaces with an optional leading '+'. */
   private readonly phonePattern = /^\+?[0-9 ]+$/;

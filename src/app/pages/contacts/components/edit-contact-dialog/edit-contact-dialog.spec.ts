@@ -39,4 +39,20 @@ describe('EditContactDialog', () => {
     phoneControl.setValue('+49 123A456');
     expect(phoneControl.invalid).toBe(true);
   });
+
+  it('allows one or two name parts but rejects additional spaces', () => {
+    const nameControl = component.contactForm.controls['name'];
+
+    nameControl.setValue('Ada');
+    expect(nameControl.valid).toBe(true);
+
+    nameControl.setValue('Ada Lovelace');
+    expect(nameControl.valid).toBe(true);
+
+    nameControl.setValue('Ada Maria Lovelace');
+    expect(nameControl.invalid).toBe(true);
+
+    nameControl.setValue('Ada  Lovelace');
+    expect(nameControl.invalid).toBe(true);
+  });
 });
