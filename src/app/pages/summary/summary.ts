@@ -1,10 +1,10 @@
 import { Component, computed, inject, signal } from '@angular/core';
-// import { CommonModule } from '@angular/common';
 import { Header } from '../../layout/header/header';
 import { Navbar } from '../../layout/navbar/navbar';
 import { RouterLink } from '@angular/router';
 import { Task } from '../../shared/interfaces/task';
 import { StatMetric, StatusMetric } from '../../shared/interfaces/summary-metric';
+import { AuthService } from '../../shared/services/auth-service';
 import { SupabaseTaskService } from '../../shared/services/supabase-task-service';
 
 
@@ -16,13 +16,13 @@ import { SupabaseTaskService } from '../../shared/services/supabase-task-service
 })
 export class Summary {
   private readonly taskService = inject(SupabaseTaskService);
+  private readonly authService = inject(AuthService);
 
   /** Whether this view was entered via the login redirect (drives the mobile greeting splash). */
   readonly showGreetingIntro = signal<boolean>(!!(history.state as { fromLogin?: boolean })?.fromLogin);
 
   /** Name of the logged-in user, used in the greeting. */
-  //TODO: eingeloggten User/Guest übergeben
-  readonly userName = signal<string>('Sofia Müller');
+  readonly userName = computed(() => this.authService.currentUserName());
 
   /** All tasks currently loaded from Supabase. */
   readonly tasks = computed(() => this.taskService.tasks());
