@@ -4,7 +4,12 @@
     <app-header></app-header>
     <main>
       <div class="legal-notice-wrapper">
-        <h1>Legal Notice</h1>
+        <div class="legal-notice-heading">
+          <h1>Legal Notice</h1>
+          <button class="back-button" type="button" (click)="goBack()" aria-label="Back">
+            <img src="app-icons/legal-notice/arrow-left-line.svg" alt="">
+          </button>
+        </div>
 
         <section>
           <h2>Imprint</h2>
