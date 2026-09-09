@@ -14,10 +14,11 @@ export class AuthService {
     /** Indicates whether a user is currently authenticated. */
     isLoggedIn = signal<boolean>(false);
 
-    // currentUserId wird benötigt, um den user in die contact list zu übertragen
-    // Anlegen vom foreign key in supabase noch notwendig
     /** Stores the ID of the currently authenticated user. */
     currentUserId = signal<string | null>(null);
+
+    /** Stores the display name of the currently authenticated user. */
+    currentUserName = signal<string | null>(null);
 
     /** Stores the latest authentication error shown to the user. */
     loginError = signal<string | null>(null);
@@ -30,34 +31,46 @@ export class AuthService {
         return new Promise((resolve) => {
             this.supabase.auth.onAuthStateChange((event, session) => {
                 this.isLoggedIn.set(session !== null);
-
-                // currentUserId wird benötigt, um den user in die contact list zu übertragen
-                // Anlegen vom foreign key in supabase noch notwendig
                 this.currentUserId.set(session?.user.id ?? null);
-
+                this.currentUserName.set(session?.user.user_metadata?.['display_name'] ?? null);
                 resolve();
             });
         });
     };
 
     /** Registers a new user with the provided email address and password. */
-    async signUpNewUser(email: string, password: string) {
+    async signUpNewUser(name: string, email: string, password: string) {
         const { data, error } = await this.supabase.auth.signUp({
             email: email,
             password: password,
-            // options: {
-            //     emailRedirectTo: 'https://example.com/welcome',
-            // },
+            options: {
+                data: {
+                    display_name: name,
+                },
+            },
         })
         if (error) {
             console.log(error);
-        } else {
-            this.showLoginSuccessMessage.set(true);
-            setTimeout(() => {
-                this.showLoginSuccessMessage.set(false);
-                this.router.navigate(['/summary'], { state: { fromLogin: true } });
-            }, 1000)
+            return;
         }
+        const { error: contactError } = await this.supabase
+            .from('ContactList')
+            .insert({
+                contact_name: name,
+                contact_mail: email,
+                user_id: data.user?.id,
+            });
+
+        if (contactError) {
+            console.log(contactError);
+            return;
+        }
+
+        this.showLoginSuccessMessage.set(true);
+        setTimeout(() => {
+            this.showLoginSuccessMessage.set(false);
+            this.router.navigate(['/summary'], { state: { fromLogin: true } });
+        }, 1000)
     };
 
     /** Signs in a user with an email address and password. */
