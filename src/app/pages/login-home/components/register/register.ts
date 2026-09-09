@@ -37,11 +37,14 @@ export class Register {
   /** Pattern used to validate the registration email address. */
   mailValidator = inject(AddContactDialog).emailDomainPattern;
 
+  /** Requires at least 8 characters with no spaces, including at least one digit or special character. */
+  private readonly passwordValidator = /^(?!.*\s)(?=.*[0-9!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]).{8,}$/;
+
   /** Reactive form containing the registration data and policy consent. */
   registerForm = new FormGroup({
     registerUsername: new FormControl('', { validators: [Validators.required, Validators.pattern(this.nameValidator)] }),
     registerUsermail: new FormControl('', { validators: [Validators.required, Validators.pattern(this.mailValidator)] }),
-    registerPassword: new FormControl('', { validators: Validators.required }),
+    registerPassword: new FormControl('', { validators: [Validators.required, Validators.pattern(this.passwordValidator)] }),
     confirmPassword: new FormControl('', { validators: Validators.required }),
     registerPolicy: new FormControl(false, { validators: Validators.requiredTrue }),
   }, { validators: [confirmPasswordValidator()] });
@@ -74,7 +77,7 @@ export class Register {
   /** Submits valid registration data to the authentication service. */
   submitRegister() {
     if (this.registerForm.valid) {
-      this.authService.signUpNewUser(this.registerUsermail?.value ?? '', this.registerPassword?.value ?? '');
+      this.authService.signUpNewUser(this.registerUsername?.value ?? '', this.registerUsermail?.value ?? '', this.registerPassword?.value ?? '');
       this.clearRegisterForm();
     } else {
       this.registerForm.markAllAsTouched();

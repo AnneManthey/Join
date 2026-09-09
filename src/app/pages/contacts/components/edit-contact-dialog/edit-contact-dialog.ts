@@ -81,33 +81,34 @@ export class EditContactDialog {
   }
 
   /** Saves the changed values for the selected contact. */
-async onSubmit(): Promise<void> {
-  if (this.isSubmitting || !this.normalizeAndValidateForm()) {
-    return;
+  async onSubmit(): Promise<void> {
+    this.contactForm.markAllAsTouched();
+    if (this.isSubmitting || !this.normalizeAndValidateForm()) {
+      return;
+    }
+
+    this.isSubmitting = true;
+    this.errorMessage = null;
+
+    try {
+      await this.updateAndEmitContact();
+    } catch {
+      this.errorMessage = 'Contact could not be saved. Please try again.';
+    } finally {
+      this.isSubmitting = false;
+    }
   }
 
-  this.isSubmitting = true;
-  this.errorMessage = null;
+  /** Updates the contact and, on success, emits the update event and closes the dialog. */
+  private async updateAndEmitContact(): Promise<void> {
+    const updated = await this.updateContact();
+    if (!updated) {
+      return;
+    }
 
-  try {
-    await this.updateAndEmitContact();
-  } catch {
-    this.errorMessage = 'Contact could not be saved. Please try again.';
-  } finally {
-    this.isSubmitting = false;
+    this.contactUpdated.emit();
+    this.closeDialog();
   }
-}
-
-/** Updates the contact and, on success, emits the update event and closes the dialog. */
-private async updateAndEmitContact(): Promise<void> {
-  const updated = await this.updateContact();
-  if (!updated) {
-    return;
-  }
-
-  this.contactUpdated.emit();
-  this.closeDialog();
-}
 
   /** Trims form values and reports whether all validation rules pass. */
   private normalizeAndValidateForm(): boolean {
@@ -127,73 +128,73 @@ private async updateAndEmitContact(): Promise<void> {
   }
 
   /** Updates the selected contact with the normalized form values. */
-private async updateContact(): Promise<Contact | undefined> {
-  const contact = this.contact();
-  if (!contact) {
-    return undefined;
+  private async updateContact(): Promise<Contact | undefined> {
+    const contact = this.contact();
+    if (!contact) {
+      return undefined;
+    }
+
+    const { data, error } = await this.submitContactUpdate(contact.id);
+    return this.resolveUpdatedContact(data, error);
   }
 
-  const { data, error } = await this.submitContactUpdate(contact.id);
-  return this.resolveUpdatedContact(data, error);
-}
-
-/** Sends the normalized form values to the data service to update the given contact. */
-private async submitContactUpdate(contactId: number) {
-  const { name, email, phone } = this.contactForm.getRawValue();
-  return this.dataService.editContact(contactId, {
-    contact_name: name,
-    contact_mail: email,
-    contact_phone: phone,
-  });
-}
-
-/** Resolves the updated contact from the service response, setting an error message on failure. */
-private resolveUpdatedContact(data: unknown, error: { code: string } | null): Contact | undefined {
-  if (error) {
-    this.errorMessage = error.code === '23505'
-      ? 'A contact with this email address already exists.'
-      : 'Contact could not be saved. Please try again.';
-    return undefined;
+  /** Sends the normalized form values to the data service to update the given contact. */
+  private async submitContactUpdate(contactId: number) {
+    const { name, email, phone } = this.contactForm.getRawValue();
+    return this.dataService.editContact(contactId, {
+      contact_name: name,
+      contact_mail: email,
+      contact_phone: phone,
+    });
   }
 
-  const updatedContact = (data as { [index: number]: Contact })?.[0];
-  if (!updatedContact) {
-    this.errorMessage = 'Contact could not be saved. Please try again.';
-  }
+  /** Resolves the updated contact from the service response, setting an error message on failure. */
+  private resolveUpdatedContact(data: unknown, error: { code: string } | null): Contact | undefined {
+    if (error) {
+      this.errorMessage = error.code === '23505'
+        ? 'A contact with this email address already exists.'
+        : 'Contact could not be saved. Please try again.';
+      return undefined;
+    }
 
-  return updatedContact;
-}
+    const updatedContact = (data as { [index: number]: Contact })?.[0];
+    if (!updatedContact) {
+      this.errorMessage = 'Contact could not be saved. Please try again.';
+    }
+
+    return updatedContact;
+  }
 
   /** Deletes the selected contact from Supabase. */
-async deleteContact(): Promise<void> {
-  const contact = this.contact();
-  if (!contact || this.isSubmitting) {
-    return;
+  async deleteContact(): Promise<void> {
+    const contact = this.contact();
+    if (!contact || this.isSubmitting) {
+      return;
+    }
+
+    this.isSubmitting = true;
+    this.errorMessage = null;
+
+    try {
+      await this.performDelete(contact.id);
+    } catch {
+      this.errorMessage = 'Contact could not be deleted. Please try again.';
+    } finally {
+      this.isSubmitting = false;
+    }
   }
 
-  this.isSubmitting = true;
-  this.errorMessage = null;
+  /** Sends the delete request and, on success, emits the deletion event and closes the dialog. */
+  private async performDelete(contactId: number): Promise<void> {
+    const { error } = await this.dataService.deleteContact(contactId);
+    if (error) {
+      this.errorMessage = 'Contact could not be deleted. Please try again.';
+      return;
+    }
 
-  try {
-    await this.performDelete(contact.id);
-  } catch {
-    this.errorMessage = 'Contact could not be deleted. Please try again.';
-  } finally {
-    this.isSubmitting = false;
+    this.contactDeleted.emit();
+    this.closeDialog();
   }
-}
-
-/** Sends the delete request and, on success, emits the deletion event and closes the dialog. */
-private async performDelete(contactId: number): Promise<void> {
-  const { error } = await this.dataService.deleteContact(contactId);
-  if (error) {
-    this.errorMessage = 'Contact could not be deleted. Please try again.';
-    return;
-  }
-
-  this.contactDeleted.emit();
-  this.closeDialog();
-}
 
   /** Closes the dialog and restores the saved contact values. */
   closeDialog(): void {
