@@ -59,8 +59,10 @@
                     </div>
                 </section>
                 <section class="summary-greeting">
-                    <p>{{ greeting() }},</p>
-                    <h3>{{ userName() }}</h3>
+                    <p>{{ greeting() }}{{ userName() ? ',' : '!' }}</p>
+                    @if (userName(); as name) {
+                        <h3>{{ name }}</h3>
+                    }
                 </section>
             </section>
         </main>
