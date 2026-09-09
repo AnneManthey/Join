@@ -3,6 +3,7 @@ import { Board } from './pages/board/board';
 import { ContactDetails } from './pages/contacts/components/contact-details/contact-details';
 import { Contacts } from './pages/contacts/contacts';
 import { AddTask } from './pages/add-task/add-task';
+import { LegalNotice } from './pages/legal-notice/legal-notice';
 import { LoginHome } from './pages/login-home/login-home';
 import { authGuard } from './shared/guards/auth-guard';
 import { Register } from './pages/login-home/components/register/register';
@@ -30,13 +31,8 @@ export const routes: Routes = [
         canActivate: [authGuard]
     },
     {
-        path: 'summary', 
-        component: Summary, 
-        canActivate: [authGuard]
-    },
-    {
-        path: 'board', 
-        component: Board, 
+        path: 'summary',
+        component: Summary,
         canActivate: [authGuard]
     },
     {
@@ -46,5 +42,9 @@ export const routes: Routes = [
             { path: ':id', component: ContactDetails }
         ],
         canActivate: [authGuard]
+    },
+    {
+        path: 'legal-notice',
+        component: LegalNotice
     }
 ];
