@@ -1,6 +1,7 @@
 <header class="login__header">
-    <img src="/app-icons/join_favicon.svg">
-    <div class="login__register-wrapper">
+    <img class="login__logo--desktop" src="/app-icons/join_favicon.svg">
+    <img class="login__logo--mobile" src="/app-icons/join_favicon.svg">
+    <div class="login__register-wrapper login__register-wrapper--desktop">
         <p class="login__text">Not a Join user?</p>
         <button class="auth__button auth__button--dark" routerLink="register">Sign up</button>
     </div>
@@ -10,7 +11,7 @@
     <div class="auth__heading-wrapper">
         <h1 class="main-h1">Log in</h1>
         <div class="auth__heading-line"></div>
-        <p>Welcome {{authService.currentUserName() ?? 'no one logged in'}}</p>
+        <p>Welcome {{authService.currentUserName() ?? 'no one logged in or Guest'}}</p>
     </div>
     <form class="auth__form auth__form--login" [formGroup]="loginForm" (ngSubmit)="submitLogin()">
         <div class="auth__input-outer-wrapper">
@@ -106,6 +107,11 @@
 @if (!authService.isLoggedIn()) {
 <p>failed to log in or signed out</p>
 }
+
+<div class="login__register-wrapper login__register-wrapper--mobile">
+    <p class="login__text">Not a Join user?</p>
+    <button class="auth__button auth__button--dark" routerLink="register">Sign up</button>
+</div>
 
 <button (click)="authService.signOut()" style="font-size:2rem">sign out</button>
 <footer class="auth__footer">

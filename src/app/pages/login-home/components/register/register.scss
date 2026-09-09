@@ -6,7 +6,6 @@
     &__logo {
         align-self: flex-start;
         justify-self: flex-start;
-        // margin-bottom: 86px;
     }
 
     &__link {
@@ -32,4 +31,13 @@
 .main-h1 {
     align-self: center;
     justify-self: center;
+}
+
+@media (max-width: 640px) {
+
+    .register {
+        &__logo {
+            margin-bottom: 38px;
+        }
+    }
 }
