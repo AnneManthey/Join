@@ -8,6 +8,7 @@ import { LoginHome } from './pages/login-home/login-home';
 import { authGuard } from './shared/guards/auth-guard';
 import { Register } from './pages/login-home/components/register/register';
 import { Summary } from './pages/summary/summary';
+import { PrivacyPolicy } from './pages/privacy-policy/privacy-policy';
 
 export const routes: Routes = [
     // Startseite auf Contacts weitergeleitet, damit der Router nicht leer bleibt.
@@ -46,6 +47,11 @@ export const routes: Routes = [
     {
         path: 'legal-notice',
         component: LegalNotice,
+        canActivate: [authGuard]
+    },
+        {
+        path: 'privacy-policy',
+        component: PrivacyPolicy,
         canActivate: [authGuard]
     }
 ];
