@@ -1,9 +1,18 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { Location } from '@angular/common';
+import { Header } from '../../layout/header/header';
+import { Navbar } from '../../layout/navbar/navbar';
 
 @Component({
   selector: 'app-privacy-policy',
-  imports: [],
+  imports: [Header, Navbar],
   templateUrl: './privacy-policy.html',
   styleUrl: './privacy-policy.scss',
 })
-export class PrivacyPolicy {}
+export class PrivacyPolicy {
+   private location = inject(Location);
+
+  goBack(): void {
+    this.location.back();
+  }
+}
