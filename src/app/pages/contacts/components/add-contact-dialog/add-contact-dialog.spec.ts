@@ -48,6 +48,22 @@ describe('AddContactDialog', () => {
     expect(phoneControl.invalid).toBe(true);
   });
 
+  it('allows one or two name parts but rejects additional spaces', () => {
+    const nameControl = component.contactForm.controls['name'];
+
+    nameControl.setValue('Ada');
+    expect(nameControl.valid).toBe(true);
+
+    nameControl.setValue('Ada Lovelace');
+    expect(nameControl.valid).toBe(true);
+
+    nameControl.setValue('Ada Maria Lovelace');
+    expect(nameControl.invalid).toBe(true);
+
+    nameControl.setValue('Ada  Lovelace');
+    expect(nameControl.invalid).toBe(true);
+  });
+
   it('creates a normalized contact and requests closing', async () => {
     addContact.mockResolvedValue({
       data: [{

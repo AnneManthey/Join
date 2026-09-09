@@ -7,8 +7,6 @@
         <header class="board-header">
           <div class="board-h1-wrapper">
             <h1>Board</h1>
-            <!-- <button class="btn-add-mobile" (click)="openAddTaskDialog()"><img src="app-icons/board/add-mobile.svg"
-                alt="Add Icon"></button> -->
             <button class="btn-add-mobile" (click)="handleAddTaskClick()">
               <img src="app-icons/board/add-mobile.svg" alt="Add Icon">
             </button>
@@ -29,9 +27,6 @@
         </header>
         <section class="board-columns" cdkDropListGroup>
           @for (column of columns(); track column.id) {
-          <!-- <app-board-column [column]="column" (taskDropped)="onTaskDropped($event)"
-            (addTaskClicked)="openAddTask(column.id)" (taskClicked)="openTaskDetail($event)">
-          </app-board-column> -->
           <app-board-column [column]="column" (taskDropped)="onTaskDropped($event)"
             (addTaskClicked)="handleAddTaskClick(column.id)" (taskClicked)="openTaskDetail($event)">
           </app-board-column>
