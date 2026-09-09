@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { Location } from '@angular/common';
 import { Header } from '../../layout/header/header';
 import { Navbar } from '../../layout/navbar/navbar';
 
@@ -8,4 +9,10 @@ import { Navbar } from '../../layout/navbar/navbar';
   templateUrl: './legal-notice.html',
   styleUrl: './legal-notice.scss',
 })
-export class LegalNotice {}
+export class LegalNotice {
+  private location = inject(Location);
+
+  goBack(): void {
+    this.location.back();
+  }
+}

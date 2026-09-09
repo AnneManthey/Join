@@ -11,6 +11,21 @@ main {
     font-family: 'Inter';
 }
 
+.legal-notice-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.back-button {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
 h1 {
     font-weight: 700;
     font-size: 3,8125rem;
