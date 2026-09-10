@@ -5,7 +5,7 @@
     <a class="help-button" routerLink="/support"><span>?</span></a>
     <div class="profile-menu">
       <button class="profile-button" type="button" (click)="openOrCloseMenu()">
-        <span>{{ contactName() | getInitials }}</span>
+        <span>{{ profileInitials() | getInitials }}</span>
       </button>
       @if (isMenuVisible()) {
         <div class="profile-backdrop" (click)="closeMenu()"></div>
