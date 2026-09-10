@@ -1,30 +1,39 @@
 <nav class="navbar">
   <img class="navbar-logo" src="app-icons/join_logo.svg" alt="Join Logo"/>
   <ul class="navbar-links">
-    <li>
-      <a routerLink="/summary" routerLinkActive="active">
-        <img src="app-icons/nav-bar/summary_icon.svg" alt=""/>
-        <span>Summary</span>
-      </a>
-    </li>
-    <li>
-      <a routerLink="/addtask" routerLinkActive="active">
-        <img src="app-icons/nav-bar/add_task_icon.svg" alt=""/>
-        <span>Add Task</span>
-      </a>
-    </li>
-    <li>
-      <a routerLink="/board" routerLinkActive="active">
-        <img src="app-icons/nav-bar/board_icon.svg" alt=""/>
-        <span>Board</span>
-      </a>
-    </li>
-    <li>
-      <a routerLink="/contacts" routerLinkActive="active">
-        <img src="app-icons/nav-bar/contact_icon.svg" alt=""/>
-        <span>Contacts</span>
-      </a>
-    </li>
+    @if (authService.isLoggedIn()) {
+      <li>
+        <a routerLink="/summary" routerLinkActive="active">
+          <img src="app-icons/nav-bar/summary_icon.svg" alt=""/>
+          <span>Summary</span>
+        </a>
+      </li>
+      <li>
+        <a routerLink="/addtask" routerLinkActive="active">
+          <img src="app-icons/nav-bar/add_task_icon.svg" alt=""/>
+          <span>Add Task</span>
+        </a>
+      </li>
+      <li>
+        <a routerLink="/board" routerLinkActive="active">
+          <img src="app-icons/nav-bar/board_icon.svg" alt=""/>
+          <span>Board</span>
+        </a>
+      </li>
+      <li>
+        <a routerLink="/contacts" routerLinkActive="active">
+          <img src="app-icons/nav-bar/contact_icon.svg" alt=""/>
+          <span>Contacts</span>
+        </a>
+      </li>
+    } @else {
+      <li>
+        <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+          <img src="app-icons/legal-docs/login.svg" alt=""/>
+          <span>Log In</span>
+        </a>
+      </li>
+    }
   </ul>
   <div class="legal-links">
     <a routerLink="/privacy-policy" routerLinkActive="active">Privacy Policy</a>
