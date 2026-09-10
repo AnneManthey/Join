@@ -228,6 +228,12 @@
 
     &__link {
         cursor: pointer;
+        text-decoration: none;
+        color: $gray-medium;
+
+        &:visited {
+            color: $gray-medium;
+        }
     }
 
     &__overlay {

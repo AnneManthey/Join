@@ -3,6 +3,7 @@ import { Component, computed, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { AuthService } from '../../shared/services/auth-service';
 import { GetInitialsPipe } from '../../shared/pipes/get-initials-pipe';
+import { AuthService } from '../../shared/services/auth-service';
 @Component({
   selector: 'app-header',
   imports: [RouterLink, GetInitialsPipe],
@@ -17,6 +18,28 @@ export class Header {
   profileInitials = computed(() => {
     if (this.authService.isGuest()) {
       return 'G';
+  private router = inject(Router);
+  private supabaseService = inject(SupabaseService);
+  authService = inject(AuthService);
+  // Saves the current URL
+  // Only updates when a signal changes
+  private currentUrl = signal(this.router.url);
+  constructor() {
+    this.router.events.subscribe(() => {
+      this.currentUrl.set(this.router.url);
+    });
+  }
+  // Retrieves the name directly from the current URL and the contact list 
+  contactName = computed(() => {
+    const url = this.currentUrl(); // z.B. "/contacts/3"
+    const id = Number(url.split('/').pop());
+    const contacts = this.supabaseService.contacts();
+    const found = contacts.find(c => c.id === id);
+    if (found) {
+      return found.contact_name;
+    }
+    if (contacts.length > 0) {
+      return contacts[0].contact_name;
     }
     return this.authService.currentUserName();
   });
