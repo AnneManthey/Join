@@ -138,6 +138,10 @@ header {
         background-color: $denim-dark;
       }
     }
+
+    .dropdown-help-link {
+      display: none;
+    }
   }
 
   @media (max-width: 768px) {
@@ -176,6 +180,10 @@ header {
       top: calc(100% + 0px);
       right: -20px;
       transition: transform 200ms ease-in-out;
+
+      .dropdown-help-link {
+        display: flex;
+      }
     }
   }
 }
