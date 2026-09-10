@@ -181,9 +181,14 @@
             <p class="task-form__error">Please accept the privacy policy.</p>
             }
         </div>
-
-        <button class="auth__button auth__button--dark" type="submit" [class.auth__disabled]="registerForm.invalid">Sign
-            Up</button>
+        <div class="register__button-wrapper">
+            <button class="auth__button auth__button--dark" type="submit"
+                [class.auth__disabled]="registerForm.invalid">Sign
+                Up</button>
+            @if(authService.registerError()) {
+            <p class="task-form__error"> {{authService.registerError()}}</p>
+            }
+        </div>
     </form>
 </div>
 

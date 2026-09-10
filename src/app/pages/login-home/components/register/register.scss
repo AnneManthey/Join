@@ -13,6 +13,16 @@
         text-decoration: none;
         cursor: pointer;
     }
+
+    &__button-wrapper {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        height: 76px;
+        gap: 6px;
+        text-align: center;
+    }
 }
 
 .task-form__checkbox {
@@ -34,7 +44,6 @@
 }
 
 @media (max-width: 640px) {
-
     .register {
         &__logo {
             margin-bottom: 38px;

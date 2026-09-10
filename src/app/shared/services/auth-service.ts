@@ -23,6 +23,10 @@ export class AuthService {
     /** Stores the latest authentication error shown to the user. */
     loginError = signal<string | null>(null);
 
+    /** Stores the latest authentication error shown to the user. */
+    registerError = signal<string | null>(null);
+
+
     /** Controls the success message shown after a successful login. */
     showLoginSuccessMessage = signal(false);
 
@@ -49,6 +53,7 @@ export class AuthService {
 
     /** Registers a new user with the provided email address and password. */
     async signUpNewUser(name: string, email: string, password: string) {
+        this.registerError.set(null);
         const { data, error } = await this.supabase.auth.signUp({
             email: email,
             password: password,
@@ -59,7 +64,11 @@ export class AuthService {
             },
         })
         if (error) {
-            console.log(error);
+            if (error.message.includes('already registered') || error.code === 'user_already_exists') {
+                this.registerError.set('This email is already registered.');
+            } else {
+                this.registerError.set('Registration failed. Please try again.');
+            }
             return;
         }
         const { error: contactError } = await this.supabase
