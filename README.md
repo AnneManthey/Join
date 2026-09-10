@@ -1,6 +1,36 @@
 # Join
 
+Join is a Kanban-style task management app. It lets you organize tasks on a board, assign them to contacts, add new tasks, and track progress via a summary overview.
+
+This is a group project by Kristina Starovoit, Anne Manthey, and Anja-Isabella Schulz.
+
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 22.0.7.
+
+## Prerequisites
+
+- [Node.js](https://nodejs.org/) and npm (this project pins `npm@11.12.1` via the `packageManager` field in `package.json`)
+
+Install dependencies with:
+
+```bash
+npm install
+```
+
+## Environment Setup
+
+This project connects to a [Supabase](https://supabase.com/) backend. Credentials are kept out of version control:
+
+1. Copy `src/environments/environment.template.ts` to `src/environments/environment.ts`.
+2. Fill in your Supabase project URL and publishable (anon) key:
+
+```ts
+export const environment = {
+  supabaseUrl: 'YOUR_SUPABASE_URL',
+  supabaseKey: 'YOUR_SUPABASE_PUBLISHABLE_KEY',
+};
+```
+
+3. `src/environments/environment.ts` is listed in `.gitignore` and must never be committed.
 
 ## Development server
 
