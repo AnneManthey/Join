@@ -3,6 +3,7 @@ import { Component, computed, inject, signal } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { SupabaseService } from '../../shared/services/supabase-service';
 import { GetInitialsPipe } from '../../shared/pipes/get-initials-pipe';
+import { AuthService } from '../../shared/services/auth-service';
 @Component({
   selector: 'app-header',
   imports: [RouterLink, GetInitialsPipe],
@@ -12,6 +13,7 @@ import { GetInitialsPipe } from '../../shared/pipes/get-initials-pipe';
 export class Header {
   private router = inject(Router);
   private supabaseService = inject(SupabaseService);
+  authService = inject(AuthService);
   // Saves the current URL
   // Only updates when a signal changes
   private currentUrl = signal(this.router.url);
