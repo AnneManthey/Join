@@ -47,11 +47,9 @@ export const routes: Routes = [
     {
         path: 'legal-notice',
         component: LegalNotice,
-        canActivate: [authGuard]
     },
         {
         path: 'privacy-policy',
         component: PrivacyPolicy,
-        canActivate: [authGuard]
     }
 ];
