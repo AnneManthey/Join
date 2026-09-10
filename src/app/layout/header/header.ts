@@ -1,7 +1,7 @@
 
 import { Component, computed, inject, signal } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
-import { SupabaseService } from '../../shared/services/supabase-service';
+import { RouterLink } from '@angular/router';
+import { AuthService } from '../../shared/services/auth-service';
 import { GetInitialsPipe } from '../../shared/pipes/get-initials-pipe';
 import { AuthService } from '../../shared/services/auth-service';
 @Component({
@@ -11,6 +11,13 @@ import { AuthService } from '../../shared/services/auth-service';
   styleUrl: './header.scss',
 })
 export class Header {
+  private authService = inject(AuthService);
+
+  // Initials shown in the profile button: 'G' for a guest login,
+  // otherwise the initials of the logged-in user's display name.
+  profileInitials = computed(() => {
+    if (this.authService.isGuest()) {
+      return 'G';
   private router = inject(Router);
   private supabaseService = inject(SupabaseService);
   authService = inject(AuthService);
@@ -34,7 +41,7 @@ export class Header {
     if (contacts.length > 0) {
       return contacts[0].contact_name;
     }
-    return '';
+    return this.authService.currentUserName();
   });
 
   // true = dropdown transitioned in, false = dropdown transitions out
