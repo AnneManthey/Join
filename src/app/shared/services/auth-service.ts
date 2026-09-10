@@ -20,6 +20,9 @@ export class AuthService {
     /** Stores the display name of the currently authenticated user. */
     currentUserName = signal<string | null>(null);
 
+    /** Indicates whether the currently authenticated user is an anonymous guest. */
+    isGuest = signal<boolean>(false);
+
     /** Stores the latest authentication error shown to the user. */
     loginError = signal<string | null>(null);
 
@@ -40,6 +43,7 @@ export class AuthService {
                 this.isLoggedIn.set(session !== null);
                 this.currentUserId.set(session?.user.id ?? null);
                 this.currentUserName.set(session?.user.user_metadata?.['display_name'] ?? null);
+                this.isGuest.set(session?.user.is_anonymous ?? false);
                 resolve();
             });
             this.authSubscription = data.subscription;

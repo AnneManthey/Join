@@ -1,24 +1,15 @@
 import { Injectable, signal } from '@angular/core';
 import { createClient, RealtimeChannel } from '@supabase/supabase-js';
 import { Contact } from '../interfaces/contact';
+import { environment } from '../../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 
 export class SupabaseService {
   /**
-   * Supabase project URL used for all database requests.
-   */
-  private readonly supabaseUrl = 'https://kkenhlzyjmdlzwizszrh.supabase.co';
-
-  /**
-   * Publishable anon key used to authenticate requests.
-   */
-  private readonly supabaseKey = 'sb_publishable_maR6a2wWLdYDfnP8KuUOlw_CRqWZsff';
-
-  /**
    * Shared Supabase client instance.
    */
-  private readonly supabase = createClient(this.supabaseUrl, this.supabaseKey);
+  private readonly supabase = createClient(environment.supabaseUrl, environment.supabaseKey);
 
   /**
    * Active realtime channel subscription.
