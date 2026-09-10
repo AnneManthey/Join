@@ -1,5 +1,7 @@
 <nav class="navbar">
-  <img class="navbar-logo" src="app-icons/join_logo.svg" alt="Join Logo"/>
+  <a class="navbar-logo-link" routerLink="/summary">
+    <img class="navbar-logo" src="app-icons/join_logo.svg" alt="Join Logo"/>
+  </a>
   <ul class="navbar-links">
     @if (authService.isLoggedIn()) {
       <li>
