@@ -1,24 +1,33 @@
 <header>
-  <img class="header-logo" src="app-icons/join_logo_mobile.svg" alt="Join Logo">
+  <a class="header-logo-link" routerLink="/summary">
+    <img class="header-logo" src="app-icons/join_logo_mobile.svg" alt="Join Logo">
+  </a>
   <p class="header-title">Kanban Project Management Tool</p>
   <div class="header-actions">
-    <a class="help-button" routerLink="/support"><span>?</span></a>
-    <div class="profile-menu">
-      <button class="profile-button" type="button" (click)="openOrCloseMenu()">
-        <span>{{ profileInitials() | getInitials }}</span>
-      </button>
-      @if (isMenuVisible()) {
-        <div class="profile-backdrop" (click)="closeMenu()"></div>
-        <div
-          class="profile-dropdown"
-          [class.profile-dropdown--closing]="!isMenuOpen()"
-          (transitionend)="onDropdownTransitionEnd($event)"
-        >
-          <a routerLink="/legal-notice">Legal Notice</a>
-          <a routerLink="/privacy-policy">Privacy Policy</a>
-          <a routerLink="/" (click)="authService.signOut()">Log out</a>
-        </div>
+    @if (authService.isLoggedIn()) {
+      @if (showHelpButton()) {
+        <a class="help-button" routerLink="/support"><span>?</span></a>
       }
-    </div>
+      <div class="profile-menu">
+        <button class="profile-button" type="button" (click)="openOrCloseMenu()">
+          <span>{{ profileInitials() | getInitials }}</span>
+        </button>
+        @if (isMenuVisible()) {
+          <div class="profile-backdrop" (click)="closeMenu()"></div>
+          <div
+            class="profile-dropdown"
+            [class.profile-dropdown--closing]="!isMenuOpen()"
+            (transitionend)="onDropdownTransitionEnd($event)"
+          >
+            @if (showHelpButton()) {
+              <a class="dropdown-help-link" routerLink="/support">Help</a>
+            }
+            <a routerLink="/legal-notice">Legal Notice</a>
+            <a routerLink="/privacy-policy">Privacy Policy</a>
+            <a routerLink="/" (click)="authService.signOut()">Log out</a>
+          </div>
+        }
+      </div>
+    }
   </div>
 </header>

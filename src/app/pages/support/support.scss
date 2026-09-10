@@ -10,6 +10,10 @@ main {
     padding-bottom: 116px;
     font-family: 'Inter';
 
+    @media (min-width: 1441px) {
+        max-width: 1208px;
+    }
+
     @media (max-width: 576px) {
         margin-top: 48px;
         margin-left: 16px;
@@ -59,8 +63,16 @@ main {
         margin-top: 24px;
     }
 
+    section:last-of-type h2 {
+        margin-top: 52px;
+    }
+
     .line-break {
         margin-top: 1rem;
+    }
+
+    .line-break-main-heading {
+        margin-top: 1.625rem;
     }
 
     p,
@@ -101,7 +113,7 @@ main {
 
             h3 {
                 font-weight: 700;
-                font-size: 1.125rem;
+                font-size: 1.25rem;
                 line-height: 120%;
                 color: black;
                 margin: 0 0 0.25rem;
