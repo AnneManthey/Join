@@ -2,7 +2,9 @@
   <img class="header-logo" src="app-icons/join_logo_mobile.svg" alt="Join Logo">
   <p class="header-title">Kanban Project Management Tool</p>
   <div class="header-actions">
-    <a class="help-button" routerLink="/support"><span>?</span></a>
+    @if (showHelpButton()) {
+      <a class="help-button" routerLink="/support"><span>?</span></a>
+    }
     <div class="profile-menu">
       <button class="profile-button" type="button" (click)="openOrCloseMenu()">
         <span>{{ profileInitials() | getInitials }}</span>
