@@ -15,3 +15,12 @@ export const authGuard: CanActivateFn = (
     if (authService.isLoggedIn()) return true;
     return router.createUrlTree(['']);
 };
+
+/** Redirects authenticated users away from the login start page. */
+export const redirectAuthenticatedGuard: CanActivateFn = () => {
+    const authService = inject(AuthService);
+    const router = inject(Router);
+
+    if (authService.isLoggedIn()) return router.createUrlTree(['/summary']);
+    return true;
+};

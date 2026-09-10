@@ -5,7 +5,7 @@ import { Contacts } from './pages/contacts/contacts';
 import { AddTask } from './pages/add-task/add-task';
 import { LegalNotice } from './pages/legal-notice/legal-notice';
 import { LoginHome } from './pages/login-home/login-home';
-import { authGuard } from './shared/guards/auth-guard';
+import { authGuard, redirectAuthenticatedGuard } from './shared/guards/auth-guard';
 import { Register } from './pages/login-home/components/register/register';
 import { Summary } from './pages/summary/summary';
 import { PrivacyPolicy } from './pages/privacy-policy/privacy-policy';
@@ -15,7 +15,8 @@ export const routes: Routes = [
     // { path: '', pathMatch: 'full', redirectTo: 'contacts' },
     {
         path: '',
-        component: LoginHome
+        component: LoginHome,
+        canActivate: [redirectAuthenticatedGuard]
     },
     {
         path: 'register',
