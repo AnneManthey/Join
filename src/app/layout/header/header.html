@@ -1,5 +1,7 @@
 <header>
-  <img class="header-logo" src="app-icons/join_logo_mobile.svg" alt="Join Logo">
+  <a class="header-logo-link" routerLink="/summary">
+    <img class="header-logo" src="app-icons/join_logo_mobile.svg" alt="Join Logo">
+  </a>
   <p class="header-title">Kanban Project Management Tool</p>
   <div class="header-actions">
     @if (authService.isLoggedIn()) {
