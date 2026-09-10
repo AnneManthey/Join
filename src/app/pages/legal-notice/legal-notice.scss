@@ -42,10 +42,11 @@ main {
             border: none;
             padding: 0;
             cursor: pointer;
-            display: flex;
+            display: none;
             align-items: center;
 
             @media (max-width: 576px) {
+                display: flex;
                 margin-top: 8px;
             }
         }
