@@ -323,12 +323,12 @@ p {
   }
 }
 
-@media (max-width: 500px) {
+@media (max-width: 580px) {
   p {
     font-size: 1rem;
   }
   .summary-main {
-    padding: 32px 16px;
+     padding: 32px 60px;
   }
   .dashboard-wrapper {
     justify-content: center;
@@ -367,6 +367,7 @@ p {
     }
   }
 }
+
 
 @media (max-width: 400px) {
   .summary-main {
