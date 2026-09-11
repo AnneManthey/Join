@@ -54,11 +54,16 @@ export class LoginHome {
     return this.loginForm.get('password');
   };
 
-  /** Submits valid credentials to the authentication service. */
-  submitLogin() {
+  /**
+   * Submits valid credentials and clears the form only after a successful login.
+   * This keeps the entered email visible when authentication fails and the user can retry.
+   */
+  async submitLogin() {
     if (this.loginForm.valid) {
-      this.authService.signInWithEmail(this.usermail?.value ?? '', this.password?.value ?? '');
-      this.clearLoginForm();
+      const success = await this.authService.signInWithEmail(this.usermail?.value ?? '', this.password?.value ?? '');
+      if (success) {
+        this.clearLoginForm();
+      }
     } else {
       this.loginForm.markAllAsTouched();
     }
