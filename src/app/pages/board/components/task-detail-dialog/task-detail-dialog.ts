@@ -13,7 +13,10 @@ import { SupabaseTaskService } from '../../../../shared/services/supabase-task-s
   templateUrl: './task-detail-dialog.html',
   styleUrl: './task-detail-dialog.scss',
 })
+
 export class TaskDetailDialog {
+
+  taskService = inject(SupabaseTaskService);
 
   getColor = getColor;
 
@@ -31,6 +34,7 @@ export class TaskDetailDialog {
 
   isClosing = signal(false);
 
+  /** Plays the closing animation, then emits `close` once it has finished. */
   closeDialog(): void {
     this.isClosing.set(true);
     setTimeout(() => {
@@ -39,17 +43,16 @@ export class TaskDetailDialog {
     }, 300);
   }
 
-  taskService = inject(SupabaseTaskService);
-
+  /**
+   * Toggles the done state of a subtask.
+   * @param subtask - The subtask to toggle.
+   */
   toggleSubtask(subtask: Subtask): void {
     const neuerStatus = !subtask.done;
     this.taskService.toggleSubtask(subtask.id, neuerStatus);
   }
 
-  deleteTask(): void {
-    // Placeholder
-  }
-
+  /** Emits `edit` with the current task, if one is loaded. */
   editTask(): void {
     const currentTask = this.task();
     if (currentTask) {

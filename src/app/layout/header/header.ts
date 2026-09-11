@@ -24,6 +24,7 @@ export class Header {
 
   isMenuVisible = signal(false);
 
+  /** True unless the current route is one of the pages where the help button should be hidden. */
   showHelpButton = computed(() =>
     !ROUTES_WITHOUT_HELP_BUTTON.some((route) => this.currentUrl().startsWith(route))
   );
@@ -39,6 +40,10 @@ export class Header {
     return this.authService.currentUserName();
   });
 
+  /**
+   * Subscribes to router navigation events and keeps `currentUrl` in sync
+   * so that computed properties like `showHelpButton` react to route changes.
+   */
   constructor() {
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
@@ -57,10 +62,17 @@ export class Header {
     }
   }
 
+  /** Starts closing the dropdown by triggering its transition-out animation. */
   closeMenu(): void {
     this.isMenuOpen.set(false);
   }
 
+  /**
+   * Hides the dropdown from the DOM once its closing transition has finished,
+   * preventing it from being visible/interactable while not open.
+   *
+   * @param event - The transition event fired by the dropdown element.
+   */
   onDropdownTransitionEnd(event: TransitionEvent): void {
     if (event.propertyName === 'transform' && !this.isMenuOpen()) {
       this.isMenuVisible.set(false);

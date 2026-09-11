@@ -188,20 +188,7 @@ export class EditTaskDetailDialog {
    * to update the form with its values.
    */
   constructor() {
-    // effect(() => {
-    //   const currentTask = this.task();
-    //   if (!currentTask) return;
 
-    //   this.taskdetailForm.patchValue({
-    //     taskdetailName: currentTask.title,
-    //     taskdetailDescription: currentTask.description,
-    //     taskdetailDuedate: this.datePipe.transform(currentTask.due_date, 'yyyy-MM-dd'),
-    //   });
-    //   this.selectedPriority.set(currentTask.priority);
-    //   this.supabaseTaskService.currentTaskId = currentTask.id;
-    //   this.editSelectedContacts.set(currentTask.task_contacts.map(taskContact => taskContact.contacts.id));
-    //   this.editSubtasks.set(currentTask.subtasks.map(subtask => subtask.title));
-    // });
     effect(() => {
       const open = this.isOpen();
       const id = this.taskId();
