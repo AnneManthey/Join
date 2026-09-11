@@ -27,8 +27,6 @@ export class BoardColumn {
   addTaskClicked = output<string>();
   taskClicked = output<Task>();
 
-
-
   /** Moves a task within a column or transfers it to another column. */
   drop(event: CdkDragDrop<Task[]>): void {
     if (event.previousContainer === event.container) {

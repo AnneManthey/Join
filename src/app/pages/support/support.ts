@@ -9,9 +9,12 @@ import { Navbar } from '../../layout/navbar/navbar';
   templateUrl: './support.html',
   styleUrl: './support.scss',
 })
+/** Displays the support page and provides navigation back to the previous page. */
 export class Support {
+  /** Provides access to the browser history. */
   private location = inject(Location);
 
+  /** Navigates back to the previously visited page. */
   goBack(): void {
     this.location.back();
   }

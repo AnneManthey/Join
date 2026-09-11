@@ -6,17 +6,15 @@ import { Subtask, TaskContact } from '../interfaces/task';
 import { AbstractControl, ValidationErrors, FormControl, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 
 @Service()
-/**
- * Handles task-related persistence and real-time synchronization with Supabase.
- * This service manages tasks, subtasks, and task-to-contact assignments and keeps
- * Angular signals in sync with the database.
- */
+    /**
+    * Handles task-related persistence and real-time synchronization with Supabase.
+    * This service manages tasks, subtasks, and task-to-contact assignments and keeps
+    * Angular signals in sync with the database.
+    */
 export class SupabaseTaskService {
     private supabaseService = inject(SupabaseService);
-
     private supabase = this.supabaseService.client;
     tasks = signal<Task[]>([]);
-
     private tasksInsertChannel!: RealtimeChannel;
     private tasksUpdateChannel!: RealtimeChannel;
     private tasksDeleteChannel!: RealtimeChannel;
@@ -124,32 +122,13 @@ export class SupabaseTaskService {
         this.subscribeToSubtasksDelete();
     }
 
-    // /** Subscribes to newly inserted subtasks. */
-    // subscribeToSubtasksInsert(): void {
-    //     this.subtasksInsertChannel = this.supabase.channel('subtasks-insert-channel')
-    //         .on('postgres_changes',
-    //             { event: 'INSERT', schema: 'public', table: 'subtasks' },
-    //             (payload) => {
-    //                 const newSubtask = payload.new as Subtask;
-    //                 this.tasks.update(list =>
-    //                     list.map(task =>
-    //                         task.id === newSubtask.task_id
-    //                             ? { ...task, subtasks: [...task.subtasks, newSubtask] }
-    //                             : task
-    //                     )
-    //                 );
-    //             }
-    //         )
-    //         .subscribe();
-    // }
-
     /**
- * Subscribes to newly inserted subtasks.
- *
- * Skips subtasks that are already present locally (e.g. because they
- * were just added optimistically by `addNewSubtasks`), to avoid
- * duplicate entries when the realtime event arrives afterwards.
- */
+    * Subscribes to newly inserted subtasks.
+    *
+    * Skips subtasks that are already present locally (e.g. because they
+    * were just added optimistically by `addNewSubtasks`), to avoid
+    * duplicate entries when the realtime event arrives afterwards.
+    */
     subscribeToSubtasksInsert(): void {
         this.subtasksInsertChannel = this.supabase.channel('subtasks-insert-channel')
             .on('postgres_changes',
@@ -168,6 +147,7 @@ export class SupabaseTaskService {
             )
             .subscribe();
     }
+
     /** Subscribes to updates of existing subtasks. */
     subscribeToSubtasksUpdate(): void {
         this.subtasksUpdateChannel = this.supabase.channel('subtasks-update-channel')
@@ -220,12 +200,12 @@ export class SupabaseTaskService {
     }
 
     /**
- * Subscribes to newly created task-contact assignments.
- *
- * Skips contacts that are already present locally (e.g. because they
- * were just added optimistically by `updateAssignedContacts`), to
- * avoid duplicate entries when the realtime event arrives afterwards.
- */
+    * Subscribes to newly created task-contact assignments.
+    *
+    * Skips contacts that are already present locally (e.g. because they
+    * were just added optimistically by `updateAssignedContacts`), to
+    * avoid duplicate entries when the realtime event arrives afterwards.
+    */
     subscribeToTaskContactsInsert(): void {
         this.taskContactsInsertChannel = this.supabase.channel('task-contacts-insert-channel')
             .on('postgres_changes',
@@ -344,67 +324,16 @@ export class SupabaseTaskService {
         return true;
     }
 
-
     /**
-     * Inserts one or more new subtasks to an existing task.
-     *
-     * @param taskId The task id that receives the subtasks.
-     * @param newSubtaskTitles The titles of the subtasks to create.
-     * @returns True when the insert succeeds, otherwise false.
-     */
-    // async addNewSubtasks(taskId: number, newSubtaskTitles: string[]): Promise<boolean> {
-    //     if (newSubtaskTitles.length === 0) {
-    //         return true;
-    //     }
-
-    //     const insertRows = newSubtaskTitles.map(title => ({
-    //         task_id: taskId,
-    //         title: title
-    //     }));
-
-    //     const { error } = await this.supabase
-    //         .from('subtasks')
-    //         .insert(insertRows);
-
-    //     if (error) {
-    //         console.error('Subtasks could not be added', error.message);
-    //         return false;
-    //     }
-
-    //     return true;
-    // }
-    // async addNewSubtasks(taskId: number, newSubtaskTitles: string[]): Promise<boolean> {
-    //     const currentTask = this.tasks().find(t => t.id === taskId);
-    //     const oldTitles = currentTask?.subtasks.map(s => s.title) ?? [];
-
-    //     const toAdd = newSubtaskTitles.filter(title => !oldTitles.includes(title));
-    //     const toRemove = oldTitles.filter(title => !newSubtaskTitles.includes(title));
-
-    //     if (toRemove.length > 0) {
-    //         const { error } = await this.supabase.from('subtasks')
-    //             .delete().eq('task_id', taskId).in('title', toRemove);
-    //         if (error) { console.error('Subtasks could not be removed', error.message); return false; }
-    //     }
-
-    //     if (toAdd.length > 0) {
-    //         const { error } = await this.supabase.from('subtasks')
-    //             .insert(toAdd.map(title => ({ task_id: taskId, title })));
-    //         if (error) { console.error('Subtasks could not be added', error.message); return false; }
-    //     }
-
-    //     return true;
-    // }
-
-    /**
- * Inserts or removes subtasks of a task in Supabase so that its subtasks
- * match `newSubtaskTitles`, and immediately keeps the local `tasks`
- * state in sync, without waiting for the realtime event (avoids UI
- * delay after saving).
- *
- * @param taskId - The task id that receives/loses subtasks.
- * @param newSubtaskTitles - The complete new list of subtask titles.
- * @returns True when the update succeeds, otherwise false.
- */
+    * Inserts or removes subtasks of a task in Supabase so that its subtasks
+    * match `newSubtaskTitles`, and immediately keeps the local `tasks`
+    * state in sync, without waiting for the realtime event (avoids UI
+    * delay after saving).
+    *
+    * @param taskId - The task id that receives/loses subtasks.
+    * @param newSubtaskTitles - The complete new list of subtask titles.
+    * @returns True when the update succeeds, otherwise false.
+    */
     async addNewSubtasks(taskId: number, newSubtaskTitles: string[]): Promise<boolean> {
         const currentTask = this.tasks().find(t => t.id === taskId);
         const oldTitles = currentTask?.subtasks.map(s => s.title) ?? [];
@@ -442,18 +371,18 @@ export class SupabaseTaskService {
 
 
     /**
- * Updates the contacts assigned to a task in Supabase and immediately
- * keeps the local `tasks` state in sync, without waiting for the
- * realtime event (avoids UI delay after saving).
- *
- * Computes the difference between the old and new contact IDs, removes
- * and inserts only the actually changed rows in `task_contacts`, and
- * then writes the result directly into the `tasks` signal.
- *
- * @param taskId - The ID of the task whose contacts are being updated.
- * @param newIds - The complete new list of assigned contact IDs.
- * @returns `true` if removing and adding succeeded, otherwise `false`.
- */
+    * Updates the contacts assigned to a task in Supabase and immediately
+    * keeps the local `tasks` state in sync, without waiting for the
+    * realtime event (avoids UI delay after saving).
+    *
+    * Computes the difference between the old and new contact IDs, removes
+    * and inserts only the actually changed rows in `task_contacts`, and
+    * then writes the result directly into the `tasks` signal.
+    *
+    * @param taskId - The ID of the task whose contacts are being updated.
+    * @param newIds - The complete new list of assigned contact IDs.
+    * @returns `true` if removing and adding succeeded, otherwise `false`.
+    */
     async updateAssignedContacts(taskId: number, newIds: number[]): Promise<boolean> {
         const currentTask = this.tasks().find(t => t.id === taskId);
         const oldIds = currentTask?.task_contacts.map(tc => tc.contact_id) ?? [];
@@ -549,11 +478,11 @@ export class SupabaseTaskService {
     }
 
     /**
- * Updates the text content of a subtask in the current edit list.
- *
- * @param index The zero-based index of the subtask to update.
- * @param newSubtask The new text content for the subtask.
- */
+    * Updates the text content of a subtask in the current edit list.
+    *
+    * @param index The zero-based index of the subtask to update.
+    * @param newSubtask The new text content for the subtask.
+    */
     updateEditSubtask(index: number, newSubtask: string) {
         const newText = newSubtask.trim();
         if (!newText) return;
@@ -673,6 +602,7 @@ export class SupabaseTaskService {
         }
     }
 
+    /** Updates the completion state of a subtask in the local task signal. */
     private setSubtaskDone(subtaskId: Subtask['id'], done: boolean): void {
         this.tasks.update(tasks =>
             tasks.map(task => ({

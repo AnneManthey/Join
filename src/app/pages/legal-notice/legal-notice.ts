@@ -9,9 +9,12 @@ import { Navbar } from '../../layout/navbar/navbar';
   templateUrl: './legal-notice.html',
   styleUrl: './legal-notice.scss',
 })
+/** Displays the legal notice and provides navigation back to the previous page. */
 export class LegalNotice {
+  /** Provides access to the browser history. */
   private location = inject(Location);
 
+  /** Navigates back to the previously visited page. */
   goBack(): void {
     this.location.back();
   }

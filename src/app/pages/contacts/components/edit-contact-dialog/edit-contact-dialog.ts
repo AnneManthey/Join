@@ -54,6 +54,8 @@ export class EditContactDialog {
   /** Requires a dotted domain with a top-level domain of at least two characters. */
   private readonly emailDomainPattern = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
+  getColor = getColor;
+
   /** Holds the values and validation rules for the contact form. */
   contactForm: FormGroup = this.fb.group({
     name: ['', [Validators.required, Validators.pattern(this.namePattern)]],
@@ -202,7 +204,4 @@ export class EditContactDialog {
     this.errorMessage = null;
     this.closeRequested.emit();
   }
-
-  getColor = getColor;
-
 }

@@ -32,6 +32,11 @@ export class ContactDetails {
     if (!currentId) return undefined;
     return this.contactService.contacts().find(contact => contact.id === Number(currentId));
   });
+  /**
+* Indicates whether the options panel is currently open.
+* Defaults to `false` on initialization.
+*/
+  optionsOpen = false;
 
   /**
  * Re-triggers the slide-in animation whenever the selected contact changes.
@@ -113,12 +118,6 @@ export class ContactDetails {
       clearTimeout(this.closeDialogTimer);
     }
   }
-
-  /**
-   * Indicates whether the options panel is currently open.
-   * Defaults to `false` on initialization.
-   */
-  optionsOpen = false;
 
   /**
    * Toggles the visibility state of the options panel.

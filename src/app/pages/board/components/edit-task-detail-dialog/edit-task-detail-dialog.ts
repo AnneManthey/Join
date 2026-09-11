@@ -309,6 +309,7 @@ export class EditTaskDetailDialog {
     this.editSubtasks.update(subtasks => subtasks.map((task, i) => i === index ? newText : task));
   }
 
+  /** Saves the edited task details, contacts, and subtasks. */
   async onEditSubmit() {
     const currentTask = this.task();
     if (!currentTask) return;

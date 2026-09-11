@@ -33,8 +33,6 @@ export class AddTaskForm {
   selectedContacts = this.supabaseTaskService.selectedContacts;
   assignedSubtasks = this.supabaseTaskService.assignedSubtasks;
 
-
-
   /** Indicates whether the category dropdown is currently opened. */
   categoryDropdownOpen = signal(false);
 

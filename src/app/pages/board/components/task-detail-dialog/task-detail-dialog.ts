@@ -15,23 +15,17 @@ import { SupabaseTaskService } from '../../../../shared/services/supabase-task-s
 })
 
 export class TaskDetailDialog {
-
   taskService = inject(SupabaseTaskService);
-
   getColor = getColor;
-
   priorityIcon = computed(() => {
     const currentTask = this.task();
     return currentTask ? `app-icons/board/prio-${currentTask.priority}.svg` : '';
   });
-
   isTaskDetailDialogOpen = input.required<boolean>();
-
   taskId = input.required<number>();
   task = computed(() => this.taskService.tasks().find(t => t.id === this.taskId()));
   close = output<void>();
   edit = output<Task>();
-
   isClosing = signal(false);
 
   /** Plays the closing animation, then emits `close` once it has finished. */

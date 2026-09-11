@@ -35,8 +35,6 @@ export class Board implements OnInit {
   /** Indicates whether the task detail dialog is open. */
   isTaskDetailDialogOpen = signal(false);
 
-  
-
   /** Task currently displayed in the detail dialog. */
   // selectedTask = signal<Task | null>(null);
 

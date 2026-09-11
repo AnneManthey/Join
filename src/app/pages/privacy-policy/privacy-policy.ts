@@ -9,9 +9,12 @@ import { Navbar } from '../../layout/navbar/navbar';
   templateUrl: './privacy-policy.html',
   styleUrl: './privacy-policy.scss',
 })
+/** Displays the privacy policy and provides navigation back to the previous page. */
 export class PrivacyPolicy {
+  /** Provides access to the browser history. */
    private location = inject(Location);
 
+  /** Navigates back to the previously visited page. */
   goBack(): void {
     this.location.back();
   }

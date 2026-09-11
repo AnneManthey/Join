@@ -16,10 +16,8 @@ export class Contacts {
   private readonly route = inject(ActivatedRoute);
   private router = inject(Router);
   private navigationEnd = toSignal(this.router.events, { initialValue: null });
-
   private successMessageTimer: ReturnType<typeof setTimeout> | undefined;
   private fadeOutTimer: ReturnType<typeof setTimeout> | undefined;
-
   readonly contactId = Number(this.route.snapshot.paramMap.get('id'));
   readonly contact = history.state['contact'] as Contact | undefined;
   readonly successMessage = history.state['successMessage'] as string | undefined;
@@ -31,6 +29,7 @@ export class Contacts {
     return !!this.route.firstChild;
   });
 
+  /** Initializes the success message timers when a contact action succeeded. */
   constructor() {
     if (this.successMessage) {
       this.successMessageTimer = setTimeout(() => {
@@ -42,10 +41,12 @@ export class Contacts {
     }
   }
 
+  /** Navigates to the contacts overview. */
   routeToContacts() {
     this.router.navigate(['/contacts']);
   }
 
+  /** Clears active success message timers when the component is destroyed. */
   ngOnDestroy(): void {
     if (this.successMessageTimer) {
       clearTimeout(this.successMessageTimer);

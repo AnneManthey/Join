@@ -1,4 +1,4 @@
-
+/** Represents a board column and the tasks assigned to it. */
 export interface Column {
     id: string;
     title: string;
@@ -7,6 +7,7 @@ export interface Column {
 
 import { Contact } from "./contact";
 
+/** Represents a subtask belonging to a parent task. */
 export interface Subtask {
     id: number;
     task_id: number;
@@ -14,11 +15,13 @@ export interface Subtask {
     done: boolean;
 }
 
+/** Represents a contact assigned to a task. */
 export interface TaskContact {
     contact_id: number;
     contacts: Contact;
 }
 
+/** Represents a task and its related subtasks and contacts. */
 export interface Task {
     id: number;
     title: string;
