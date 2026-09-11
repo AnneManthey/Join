@@ -11,12 +11,33 @@ const ROUTES_WITHOUT_HELP_BUTTON = ['/support', '/legal-notice', '/privacy-polic
   templateUrl: './header.html',
   styleUrl: './header.scss',
 })
+
 export class Header {
   authService = inject(AuthService);
   private router = inject(Router);
 
-  // Current URL, updated on every navigation
+  /** Current URL, updated on every navigation. */
   currentUrl = signal(this.router.url);
+
+    /** True when the dropdown has transitioned in, false when it is transitioning out. */
+  isMenuOpen = signal(false);
+
+  isMenuVisible = signal(false);
+
+  showHelpButton = computed(() =>
+    !ROUTES_WITHOUT_HELP_BUTTON.some((route) => this.currentUrl().startsWith(route))
+  );
+
+  /**
+   * Initials shown in the profile button: 'G' for a guest login,
+   * otherwise the initials of the logged-in user's display name.
+   */
+  profileInitials = computed(() => {
+    if (this.authService.isGuest()) {
+      return 'G';
+    }
+    return this.authService.currentUserName();
+  });
 
   constructor() {
     this.router.events.subscribe((event) => {
@@ -26,25 +47,7 @@ export class Header {
     });
   }
 
-  showHelpButton = computed(() =>
-    !ROUTES_WITHOUT_HELP_BUTTON.some((route) => this.currentUrl().startsWith(route))
-  );
-
-  // Initials shown in the profile button: 'G' for a guest login,
-  // otherwise the initials of the logged-in user's display name.
-  profileInitials = computed(() => {
-    if (this.authService.isGuest()) {
-      return 'G';
-    }
-    return this.authService.currentUserName();
-  });
-
-  // true = dropdown transitioned in, false = dropdown transitions out
-  isMenuOpen = signal(false);
-
-  isMenuVisible = signal(false);
-
-  // Profile button click handler: opens/closes the dropdown
+  /** Profile button click handler: opens or closes the dropdown. */
   openOrCloseMenu(): void {
     if (this.isMenuOpen()) {
       this.closeMenu();
