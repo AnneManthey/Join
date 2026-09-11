@@ -174,7 +174,7 @@
             <div class="auth__checkbox-wrapper">
                 <input class="task-form__checkbox" type="checkbox" id="registerPolicy" formControlName="registerPolicy">
                 <label class="auth__checkbox-label" for="registerPolicy" (click)="$event.preventDefault()">I accept the
-                    <a class="register__link">Privacy
+                    <a class="register__link" routerLink="/privacy-policy">Privacy
                         Policy</a></label>
             </div>
             @if (registerPolicy?.invalid && registerPolicy?.touched) {
