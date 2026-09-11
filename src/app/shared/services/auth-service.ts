@@ -121,7 +121,7 @@ export class AuthService {
     }
 
     /** Signs in a user with an email address and password. */
-    async signInWithEmail(email: string, password: string) {
+    async signInWithEmail(email: string, password: string): Promise<boolean> {
         this.loginError.set(null);
         const { data, error } = await this.supabase.auth.signInWithPassword({
             email: email,
@@ -129,10 +129,12 @@ export class AuthService {
         })
         if (error) {
             console.log(error);
-            this.loginError.set('Check your email and password. Please try again.')
+            this.loginError.set('Check your email and password. Please try again.');
+            return false;
         } else {
             this.loginError.set(null);
             this.router.navigate(['/summary'], { state: { fromLogin: true } });
+            return true;
         }
     };
 
