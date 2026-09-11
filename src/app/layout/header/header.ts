@@ -19,6 +19,11 @@ export class Header {
   /** Current URL, updated on every navigation. */
   currentUrl = signal(this.router.url);
 
+    /** True when the dropdown has transitioned in, false when it is transitioning out. */
+  isMenuOpen = signal(false);
+
+  isMenuVisible = signal(false);
+
   showHelpButton = computed(() =>
     !ROUTES_WITHOUT_HELP_BUTTON.some((route) => this.currentUrl().startsWith(route))
   );
@@ -33,11 +38,6 @@ export class Header {
     }
     return this.authService.currentUserName();
   });
-
-  /** True when the dropdown has transitioned in, false when it is transitioning out. */
-  isMenuOpen = signal(false);
-
-  isMenuVisible = signal(false);
 
   constructor() {
     this.router.events.subscribe((event) => {
