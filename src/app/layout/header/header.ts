@@ -19,14 +19,6 @@ export class Header {
   /** Current URL, updated on every navigation. */
   currentUrl = signal(this.router.url);
 
-  constructor() {
-    this.router.events.subscribe((event) => {
-      if (event instanceof NavigationEnd) {
-        this.currentUrl.set(event.urlAfterRedirects);
-      }
-    });
-  }
-
   showHelpButton = computed(() =>
     !ROUTES_WITHOUT_HELP_BUTTON.some((route) => this.currentUrl().startsWith(route))
   );
@@ -46,6 +38,14 @@ export class Header {
   isMenuOpen = signal(false);
 
   isMenuVisible = signal(false);
+
+  constructor() {
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        this.currentUrl.set(event.urlAfterRedirects);
+      }
+    });
+  }
 
   /** Profile button click handler: opens or closes the dropdown. */
   openOrCloseMenu(): void {
