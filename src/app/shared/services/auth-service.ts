@@ -84,14 +84,14 @@ export class AuthService {
             });
 
         if (contactError) {
-            console.log(contactError);
             return;
         }
 
+        await this.supabase.auth.signOut();
         this.showLoginSuccessMessage.set(true);
         setTimeout(() => {
             this.showLoginSuccessMessage.set(false);
-            this.router.navigate(['/summary'], { state: { fromLogin: true } });
+            this.router.navigate(['']);
         }, 1000)
     };
 
@@ -132,7 +132,6 @@ export class AuthService {
             console.log(error);
             this.loginError.set('guest login failed');
         } else {
-            console.log('Successfully signed in as guest', data);
             this.loginError.set(null);
             this.router.navigate(['/summary'], { state: { fromLogin: true } });
         }
