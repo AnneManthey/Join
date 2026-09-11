@@ -58,6 +58,21 @@ export class AuthService {
     /** Registers a new user with the provided email address and password. */
     async signUpNewUser(name: string, email: string, password: string) {
         this.registerError.set(null);
+        const userId = await this.registerUser(name, email, password);
+        if (!userId) {
+            return;
+        }
+
+        const contactCreated = await this.createContact(name, email, userId);
+        if (!contactCreated) {
+            return;
+        }
+
+        await this.completeSignup();
+    };
+
+    /** Registers the user in Supabase and returns the new user's ID. */
+    private async registerUser(name: string, email: string, password: string): Promise<string | null> {
         const { data, error } = await this.supabase.auth.signUp({
             email: email,
             password: password,
@@ -73,33 +88,40 @@ export class AuthService {
             } else {
                 this.registerError.set('Registration failed. Please try again.');
             }
-            return;
+            return null;
         }
+
+        return data.user?.id ?? null;
+    }
+
+    /** Creates a contact entry for the newly registered user. */
+    private async createContact(name: string, email: string, userId: string): Promise<boolean> {
         const { error: contactError } = await this.supabase
             .from('ContactList')
             .insert({
                 contact_name: name,
                 contact_mail: email,
-                user_id: data.user?.id,
+                user_id: userId,
             });
 
         if (contactError) {
-            return;
+            return false;
         }
+        return true;
+    }
 
+    /** Signs the user out and redirects to the login page after a successful signup. */
+    private async completeSignup(): Promise<void> {
         await this.supabase.auth.signOut();
         this.showLoginSuccessMessage.set(true);
         setTimeout(() => {
             this.showLoginSuccessMessage.set(false);
             this.router.navigate(['']);
         }, 1000)
-    };
+    }
 
     /** Signs in a user with an email address and password. */
     async signInWithEmail(email: string, password: string) {
-        // loginerror wird hier auf null gesetzt, wenn man mehrmals falsch eingegeben hat, 
-        // damit klar wird, dass der login nochmal probiert wird, 
-        // denn die errormeldung verschwindet hierdurch
         this.loginError.set(null);
         const { data, error } = await this.supabase.auth.signInWithPassword({
             email: email,
