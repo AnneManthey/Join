@@ -23,7 +23,6 @@ export class Register {
   /** Whether the confirm-password is currently shown as plain text instead of masked. */
   isConfirmPasswordVisible = signal(false);
 
-
   /** Whether the password input is currently focused. */
   isFocused = signal(false);
 

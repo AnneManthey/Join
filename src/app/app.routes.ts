@@ -12,7 +12,6 @@ import { PrivacyPolicy } from './pages/privacy-policy/privacy-policy';
 import { Support } from './pages/support/support';
 
 export const routes: Routes = [
-    // Startseite auf Contacts weitergeleitet, damit der Router nicht leer bleibt.
     // { path: '', pathMatch: 'full', redirectTo: 'contacts' },
     {
         path: '',

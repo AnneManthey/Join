@@ -1,25 +1,20 @@
 @if (isTaskDetailDialogOpen() && task(); as currentTask) {
-  <div class="dialog-overlay" (click)="closeDialog()">
-    <main class="dialog-content" [class.dialog-content--closing]="isClosing()" (click)="$event.stopPropagation()">
+<div class="dialog-overlay" (click)="closeDialog()">
+  <main class="dialog-content" [class.dialog-content--closing]="isClosing()" (click)="$event.stopPropagation()">
 
-      <header class="dialog-header">
-        <span
-          class="dialog-badge"
-          [class.user_story]="currentTask.category === 'user_story'"
-          [class.technical_task]="currentTask.category === 'technical_task'">
-          {{ currentTask.category === 'user_story' ? 'User Story' : 'Technical Task' }}
-        </span>
+    <header class="dialog-header">
+      <span class="dialog-badge" [class.user_story]="currentTask.category === 'user_story'"
+        [class.technical_task]="currentTask.category === 'technical_task'">
+        {{ currentTask.category === 'user_story' ? 'User Story' : 'Technical Task' }}
+      </span>
 
-        <button
-          class="dialog-close"
-          type="button"
-          (click)="closeDialog()">
-          &times;
-        </button>
-      </header>
+      <button class="dialog-close" type="button" (click)="closeDialog()">
+        &times;
+      </button>
+    </header>
 
-      <div class="dialog-body">
-        <div class="dialog-scrollable">
+    <div class="dialog-body">
+      <div class="dialog-scrollable">
         <h2>{{ currentTask.title }}</h2>
 
         <p class="dialog-description">{{ currentTask.description }}</p>
@@ -33,10 +28,7 @@
           <span class="priority-label">Priority:</span>
           <span class="priority-value">
             {{ currentTask.priority | titlecase }}
-            <img
-              class="priority-icon"
-              [src]="priorityIcon()"
-              [alt]="'Priority ' + currentTask.priority">
+            <img class="priority-icon" [src]="priorityIcon()" [alt]="'Priority ' + currentTask.priority">
           </span>
         </p>
 
@@ -44,7 +36,7 @@
 
         <div class="dialog-assignees">
           <div class="dialog-assignees__assignees-wrapper">
-           @for (tc of currentTask.task_contacts; track tc.contact_id) {
+            @for (tc of currentTask.task_contacts; track tc.contact_id) {
             <div class="assignee-row">
               <span class="task-card-assignee" [style.background-color]="getColor(tc.contacts.contact_name)"
                 [title]="tc.contacts.contact_name">
@@ -52,40 +44,38 @@
               </span>
               <span class="assignee-name">{{ tc.contacts.contact_name }}</span>
             </div>
-          }
-        </div>
+            }
+          </div>
         </div>
         <p class="subtasks-label">Subtasks</p>
 
         <div class="dialog-subtasks">
           <div class="dialog-subtasks__subtasks-wrapper">
             @for (subtask of currentTask.subtasks; track subtask.id) {
-              <div class="subtask-row" (click)="toggleSubtask(subtask)">
-                <img
-                  class="subtask-checkbox"
-                  [src]="subtask.done ? 'app-icons/task-detail-dialog/check_button_checked.svg' : 'app-icons/task-detail-dialog/check_button.png'"
-                  [alt]="subtask.done ? 'Checked' : 'Unchecked'">
-                <span class="subtask-title">{{ subtask.title }}</span>
-              </div>
+            <div class="subtask-row" (click)="toggleSubtask(subtask)">
+              <img class="subtask-checkbox"
+                [src]="subtask.done ? 'app-icons/task-detail-dialog/check_button_checked.svg' : 'app-icons/task-detail-dialog/check_button.png'"
+                [alt]="subtask.done ? 'Checked' : 'Unchecked'">
+              <span class="subtask-title">{{ subtask.title }}</span>
+            </div>
             }
           </div>
         </div>
-        </div>
       </div>
+    </div>
 
-      <div class="dialog-actions">
-        <button class="dialog-action-button" type="button" (click)="taskService.deleteTask(currentTask.id)">
-          <img src="app-icons/task-detail-dialog/delete.svg" alt="">
-          Delete
-        </button>
-        <span class="dialog-action-divider"></span>
-        <button class="dialog-action-button dialog-action-edit" type="button" (click)="editTask()">
-          <img src="app-icons/task-detail-dialog/edit.svg" alt="">
-          Edit
-        </button>
-      </div>
+    <div class="dialog-actions">
+      <button class="dialog-action-button" type="button" (click)="taskService.deleteTask(currentTask.id)">
+        <img src="app-icons/task-detail-dialog/delete.svg" alt="">
+        Delete
+      </button>
+      <span class="dialog-action-divider"></span>
+      <button class="dialog-action-button dialog-action-edit" type="button" (click)="editTask()">
+        <img src="app-icons/task-detail-dialog/edit.svg" alt="">
+        Edit
+      </button>
+    </div>
 
-    </main>
-  </div>
+  </main>
+</div>
 }
-

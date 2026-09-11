@@ -37,9 +37,6 @@ export class ContactList {
 
 
   /** 
-   * Loads the contact list from Supabase once the component is initialized. 
-   */
-  /** 
    * Alphabetically sorted copy of the contacts from {@link SupabaseService.contacts}. 
    * Recomputes automatically whenever the underlying signal changes 
    * (e.g. after a realtime update). 

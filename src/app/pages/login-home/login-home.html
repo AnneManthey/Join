@@ -11,7 +11,6 @@
     <div class="auth__heading-wrapper">
         <h1 class="main-h1">Log in</h1>
         <div class="auth__heading-line"></div>
-        <!-- <p>Welcome {{authService.currentUserName() ?? 'no one logged in or Guest'}}</p> -->
     </div>
     <form class="auth__form auth__form--login" [formGroup]="loginForm" (ngSubmit)="submitLogin()">
         <div class="auth__input-outer-wrapper">
@@ -100,27 +99,18 @@
         </div>
     </form>
 </div>
-
-<!-- @if (authService.isLoggedIn()) {
-<p>logged in successfully</p>
-}
-@if (!authService.isLoggedIn()) {
-<p>failed to log in or signed out</p>
-} -->
-
 <div class="login__register-wrapper login__register-wrapper--mobile">
     <p class="login__text">Not a Join user?</p>
     <button class="auth__button auth__button--dark" routerLink="register">Sign up</button>
 </div>
-
-<!-- <button (click)="authService.signOut()" style="font-size:2rem">sign out</button> -->
 <footer class="auth__footer">
     <a class="auth__link" routerLink="privacy-policy">Privacy Policy</a>
     <a class="auth__link" routerLink="legal-notice">Legal notice</a>
 </footer>
 
 @if (showOverlay()) {
-<div class="auth__overlay" [class.auth__overlay--fade-out]="isFadingOut()" (transitionend)="onOverlayTransitionEnd($event)">
+<div class="auth__overlay" [class.auth__overlay--fade-out]="isFadingOut()"
+    (transitionend)="onOverlayTransitionEnd($event)">
     <img src="/app-icons/join_favicon.svg" alt="Logo" class="auth__overlay-logo auth__overlay-logo--desktop">
     <img src="/app-icons/join_logo.svg" alt="Logo" class="auth__overlay-logo auth__overlay-logo--mobile">
 </div>
