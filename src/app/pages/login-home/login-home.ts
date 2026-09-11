@@ -35,7 +35,7 @@ export class LoginHome {
   ngOnInit() {
     setTimeout(() => {
       this.isFadingOut.set(true);
-    }, 1000);
+    }, 800);
   }
 
   /** Reactive form containing the user's login credentials. */
@@ -75,7 +75,9 @@ export class LoginHome {
   };
 
   /** Called once the CSS opacity transition on the overlay finishes. */
-  onOverlayTransitionEnd() {
-    this.showOverlay.set(false);
+  onOverlayTransitionEnd(event: TransitionEvent) {
+    if (event.propertyName === 'opacity') {
+      this.showOverlay.set(false);
+    }
   }
 }

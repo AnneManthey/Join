@@ -11,6 +11,12 @@
     font-family: Inter;
     padding: 65px 100px;
     background-color: $board-bg;
+
+    // variables for the overlay animation on login start
+    --target-left: 100px;
+    --target-top: 65px;
+    --target-logo-width: 101px;
+    --target-logo-height: 122px;
 }
 
 .login {
@@ -245,7 +251,7 @@
         align-items: center;
         background-color: $board-bg;
         opacity: 1;
-        transition: opacity 400ms ease-out;
+        transition: opacity 255ms ease-out 400ms;
 
         &--fade-out {
             opacity: 0;
@@ -253,6 +259,7 @@
 
         &-logo {
             width: auto;
+            transition: transform 600ms ease-out;
 
             &--desktop {
                 display: block;
@@ -262,6 +269,19 @@
             &--mobile {
                 display: none;
             }
+        }
+
+        &--fade-out &-logo--desktop {
+            transform:
+                translate(calc(var(--target-left) + var(--target-logo-width) / 2 - 50vw),
+                    calc(var(--target-top) + var(--target-logo-height) / 2 - 50vh)) scale(calc(var(--target-logo-height) / 270px));
+        }
+
+        // Mobile: gleiche Zielposition, aber Skalierung von 180px auf 122px Höhe
+        &--fade-out &-logo--mobile {
+            transform:
+                translate(calc(var(--target-left) + var(--target-logo-width) / 2 - 50vw),
+                    calc(var(--target-top) + var(--target-logo-height) / 2 - 50vh)) scale(calc(var(--target-logo-height) / 180px));
         }
     }
 }
@@ -274,6 +294,7 @@
     :host {
         padding-left: max(100px, calc(50% - 720px));
         padding-right: max(100px, calc(50% - 720px));
+        --target-left: max(100px, calc(50vw - 720px));
     }
 }
 
@@ -292,6 +313,8 @@
 
     :host {
         padding: 48px 38px;
+        --target-top: 48px;
+        --target-left: 38px;
     }
 }
 
@@ -372,6 +395,8 @@
 
     :host {
         padding: 38px 16px;
+        --target-top: 38px;
+        --target-left: 16px;
     }
 }
 

@@ -120,7 +120,7 @@
 </footer>
 
 @if (showOverlay()) {
-<div class="auth__overlay" [class.auth__overlay--fade-out]="isFadingOut()" (transitionend)="onOverlayTransitionEnd()">
+<div class="auth__overlay" [class.auth__overlay--fade-out]="isFadingOut()" (transitionend)="onOverlayTransitionEnd($event)">
     <img src="/app-icons/join_favicon.svg" alt="Logo" class="auth__overlay-logo auth__overlay-logo--desktop">
     <img src="/app-icons/join_logo.svg" alt="Logo" class="auth__overlay-logo auth__overlay-logo--mobile">
 </div>

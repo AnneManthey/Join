@@ -29,7 +29,6 @@ export class AuthService {
     /** Stores the latest authentication error shown to the user. */
     registerError = signal<string | null>(null);
 
-
     /** Controls the success message shown after a successful login. */
     showLoginSuccessMessage = signal(false);
 
