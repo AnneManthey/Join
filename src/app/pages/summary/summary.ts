@@ -83,14 +83,23 @@ export class Summary {
       : '-';
   });
 
+  /**
+   * Counts tasks that match the given status.
+   */
   private countByStatus(status: Task['status']): number {
     return this.tasks().filter(task => task.status === status).length;
   }
 
+  /**
+   * Compares two tasks by their due date.
+   */
   private compareDueDates(first: Task, second: Task): number {
     return first.due_date.localeCompare(second.due_date);
   }
 
+  /**
+   * Converts a date to the ISO date key used for comparisons.
+   */
   private toDateKey(date: Date): string {
     return date.toISOString().slice(0, 10);
   }
