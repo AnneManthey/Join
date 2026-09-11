@@ -10,7 +10,6 @@ p {
   padding: 0px 50px 50px 0px;
 }
 
-
 %card-hover-base {
   &:hover {
     background-color: $dark-blue;
@@ -30,7 +29,6 @@ p {
   padding: 38px 19px;
   cursor: pointer;
   transition: all 255ms ease-in-out;
-
   img {
     width: 70px;
     height: 70px;
@@ -98,7 +96,6 @@ p {
       @extend %card-hover-base;
       width: 260px;
       gap: 30px;
-
       .img-hover {
         display: none;
       }
@@ -124,7 +121,6 @@ p {
       @extend %card-hover-base;
       width: 100%;
       gap: 18px;
-
       .grey-line {
         height: 100px;
         width: 2px;
@@ -136,7 +132,6 @@ p {
         align-items: flex-start;
         gap: 16px;
         padding: 0px 20px;
-
         span {
           font-size: 1.2rem;
           font-weight: 700;
@@ -243,7 +238,6 @@ p {
       align-items: flex-start;
       padding-bottom: 50px;
       gap: 30px;
-
       opacity: 0;
       visibility: hidden;
       animation: fadeInContent 0.6s ease-in-out 2s forwards;
@@ -323,12 +317,12 @@ p {
   }
 }
 
-@media (max-width: 500px) {
+@media (max-width: 580px) {
   p {
     font-size: 1rem;
   }
   .summary-main {
-    padding: 32px 16px;
+     padding: 32px 60px;
   }
   .dashboard-wrapper {
     justify-content: center;
@@ -367,6 +361,7 @@ p {
     }
   }
 }
+
 
 @media (max-width: 400px) {
   .summary-main {
@@ -425,7 +420,6 @@ p {
         .urgent-wrapper {
           gap: 10px;
           padding: 0px 10px;
-
           span {
             font-size: 1rem;
           }
@@ -434,7 +428,6 @@ p {
       .card-single {
         width: 95px;
         padding: 12px;
-
         h4 {
           font-size: 2.5rem;
         }
