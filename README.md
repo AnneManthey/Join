@@ -2,9 +2,25 @@
 
 Join is a Kanban-style task management app. It lets you organize tasks on a board, assign them to contacts, add new tasks, and track progress via a summary overview.
 
-This is a group project by Kristina Starovoit, Anne Manthey, and Anja-Isabella Schulz.
+**🔗 Live Demo:** [join.anne-manthey.de](https://join.anne-manthey.de/)
+
+Originally built as a group project by Kristina Starovoit, Anne Manthey, and Anja-Isabella Schulz. Now maintained independently by Anne Manthey.
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 22.0.7.
+
+## Features
+
+- **Board** – organize tasks across columns with drag & drop
+- **Task creation** – add tasks with priority, category, and subtasks
+- **Contacts** – Supabase-backed contact management, including creating and editing contacts
+- **Assignment** – assign tasks to one or more contacts
+- **Summary** – dashboard overview of task counts and progress
+
+## Tech Stack
+
+- [Angular](https://angular.dev/) 22, built with standalone components and [Signals](https://angular.dev/guide/signals) for state management
+- [Supabase](https://supabase.com/) as backend (database, and contact data storage)
+- [Vitest](https://vitest.dev/) for unit testing
 
 ## Prerequisites
 
@@ -66,25 +82,18 @@ ng build
 
 This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
 
-## Running unit tests
+## Testing
 
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+This project currently only includes the default tests scaffolded by Angular CLI — there is no dedicated test coverage for the app's features yet.
+
+To run the existing unit tests with the [Vitest](https://vitest.dev/) test runner:
 
 ```bash
 ng test
 ```
 
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+Angular CLI does not come with an end-to-end testing framework by default; none is set up in this project at the moment.
 
 ## Additional Resources
 
 For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
-
