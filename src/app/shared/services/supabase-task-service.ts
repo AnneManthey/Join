@@ -337,36 +337,64 @@ export class SupabaseTaskService {
     async addNewSubtasks(taskId: number, newSubtaskTitles: string[]): Promise<boolean> {
         const currentTask = this.tasks().find(t => t.id === taskId);
         const oldTitles = currentTask?.subtasks.map(s => s.title) ?? [];
-
         const toAdd = newSubtaskTitles.filter(title => !oldTitles.includes(title));
         const toRemove = oldTitles.filter(title => !newSubtaskTitles.includes(title));
 
-        if (toRemove.length > 0) {
-            const { error } = await this.supabase.from('subtasks')
-                .delete().eq('task_id', taskId).in('title', toRemove);
-            if (error) { console.error('Subtasks could not be removed', error.message); return false; }
-        }
+        if (!await this.removeSubtasksByTitle(taskId, toRemove)) return false;
+        const insertedSubtasks = await this.insertSubtasks(taskId, toAdd);
+        if (insertedSubtasks === null) return false;
 
-        let insertedSubtasks: Subtask[] = [];
-        if (toAdd.length > 0) {
-            const { data, error } = await this.supabase.from('subtasks')
-                .insert(toAdd.map(title => ({ task_id: taskId, title })))
-                .select();
-            if (error) { console.error('Subtasks could not be added', error.message); return false; }
-            insertedSubtasks = data ?? [];
-        }
+        this.syncSubtasksLocally(taskId, toRemove, insertedSubtasks);
+        return true;
+    }
 
-        // Keep the local state consistent immediately, independent of realtime latency
+    /**
+     * Deletes subtasks of a task in Supabase by their titles.
+     *
+     * @param taskId - The task id to remove subtasks from.
+     * @param toRemove - The subtask titles to delete.
+     * @returns True if removal succeeds, otherwise false.
+     */
+    private async removeSubtasksByTitle(taskId: number, toRemove: string[]): Promise<boolean> {
+        if (toRemove.length === 0) return true;
+        const { error } = await this.supabase.from('subtasks')
+            .delete().eq('task_id', taskId).in('title', toRemove);
+        if (error) { console.error('Subtasks could not be removed', error.message); return false; }
+        return true;
+    }
+
+    /**
+     * Inserts new subtasks for a task in Supabase.
+     *
+     * @param taskId - The task id to add subtasks to.
+     * @param toAdd - The subtask titles to insert.
+     * @returns The inserted subtasks, or null if insertion failed.
+     */
+    private async insertSubtasks(taskId: number, toAdd: string[]): Promise<Subtask[] | null> {
+        if (toAdd.length === 0) return [];
+        const { data, error } = await this.supabase.from('subtasks')
+            .insert(toAdd.map(title => ({ task_id: taskId, title })))
+            .select();
+        if (error) { console.error('Subtasks could not be added', error.message); return null; }
+        return data ?? [];
+    }
+
+    /**
+     * Updates the local tasks signal to reflect added/removed subtasks
+     * immediately, independent of realtime latency.
+     *
+     * @param taskId - The task id whose subtasks changed.
+     * @param toRemove - The subtask titles that were deleted.
+     * @param insertedSubtasks - The subtasks that were newly inserted.
+     */
+    private syncSubtasksLocally(taskId: number, toRemove: string[], insertedSubtasks: Subtask[]): void {
         this.tasks.update(list =>
             list.map(task => {
                 if (task.id !== taskId) return task;
-
                 const keptSubtasks = task.subtasks.filter(s => !toRemove.includes(s.title));
                 return { ...task, subtasks: [...keptSubtasks, ...insertedSubtasks] };
             })
         );
-
-        return true;
     }
 
 
@@ -386,46 +414,79 @@ export class SupabaseTaskService {
     async updateAssignedContacts(taskId: number, newIds: number[]): Promise<boolean> {
         const currentTask = this.tasks().find(t => t.id === taskId);
         const oldIds = currentTask?.task_contacts.map(tc => tc.contact_id) ?? [];
-
-        // IDs that are newly added or need to be removed
         const idsToAdd = newIds.filter(id => !oldIds.includes(id));
-        const toAdd = idsToAdd.map(contact_id => ({ task_id: taskId, contact_id }));
         const toRemove = oldIds.filter(id => !newIds.includes(id));
 
-        // Remove deleted assignments from the DB
-        if (toRemove.length > 0) {
-            const { error } = await this.supabase.from('task_contacts').delete().eq('task_id', taskId).in('contact_id', toRemove);
-            if (error) { console.error('Contacts could not be removed', error.message); return false; }
-        }
+        if (!await this.removeTaskContacts(taskId, toRemove)) return false;
+        if (!await this.addTaskContacts(taskId, idsToAdd)) return false;
 
-        // Insert new assignments into the DB
-        if (toAdd.length > 0) {
-            const { error } = await this.supabase.from('task_contacts').insert(toAdd);
-            if (error) { console.error('Contacts could not be added', error.message); return false; }
-        }
+        this.syncAssignedContactsLocally(taskId, idsToAdd, toRemove);
+        return true;
+    }
 
-        // Keep the local state consistent immediately, independent of realtime latency
+    /**
+     * Deletes task-contact assignments in Supabase for the given contact IDs.
+     *
+     * @param taskId - The task id to remove assignments from.
+     * @param toRemove - The contact IDs to unassign.
+     * @returns True if removal succeeds, otherwise false.
+     */
+    private async removeTaskContacts(taskId: number, toRemove: number[]): Promise<boolean> {
+        if (toRemove.length === 0) return true;
+        const { error } = await this.supabase.from('task_contacts').delete().eq('task_id', taskId).in('contact_id', toRemove);
+        if (error) { console.error('Contacts could not be removed', error.message); return false; }
+        return true;
+    }
+
+    /**
+     * Inserts new task-contact assignments in Supabase.
+     *
+     * @param taskId - The task id to add assignments to.
+     * @param idsToAdd - The contact IDs to assign.
+     * @returns True if insertion succeeds, otherwise false.
+     */
+    private async addTaskContacts(taskId: number, idsToAdd: number[]): Promise<boolean> {
+        if (idsToAdd.length === 0) return true;
+        const toAdd = idsToAdd.map(contact_id => ({ task_id: taskId, contact_id }));
+        const { error } = await this.supabase.from('task_contacts').insert(toAdd);
+        if (error) { console.error('Contacts could not be added', error.message); return false; }
+        return true;
+    }
+
+    /**
+     * Updates the local tasks signal to reflect added/removed contact assignments
+     * immediately, independent of realtime latency.
+     *
+     * @param taskId - The task id whose contacts changed.
+     * @param idsToAdd - The contact IDs that were assigned.
+     * @param toRemove - The contact IDs that were unassigned.
+     */
+    private syncAssignedContactsLocally(taskId: number, idsToAdd: number[], toRemove: number[]): void {
         const allContacts = this.supabaseService.contacts();
         this.tasks.update(list =>
             list.map(task => {
                 if (task.id !== taskId) return task;
-
-                // Filter out removed contacts
                 const keptContacts = task.task_contacts.filter(tc => !toRemove.includes(tc.contact_id));
-
-                // Resolve newly added contact IDs into full TaskContact objects
-                const newContacts: TaskContact[] = idsToAdd
-                    .map(contact_id => {
-                        const contact = allContacts.find(c => c.id === contact_id);
-                        return contact ? { contact_id, contacts: contact } : null;
-                    })
-                    .filter((tc): tc is TaskContact => tc !== null);
-
+                const newContacts = this.resolveTaskContacts(idsToAdd, allContacts);
                 return { ...task, task_contacts: [...keptContacts, ...newContacts] };
             })
         );
+    }
 
-        return true;
+    /**
+     * Resolves contact IDs into full TaskContact objects using the given contact list.
+     *
+     * @param ids - The contact IDs to resolve.
+     * @param contacts - The full list of available contacts.
+     * @returns The resolved TaskContact objects, skipping IDs with no match.
+     */
+    private resolveTaskContacts(ids: number[], contacts: ReturnType<SupabaseService['contacts']>): TaskContact[] {
+        return ids
+            .map(contact_id => {
+                const contact = contacts.find(c => c.id === contact_id);
+                return contact ? { contact_id, contacts: contact } : null;
+            })
+            .filter((tc): tc is TaskContact => tc !== null);
     }
 
     /**
