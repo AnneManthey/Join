@@ -64,6 +64,15 @@ describe('AddContactDialog', () => {
     expect(nameControl.invalid).toBe(true);
   });
 
+  it('shows required-field errors when submitting an empty form', async () => {
+    await component.onSubmit();
+
+    expect(component.contactForm.controls['name'].touched).toBe(true);
+    expect(component.contactForm.controls['email'].touched).toBe(true);
+    expect(component.contactForm.controls['phone'].touched).toBe(true);
+    expect(addContact).not.toHaveBeenCalled();
+  });
+
   it('creates a normalized contact and requests closing', async () => {
     addContact.mockResolvedValue({
       data: [{

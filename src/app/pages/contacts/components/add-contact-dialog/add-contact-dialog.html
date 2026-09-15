@@ -58,7 +58,7 @@
                     <button type="button" class="btn-cancel" (click)="closeDialog()">
                         Cancel <img src="app-icons/contact-dialog/close.png" alt="Close Icon">
                     </button>
-                    <button type="submit" class="btn-submit" [disabled]="contactForm.invalid || isSubmitting">
+                    <button type="submit" class="btn-submit" [disabled]="isSubmitting">
                         Create contact <img src="app-icons/contact-dialog/check.png" alt="Check Icon">
                     </button>
                 </div>
