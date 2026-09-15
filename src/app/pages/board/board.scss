@@ -181,7 +181,6 @@ dialog {
   }
 }
 
-
 @keyframes add-task-dialog-enter {
   from {
     transform: translateX(100%);
@@ -225,12 +224,6 @@ dialog {
 }
 
 @media (max-width: 1250px) {
-  .board-columns {
-    flex-direction: column;
-  }
-}
-
-@media (max-width: 1000px) {
   .board-main {
     padding: 50px 20px;
   }
@@ -239,6 +232,10 @@ dialog {
     gap: 1.5rem;
     justify-content: center;
     align-items: flex-start;
+  }
+
+  .board-columns {
+    flex-direction: column;
   }
 }
 
@@ -286,5 +283,17 @@ dialog {
 @media (max-width: 560px) {
   .board-main {
     padding: 50px 8px;
+  }
+  .board-header {
+    padding-bottom: 20px;
+    h1 {
+      font-size: 2.5rem;
+    }
+  }
+  .btn-add-mobile {
+    img {
+      width: 30px;
+      height: 30px;
+    }
   }
 }
