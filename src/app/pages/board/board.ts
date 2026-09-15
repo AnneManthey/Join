@@ -1,7 +1,9 @@
-import { Component, computed, inject, OnInit, signal, ViewChild, ElementRef, HostListener } from '@angular/core';
+import { Component, computed, DestroyRef, ElementRef, HostListener, inject, OnInit, signal, ViewChild, AfterViewInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { FormsModule } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { BoardColumn } from './components/board-column/board-column';
 import { Column, Task } from '../../shared/interfaces/task';
 import { TaskDetailDialog } from './components/task-detail-dialog/task-detail-dialog';
@@ -18,10 +20,12 @@ import { Router } from '@angular/router';
   templateUrl: './board.html',
   styleUrl: './board.scss',
 })
-export class Board implements OnInit {
+export class Board implements OnInit, AfterViewInit {
 
   /** Handles navigation to other routes/pages. */
   private router = inject(Router);
+  private readonly route = inject(ActivatedRoute);
+  private readonly destroyRef = inject(DestroyRef);
 
   /** Max viewport width (px) at which the add-task flow navigates instead of opening a dialog. */
   private readonly MOBILE_BREAKPOINT = 450;
@@ -55,6 +59,19 @@ export class Board implements OnInit {
   /** Loads the tasks required to render the board. */
   ngOnInit(): void {
     this.taskService.getTasks();
+  }
+
+  /** Scrolls to the status column requested by a summary-card fragment. */
+  ngAfterViewInit(): void {
+    this.route.fragment
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(fragment => {
+        if (!fragment) return;
+
+        setTimeout(() => {
+          document.getElementById(fragment)?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        });
+      });
   }
 
   /** Maps task statuses to their corresponding board columns. */

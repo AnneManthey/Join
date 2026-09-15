@@ -1,7 +1,7 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { Header } from '../../layout/header/header';
 import { Navbar } from '../../layout/navbar/navbar';
-import { RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
 import { Task } from '../../shared/interfaces/task';
 import { StatMetric, StatusMetric } from '../../shared/interfaces/summary-metric';
 import { AuthService } from '../../shared/services/auth-service';
@@ -10,13 +10,15 @@ import { SupabaseTaskService } from '../../shared/services/supabase-task-service
 
 @Component({
   selector: 'app-summary',
-  imports: [Header, Navbar, RouterLink],
+  imports: [Header, Navbar],
   templateUrl: './summary.html',
   styleUrl: './summary.scss',
 })
 export class Summary {
+  private readonly router = inject(Router);
   private readonly taskService = inject(SupabaseTaskService);
   private readonly authService = inject(AuthService);
+  private readonly columnNavigationBreakpoint = 1250;
 
   /** Whether this view was entered via the login redirect (drives the mobile greeting splash). */
   readonly showGreetingIntro = signal<boolean>(!!(history.state as { fromLogin?: boolean })?.fromLogin);
@@ -82,6 +84,12 @@ export class Summary {
       })
       : '-';
   });
+
+  /** Navigates to the board and optionally focuses a status column on narrow screens. */
+  navigateToBoard(columnId?: Task['status']): void {
+    const fragment = window.innerWidth <= this.columnNavigationBreakpoint ? columnId : undefined;
+    this.router.navigate(['/board'], fragment ? { fragment } : undefined);
+  }
 
   /**
    * Counts tasks that match the given status.

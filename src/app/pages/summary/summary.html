@@ -14,7 +14,7 @@
             <section class="dashboard-wrapper" [class.show-intro]="showGreetingIntro()">
                 <section class="summary-dashboard">
                     <div class="part-1">
-                        <button class="card-wrapper" routerLink="/board">
+                        <button class="card-wrapper" (click)="navigateToBoard('todo')">
                             <img class="img-normal" src="app-icons/summary/todo.svg" alt="To Do Icon">
                             <img class="img-hover" src="app-icons/summary/todo-hover.svg" alt="To Do Icon">
                             <div class="card-inner-wrapper">
@@ -22,7 +22,7 @@
                                 <p>To-do</p>
                             </div>
                         </button>
-                        <button class="card-wrapper" routerLink="/board">
+                        <button class="card-wrapper" (click)="navigateToBoard('done')">
                             <img class="img-normal" src="app-icons/summary/done.svg" alt="Done Icon">
                             <img class="img-hover" src="app-icons/summary/done-hover.svg" alt="Done Icon">
                             <div class="card-inner-wrapper">
@@ -31,7 +31,7 @@
                             </div>
                         </button>
                     </div>
-                    <button class="card-urgent" routerLink="/board">
+                    <button class="card-urgent" (click)="navigateToBoard()">
                         <img src="app-icons/summary/urgent.svg" alt="Urgent Icon">
                         <div class="urgent-wrapper">
                             <h4>{{ statusMetrics()[2].value }}</h4>
@@ -44,15 +44,15 @@
                         </div>
                     </button>
                     <div class="part-2">
-                        <button class="card-single" routerLink="/board">
+                        <button class="card-single" (click)="navigateToBoard()">
                             <h4>{{ statMetrics()[0].value }}</h4>
                             <p>Tasks in Board</p>
                         </button>
-                        <button class="card-single" routerLink="/board">
+                        <button class="card-single" (click)="navigateToBoard('in_progress')">
                             <h4>{{ statMetrics()[1].value }}</h4>
                             <p>Tasks in Progress</p>
                         </button>
-                        <button class="card-single" routerLink="/board">
+                        <button class="card-single" (click)="navigateToBoard('await_feedback')">
                             <h4>{{ statMetrics()[2].value }}</h4>
                             <p>Awaiting Feedback</p>
                         </button>
