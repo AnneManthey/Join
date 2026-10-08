@@ -31,6 +31,15 @@ yarn-error.log
 
 # Environment files with secrets
 /src/environments/environment.ts
+.env
+.env.*
+!.env.template
+
+# n8n (local data, credentials, database)
+n8n/n8n-data/
+.n8n/
+*.sqlite
+*.sqlite3
 
 # Miscellaneous
 /.angular/cache
