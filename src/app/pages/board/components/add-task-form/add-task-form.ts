@@ -208,7 +208,7 @@ export class AddTaskForm {
    * Task status pre-selected for the task being created, based on which column's
    * "+" button opened the add-task dialog.
    */
-  initialStatus = input<Task['status']>('todo');
+  initialStatus = input<Task['status']>('triage');
 
   /**
    * Resets the form state and redirects the user after a short success delay.

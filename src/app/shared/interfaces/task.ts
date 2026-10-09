@@ -29,7 +29,7 @@ export interface Task {
     due_date: string;
     priority: 'low' | 'medium' | 'urgent';
     category: 'technical_task' | 'user_story';
-    status: 'todo' | 'in_progress' | 'await_feedback' | 'done';
+    status: 'triage' | 'todo' | 'in_progress' | 'await_feedback' | 'done';
     subtasks: Subtask[];
     task_contacts: TaskContact[];
 }

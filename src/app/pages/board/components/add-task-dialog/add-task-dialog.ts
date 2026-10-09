@@ -13,7 +13,7 @@ export class AddTaskDialog {
   @ViewChild(AddTaskForm) private addTaskForm!: AddTaskForm;
 
   /** Task status pre-selected for the task being created, based on which column's "+" button opened this dialog. */
-  initialStatus = input<Task['status']>('todo');
+  initialStatus = input<Task['status']>('triage');
 
   /** Bubbles up the form's taskCreated event so the parent (Board) can close the dialog. */
   taskCreated = output<void>();
