@@ -3,6 +3,7 @@ import { SupabaseTaskService } from '../../../../shared/services/supabase-task-s
 import { Router } from '@angular/router';
 import { FormControl, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { SupabaseService } from '../../../../shared/services/supabase-service';
+import { AuthService } from '../../../../shared/services/auth-service';
 import { Task } from '../../../../shared/interfaces/task';
 import { GetInitialsPipe } from '../../../../shared/pipes/get-initials-pipe';
 import { getColor } from '../../../../shared/utils/contacts-helper';
@@ -23,6 +24,7 @@ export class AddTaskForm {
   supabaseTaskService = inject(SupabaseTaskService);
   private supabase = this.supabaseService.client;
   private router = inject(Router);
+  private authService = inject(AuthService);
 
   @ViewChild('assignedToDropdown') assignedToDropdown?: ElementRef<HTMLElement>;
   @ViewChild('categoryDropdown') categoryDropdown?: ElementRef<HTMLElement>;
@@ -196,7 +198,8 @@ export class AddTaskForm {
       due_date: this.duedate?.value ?? '',
       priority: this.priority?.value as Task['priority'],
       category: this.category?.value as Task['category'],
-      status: this.initialStatus()
+      status: this.initialStatus(),
+      creator_email: this.authService.currentUserEmail()
     });
     if (!taskId) return;
     if (!(await this.supabaseTaskService.saveTaskContacts(taskId))) return;

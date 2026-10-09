@@ -8,6 +8,10 @@
         {{ currentTask.category === 'user_story' ? 'User Story' : 'Technical Task' }}
       </span>
 
+      @if (currentTask.ai_generated) {
+      <span class="dialog-ai-badge">AI-generated ticket</span>
+      }
+
       <button class="dialog-close" type="button" (click)="closeDialog()">
         &times;
       </button>
@@ -18,6 +22,27 @@
         <h2>{{ currentTask.title }}</h2>
 
         <p class="dialog-description">{{ currentTask.description }}</p>
+
+        <div class="creator">
+          <span class="creator-label">Creator:</span>
+          @if (!currentTask.creator_email) {
+          <span class="creator-name">Unknown</span>
+          } @else {
+          <span class="creator-badge" [class.external]="currentTask.creator_type === 'external'">
+            {{ currentTask.creator_type === 'external' ? 'External' : 'Member' }}
+          </span>
+          @if (currentTask.creator_type === 'internal' && creatorContact(); as contact) {
+          <span class="creator-name">{{ contact.contact_name }}</span>
+          <a class="creator-link" [routerLink]="['/contacts', contact.id]">
+            <img src="app-icons/contact-dialog/person-icon.png" alt="">Profil
+          </a>
+          } @else {
+          <a class="creator-link" [href]="'mailto:' + currentTask.creator_email">
+            <img src="app-icons/contact-dialog/mail-icon.png" alt="">Email
+          </a>
+          }
+          }
+        </div>
 
         <p class="due-date">
           <span class="due-date-label">Due date:</span>

@@ -32,4 +32,8 @@ export interface Task {
     status: 'triage' | 'todo' | 'in_progress' | 'await_feedback' | 'done';
     subtasks: Subtask[];
     task_contacts: TaskContact[];
+    creator_email: string | null;
+    creator_type: 'internal' | 'external';
+    source: 'manual' | 'email';
+    ai_generated: boolean;
 }

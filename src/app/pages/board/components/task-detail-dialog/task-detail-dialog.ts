@@ -5,18 +5,28 @@ import { getColor } from '../../../../shared/utils/contacts-helper';
 import { TitleCasePipe } from '@angular/common';
 import { DatePipe } from '@angular/common';
 import { SupabaseTaskService } from '../../../../shared/services/supabase-task-service';
+import { SupabaseService } from '../../../../shared/services/supabase-service';
+import { RouterLink } from '@angular/router';
 
 
 @Component({
   selector: 'app-task-detail-dialog',
-  imports: [GetInitialsPipe, TitleCasePipe, DatePipe],
+  imports: [GetInitialsPipe, TitleCasePipe, DatePipe, RouterLink],
   templateUrl: './task-detail-dialog.html',
   styleUrl: './task-detail-dialog.scss',
 })
 
 export class TaskDetailDialog {
   taskService = inject(SupabaseTaskService);
+  private supabaseService = inject(SupabaseService);
   getColor = getColor;
+
+  /** Contact matching the task creator's email, if the creator is a known member. */
+  creatorContact = computed(() => {
+    const email = this.task()?.creator_email?.toLowerCase();
+    if (!email) return undefined;
+    return this.supabaseService.contacts().find(c => c.contact_mail?.toLowerCase() === email);
+  });
   priorityIcon = computed(() => {
     const currentTask = this.task();
     return currentTask ? `app-icons/board/prio-${currentTask.priority}.svg` : '';

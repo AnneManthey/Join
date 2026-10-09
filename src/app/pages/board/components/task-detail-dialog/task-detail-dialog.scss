@@ -140,6 +140,70 @@ h2 {
   }
 }
 
+.dialog-ai-badge {
+  margin-left: auto;
+  margin-right: 12px;
+  padding: 4px 12px;
+  border-radius: 8px;
+  border: 1px solid $menu-color;
+  color: $menu-color;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.875rem;
+  line-height: 120%;
+}
+
+.creator {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 16px;
+  font-family: 'Inter', sans-serif;
+  font-size: 1rem;
+}
+
+.creator-label {
+  flex-shrink: 0;
+  width: 100px;
+  font-size: 1.25rem;
+  color: $menu-color;
+}
+
+.creator-name {
+  color: $black;
+  overflow-wrap: anywhere;
+}
+
+.creator-badge {
+  padding: 2px 10px;
+  border-radius: 8px;
+  background-color: $dark-blue;
+  color: $white;
+  font-size: 0.875rem;
+
+  &.external {
+    background-color: $menu-color;
+  }
+}
+
+.creator-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.875rem;
+  color: $dark-blue;
+  text-decoration: none;
+
+  img {
+    width: 16px;
+    height: 16px;
+  }
+
+  &:hover {
+    color: $blue-green;
+    text-decoration: underline;
+  }
+}
+
 .dialog-description {
   font-family: 'Inter', sans-serif;
   font-weight: 400;
@@ -377,7 +441,8 @@ h2 {
   .due-date-label,
   .priority,
   .assigned-to,
-  .subtasks-label {
+  .subtasks-label,
+  .creator-label {
     font-size: 1rem;
   }
 
