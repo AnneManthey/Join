@@ -1,1 +1,98 @@
-<p>request-form works!</p>
+<div class="request-page">
+  <header class="page-header">
+    <img class="logo" src="app-icons/join_favicon.svg" alt="Join logo" />
+  </header>
+
+  <main>
+    <section class="card" aria-labelledby="request-title">
+      <div class="card-head">
+        <a class="back-link" routerLink="/stakeholder" aria-label="Back to stakeholder page">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M19 12H5M12 19l-7-7 7-7" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </a>
+        <h1 id="request-title">Your Request</h1>
+      </div>
+
+      @if (status() === 'sent') {
+        <div class="result" role="status">
+          <p>Thank you! Your request has been received.</p>
+          <p>You will get a confirmation by email.</p>
+          <a class="btn btn-primary" routerLink="/stakeholder">Back</a>
+        </div>
+      } @else {
+        <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
+          <div class="field">
+            <label class="sr-only" for="name">Name</label>
+            <input id="name" type="text" formControlName="name" placeholder="Name"
+                   autocomplete="name" maxlength="100" required
+                   [attr.aria-invalid]="showError('name')"
+                   [attr.aria-describedby]="showError('name') ? 'name-error' : null" />
+            <img class="field-icon" src="app-icons/contact-dialog/person-icon.png" alt="" />
+            @if (showError('name')) {
+              <p class="error" id="name-error">Please enter your name.</p>
+            }
+          </div>
+
+          <div class="field">
+            <label class="sr-only" for="email">Email</label>
+            <input id="email" type="email" formControlName="email" placeholder="Email"
+                   autocomplete="email" maxlength="254" required
+                   [attr.aria-invalid]="showError('email')"
+                   [attr.aria-describedby]="showError('email') ? 'email-error' : null" />
+            <img class="field-icon" src="app-icons/contact-dialog/mail-icon.png" alt="" />
+            @if (showError('email')) {
+              <p class="error" id="email-error">Please enter a valid email address.</p>
+            }
+          </div>
+
+          <div class="field">
+            <label class="sr-only" for="subject">Subject</label>
+            <input id="subject" type="text" formControlName="subject" placeholder="Subject"
+                   maxlength="150" required
+                   [attr.aria-invalid]="showError('subject')"
+                   [attr.aria-describedby]="showError('subject') ? 'subject-error' : null" />
+            @if (showError('subject')) {
+              <p class="error" id="subject-error">Please enter a subject.</p>
+            }
+          </div>
+
+          <div class="field">
+            <label class="sr-only" for="message">Your Request</label>
+            <textarea id="message" formControlName="message" placeholder="Your Request..."
+                      rows="6" maxlength="2000" required
+                      [attr.aria-invalid]="showError('message')"
+                      [attr.aria-describedby]="showError('message') ? 'message-error' : null"></textarea>
+            @if (showError('message')) {
+              <p class="error" id="message-error">
+                Please describe your request (at least 10 characters).
+              </p>
+            }
+          </div>
+
+          <!-- Honeypot: hidden from users and screen readers -->
+          <div class="hp" aria-hidden="true">
+            <label for="website">Website</label>
+            <input id="website" type="text" formControlName="website"
+                   tabindex="-1" autocomplete="off" />
+          </div>
+
+          @if (status() === 'error') {
+            <p class="error form-error" role="alert">
+              Something went wrong. Please try again later.
+            </p>
+          }
+
+          <div class="actions">
+            <button class="btn btn-dark" type="submit" [disabled]="status() === 'sending'">
+              Send request
+            </button>
+          </div>
+        </form>
+      }
+    </section>
+  </main>
+
+  <app-public-footer />
+</div>
