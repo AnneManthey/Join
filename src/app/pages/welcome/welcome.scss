@@ -9,6 +9,81 @@
   font-family: 'Inter', sans-serif;
 }
 
+:host {
+  // target position of the logo after the intro animation (matches the header logo)
+  --target-left: 100px;
+  --target-top: 65px;
+  --target-logo-width: 101px;
+  --target-logo-height: 122px;
+  --overlay-logo-height: 270px;
+}
+
+.welcome-header {
+  padding: 65px 100px 0;
+
+  img {
+    display: block;
+    width: 101px;
+    height: 122px;
+  }
+}
+
+.welcome-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: $dark-blue;
+  opacity: 1;
+  transition: opacity 255ms ease-out 400ms;
+
+  &--fade-out {
+    opacity: 0;
+  }
+
+  &__logo {
+    width: auto;
+    height: var(--overlay-logo-height);
+    transition: transform 600ms ease-out;
+  }
+
+  &--fade-out &__logo {
+    transform:
+      translate(calc(var(--target-left) + var(--target-logo-width) / 2 - 50vw),
+        calc(var(--target-top) + var(--target-logo-height) / 2 - 50vh))
+      scale(calc(var(--target-logo-height) / var(--overlay-logo-height)));
+  }
+}
+
+@media (min-width: 1440px) {
+  :host {
+    --target-left: max(100px, calc(50vw - 720px));
+  }
+
+  .welcome-header {
+    padding-left: max(100px, calc(50% - 720px));
+  }
+}
+
+@media (max-width: 820px) {
+  :host {
+    --target-top: 48px;
+    --target-left: 38px;
+  }
+
+  .welcome-header {
+    padding: 48px 38px 0;
+  }
+}
+
+@media (max-width: 768px) {
+  :host {
+    --overlay-logo-height: 180px;
+  }
+}
+
 main {
   display: flex;
   flex: 1;

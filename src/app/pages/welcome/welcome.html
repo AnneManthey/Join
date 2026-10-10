@@ -1,4 +1,7 @@
 <div class="welcome-page">
+  <header class="welcome-header">
+    <img src="/app-icons/join_logo.svg" alt="Join logo" />
+  </header>
   <main>
     <section class="welcome-card" aria-labelledby="welcome-title">
       <h1 id="welcome-title">Welcome</h1>
@@ -29,3 +32,10 @@
 
   <app-public-footer />
 </div>
+
+@if (showOverlay()) {
+  <div class="welcome-overlay" [class.welcome-overlay--fade-out]="isFadingOut()"
+    (transitionend)="onOverlayTransitionEnd($event)">
+    <img src="/app-icons/join_logo.svg" alt="" class="welcome-overlay__logo" />
+  </div>
+}

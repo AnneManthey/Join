@@ -1,7 +1,10 @@
 import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { PublicFooter } from '../../layout/public-footer/public-footer';
+
+/** Time the confirmation is shown before redirecting to the welcome page. */
+const REDIRECT_DELAY_MS = 2000;
 
 /** Possible states of the request form. */
 type FormStatus = 'idle' | 'sending' | 'sent' | 'error';
@@ -20,6 +23,7 @@ type FormStatus = 'idle' | 'sending' | 'sent' | 'error';
 export class RequestForm {
 
   private readonly fb = inject(FormBuilder);
+  private readonly router = inject(Router);
 
   /** Form fields. `website` is a honeypot that real users never see or fill. */
   readonly form = this.fb.nonNullable.group({
@@ -50,7 +54,7 @@ export class RequestForm {
     }
     // Honeypot filled = bot. Pretend success, send nothing.
     if (this.form.controls.website.value) {
-      this.status.set('sent');
+      this.markSent();
       return;
     }
 
@@ -62,6 +66,12 @@ export class RequestForm {
     console.warn('Request form: webhook not connected yet, nothing was sent.');
     void { name, email, subject, message };
 
+    this.markSent();
+  }
+
+  /** Shows the confirmation briefly, then returns to the welcome page without intro animation. */
+  private markSent(): void {
     this.status.set('sent');
+    setTimeout(() => this.router.navigate(['/'], { state: { skipIntro: true } }), REDIRECT_DELAY_MS);
   }
 }
