@@ -49,12 +49,22 @@
 
 .usage {
   margin: 0;
-  font-size: 1.1875rem; // 19px
+  font-size: 1.2rem; 
   color: $action-blue;
 
   &.limit {
-    color: $red;
+    color: $task-urgent;
   }
+}
+
+.limit-banner {
+  padding: 12px 16px;
+  border-radius: 8px;
+  background-color: rgba(255, 210, 210, 0.52);
+  color: $task-urgent;
+  font-size: 1rem;
+  font-weight: 500;
+  text-align: center;
 }
 
 main {
@@ -64,7 +74,7 @@ main {
 
 h1 {
   margin: 0;
-  font-size: clamp(2.5rem, 8vw, 4rem); // bis 64px
+  font-size: clamp(2.5rem, 8vw, 4rem);
   font-weight: 700;
   text-align: center;
 
