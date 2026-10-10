@@ -119,7 +119,7 @@ export class AuthService {
         this.showLoginSuccessMessage.set(true);
         setTimeout(() => {
             this.showLoginSuccessMessage.set(false);
-            this.router.navigate(['']);
+            this.router.navigate(['/login']);
         }, 1000)
     }
 
@@ -147,7 +147,7 @@ export class AuthService {
         if (error) {
             console.error(error);
         } else {
-            this.router.navigate([''])
+            this.router.navigate(['/login']);
         }
     };
 
