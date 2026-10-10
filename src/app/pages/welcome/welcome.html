@@ -1,1 +1,31 @@
-<p>welcome works!</p>
+<div class="welcome-page">
+  <main>
+    <section class="welcome-card" aria-labelledby="welcome-title">
+      <h1 id="welcome-title">Welcome</h1>
+      <p class="intro">
+        Pick the option that suits your role: create a request as a stakeholder
+        or log in if you're part of the team.
+      </p>
+
+      <div class="options">
+        <section class="option">
+          <h2>
+            <img src="app-icons/welcome/request.svg" alt="" />
+            Are you a stakeholder?
+          </h2>
+          <a class="btn btn-primary" routerLink="/stakeholder">Create request</a>
+        </section>
+
+        <section class="option">
+          <h2>
+            <img src="app-icons/welcome/team.svg" alt="" />
+            Are you a team member?
+          </h2>
+          <a class="btn btn-secondary" routerLink="/login">Member log in</a>
+        </section>
+      </div>
+    </section>
+  </main>
+
+  <app-public-footer />
+</div>
