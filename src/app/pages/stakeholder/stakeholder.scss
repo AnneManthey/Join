@@ -153,6 +153,10 @@ h1 {
 }
 
 @media (max-width: 800px) {
+  main {
+    flex-direction: column;
+  }
+
   .content {
     grid-template-columns: 1fr;
     gap: 32px;
@@ -161,5 +165,48 @@ h1 {
   .illustration {
     max-width: 480px;
     margin: 0 auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .page-header {
+    align-items: flex-start;
+  }
+
+  .usage {
+    max-width: 50%;
+    font-size: 1rem;
+    text-align: right;
+  }
+
+  main {
+    padding-bottom: 24px;
+  }
+
+  h1 {
+    font-size: clamp(2rem, 9vw, 2.5rem);
+  }
+
+  .content {
+    gap: 24px;
+    margin-top: 32px;
+  }
+
+  .text {
+    gap: 16px;
+
+    h2 {
+      font-size: 1.5rem;
+    }
+
+    p {
+      font-size: 1rem;
+    }
+  }
+
+  .btn {
+    box-sizing: border-box;
+    width: 100%;
+    justify-content: center;
   }
 }
