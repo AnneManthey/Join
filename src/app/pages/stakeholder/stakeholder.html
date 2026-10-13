@@ -1,14 +1,6 @@
 <div class="stakeholder-page">
   <header class="page-header">
-    <div class="header-left">
-      <img class="logo" src="app-icons/join_favicon.svg" alt="Join logo" />
-      <a class="back-link" routerLink="/" aria-label="Back to welcome page">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-          <path d="M19 12H5M12 19l-7-7 7-7" stroke="currentColor" stroke-width="2"
-                stroke-linecap="round" stroke-linejoin="round" />
-        </svg>
-      </a>
-    </div>
+    <img class="logo" src="app-icons/join_favicon.svg" alt="Join logo" />
 
     @if (used() !== null) {
       <p class="usage" [class.limit]="limitReached()" aria-live="polite">
@@ -16,6 +8,15 @@
       </p>
     }
   </header>
+
+  <nav class="back-navigation" aria-label="Page navigation">
+    <a class="back-link" routerLink="/" aria-label="Back to welcome page">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M19 12H5M12 19l-7-7 7-7" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+    </a>
+  </nav>
 
   <main>
     <h1>Welcome</h1>

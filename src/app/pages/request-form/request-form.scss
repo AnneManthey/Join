@@ -66,13 +66,13 @@ main {
 
 h1 {
   margin: 0;
-  font-size: clamp(2rem, 7vw, 2.9375rem); // bis 47px
+  font-size: clamp(2rem, 7vw, 2.9rem); 
   font-weight: 700;
 
   &::after {
     content: '';
     display: block;
-    width: 90px;
+    width: 120px;
     height: 3px;
     margin: 8px auto 0;
     background-color: $action-blue;
@@ -92,7 +92,7 @@ textarea {
   border: 1px solid $input-border-color;
   border-radius: 10px;
   font-family: inherit;
-  font-size: 1.25rem; // 20px
+  font-size: 1.25rem; 
   color: $dark-blue;
   background-color: $white;
 

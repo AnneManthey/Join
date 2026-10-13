@@ -97,3 +97,27 @@ Angular CLI does not come with an end-to-end testing framework by default; none 
 ## Additional Resources
 
 For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+
+
+## n8n setup
+
+1. Copy `n8n/.env.template` to `n8n/.env`.
+2. Generate an encryption key (PowerShell) and set it as `N8N_ENCRYPTION_KEY`:
+
+```powershell
+   $b = New-Object byte[] 32
+   $rng = [Security.Cryptography.RandomNumberGenerator]::Create()
+   $rng.GetBytes($b)
+   ($b | ForEach-Object { $_.ToString('x2') }) -join ''
+```
+
+   Back the key up in a password manager. Without it, the stored n8n
+   credentials cannot be decrypted.
+3. Start n8n:
+
+```powershell
+   cd n8n
+   docker compose up -d
+```
+
+4. Open http://127.0.0.1:5679 and create the owner account.
