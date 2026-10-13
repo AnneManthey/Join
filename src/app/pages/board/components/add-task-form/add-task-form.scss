@@ -3,7 +3,8 @@
 @use '../../../../styles/_components.scss' as *;
 
 .main-section {
-  padding: 79px 96px;
+  // padding: 79px 96px;
+  padding: 79px 40px;
   width: 100%;
   justify-self: flex-start;
   overflow-y: auto;
