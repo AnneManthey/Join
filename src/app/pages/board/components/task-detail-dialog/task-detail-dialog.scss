@@ -18,7 +18,7 @@
   position: relative;
   background: $white;
   border-radius: 30px;
-  padding: 38px 30px;
+  padding: 48px 40px;
   max-width: 525px;
   width: 90%;
   max-height: 750px;
@@ -168,6 +168,8 @@ h2 {
 
 .creator-name {
   color: $black;
+  font-size: 1.2rem;
+  font-family: 'Inter', sans-serif;
   overflow-wrap: anywhere;
 }
 
@@ -222,13 +224,47 @@ h2 {
 }
 
 .due-date-label,
-.priority,
-.assigned-to,
-.subtasks-label {
+.priority {
   font-family: 'Inter', sans-serif;
   font-size: 1.25rem;
   line-height: 120%;
   color: $menu-color;
+}
+
+.dialog-section {
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+}
+
+.dialog-section-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: $menu-color;
+  font-family: 'Inter', sans-serif;
+  font-size: 1.25rem;
+  line-height: 120%;
+  text-align: left;
+  cursor: pointer;
+
+  &:focus-visible {
+    outline: 2px solid $bright-light-blue;
+    outline-offset: 3px;
+  }
+}
+
+.dialog-section-chevron {
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+
+  &--expanded {
+    transform: rotate(180deg);
+  }
 }
 
 .priority {
@@ -247,7 +283,8 @@ h2 {
   display: flex;
   align-items: center;
   gap: 10px;
-  color: black;
+  color: $black;
+  font-size: 1.2rem;
   line-height: 120%;
 }
 
@@ -265,25 +302,16 @@ h2 {
   display: flex;
   flex-direction: column;
   gap: 11px;
+
+  &[hidden] {
+    display: none;
+  }
 }
 
 .dialog-assignees__assignees-wrapper {
   display: flex;
   flex-direction: column;
   gap: 11px;
-  max-height: 150px;
-  overflow-y: auto;
-
-  scrollbar-color: $scrollbar-grey transparent;
-
-  &::-webkit-scrollbar-track {
-    background: transparent;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background: $scrollbar-grey;
-    border-radius: 5px;
-  }
 }
 
 .assignee-row {
@@ -316,6 +344,10 @@ h2 {
   display: flex;
   flex-direction: column;
   gap: 8px;
+
+  &[hidden] {
+    display: none;
+  }
 }
 
 .dialog-subtasks__subtasks-wrapper {
@@ -324,19 +356,6 @@ h2 {
   align-items: flex-start;
   gap: 8px;
   padding: 0 8px;
-  max-height: 150px;
-  overflow-y: auto;
-
-  scrollbar-color: $scrollbar-grey transparent;
-
-  &::-webkit-scrollbar-track {
-    background: transparent;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background: $scrollbar-grey;
-    border-radius: 5px;
-  }
 }
 
 .subtask-row {
@@ -435,9 +454,11 @@ h2 {
 
   .due-date-label,
   .priority,
-  .assigned-to,
-  .subtasks-label,
   .creator-label {
+    font-size: 1rem;
+  }
+
+  .dialog-section-toggle {
     font-size: 1rem;
   }
 
@@ -449,14 +470,6 @@ h2 {
     border: 2px solid $white;
   }
 
-  .dialog-assignees {
-    gap: 18px;
-    margin-top: -1px;
-  }
-
-  .subtasks-label {
-    margin-top: 7px;
-  }
 }
 
 @media (hover: none) and (orientation: landscape) and (max-height: 600px) {
@@ -474,4 +487,3 @@ h2 {
     padding: 0 24px;
   }
 }
-

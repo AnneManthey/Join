@@ -1,4 +1,4 @@
-import { Component, computed, inject, input, output, signal } from '@angular/core';
+import { Component, computed, effect, inject, input, output, signal, untracked } from '@angular/core';
 import { Subtask, Task } from '../../../../shared/interfaces/task';
 import { GetInitialsPipe } from '../../../../shared/pipes/get-initials-pipe';
 import { getColor } from '../../../../shared/utils/contacts-helper';
@@ -20,6 +20,8 @@ export class TaskDetailDialog {
   taskService = inject(SupabaseTaskService);
   private supabaseService = inject(SupabaseService);
   getColor = getColor;
+  private readonly assigneesExpandedOverride = signal<boolean | null>(null);
+  private readonly subtasksExpandedOverride = signal<boolean | null>(null);
 
   /** Contact matching the task creator's email, if the creator is a known member. */
   creatorContact = computed(() => {
@@ -34,9 +36,26 @@ export class TaskDetailDialog {
   isTaskDetailDialogOpen = input.required<boolean>();
   taskId = input.required<number>();
   task = computed(() => this.taskService.tasks().find(t => t.id === this.taskId()));
+  assigneesExpanded = computed(() =>
+    this.assigneesExpandedOverride() ?? ((this.task()?.task_contacts.length ?? 0) <= 2)
+  );
+  subtasksExpanded = computed(() =>
+    this.subtasksExpandedOverride() ?? ((this.task()?.subtasks.length ?? 0) <= 2)
+  );
   close = output<void>();
   edit = output<Task>();
   isClosing = signal(false);
+
+  constructor() {
+    effect(() => {
+      if (this.isTaskDetailDialogOpen()) {
+        untracked(() => {
+          this.assigneesExpandedOverride.set(null);
+          this.subtasksExpandedOverride.set(null);
+        });
+      }
+    });
+  }
 
   /** Plays the closing animation, then emits `close` once it has finished. */
   closeDialog(): void {
@@ -54,6 +73,16 @@ export class TaskDetailDialog {
   toggleSubtask(subtask: Subtask): void {
     const neuerStatus = !subtask.done;
     this.taskService.toggleSubtask(subtask.id, neuerStatus);
+  }
+
+  /** Toggles the assigned contacts section. */
+  toggleAssignees(): void {
+    this.assigneesExpandedOverride.set(!this.assigneesExpanded());
+  }
+
+  /** Toggles the subtasks section. */
+  toggleSubtasks(): void {
+    this.subtasksExpandedOverride.set(!this.subtasksExpanded());
   }
 
   /** Emits `edit` with the current task, if one is loaded. */
