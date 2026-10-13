@@ -16,9 +16,9 @@
   gap: 24px;
 
   position: relative;
-  background: white;
+  background: $white;
   border-radius: 30px;
-  padding: 48px 40px 48px 40px;
+  padding: 38px 30px;
   max-width: 525px;
   width: 90%;
   max-height: 750px;
@@ -83,7 +83,7 @@
 h2 {
   font-family: 'Inter';
   font-weight: 700;
-  font-size: 3.8125rem;
+  font-size: 2.5rem;
   line-height: 120%;
   max-width: 100%;
   overflow-wrap: break-word;
@@ -125,10 +125,8 @@ h2 {
   color: $white;
   padding: 4px 16px;
   border-radius: 8px;
-
   font-family: 'Inter', sans-serif;
-  font-weight: 400;
-  font-size: 1.4375rem;
+  font-size: 1.4rem;
   line-height: 120%;
 
   &.user_story {
@@ -136,7 +134,7 @@ h2 {
   }
 
   &.technical_task {
-    background-color: rgba(31, 215, 193, 1);
+    background-color: $task-cat-tec;
   }
 }
 
@@ -148,7 +146,7 @@ h2 {
   border: 1px solid $menu-color;
   color: $menu-color;
   font-family: 'Inter', sans-serif;
-  font-size: 0.875rem;
+  font-size: 0.8rem;
   line-height: 120%;
 }
 
@@ -178,7 +176,7 @@ h2 {
   border-radius: 8px;
   background-color: $dark-blue;
   color: $white;
-  font-size: 0.875rem;
+  font-size: 0.8rem;
 
   &.external {
     background-color: $menu-color;
@@ -189,7 +187,7 @@ h2 {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  font-size: 0.875rem;
+  font-size: 0.8rem;
   color: $dark-blue;
   text-decoration: none;
 
@@ -206,7 +204,6 @@ h2 {
 
 .dialog-description {
   font-family: 'Inter', sans-serif;
-  font-weight: 400;
   font-style: normal;
   font-size: 1.25rem;
   line-height: 120%;
@@ -229,7 +226,6 @@ h2 {
 .assigned-to,
 .subtasks-label {
   font-family: 'Inter', sans-serif;
-  font-weight: 400;
   font-size: 1.25rem;
   line-height: 120%;
   color: $menu-color;
@@ -257,8 +253,7 @@ h2 {
 
 .due-date-value {
   font-family: 'Inter', sans-serif;
-  font-weight: 400;
-  font-size: 1.1875rem;
+  font-size: 1.2rem;
   color: $black;
 }
 
@@ -311,7 +306,7 @@ h2 {
   width: 42px;
   height: 42px;
   border-radius: 50%;
-  color: white;
+  color: $white;
   font-family: 'Inter', sans-serif;
   font-size: 1rem;
   flex-shrink: 0;
@@ -451,7 +446,7 @@ h2 {
   }
 
   .task-card-assignee {
-    border: 2px solid white;
+    border: 2px solid $white;
   }
 
   .dialog-assignees {
