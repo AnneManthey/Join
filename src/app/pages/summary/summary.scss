@@ -94,12 +94,17 @@ p {
     .part-urgent {
       display: flex;
       gap: 28px;
+      width: 100%;
+      max-width: 548px;
       .card-urgent {
-        flex: 1;
+        flex: 1 1 0;
+        width: auto;
+        min-width: 0;
       }
       .card-email {
         cursor: default;
-        flex-shrink: 0;
+        flex: 0 0 160px;
+        width: 160px;
         height: auto;
       }
     }
@@ -350,6 +355,7 @@ p {
         gap: 16px;
         flex-wrap: wrap;
         .card-email {
+          flex-basis: 100%;
           width: 100%;
         }
       }
