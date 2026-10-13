@@ -8,6 +8,10 @@
         {{ currentTask.category === 'user_story' ? 'User Story' : 'Technical Task' }}
       </span>
 
+      @if (currentTask.ai_generated) {
+      <span class="dialog-ai-badge">AI-generated ticket</span>
+      }
+
       <button class="dialog-close" type="button" (click)="closeDialog()">
         &times;
       </button>
@@ -18,6 +22,27 @@
         <h2>{{ currentTask.title }}</h2>
 
         <p class="dialog-description">{{ currentTask.description }}</p>
+
+        <div class="creator">
+          <span class="creator-label">Creator:</span>
+          @if (!currentTask.creator_email) {
+          <span class="creator-name">Unknown</span>
+          } @else {
+          <span class="creator-badge" [class.external]="currentTask.creator_type === 'external'">
+            {{ currentTask.creator_type === 'external' ? 'External' : 'Member' }}
+          </span>
+          @if (currentTask.creator_type === 'internal' && creatorContact(); as contact) {
+          <span class="creator-name">{{ contact.contact_name }}</span>
+          <a class="creator-link" [routerLink]="['/contacts', contact.id]">
+            <img src="app-icons/contact-dialog/person-icon.png" alt="">Profil
+          </a>
+          } @else {
+          <a class="creator-link" [href]="'mailto:' + currentTask.creator_email">
+            <img src="app-icons/contact-dialog/mail-icon.png" alt="">Email
+          </a>
+          }
+          }
+        </div>
 
         <p class="due-date">
           <span class="due-date-label">Due date:</span>
@@ -32,35 +57,54 @@
           </span>
         </p>
 
-        <p class="assigned-to">Assigned To:</p>
-
-        <div class="dialog-assignees">
-          <div class="dialog-assignees__assignees-wrapper">
-            @for (tc of currentTask.task_contacts; track tc.contact_id) {
-            <div class="assignee-row">
-              <span class="task-card-assignee" [style.background-color]="getColor(tc.contacts.contact_name)"
-                [title]="tc.contacts.contact_name">
-                {{ tc.contacts.contact_name | getInitials }}
-              </span>
-              <span class="assignee-name">{{ tc.contacts.contact_name }}</span>
+        <section class="dialog-section">
+          <button class="dialog-section-toggle" type="button" [attr.aria-expanded]="assigneesExpanded()"
+            aria-controls="dialog-assignees-list" (click)="toggleAssignees()">
+            <span>Assigned To ({{ currentTask.task_contacts.length }})</span>
+            <svg class="dialog-section-chevron" [class.dialog-section-chevron--expanded]="assigneesExpanded()"
+              width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="m6 9 6 6 6-6" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </button>
+          <div class="dialog-assignees" id="dialog-assignees-list" [hidden]="!assigneesExpanded()">
+            <div class="dialog-assignees__assignees-wrapper">
+              @for (tc of currentTask.task_contacts; track tc.contact_id) {
+              <div class="assignee-row">
+                <span class="task-card-assignee" [style.background-color]="getColor(tc.contacts.contact_name)"
+                  [title]="tc.contacts.contact_name">
+                  {{ tc.contacts.contact_name | getInitials }}
+                </span>
+                <span class="assignee-name">{{ tc.contacts.contact_name }}</span>
+              </div>
+              }
             </div>
-            }
           </div>
-        </div>
-        <p class="subtasks-label">Subtasks</p>
+        </section>
 
-        <div class="dialog-subtasks">
-          <div class="dialog-subtasks__subtasks-wrapper">
-            @for (subtask of currentTask.subtasks; track subtask.id) {
-            <div class="subtask-row" (click)="toggleSubtask(subtask)">
-              <img class="subtask-checkbox"
-                [src]="subtask.done ? 'app-icons/task-detail-dialog/check_button_checked.svg' : 'app-icons/task-detail-dialog/check_button.png'"
-                [alt]="subtask.done ? 'Checked' : 'Unchecked'">
-              <span class="subtask-title">{{ subtask.title }}</span>
+        <section class="dialog-section">
+          <button class="dialog-section-toggle" type="button" [attr.aria-expanded]="subtasksExpanded()"
+            aria-controls="dialog-subtasks-list" (click)="toggleSubtasks()">
+            <span>Subtasks ({{ currentTask.subtasks.length }})</span>
+            <svg class="dialog-section-chevron" [class.dialog-section-chevron--expanded]="subtasksExpanded()"
+              width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="m6 9 6 6 6-6" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </button>
+          <div class="dialog-subtasks" id="dialog-subtasks-list" [hidden]="!subtasksExpanded()">
+            <div class="dialog-subtasks__subtasks-wrapper">
+              @for (subtask of currentTask.subtasks; track subtask.id) {
+              <div class="subtask-row" (click)="toggleSubtask(subtask)">
+                <img class="subtask-checkbox"
+                  [src]="subtask.done ? 'app-icons/task-detail-dialog/check_button_checked.svg' : 'app-icons/task-detail-dialog/check_button.png'"
+                  [alt]="subtask.done ? 'Checked' : 'Unchecked'">
+                <span class="subtask-title">{{ subtask.title }}</span>
+              </div>
+              }
             </div>
-            }
           </div>
-        </div>
+        </section>
       </div>
     </div>
 

@@ -23,8 +23,6 @@ export class BoardColumn {
   /** Emits when a task is moved to another column. */
   taskDropped = output<{ task: Task; newColumnId: string }>();
 
-  /** Emits the column id when the add-task action is selected, so the task can be pre-assigned to this column. */
-  addTaskClicked = output<string>();
   taskClicked = output<Task>();
 
   /** Moves a task within a column or transfers it to another column. */

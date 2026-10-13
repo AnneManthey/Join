@@ -20,6 +20,9 @@ export class AuthService {
     /** Stores the display name of the currently authenticated user. */
     currentUserName = signal<string | null>(null);
 
+    /** Stores the email address of the currently authenticated user (null for guests). */
+    currentUserEmail = signal<string | null>(null);
+
     /** Indicates whether the currently authenticated user is an anonymous guest. */
     isGuest = signal<boolean>(false);
 
@@ -41,6 +44,7 @@ export class AuthService {
             const { data } = this.supabase.auth.onAuthStateChange((event, session) => {
                 this.isLoggedIn.set(session !== null);
                 this.currentUserId.set(session?.user.id ?? null);
+                this.currentUserEmail.set(session?.user.email || null);
                 this.currentUserName.set(session?.user.user_metadata?.['display_name'] ?? null);
                 this.isGuest.set(session?.user.is_anonymous ?? false);
                 resolve();
@@ -115,7 +119,7 @@ export class AuthService {
         this.showLoginSuccessMessage.set(true);
         setTimeout(() => {
             this.showLoginSuccessMessage.set(false);
-            this.router.navigate(['']);
+            this.router.navigate(['/login']);
         }, 1000)
     }
 
@@ -143,7 +147,7 @@ export class AuthService {
         if (error) {
             console.error(error);
         } else {
-            this.router.navigate([''])
+            this.router.navigate(['/login']);
         }
     };
 

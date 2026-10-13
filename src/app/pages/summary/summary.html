@@ -31,18 +31,24 @@
                             </div>
                         </button>
                     </div>
-                    <button class="card-urgent" (click)="navigateToBoard()">
-                        <img src="app-icons/summary/urgent.svg" alt="Urgent Icon">
-                        <div class="urgent-wrapper">
-                            <h4>{{ statusMetrics()[2].value }}</h4>
-                            <p>Urgent</p>
+                    <div class="part-urgent">
+                        <button class="card-urgent" (click)="navigateToBoard()">
+                            <img src="app-icons/summary/urgent.svg" alt="Urgent Icon">
+                            <div class="urgent-wrapper">
+                                <h4>{{ statusMetrics()[2].value }}</h4>
+                                <p>Urgent</p>
+                            </div>
+                            <div class="grey-line"></div>
+                            <div class="urgent-wrapper">
+                                <span>{{ formattedDeadline() }}</span>
+                                <p class="urgent-p">Upcoming Deadline</p>
+                            </div>
+                        </button>
+                        <div class="card-single card-email">
+                            <h4>{{ emailRequestsMetric().value }}</h4>
+                            <p>{{ emailRequestsMetric().label }}</p>
                         </div>
-                        <div class="grey-line"></div>
-                        <div class="urgent-wrapper">
-                            <span>{{ formattedDeadline() }}</span>
-                            <p class="urgent-p">Upcoming Deadline</p>
-                        </div>
-                    </button>
+                    </div>
                     <div class="part-2">
                         <button class="card-single" (click)="navigateToBoard()">
                             <h4>{{ statMetrics()[0].value }}</h4>

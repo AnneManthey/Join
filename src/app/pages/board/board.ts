@@ -76,6 +76,7 @@ export class Board implements OnInit, AfterViewInit {
 
   /** Maps task statuses to their corresponding board columns. */
   private statusMap: { id: Task['status']; title: string }[] = [
+    { id: 'triage', title: 'Triage' },
     { id: 'todo', title: 'To do' },
     { id: 'in_progress', title: 'In progress' },
     { id: 'await_feedback', title: 'Await feedback' },
@@ -122,8 +123,8 @@ export class Board implements OnInit, AfterViewInit {
     }
   }
 
-  /** Status pre-selected for a new task, based on which column's "+" button was clicked. */
-  initialStatus = signal<Task['status']>('todo');
+  /** Status pre-selected for a new task. */
+  initialStatus = signal<Task['status']>('triage');
 
   /**
  * Decides how to start the "add task" flow based on the current viewport width.
@@ -135,7 +136,7 @@ export class Board implements OnInit, AfterViewInit {
   handleAddTaskClick(columnId?: string): void {
     if (window.innerWidth <= this.MOBILE_BREAKPOINT) {
       this.router.navigate(['/addtask'], {
-        queryParams: { status: columnId ?? 'todo' },
+        queryParams: { status: columnId ?? 'triage' },
       });
       return;
     }
@@ -148,7 +149,7 @@ export class Board implements OnInit, AfterViewInit {
   * @param columnId - The column that initiated the add-task flow, if applicable.
   */
   openAddTask(columnId?: string): void {
-    this.initialStatus.set((columnId as Task['status']) ?? 'todo');
+    this.initialStatus.set((columnId as Task['status']) ?? 'triage');
     this.openAddTaskDialog();
   }
 

@@ -43,6 +43,7 @@ export class BoardTaskCard {
 
   /** Available target columns, excluding the task's current column. */
   moveOptions = computed(() => [
+    { id: 'triage' as const, title: 'Triage' },
     { id: 'todo' as const, title: 'To do' },
     { id: 'in_progress' as const, title: 'In progress' },
     { id: 'await_feedback' as const, title: 'Await feedback' },

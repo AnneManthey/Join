@@ -10,17 +10,40 @@ import { Register } from './pages/login-home/components/register/register';
 import { Summary } from './pages/summary/summary';
 import { PrivacyPolicy } from './pages/privacy-policy/privacy-policy';
 import { Support } from './pages/support/support';
+import { Welcome } from './pages/welcome/welcome';
+import { Stakeholder } from './pages/stakeholder/stakeholder';
+import { RequestForm } from './pages/request-form/request-form';
 
 export const routes: Routes = [
     // { path: '', pathMatch: 'full', redirectTo: 'contacts' },
+    // {
+    //     path: '',
+    //     component: LoginHome,
+    //     canActivate: [redirectAuthenticatedGuard]
+    // },
+    
     {
-        path: '',
-        component: LoginHome,
-        canActivate: [redirectAuthenticatedGuard]
-    },
+    path: '',
+    component: Welcome,
+    canActivate: [redirectAuthenticatedGuard]
+},
+{
+    path: 'login',
+    component: LoginHome,
+    canActivate: [redirectAuthenticatedGuard]
+},
+{
+    path: 'stakeholder',
+    component: Stakeholder
+},
+{
+    path: 'request',
+    component: RequestForm
+},
     {
         path: 'register',
-        component: Register
+        component: Register,
+        canActivate: [redirectAuthenticatedGuard]
     },
     {
         path: 'addtask',

@@ -624,10 +624,11 @@ export class SupabaseTaskService {
         priority: Task['priority'];
         category: Task['category'];
         status: Task['status'];
+        creator_email: Task['creator_email'];
     }): Promise<number | null> {
         const { data, error } = await this.supabase
             .from('tasks')
-            .insert([taskData])
+            .insert([{ ...taskData, creator_type: 'internal', source: 'manual' }])
             .select();
         if (error) {
             console.error('No data received');

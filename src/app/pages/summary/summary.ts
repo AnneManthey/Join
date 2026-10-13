@@ -43,6 +43,13 @@ export class Summary {
     { id: 'awaitingFeedback', value: this.countByStatus('await_feedback'), label: 'Awaiting Feedback' },
   ]);
 
+  /** Email requests card; the count is a placeholder until requests are implemented. */
+  readonly emailRequestsMetric = computed<StatMetric>(() => ({
+    id: 'emailRequests',
+    value: 0,
+    label: 'Email requests',
+  }));
+
   /** The next deadline among open tasks, including the closest overdue deadline. */
   readonly upcomingDeadline = computed(() => {
     const openTasks = this.tasks().filter(task => task.status !== 'done' && task.due_date);
