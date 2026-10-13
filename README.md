@@ -1,123 +1,85 @@
 # Join
 
-Join is a Kanban-style task management app. It lets you organize tasks on a board, assign them to contacts, add new tasks, and track progress via a summary overview.
+Join is a Kanban-style task management app for organizing work, assigning tasks to contacts, and tracking progress. Team members can manage tasks across a board and review progress in a summary view. Stakeholders can access a public Issue Collector form to describe a request. The app is built with Angular and uses Supabase for backend data and authentication.
 
-**🔗 Live Demo:** [join.anne-manthey.de](https://join.anne-manthey.de/)
+**Live demo:** [join.anne-manthey.de](https://join.anne-manthey.de/)
 
-Originally built as a group project by Kristina Starovoit, Anne Manthey, and Anja-Isabella Schulz. Now maintained independently by Anne Manthey.
-
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 22.0.7.
+Originally built as a group project by Kristina Starovoit, Anne Manthey, and Anja-Isabella Schulz. Now maintained and further developed independently by Anne Manthey.
 
 ## Features
 
-- **Board** – organize tasks across columns with drag & drop
-- **Task creation** – add tasks with priority, category, and subtasks
-- **Contacts** – Supabase-backed contact management, including creating and editing contacts
-- **Assignment** – assign tasks to one or more contacts
-- **Summary** – dashboard overview of task counts and progress
+- Kanban board with task status columns and drag-and-drop
+- Task creation and editing, including priority, category, subtasks, and contact assignments
+- Contact management and task assignment
+- Summary dashboard for task progress
+- Public stakeholder Issue Collector form for entering a name, email, subject, and request
+- Authentication and registration for team members
 
-## Tech Stack
+## Tech stack
 
-- [Angular](https://angular.dev/) 22, built with standalone components and [Signals](https://angular.dev/guide/signals) for state management
-- [Supabase](https://supabase.com/) as backend (database, and contact data storage)
-- [Vitest](https://vitest.dev/) for unit testing
+- Angular 22 with standalone components and Signals
+- Supabase for backend data and authentication
+- Vitest for unit tests
 
-## Prerequisites
+## Quickstart
 
-- [Node.js](https://nodejs.org/) and npm (this project pins `npm@11.12.1` via the `packageManager` field in `package.json`)
+### Prerequisites
 
-Install dependencies with:
+- Node.js
+- npm 11.12.1 (pinned in `package.json`)
 
-```bash
-npm install
-```
+### Setup
 
-## Environment Setup
+1. Install dependencies:
 
-This project connects to a [Supabase](https://supabase.com/) backend. Credentials are kept out of version control:
+   ```bash
+   npm install
+   ```
 
-1. Copy `src/environments/environment.template.ts` to `src/environments/environment.ts`.
-2. Fill in your Supabase project URL and publishable (anon) key:
+2. Configure Supabase by copying `src/environments/environment.template.ts` to `src/environments/environment.ts` and setting the project URL and publishable key:
 
-```ts
-export const environment = {
-  supabaseUrl: 'YOUR_SUPABASE_URL',
-  supabaseKey: 'YOUR_SUPABASE_PUBLISHABLE_KEY',
-};
-```
+   ```ts
+   export const environment = {
+     supabaseUrl: 'YOUR_SUPABASE_URL',
+     supabaseKey: 'YOUR_SUPABASE_PUBLISHABLE_KEY',
+   };
+   ```
 
-3. `src/environments/environment.ts` is listed in `.gitignore` and must never be committed.
+   The environment file is ignored by Git; do not commit credentials.
 
-## Development server
+3. Start the development server:
 
-To start a local development server, run:
+   ```bash
+   npm start
+   ```
 
-```bash
-ng serve
-```
+   The app is served at `http://localhost:4200/`.
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+## Usage
 
-## Code scaffolding
+- `/` — welcome page with links to stakeholder requests and team login
+- `/stakeholder` — stakeholder information page
+- `/request` — Issue Collector form
+- `/login` and `/register` — team member authentication
+- `/board`, `/contacts`, and `/summary` — task management pages for authenticated team members
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+## Notes
 
-```bash
-ng generate component component-name
-```
+- The Issue Collector form interface is present, but its n8n webhook is not connected yet. Submitting the form currently does not send or store a request.
+- An optional local n8n service is defined in `n8n/docker-compose.yml`. Its environment template is `n8n/.env.template`; n8n workflows and credentials are not included in this repository.
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+## Tests
 
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
+Run the unit tests with:
 
 ```bash
-ng build
+npm test
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+## Build
 
-## Testing
-
-This project currently only includes the default tests scaffolded by Angular CLI — there is no dedicated test coverage for the app's features yet.
-
-To run the existing unit tests with the [Vitest](https://vitest.dev/) test runner:
+Create a production build with:
 
 ```bash
-ng test
+npm run build
 ```
-
-Angular CLI does not come with an end-to-end testing framework by default; none is set up in this project at the moment.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
-
-
-## n8n setup
-
-1. Copy `n8n/.env.template` to `n8n/.env`.
-2. Generate an encryption key (PowerShell) and set it as `N8N_ENCRYPTION_KEY`:
-
-```powershell
-   $b = New-Object byte[] 32
-   $rng = [Security.Cryptography.RandomNumberGenerator]::Create()
-   $rng.GetBytes($b)
-   ($b | ForEach-Object { $_.ToString('x2') }) -join ''
-```
-
-   Back the key up in a password manager. Without it, the stored n8n
-   credentials cannot be decrypted.
-3. Start n8n:
-
-```powershell
-   cd n8n
-   docker compose up -d
-```
-
-4. Open http://127.0.0.1:5679 and create the owner account.
