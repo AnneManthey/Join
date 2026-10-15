@@ -1,19 +1,25 @@
 import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
+import { environment } from '../../../environments/environment';
 import { PublicFooter } from '../../layout/public-footer/public-footer';
 
 /** Time the confirmation is shown before redirecting to the welcome page. */
 const REDIRECT_DELAY_MS = 2000;
 
+/** Maximum time to wait for the n8n workflow (AI call and mail dispatch take a few seconds). */
+const REQUEST_TIMEOUT_MS = 15000;
+
+/** HTTP status the webhook returns when the daily request limit is reached. */
+const STATUS_LIMIT_REACHED = 429;
+
 /** Possible states of the request form. */
-type FormStatus = 'idle' | 'sending' | 'sent' | 'error';
+type FormStatus = 'idle' | 'sending' | 'sent' | 'limit' | 'error';
 
 /**
- * Request form for stakeholders. Validates the input and (from phase 3 on)
- * sends it to the n8n webhook, which creates the ticket.
+ * Request form for stakeholders. Validates the input and sends it to the
+ * n8n webhook, which creates the ticket.
  */
-
 @Component({
   selector: 'app-request-form',
   imports: [ReactiveFormsModule, RouterLink, PublicFooter],
@@ -61,12 +67,31 @@ export class RequestForm {
     this.status.set('sending');
     const { name, email, subject, message } = this.form.getRawValue();
 
-    // TODO phase 3: POST { name, email, subject, message } to the n8n webhook.
-    // TEMPORARY: nothing is sent yet. Do not publish the page before this is done.
-    console.warn('Request form: webhook not connected yet, nothing was sent.');
-    void { name, email, subject, message };
+    try {
+      const response = await fetch(environment.requestWebhookUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, subject, message, website: '' }),
+        signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS),
+      });
+      this.handleResponse(response.status);
+    } catch {
+      this.status.set('error');
+    }
+  }
 
-    this.markSent();
+  /**
+   * Maps the HTTP status of the webhook response to a form state.
+   * @param httpStatus status code returned by the n8n webhook
+   */
+  private handleResponse(httpStatus: number): void {
+    if (httpStatus === STATUS_LIMIT_REACHED) {
+      this.status.set('limit');
+    } else if (httpStatus >= 200 && httpStatus < 300) {
+      this.markSent();
+    } else {
+      this.status.set('error');
+    }
   }
 
   /** Shows the confirmation briefly, then returns to the welcome page without intro animation. */

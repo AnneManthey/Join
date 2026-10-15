@@ -8,14 +8,14 @@
       "type": "n8n-nodes-base.emailReadImap",
       "typeVersion": 2.2,
       "position": [
-        -2464,
-        -384
+        0,
+        288
       ],
-      "id": "7dc3f882-b36d-4704-b0a2-6cf8d005eb6a",
+      "id": "6f2f0a33-da5d-4433-8ad6-c6a603c6b7eb",
       "name": "Email Trigger (IMAP)",
       "credentials": {
         "imap": {
-          "id": "SFlUPObFtFPeFuDX",
+          "id": "o3K15lzSxXcWaGpa",
           "name": "join-imap"
         }
       }
@@ -27,10 +27,10 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        -2288,
-        -384
+        176,
+        288
       ],
-      "id": "5ace4a88-8094-4763-a7bf-d920fab698d8",
+      "id": "3f221888-2311-4581-8f30-2ef71ab1ec10",
       "name": "Prepare email"
     },
     {
@@ -61,10 +61,10 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        -2128,
-        -384
+        336,
+        288
       ],
-      "id": "b1df12b8-a0de-49e1-9400-14ea9c0c7222",
+      "id": "98bbad40-9167-4305-8271-1590ab42e91d",
       "name": "Should process?"
     },
     {
@@ -81,14 +81,14 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.5,
       "position": [
-        -1904,
-        -480
+        560,
+        192
       ],
-      "id": "93786d18-3061-41d1-a12d-db6d9c6a1ddf",
+      "id": "77e000e3-7bab-4ee4-a4b0-b2584928b53c",
       "name": "Claim email slot",
       "credentials": {
         "supabaseApi": {
-          "id": "NlzptFIsKIC7Abp5",
+          "id": "VZVbNC3FKVQigHbP",
           "name": "join-supabase"
         }
       },
@@ -122,10 +122,10 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        -1744,
-        -480
+        720,
+        192
       ],
-      "id": "8b0306d3-5e99-49bc-abe1-6b6fa7c17164",
+      "id": "f9761855-0fc8-48bf-8aed-8b560020da00",
       "name": "Slot available?"
     },
     {
@@ -135,10 +135,10 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        -1520,
-        -576
+        944,
+        96
       ],
-      "id": "e96943c1-1120-4d66-9c1e-d61db2759c79",
+      "id": "c2afdf4c-f186-437f-ab3f-ac5e5799cc54",
       "name": "Build AI request"
     },
     {
@@ -156,16 +156,16 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.5,
       "position": [
-        -1360,
-        -576
+        1104,
+        96
       ],
-      "id": "c0b5f69f-21b3-4d13-af9e-0d560f5ef6e8",
+      "id": "781581ea-0149-4058-9e8b-7abd77b146af",
       "name": "Classify email",
       "retryOnFail": true,
       "waitBetweenTries": 2000,
       "credentials": {
         "httpHeaderAuth": {
-          "id": "zrNWiGbaHrHkAOKK",
+          "id": "4UoQdCzbrIgrGKWN",
           "name": "join-ai"
         }
       },
@@ -178,10 +178,10 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        -1136,
-        -576
+        1328,
+        96
       ],
-      "id": "c81a78bf-cf5b-4363-bc58-43da4c119449",
+      "id": "e0790ce6-b375-469c-b119-6004dd20edb1",
       "name": "Parse AI result"
     },
     {
@@ -222,10 +222,10 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        -912,
-        -576
+        1552,
+        96
       ],
-      "id": "532b8ce3-bcf4-4b36-b86c-d1ff66288cf6",
+      "id": "4548528f-0bc2-4d97-85d0-411cc5da034f",
       "name": "Is request?"
     },
     {
@@ -252,14 +252,14 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.5,
       "position": [
-        -688,
-        -672
+        1776,
+        0
       ],
-      "id": "45996b13-a70e-4438-a136-e958661eab8d",
+      "id": "2e50cdc6-bc6a-4814-a8e7-da52ab115f7c",
       "name": "Create ticket",
       "credentials": {
         "supabaseApi": {
-          "id": "NlzptFIsKIC7Abp5",
+          "id": "VZVbNC3FKVQigHbP",
           "name": "join-supabase"
         }
       },
@@ -279,19 +279,20 @@
       "type": "n8n-nodes-base.emailSend",
       "typeVersion": 2.1,
       "position": [
-        -464,
-        -672
+        2000,
+        0
       ],
-      "id": "12feaf3d-5bf4-4bd6-b71f-1acab92c66d7",
+      "id": "1eaeed68-82ec-41bd-9f37-758eea8d3087",
       "name": "Send confirmation",
       "webhookId": "dc9d5705-baa1-4e42-8e73-74688aeec26f",
+      "retryOnFail": true,
+      "waitBetweenTries": 5000,
       "credentials": {
         "smtp": {
-          "id": "gadeDZqHuSiM1Bd3",
+          "id": "CnGZkUQKFMvD27oM",
           "name": "join-smtp"
         }
-      },
-      "onError": "continueRegularOutput"
+      }
     },
     {
       "parameters": {
@@ -310,20 +311,21 @@
           "__rl": true,
           "value": "done",
           "mode": "list",
-          "cachedResultName": "done"
+          "cachedResultName": "done",
+          "cachedResultUrl": ""
         }
       },
       "type": "n8n-nodes-imap.imap",
       "typeVersion": 1,
       "position": [
-        -240,
-        -672
+        2224,
+        0
       ],
-      "id": "2d285a74-e11f-4baa-92ac-f957d88a8b22",
+      "id": "632a8080-f7d8-4a80-9eb2-b9acfc367f33",
       "name": "Move to done",
       "credentials": {
         "imap": {
-          "id": "aiC6In1xR9PPGLNz",
+          "id": "MWzRAUgehXgBaC8b",
           "name": "join-imap-community"
         }
       }
@@ -335,30 +337,30 @@
         "operation": "moveEmail",
         "sourceMailbox": {
           "__rl": true,
-          "mode": "list",
           "value": "INBOX",
-          "cachedResultName": "INBOX",
-          "cachedResultUrl": ""
+          "mode": "list",
+          "cachedResultName": "INBOX"
         },
         "emailUid": "={{ $('Prepare email').item.json.uid }}",
         "destinationMailbox": {
           "__rl": true,
           "value": "review",
           "mode": "list",
-          "cachedResultName": "review"
+          "cachedResultName": "review",
+          "cachedResultUrl": ""
         }
       },
       "type": "n8n-nodes-imap.imap",
       "typeVersion": 1,
       "position": [
-        -864,
-        -128
+        1600,
+        544
       ],
-      "id": "b3767ea2-28c7-4a54-bdc9-92a8cfa49369",
+      "id": "9a8f891b-3850-4689-b614-a86f7ea9b053",
       "name": "Move to review",
       "credentials": {
         "imap": {
-          "id": "aiC6In1xR9PPGLNz",
+          "id": "MWzRAUgehXgBaC8b",
           "name": "join-imap-community"
         }
       }
@@ -377,19 +379,20 @@
       "type": "n8n-nodes-base.emailSend",
       "typeVersion": 2.1,
       "position": [
-        -1520,
-        -432
+        944,
+        240
       ],
-      "id": "c7cc5bc4-6e64-4197-8245-efda8fc5b6a9",
+      "id": "ece5c1ce-004d-4392-ae9d-3a7b513310d5",
       "name": "Send limit notice",
       "webhookId": "cccdb2aa-c5c8-49f7-bd9e-64d3eb9e0ad4",
+      "retryOnFail": true,
+      "waitBetweenTries": 5000,
       "credentials": {
         "smtp": {
-          "id": "gadeDZqHuSiM1Bd3",
+          "id": "CnGZkUQKFMvD27oM",
           "name": "join-smtp"
         }
-      },
-      "onError": "continueRegularOutput"
+      }
     },
     {
       "parameters": {
@@ -405,19 +408,20 @@
       "type": "n8n-nodes-base.emailSend",
       "typeVersion": 2.1,
       "position": [
-        -1056,
-        -320
+        1408,
+        352
       ],
-      "id": "ff53ac5b-10bd-4caa-9b57-1f51e95a1084",
+      "id": "38090867-39ea-4d11-b16c-62dae34f8b4b",
       "name": "Send error notice",
       "webhookId": "6c0b03d5-6ea2-45aa-bab8-d1e06634edd8",
+      "retryOnFail": true,
+      "waitBetweenTries": 5000,
       "credentials": {
         "smtp": {
-          "id": "gadeDZqHuSiM1Bd3",
+          "id": "CnGZkUQKFMvD27oM",
           "name": "join-smtp"
         }
-      },
-      "onError": "continueRegularOutput"
+      }
     }
   ],
   "pinData": {},
@@ -585,11 +589,6 @@
         ]
       ]
     },
-    "Move to done": {
-      "main": [
-        []
-      ]
-    },
     "Send limit notice": {
       "main": [
         [
@@ -599,11 +598,6 @@
             "index": 0
           }
         ]
-      ]
-    },
-    "Move to review": {
-      "main": [
-        []
       ]
     },
     "Send error notice": {
@@ -618,17 +612,17 @@
       ]
     }
   },
-  "active": false,
+  "active": true,
   "settings": {
     "executionOrder": "v1",
     "binaryMode": "separate"
   },
-  "versionId": "ff2a8a53-66e4-4bf4-881b-3c088cfdcbe3",
+  "versionId": "670e85ae-6342-4cfb-8942-99084f87405c",
   "meta": {
     "templateCredsSetupCompleted": true,
-    "instanceId": "51240fcc2bff8ff2ca2ff09d99663b895fbfd3910192ebfb6aadba5680662329"
+    "instanceId": "ee96bd27809847889f2456feb7d85a83cc5c085a101f05c273e4c3cc32fa13a5"
   },
   "nodeGroups": [],
-  "id": "8NY351dVT3UzzxDU",
+  "id": "vuAH8MDbpn7GvVKc",
   "tags": []
 }
