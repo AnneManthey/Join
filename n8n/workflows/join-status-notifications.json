@@ -1,0 +1,152 @@
+{
+  "name": "Join status notifications",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "join-status",
+        "authentication": "headerAuth",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -1024,
+        -448
+      ],
+      "id": "16cffde7-674e-431c-81c5-577993877cb2",
+      "name": "Status webhook",
+      "webhookId": "d1b2c3d4-0002-4000-8000-000000000032",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "EBE4qDBe93xsy5W1",
+          "name": "join-webhook-secret"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "/**\n * Decides whether a task update needs a status mail and builds the mail.\n *\n * Input item:  Supabase database webhook ($json.body = { type, table, record, old_record }).\n * Output item: { skip, skip_reason, to_email, subject, text }\n *\n * A mail is sent only if the status really changed to a stage with a message,\n * the creator is external and has a valid email address. Fails closed: if the\n * old status is missing, nothing is sent.\n */\nconst STATUS_TEXT = {\n  todo: 'Your request has been accepted and is now planned.',\n  in_progress: 'Work on your request has started.',\n  await_feedback: 'Your request is being reviewed.',\n  done: 'Your request is done.',\n};\nconst EMAIL_PATTERN = /^[^\\s@<>]+@[^\\s@<>]+\\.[^\\s@<>]+$/;\nconst MAX_TITLE = 100;\n\nconst payload = $json.body ?? {};\nconst record = payload.record ?? {};\nconst oldRecord = payload.old_record ?? {};\n\nlet skipReason = '';\nif (payload.type !== 'UPDATE' || payload.table !== 'tasks') skipReason = 'not a task update';\nelse if (!oldRecord.status) skipReason = 'old status missing';\nelse if (record.status === oldRecord.status) skipReason = 'status unchanged';\nelse if (!STATUS_TEXT[record.status]) skipReason = 'status without notification';\nelse if (record.creator_type !== 'external') skipReason = 'creator not external';\nelse if (!EMAIL_PATTERN.test(String(record.creator_email ?? ''))) skipReason = 'no creator email';\n\nconst title = String(record.title ?? '').replace(/\\s+/g, ' ').trim().slice(0, MAX_TITLE);\n\nreturn {\n  json: {\n    skip: skipReason !== '',\n    skip_reason: skipReason,\n    to_email: String(record.creator_email ?? '').trim().toLowerCase(),\n    subject: `Update on your request: ${title}`,\n    text: [\n      'Hi,',\n      '',\n      STATUS_TEXT[record.status] ?? '',\n      '',\n      `Ticket: ${title}`,\n      '',\n      'This message was generated automatically. Please do not reply to it.',\n    ].join('\\n'),\n  },\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -848,
+        -448
+      ],
+      "id": "fafd9c98-4a42-436a-aa58-f3dbfc51e2f0",
+      "name": "Prepare notification"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "d1b2c3d4-0004-4000-8000-000000000034",
+              "leftValue": "={{ $json.skip }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "false",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -672,
+        -448
+      ],
+      "id": "abaa0909-d120-4c72-a6b5-5b665a99629c",
+      "name": "Send mail?"
+    },
+    {
+      "parameters": {
+        "fromEmail": "join-requests@anne-manthey.de",
+        "toEmail": "={{ $json.to_email }}",
+        "subject": "={{ $json.subject }}",
+        "emailFormat": "text",
+        "text": "={{ $json.text }}",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [
+        -464,
+        -544
+      ],
+      "id": "a0eac7ce-7ce9-4f39-bb67-edd97b71b459",
+      "name": "Send status mail",
+      "webhookId": "d1b2c3d4-0007-4000-8000-000000000037",
+      "retryOnFail": true,
+      "waitBetweenTries": 5000,
+      "credentials": {
+        "smtp": {
+          "id": "CnGZkUQKFMvD27oM",
+          "name": "join-smtp"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Status webhook": {
+      "main": [
+        [
+          {
+            "node": "Prepare notification",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare notification": {
+      "main": [
+        [
+          {
+            "node": "Send mail?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send mail?": {
+      "main": [
+        [
+          {
+            "node": "Send status mail",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "96eb9eb4-18de-4bfd-a402-422125989e7b",
+  "meta": {
+    "instanceId": "ee96bd27809847889f2456feb7d85a83cc5c085a101f05c273e4c3cc32fa13a5"
+  },
+  "nodeGroups": [],
+  "id": "Kcb1Taq6f8HXUuks",
+  "tags": []
+}

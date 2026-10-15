@@ -1,0 +1,14 @@
+# Reverse proxy for the n8n server (HTTPS certificate is issued automatically).
+n8n.anne-manthey.de {
+    encode zstd gzip
+
+    # Only webhooks are public (request form, Supabase database webhook).
+    handle /webhook/* {
+        reverse_proxy n8n:5678
+    }
+
+    # The editor, API and test webhooks are not reachable from the internet.
+    handle {
+        respond "Not found" 404
+    }
+}

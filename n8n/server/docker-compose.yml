@@ -1,0 +1,42 @@
+# n8n behind a Caddy reverse proxy. Only /webhook/* is public (see Caddyfile).
+name: join-n8n
+
+services:
+  n8n:
+    # Pinned on purpose: update by changing the tag, never by pulling "latest".
+    image: docker.n8n.io/n8nio/n8n:2.43.4
+    container_name: join-n8n
+    restart: unless-stopped
+    ports:
+      # Bound to localhost only. Docker bypasses ufw, so a public port would be reachable.
+      - "127.0.0.1:5678:5678"
+    environment:
+      N8N_ENCRYPTION_KEY: ${N8N_ENCRYPTION_KEY:?N8N_ENCRYPTION_KEY is not set}
+      WEBHOOK_URL: ${WEBHOOK_URL:?WEBHOOK_URL is not set}
+      GENERIC_TIMEZONE: ${GENERIC_TIMEZONE:-Europe/Berlin}
+      TZ: ${GENERIC_TIMEZONE:-Europe/Berlin}
+      N8N_DIAGNOSTICS_ENABLED: "false"
+      # One proxy (Caddy) sits in front of n8n.
+      N8N_PROXY_HOPS: "1"
+    volumes:
+      - n8n_data:/home/node/.n8n
+
+  caddy:
+    image: caddy:2
+    container_name: join-caddy
+    restart: unless-stopped
+    depends_on:
+      - n8n
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+
+volumes:
+  n8n_data:
+    name: join_n8n_data
+  caddy_data:
+  caddy_config:
