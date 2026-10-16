@@ -256,3 +256,15 @@ textarea {
     text-align: center;
   }
 }
+
+.privacy-note {
+  margin: 0 0 1rem;
+  font-size: 0.875rem;
+  line-height: 1.4;
+  opacity: 0.8;
+
+  a {
+    color: inherit;
+    text-decoration: underline;
+  }
+}
