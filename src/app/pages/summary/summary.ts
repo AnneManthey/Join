@@ -18,7 +18,7 @@ export class Summary {
   private readonly router = inject(Router);
   private readonly taskService = inject(SupabaseTaskService);
   private readonly authService = inject(AuthService);
-  private readonly columnNavigationBreakpoint = 1250;
+  private readonly columnNavigationBreakpoint = 1500;
 
   /** Whether this view was entered via the login redirect (drives the mobile greeting splash). */
   readonly showGreetingIntro = signal<boolean>(!!(history.state as { fromLogin?: boolean })?.fromLogin);

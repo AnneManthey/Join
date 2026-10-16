@@ -1,4 +1,5 @@
 @use '../../styles/variables' as *;
+@use '../../styles/scrollbar' as *;
 
 .board-main {
   flex: 1;
@@ -164,21 +165,7 @@ dialog {
     background-color: rgba(0, 0, 0, 0.35);
   }
 
-  &::-webkit-scrollbar {
-    width: 5px;
-  }
-
-  &::-webkit-scrollbar-track {
-    background: $white;
-    border-radius: 2px;
-    margin: 25px 0;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background: $scrollbar-grey;
-    border-radius: 5px;
-    border: 1px solid $scrollbar-grey;
-  }
+  @include custom-scrollbar($track: $white, $track-margin: 25px 0);
 }
 
 @keyframes add-task-dialog-enter {
@@ -223,7 +210,7 @@ dialog {
   }
 }
 
-@media (max-width: 1250px) {
+@media (max-width: 1500px) {
   .board-main {
     padding: 50px 20px;
   }

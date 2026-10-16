@@ -39,18 +39,7 @@
     max-width: 440px;
     max-height: 185px;
 
-    &::-webkit-scrollbar {
-      width: 8px;
-    }
-
-    &::-webkit-scrollbar-track {
-      background: transparent;
-    }
-
-    &::-webkit-scrollbar-thumb {
-      background: $scrollbar-grey;
-      border-radius: 5px;
-    }
+    @include custom-scrollbar;
   }
 
   &__input,

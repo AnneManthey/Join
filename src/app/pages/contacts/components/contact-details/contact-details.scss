@@ -33,22 +33,7 @@
     background-color: rgba(0, 0, 0, 0.35);
   }
 
-  &::-webkit-scrollbar {
-    width: 5px;
-  }
-
-  &::-webkit-scrollbar-track {
-    background: transparent;
-    border-radius: 2px;
-    margin: 10px 0;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background: $scrollbar-grey;
-    border-radius: 5px;
-    border: 1px solid $scrollbar-grey;
-    margin-bottom: 25px;
-  }
+  @include custom-scrollbar($track-margin: 10px 0);
 }
 
 @keyframes edit-contact-dialog-enter {

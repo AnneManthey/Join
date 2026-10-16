@@ -1,0 +1,27 @@
+@use './variables' as *;
+
+@mixin custom-scrollbar($size: 4px, $thumb: $scrollbar-grey, $track: transparent, $track-margin: 0) {
+  --sb-size: #{$size};
+  --sb-thumb-color: #{$thumb};
+  --sb-track-color: #{$track};
+
+  &::-webkit-scrollbar {
+    width: var(--sb-size);
+  }
+
+  &::-webkit-scrollbar-track {
+    background: var(--sb-track-color);
+    border-radius: 2px;
+    margin: $track-margin;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: var(--sb-thumb-color);
+    border-radius: 5px;
+  }
+
+  @supports not selector(::-webkit-scrollbar) {
+    scrollbar-width: thin;
+    scrollbar-color: var(--sb-thumb-color) var(--sb-track-color);
+  }
+}
