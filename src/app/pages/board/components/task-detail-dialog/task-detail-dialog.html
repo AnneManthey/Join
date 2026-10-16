@@ -9,7 +9,10 @@
       </span>
 
       @if (currentTask.ai_generated) {
-      <span class="dialog-ai-badge">AI-generated ticket</span>
+      <span class="dialog-ai-badge">
+        <img src="app-icons/task-detail-dialog/wand.svg" alt="">
+        <span class="dialog-ai-badge-text">AI-generated ticket</span>
+      </span>
       }
 
       <button class="dialog-close" type="button" (click)="closeDialog()">
@@ -25,26 +28,31 @@
 
         <div class="creator">
           <span class="creator-label">Creator:</span>
-          @if (!currentTask.creator_email) {
-          <span class="creator-name">Unknown</span>
-          } @else {
-          <span class="creator-badge" [class.external]="currentTask.creator_type === 'external'">
-            {{ currentTask.creator_type === 'external' ? 'External' : 'Member' }}
-          </span>
-          @if (currentTask.creator_type === 'internal' && creatorContact(); as contact) {
-          <span class="creator-name">{{ contact.contact_name }}</span>
-          <a class="creator-link" [routerLink]="['/contacts', contact.id]">
-            <img src="app-icons/contact-dialog/person-icon.png" alt="">Profile
-          </a>
-                    } @else {
-          @if (currentTask.creator_name) {
-          <span class="creator-name">{{ currentTask.creator_name }}</span>
-          }
-          <a class="creator-link" [href]="'mailto:' + currentTask.creator_email">
-            <img src="app-icons/contact-dialog/mail-icon.png" alt="">Email
-          </a>
-          }
-          }
+          <div class="creator-info">
+            @if (!currentTask.creator_email) {
+            <span class="creator-name">Unknown</span>
+            } @else {
+            <span class="creator-badge" [class.external]="currentTask.creator_type === 'external'">
+              <img [src]="currentTask.creator_type === 'external'
+                ? 'app-icons/task-detail-dialog/world.svg'
+                : 'app-icons/task-detail-dialog/group.svg'" alt="">
+              {{ currentTask.creator_type === 'external' ? 'External' : 'Member' }}
+            </span>
+            @if (currentTask.creator_type === 'internal' && creatorContact(); as contact) {
+            <span class="creator-name">{{ contact.contact_name }}</span>
+            <a class="creator-link" [routerLink]="['/contacts', contact.id]">
+              <img src="app-icons/contact-dialog/person-icon.png" alt="">Profile
+            </a>
+            } @else {
+            @if (currentTask.creator_name) {
+            <span class="creator-name">{{ currentTask.creator_name }}</span>
+            }
+            <a class="creator-link" [href]="'mailto:' + currentTask.creator_email">
+              <img src="app-icons/task-detail-dialog/email.svg" alt="">Email
+            </a>
+            }
+            }
+          </div>
         </div>
 
         <p class="due-date">
