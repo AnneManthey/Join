@@ -12,7 +12,7 @@
   font-weight: 400;
   background-color: $dark-blue;
 
-  @media (max-width: 768px) {
+  @media (max-width: 850px) {
     position: fixed;
     right: 0;
     bottom: 0;
@@ -34,7 +34,7 @@
   height: auto;
   margin: 64px 65.98px 114px;
 
-  @media (max-width: 768px) {
+  @media (max-width: 850px) {
     display: none;
   }
 }
@@ -92,7 +92,7 @@
     line-height: 1;
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: 850px) {
     flex-direction: row;
     align-items: stretch;
     justify-content: space-around;
@@ -165,7 +165,7 @@
     }
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: 850px) {
     display: none;
   }
 }

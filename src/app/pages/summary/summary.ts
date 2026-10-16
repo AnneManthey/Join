@@ -43,10 +43,10 @@ export class Summary {
     { id: 'awaitingFeedback', value: this.countByStatus('await_feedback'), label: 'Awaiting Feedback' },
   ]);
 
-  /** Email requests card; the count is a placeholder until requests are implemented. */
+  /** Count of saved requests received by email or form. */
   readonly emailRequestsMetric = computed<StatMetric>(() => ({
     id: 'emailRequests',
-    value: 0,
+    value: this.tasks().filter(task => task.source === 'email' || task.source === 'form').length,
     label: 'Email requests',
   }));
 

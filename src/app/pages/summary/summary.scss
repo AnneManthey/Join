@@ -106,6 +106,19 @@ p {
         flex: 0 0 160px;
         width: 160px;
         height: auto;
+
+        h4 {
+          font-size: 4rem;
+          color: $ai-gradient-start;
+          background: linear-gradient(90deg, $ai-gradient-start, $ai-gradient-end);
+          -webkit-background-clip: text;
+          background-clip: text;
+          -webkit-text-fill-color: transparent;
+        }
+        p {
+          font-size: 1.1rem;
+        }
+        
       }
     }
     .card-wrapper {
@@ -113,6 +126,7 @@ p {
       @extend %card-hover-base;
       width: 260px;
       gap: 30px;
+      font-family: 'Inter', sans-serif;
       .img-hover {
         display: none;
       }
@@ -138,6 +152,7 @@ p {
       @extend %card-hover-base;
       width: 100%;
       gap: 18px;
+      font-family: 'Inter', sans-serif;
       .grey-line {
         height: 100px;
         width: 2px;
@@ -180,6 +195,7 @@ p {
       border-radius: 30px;
       padding: 20px 10px;
       gap: 8px;
+      font-family: 'Inter', sans-serif;
       cursor: pointer;
       transition: all 255ms ease-in-out;
       h4 {
@@ -308,6 +324,43 @@ p {
   }
 }
 
+@media (min-width: 581px) and (max-width: 1000px) {
+  .dashboard-wrapper {
+    width: 100%;
+
+    .summary-dashboard {
+      width: 100%;
+
+      .part-1,
+      .part-2 {
+        display: grid;
+        width: 100%;
+      }
+
+      .part-1 {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .part-2 {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .part-urgent {
+        display: grid;
+        max-width: none;
+        grid-template-columns: minmax(0, 1fr) 160px;
+      }
+
+      .card-wrapper,
+      .card-single,
+      .card-urgent {
+        width: 100%;
+        min-width: 0;
+      }
+    }
+  }
+}
+
 @keyframes greetingIntro {
   0%,
   83% {
@@ -343,22 +396,45 @@ p {
   }
   .dashboard-wrapper {
     justify-content: center;
+    width: 100%;
+
     .summary-dashboard {
+      width: 100%;
       gap: 16px;
+
       .part-1 {
+        display: grid;
+        width: 100%;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 16px;
       }
+
       .part-2 {
+        display: grid;
+        width: 100%;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
         gap: 16px;
       }
+
       .part-urgent {
+        width: 100%;
         gap: 16px;
         flex-wrap: wrap;
+        .card-urgent {
+          width: 100%;
+        }
         .card-email {
           flex-basis: 100%;
           width: 100%;
         }
       }
+
+      .card-wrapper,
+      .card-single {
+        width: 100%;
+        min-width: 0;
+      }
+
       .card-wrapper,
       .card-urgent {
         img {
@@ -412,7 +488,11 @@ p {
 
   .dashboard-wrapper {
     justify-content: center;
+    width: 100%;
+
     .summary-dashboard {
+      width: 100%;
+
       gap: 10px;
       .part-1 {
         gap: 8px;
@@ -431,12 +511,12 @@ p {
         }
       }
       .card-wrapper {
-        width: 145px;
+        width: 100%;
         padding: 16px 6px;
         gap: 10px;
       }
       .card-urgent {
-        width: 300px;
+        width: 100%;
         padding: 8px;
         gap: 10px;
         .grey-line {
@@ -451,7 +531,7 @@ p {
         }
       }
       .card-single {
-        width: 95px;
+        width: 100%;
         padding: 12px;
         h4 {
           font-size: 2.5rem;

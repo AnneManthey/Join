@@ -35,6 +35,6 @@ export interface Task {
     creator_email: string | null;
       creator_name: string | null;
     creator_type: 'internal' | 'external';
-    source: 'manual' | 'email';
+    source: 'manual' | 'email' | 'form';
     ai_generated: boolean;
 }
