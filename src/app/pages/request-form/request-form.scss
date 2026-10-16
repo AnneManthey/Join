@@ -1,4 +1,5 @@
 @use '../../styles/variables' as *;
+@use '../../styles/buttons' as *;
 
 .request-page {
   display: flex;
@@ -167,44 +168,12 @@ textarea {
 }
 
 .btn {
-  display: inline-block;
-  padding: 10px 24px;
-  border: 2px solid transparent;
-  border-radius: 8px;
-  font-family: inherit;
-  font-size: 1rem;
-  font-weight: 700;
-  text-decoration: none;
-  cursor: pointer;
-  transition: background-color 0.2s;
-
-  &:focus-visible {
-    outline: 3px solid $bright-light-blue;
-    outline-offset: 2px;
-  }
-
-  &:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-  }
+  display: inline-flex;
 }
 
-.btn-dark {
-  background-color: $dark-blue;
-  color: $white;
-
-  &:hover:not(:disabled) {
-    background-color: $blue-black;
-  }
-}
-
+.btn-dark,
 .btn-primary {
-  background-color: $action-blue;
-  color: $white;
-
-  &:hover {
-    background-color: #126487;
-  }
+  @include board-button;
 }
 
 /* Visually hidden, but readable by screen readers */
