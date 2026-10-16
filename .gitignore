@@ -32,6 +32,7 @@ yarn-error.log
 # Environment files with secrets
 /src/environments/environment.ts
 /n8n/.env
+/supabase/data.sql
 
 # Miscellaneous
 /.angular/cache

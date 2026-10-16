@@ -1,0 +1,74 @@
+{
+  "name": "keep-active",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 6
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -112,
+        16
+      ],
+      "id": "c7fce8c0-f124-4118-a3c3-2bf233cc5875",
+      "name": "Every day"
+    },
+    {
+      "parameters": {
+        "url": "https://kkenhlzyjmdlzwizszrh.supabase.co/rest/v1/tasks?select=id&limit=1",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "supabaseApi",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        112,
+        16
+      ],
+      "id": "ad3d0f28-88f1-4fa2-ac34-cb36acc734a9",
+      "name": "Ping database",
+      "retryOnFail": true,
+      "waitBetweenTries": 5000,
+      "credentials": {
+        "supabaseApi": {
+          "id": "VZVbNC3FKVQigHbP",
+          "name": "join-supabase"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Every day": {
+      "main": [
+        [
+          {
+            "node": "Ping database",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "86d59230-ff89-4f59-9e8a-defc064be762",
+  "meta": {
+    "instanceId": "ee96bd27809847889f2456feb7d85a83cc5c085a101f05c273e4c3cc32fa13a5"
+  },
+  "nodeGroups": [],
+  "id": "1T3pSKmqbgchkYaY",
+  "tags": []
+}
