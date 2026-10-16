@@ -34,11 +34,11 @@
           @if (currentTask.creator_type === 'internal' && creatorContact(); as contact) {
           <span class="creator-name">{{ contact.contact_name }}</span>
           <a class="creator-link" [routerLink]="['/contacts', contact.id]">
-            <img src="app-icons/contact-dialog/person-icon.png" alt="">Profil
+            <img src="app-icons/contact-dialog/person-icon.png" alt="">Profile
           </a>
           } @else {
           <a class="creator-link" [href]="'mailto:' + currentTask.creator_email">
-            <img src="app-icons/contact-dialog/mail-icon.png" alt="">Email
+            <img src="app-icons/contact-dialog/mail-icon.png" alt="">{{ currentTask.creator_email }}
           </a>
           }
           }
@@ -49,6 +49,7 @@
           <span class="due-date-value">{{ currentTask.due_date | date:'MM/dd/yyyy' }}</span>
         </p>
 
+        @if (currentTask.priority) {
         <p class="priority">
           <span class="priority-label">Priority:</span>
           <span class="priority-value">
@@ -56,6 +57,7 @@
             <img class="priority-icon" [src]="priorityIcon()" [alt]="'Priority ' + currentTask.priority">
           </span>
         </p>
+        }
 
         <section class="dialog-section">
           <button class="dialog-section-toggle" type="button" [attr.aria-expanded]="assigneesExpanded()"
@@ -63,8 +65,8 @@
             <span>Assigned To ({{ currentTask.task_contacts.length }})</span>
             <svg class="dialog-section-chevron" [class.dialog-section-chevron--expanded]="assigneesExpanded()"
               width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path d="m6 9 6 6 6-6" stroke="currentColor" stroke-width="2"
-                stroke-linecap="round" stroke-linejoin="round" />
+              <path d="m6 9 6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" />
             </svg>
           </button>
           <div class="dialog-assignees" id="dialog-assignees-list" [hidden]="!assigneesExpanded()">
@@ -86,10 +88,10 @@
           <button class="dialog-section-toggle" type="button" [attr.aria-expanded]="subtasksExpanded()"
             aria-controls="dialog-subtasks-list" (click)="toggleSubtasks()">
             <span>Subtasks ({{ currentTask.subtasks.length }})</span>
-            <svg class="dialog-section-chevron" [class.dialog-section-chevron--expanded]="subtasksExpanded()"
-              width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path d="m6 9 6 6 6-6" stroke="currentColor" stroke-width="2"
-                stroke-linecap="round" stroke-linejoin="round" />
+            <svg class="dialog-section-chevron" [class.dialog-section-chevron--expanded]="subtasksExpanded()" width="20"
+              height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="m6 9 6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" />
             </svg>
           </button>
           <div class="dialog-subtasks" id="dialog-subtasks-list" [hidden]="!subtasksExpanded()">

@@ -42,7 +42,9 @@
       </span>
       }
     </div>
+    @if (task().priority) {
     <img class="priority-icon" [src]="priorityIcon()" [alt]="'Priority ' + task().priority">
+    }
   </footer>
 
 </article>
