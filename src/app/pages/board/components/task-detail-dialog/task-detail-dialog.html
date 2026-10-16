@@ -36,9 +36,12 @@
           <a class="creator-link" [routerLink]="['/contacts', contact.id]">
             <img src="app-icons/contact-dialog/person-icon.png" alt="">Profile
           </a>
-          } @else {
+                    } @else {
+          @if (currentTask.creator_name) {
+          <span class="creator-name">{{ currentTask.creator_name }}</span>
+          }
           <a class="creator-link" [href]="'mailto:' + currentTask.creator_email">
-            <img src="app-icons/contact-dialog/mail-icon.png" alt="">{{ currentTask.creator_email }}
+            <img src="app-icons/contact-dialog/mail-icon.png" alt="">Email
           </a>
           }
           }

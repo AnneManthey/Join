@@ -33,6 +33,7 @@ export interface Task {
     subtasks: Subtask[];
     task_contacts: TaskContact[];
     creator_email: string | null;
+      creator_name: string | null;
     creator_type: 'internal' | 'external';
     source: 'manual' | 'email';
     ai_generated: boolean;
