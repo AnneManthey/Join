@@ -1,7 +1,7 @@
 @use './variables' as *;
 @use './scrollbar' as *;
 
-//subtle custom scrollbar for dialogs
+//subtle scrollbar for dialogs(add-task-form)
 * {
   @include custom-scrollbar($track-margin: 10px 0);
 }

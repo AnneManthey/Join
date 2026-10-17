@@ -52,32 +52,61 @@ export class RequestForm {
     return control.invalid && (control.touched || control.dirty);
   }
 
-  /** Validates the form and submits the request. */
-  async submit(): Promise<void> {
+  /**
+ * Validates the form and submits the request.
+ */
+  public async submit(): Promise<void> {
+    if (this.isFormInvalid()) return;
+    if (this.isBotDetected()) return;
+    await this.sendRequest();
+  }
+
+  /**
+   * Checks if the form is invalid and marks all fields as touched.
+   */
+  private isFormInvalid(): boolean {
     if (this.form.invalid) {
       this.form.markAllAsTouched();
-      return;
+      return true;
     }
-    // Honeypot filled = bot. Pretend success, send nothing.
+    return false;
+  }
+
+  /**
+   * Checks for spam bots via the honeypot field.
+   */
+  private isBotDetected(): boolean {
     if (this.form.controls.website.value) {
       this.markSent();
-      return;
+      return true;
     }
+    return false;
+  }
 
+  /**
+   * Handles the sending state, request execution, and error handling.
+   */
+  private async sendRequest(): Promise<void> {
     this.status.set('sending');
-    const { name, email, subject, message } = this.form.getRawValue();
-
     try {
-      const response = await fetch(environment.requestWebhookUrl, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, email, subject, message, website: '' }),
-        signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS),
-      });
+      const response = await this.executePost();
       this.handleResponse(response.status);
     } catch {
       this.status.set('error');
     }
+  }
+
+  /**
+   * Performs the actual HTTP fetch request.
+   */
+  private async executePost(): Promise<Response> {
+    const { name, email, subject, message } = this.form.getRawValue();
+    return fetch(environment.requestWebhookUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, email, subject, message, website: '' }),
+      signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS),
+    });
   }
 
   /**
