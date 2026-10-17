@@ -135,7 +135,7 @@ textarea {
 
 .error {
   margin: 6px 0 0;
-  font-size: 0.875rem; // 14px
+  font-size: 0.8rem;
   color: $red;
 }
 
@@ -176,7 +176,6 @@ textarea {
   @include board-button;
 }
 
-/* Visually hidden, but readable by screen readers */
 .sr-only {
   position: absolute;
   width: 1px;
@@ -189,7 +188,6 @@ textarea {
   border: 0;
 }
 
-/* Honeypot: off-screen, not display:none (some bots skip hidden fields) */
 .hp {
   position: absolute;
   left: -9999px;
@@ -234,7 +232,7 @@ textarea {
 
 .privacy-note {
   margin: 0 0 1rem;
-  font-size: 0.875rem;
+  font-size: 0.9rem;
   line-height: 1.4;
   opacity: 0.8;
 }
