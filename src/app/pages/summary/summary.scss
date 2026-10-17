@@ -115,9 +115,11 @@ p {
           -webkit-background-clip: text;
           background-clip: text;
           -webkit-text-fill-color: transparent;
+          padding-top: 10px;
         }
         p {
           font-size: 1.1rem;
+          padding-top: 16px;
         }
         
       }
