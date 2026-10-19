@@ -44,10 +44,10 @@
                                 <p class="urgent-p">Upcoming Deadline</p>
                             </div>
                         </button>
-                        <div class="card-single card-email">
+                        <button type="button" class="card-single card-email" (click)="navigateToBoard()">
                             <h4>{{ emailRequestsMetric().value }}</h4>
                             <p>{{ emailRequestsMetric().label }}</p>
-                        </div>
+                        </button>
                     </div>
                     <div class="part-2">
                         <button class="card-single" (click)="navigateToBoard()">
